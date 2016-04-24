@@ -15,9 +15,9 @@ endif
 " Brief help:
 " :source $MYVIMRC  - Reload .vimrc
 " :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginInstall    - installs plugins; append `!` to update
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" :PluginClean      - confirms removal of unused plugins
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -219,9 +219,6 @@ let mapleader = ","
 " Display number of current line
 set number
 
-" Display relative number for all other lines
-set relativenumber
-
 " Enable syntax highlighting
 syntax on
 
@@ -238,7 +235,7 @@ set mouse-=a
 set fileformat=unix
 set encoding=utf-8
 
-" Wrap lines sanely
+" The idea here is to allow wrapping, mainly for text editing.
 set wrap
 set linebreak
 
@@ -249,6 +246,16 @@ set textwidth=0
 set wrapmargin=0
 set formatoptions=qrn1
 set breakindent showbreak=..
+
+" But when coding, we will want to see the 80 character limit as a reminder
+" of good practices.
+set colorcolumn=80
+
+" Show cursor at all times
+set ruler
+
+" Display extra whitespace
+set list listchars=tab:»·,trail:·,nbsp:·
 
 set foldmethod=indent
 
@@ -261,17 +268,16 @@ set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 set autoindent
 set smartindent
 
-" Never use arrow keys
-noremap  <Left> ""
-noremap! <Left> <Esc>
-noremap  <Right> ""
-noremap! <Right> <Esc>
+" Never use arrow keys ;-)
+nnoremap <Left> :echoe "Use c"<CR>
+nnoremap <Right> :echoe "Use r"<CR>
+nnoremap <Up> :echoe "Use s"<CR>
+nnoremap <Down> :echoe "Use t"<CR>
 
-" Set backup folder
-set backupdir=./.backup,.,/tmp
-
-" Set swap files
-set directory=.,./.backup,/tmp
+" Get rid of additionnal files
+set nobackup
+set nowritebackup
+set noswapfile
 
 " Prefer a slightly higher line height
 set linespace=3
@@ -283,6 +289,6 @@ set mousehide
 setlocal spell spelllang=fr
 
 " Load bepo mapping
-source ~/.vim/bepo.vim
+source ~/.vim.bepo
 
 source ~/.vim/date.vim
