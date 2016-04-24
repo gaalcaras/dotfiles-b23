@@ -1,8 +1,31 @@
-# shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
+# ALIAS
 
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/Code
+alias batcloud="ssh gabo@batcloud.me -p 10101"
+alias clipper="ssh alcaras@sas.eleves.ens.fr"
+alias trensmissions="ssh -A -t alcaras@sas.eleves.ens.fr ssh -A alcaras@www.trensmissions.ens.fr"
+
+alias lsa="ls -l --block-size=M"
+
+# VARS
+
+export NOTES_FOLDER='/home/gabo/ownCloud/notes/md/'
+export NOTES_FOLDER_PDF='/home/gabo/ownCloud/notes/pdf/'
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.3.0/bin:/bin:/usr/local/bin:/usr/bin
+export EDITOR="vim"
+
+# JAVA (manual tweak, setting advised by pacman)
+
+JAVA_HOME="/usr/lib/jvm/default"; export JAVA_HOME;
+
+# Python VirtualEnvWrapper
+# Cf. ArchWiki
+#export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3.4
+
+export WORKON_HOME=~/.pythonvirtualenvs
+source /usr/bin/virtualenvwrapper.sh
+
+# Shortcut to this dotfiles path is $ZSH
+export ZSH=$HOME/.dotfiles
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -12,30 +35,56 @@ then
   source ~/.localrc
 fi
 
-# all of our zsh files
+# All of our zsh files
 typeset -U config_files
 config_files=($ZSH/**/*.zsh)
 
-# load the path files
+# Load the path files
 for file in ${(M)config_files:#*/path.zsh}
 do
   source $file
 done
 
-# load everything but the path and completion files
+# Load everything but the path and completion files
 for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
 do
   source $file
 done
 
-# initialize autocomplete here, otherwise functions won't be loaded
+# Initialize autocomplete here, otherwise functions won't be loaded
 autoload -U compinit
 compinit
 
-# load every completion after autocomplete loads
+# Load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}
 do
   source $file
 done
 
 unset config_files
+
+# OH MY ZSH
+
+# Path to your oh-my-zsh installation.
+ZSH=/usr/share/oh-my-zsh
+
+# Set name of the theme to load.
+ZSH_THEME="pure"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
+ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
+
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Plugins
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+
