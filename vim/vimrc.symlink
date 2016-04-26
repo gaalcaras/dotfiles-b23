@@ -67,6 +67,9 @@ Plugin 'morhetz/gruvbox'
 " Enable markdown support
 Plugin 'plasticboy/vim-markdown'
 
+" Enable markdown toc generation
+Plugin 'mzlogin/vim-markdown-toc'
+
 " Handle delimiters automatically
 Plugin 'raimondi/delimitmate'
 
