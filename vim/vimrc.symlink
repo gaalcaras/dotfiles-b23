@@ -229,7 +229,7 @@ syntax on
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 " Hit Control+g to "getaway" from parenthesis
-inoremap <C-g> <Esc>/[)}*"»'\]*]<CR>:nohl<CR>a
+inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
 
 " Disable mouse visual mode
 set mouse-=a
