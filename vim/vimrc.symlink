@@ -1,300 +1,37 @@
 " ###########################
-" NEOVIM: better vim 
+" NEOVIM: better vim
 " ###########################
-
-let g:ycm_python_binary_path = '/usr/bin/python3'
 
 if has('nvim')
   set runtimepath+=/usr/share/vim/vimfiles
 endif
 
 " ###########################
-" VUNDLE: manage plugins
+" PLUGINS: handled by Plug
 " ###########################
 
-" Brief help:
-" :source $MYVIMRC  - Reload .vimrc
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins
-
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" Set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" Let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-" PLUGINS: here they come!
-
-" Add mappings
-Plugin 'tpope/vim-unimpaired'
-
-" Add latex support
-Plugin 'vim-latex/vim-latex'
-
-" Enable user to change, replace or delete surround (brackets, etc.)
-Plugin 'tpope/vim-surround'
-
-" Check style and syntax
-Plugin 'scrooloose/syntastic'
-
-" Automatically set 'set:paste' in insert mode
-Plugin 'ConradIrwin/vim-bracketed-paste'
-
-" Enable toggling comment
-Plugin 'tomtom/tcomment_vim'
-
-" Get awesome git support
-Plugin 'tpope/vim-fugitive'
-
-" Use sensible vim defaults
-Plugin 'tpope/vim-sensible'
-
-" Enable TypeScript support
-Plugin 'leafgarland/typescript-vim'
-
-" Get fuzzy file search
-Plugin 'ctrlpvim/ctrlp.vim'
-
-" Use a pretty colorscheme ;-)
-Plugin 'morhetz/gruvbox'
-
-" Enable markdown support
-Plugin 'plasticboy/vim-markdown'
-
-" Enable markdown toc generation
-Plugin 'mzlogin/vim-markdown-toc'
-
-" Handle delimiters automatically
-Plugin 'raimondi/delimitmate'
-
-" Create templates when opening new file
-Plugin 'ap/vim-templates'
-
-" Improve code completion
-" NB: On ArchLinux, I've been using the youcompleteme
-" package from the AUR instead.
-" Plugin 'Valloric/YouCompleteMe'
-
-" Display various info in lowerbar
-Plugin 'bling/vim-airline'
-
-" Display git line status
-Plugin 'airblade/vim-gitgutter'
-
-" Improve javascript indentation and syntax support
-Plugin 'pangloss/vim-javascript'
-
-" Add text alignment capabilities to vim
-Plugin 'godlygeek/tabular'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+source $HOME/.dotfiles/vim/vimrc.manager.vim
 
 " ###########################
-" GRUVBOX: colorscheme config
+" CONFIG: plugins
 " ###########################
 
-let g:gruvbox_italic=1
-colorscheme gruvbox 
-set background=dark
+source $HOME/.dotfiles/vim/vimrc.plugins.vim
 
 " ###########################
-" SURROUND: plugin config
+" TWEAKS: personal settings
 " ###########################
 
-" Disable default mappings
-let g:surround_no_mappings = 1
-
-" Set my own mappings
-nmap da <Plug>Dsurround
-nmap la  <Plug>Csurround
-nmap lA  <Plug>CSurround
-nmap ha  <Plug>Ysurround
-nmap hA  <Plug>YSurround
-nmap haa <Plug>Yssurround
-nmap hAa <Plug>YSsurround
-nmap hAA <Plug>YSsurround
-xmap A   <Plug>VSurround
-xmap gA  <Plug>VgSurround
+source $HOME/.dotfiles/vim/vimrc.tweaks.vim
 
 " ###########################
-" LATEXSUITE: plugin config
+" BÉPO: personal settings
 " ###########################
 
-" REQUIRED: This makes vim invoke Latex-Suite when you open a tex file.
-filetype plugin on
-
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'''''"''''"""""""''""
+source $HOME/.dotfiles/vim/vimrc.bepo.vim
 
 " ###########################
-" VIMLATEX: plugin config
+" DATE: date functions
 " ###########################
 
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_CompileRule_pdf = 'arara -v $*'
-let g:Tex_IgnoredWarnings =
-            \'Underfull'."\n".
-            \'Overfull'."\n".
-            \'specifier changed to'."\n".
-            \'You have requested'."\n".
-            \'Missing number, treated as zero.'."\n".
-            \'There were undefined references'."\n".
-            \'Citation %.%# undefined'."\n".
-            \'Empty bibliography'."\n"
-let g:Tex_IgnoreLevel = 8
-
-" ###########################
-" AIRLINE: plugin config
-" ###########################
-
-let g:airline_powerline_fonts = 1
-
-" Display buffers as tabs on top
-let g:airline#extensions#tabline#enabled = 1
-
-" ###########################
-" DELIMITMATE: plugin config
-" ##########################
-
-" When hitting enter between surrounding characters,
-" indent correctly.
-let delimitMate_expand_cr = 1
-
-" ###########################
-" UNIMPAIRED: plugin config
-" ###########################
-
-" Remap for non-US keyboard
-nmap ( [
-nmap ) ]
-omap ( [
-omap ) ]
-xmap ( [
-xmap ) ]
-
-" ###########################
-" SYNTASTIC: plugin config
-" ###########################
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_php_checkers = ['php']
-let g:syntastic_tex_checkers = ['chktex']
-let g:syntastic_javascript_checkers = ['jshint']
-
-" ###########################
-" VIMMARKDOWN: personal settings
-" ###########################
-
-" Vim-markdown folding HAS to be disabled
-" with plugin vim-templates : other wise, some
-" folded text (eg YAML instructions for pandoc)
-" can be deleted.
-let g:vim_markdown_folding_disabled=1
-let g:vim_markdown_frontmatter=1
-
-" ###########################
-" VARIOUS: personal settings
-" ###########################
-
-" Set comma as leader
-let mapleader = ","
-
-" Display number of current line
-set number
-
-" Enable syntax highlighting
-syntax on
-
-" Force markdown recognition
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-
-" Hit Control+g to "getaway" from parenthesis
-inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
-
-" Disable mouse visual mode
-set mouse-=a
-
-" Have sane text files
-set fileformat=unix
-set encoding=utf-8
-
-" The idea here is to allow wrapping, mainly for text editing.
-set wrap
-set linebreak
-
-" Disable list (otherwise, breaks linebreak)
-set nolist 
-
-set textwidth=0
-set wrapmargin=0
-set formatoptions=qrn1
-set breakindent showbreak=..
-
-" But when coding, we will want to see the 80 character limit as a reminder
-" of good practices.
-set colorcolumn=80
-
-" Show cursor at all times
-set ruler
-
-" Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
-
-set foldmethod=indent
-
-" Open all folds on document load
-set foldlevelstart=9
-
-set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-
-" Indent sanely
-set autoindent
-set smartindent
-
-" Never use arrow keys ;-)
-nnoremap <Left> :echoe "Use c"<CR>
-nnoremap <Right> :echoe "Use r"<CR>
-nnoremap <Up> :echoe "Use s"<CR>
-nnoremap <Down> :echoe "Use t"<CR>
-
-" Get rid of additionnal files
-set nobackup
-set nowritebackup
-set noswapfile
-
-" Prefer a slightly higher line height
-set linespace=3
-
-" Hide mouse when typing
-set mousehide
-
-" French Spelling
-setlocal spell spelllang=fr
-
-" Load bepo mapping
-source ~/.vim.bepo
-
-source ~/.vim/date.vim
+source $HOME/.dotfiles/vim/vimrc.date.vim
