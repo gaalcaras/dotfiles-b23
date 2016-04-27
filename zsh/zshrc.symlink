@@ -1,17 +1,9 @@
-# ALIAS
-
-alias batcloud="ssh gabo@batcloud.me -p 10101"
-alias clipper="ssh alcaras@sas.eleves.ens.fr"
-alias trensmissions="ssh -A -t alcaras@sas.eleves.ens.fr ssh -A alcaras@www.trensmissions.ens.fr"
-
-alias lsa="ls -l --block-size=M"
-
 # VARS
 
 export NOTES_FOLDER='/home/gabo/ownCloud/notes/md/'
 export NOTES_FOLDER_PDF='/home/gabo/ownCloud/notes/pdf/'
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.3.0/bin:/bin:/usr/local/bin:/usr/bin
-export EDITOR="vim"
+export EDITOR="nvim"
 
 # JAVA (manual tweak, setting advised by pacman)
 
@@ -87,4 +79,3 @@ fi
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-
