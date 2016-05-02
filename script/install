@@ -2,6 +2,19 @@
 #
 # Run all dotfiles installers.
 
+mage=`tput setaf 5`
+green=`tput setaf 1`
+reset=`tput sgr0`
+
+# Output messages in magenta
+function msg {
+  echo "${mage}$1${reset}"
+}
+
+function doing {
+  echo "${green}> $1...${reset}"
+}
+
 set -e
 
 cd "$(dirname $0)"/..
@@ -12,17 +25,23 @@ cd "$(dirname $0)"/..
 
 # Add spell check dictionaries
 if [ ! -f $HOME/.vim/spell/fr.utf-8.spl ]; then
-  echo '> Installing Spell Checking files...'
+  doing 'Installing Spell Checking files'
   cp -R $HOME/.dotfiles/vim/spell $HOME/.vim/spell
 fi
 
 # Install vim-plug if necessary
 if [ ! -f $HOME/.vim/autoload/plug.vim ]; then
-  echo '> Installing Vim-Plug...'
+  doing 'Installing Vim-Plug'
   curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-echo '> Installing and updating vim plugins...'
-cp -R $HOME/.dotfiles/vim/spell $HOME/.vim/spell
-vim +PlugUpdate +qall
+msg "Do you want to install and update your vim plugins?"
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) doing 'Installing and updating vim plugins';
+      vim +PlugUpdate +qall
+      break;;
+    No ) exit;;
+  esac
+done
