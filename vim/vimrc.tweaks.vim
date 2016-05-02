@@ -33,7 +33,7 @@ set nolist
 set textwidth=0
 set wrapmargin=0
 set formatoptions=qrn1
-set breakindent showbreak=..
+silent! set breakindent showbreak=..
 
 " But when coding, we will want to see the 80 character limit as a reminder
 " of good practices.
