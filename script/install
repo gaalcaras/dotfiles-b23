@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 #
-# Run all dotfiles installers.
+# Install all dependencies
+
+# ############################
+# Color management and setup
+# ############################
 
 mage=`tput setaf 5`
 green=`tput setaf 1`
@@ -20,7 +24,7 @@ set -e
 cd "$(dirname $0)"/..
 
 # ############################
-# VIM
+# Script
 # ############################
 
 doing 'Checking your Linux flavor'
