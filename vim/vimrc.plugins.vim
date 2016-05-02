@@ -7,10 +7,6 @@ silent! colorscheme gruvbox
 silent! set background=dark
 
 " ###########################
-" SURROUND: plugin config
-" ###########################
-
-" ###########################
 " UNITE: plugin config
 " ###########################
 
@@ -22,6 +18,10 @@ nnoremap <space>/ :Unite grep:.<cr>
 
 " Add content searching (ag.vim like)
 nnoremap <Leader>s :Unite -quick-match buffer<cr>
+
+" ###########################
+" SURROUND: plugin config
+" ###########################
 
 " Disable default mappings
 let g:surround_no_mappings = 1
@@ -152,3 +152,10 @@ let g:syntastic_typescript_checkers = ['tsuquyomi']
 " can be deleted.
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
+
+" ###########################
+" FUGITIVE: plugin config
+" ###########################
+
+" Force vertical split event on small screens
+set diffopt+=vertical
