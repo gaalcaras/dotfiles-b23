@@ -6,11 +6,23 @@ set -e
 
 cd "$(dirname $0)"/..
 
+# ############################
+# VIM
+# ############################
+
+# Add spell check dictionaries
+if [ ! -f $HOME/.vim/spell/fr.utf-8.spl ]; then
+  echo '> Installing Spell Checking files...'
+  cp -R $HOME/.dotfiles/vim/spell $HOME/.vim/spell
+fi
+
 # Install vim-plug if necessary
 if [ ! -f $HOME/.vim/autoload/plug.vim ]; then
   echo '> Installing Vim-Plug...'
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+  curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
+echo '> Installing and updating vim plugins...'
+cp -R $HOME/.dotfiles/vim/spell $HOME/.vim/spell
 vim +PlugUpdate +qall

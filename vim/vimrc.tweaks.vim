@@ -73,5 +73,5 @@ set linespace=3
 " Hide mouse when typing
 set mousehide
 
-" French Spelling
-setlocal spell spelllang=fr
+" Enable both French and English spell check
+setlocal spell spelllang=fr,en
