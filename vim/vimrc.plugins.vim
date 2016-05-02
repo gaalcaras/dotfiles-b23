@@ -152,3 +152,10 @@ let g:syntastic_typescript_checkers = ['tsuquyomi']
 " can be deleted.
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
+
+" ###########################
+" FUGITIVE: plugin config
+" ###########################
+
+" Force vertical split event on small screens
+set diffopt+=vertical
