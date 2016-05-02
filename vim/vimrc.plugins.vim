@@ -7,10 +7,6 @@ colorscheme gruvbox
 set background=dark
 
 " ###########################
-" SURROUND: plugin config
-" ###########################
-
-" ###########################
 " UNITE: plugin config
 " ###########################
 
@@ -22,6 +18,10 @@ nnoremap <space>/ :Unite grep:.<cr>
 
 " Add content searching (ag.vim like)
 nnoremap <Leader>s :Unite -quick-match buffer<cr>
+
+" ###########################
+" SURROUND: plugin config
+" ###########################
 
 " Disable default mappings
 let g:surround_no_mappings = 1
