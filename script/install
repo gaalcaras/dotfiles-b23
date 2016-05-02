@@ -23,6 +23,20 @@ cd "$(dirname $0)"/..
 # VIM
 # ############################
 
+doing 'Checking your Linux flavor'
+
+response=`uname -a`
+if [[ $response == *"ARCH"* ]]; then
+  system='arch'
+  msg "You're running ArchLinux. KISS!"
+elif [[ $response == *"Ubuntu"* ]]; then
+  system='ubuntu'
+  msg "Your're running Ubuntu, mate."
+else
+  system=''
+  msg "Unknown Linux flavor here!"
+fi
+
 # Add spell check dictionaries
 if [ ! -f $HOME/.vim/spell/fr.utf-8.spl ]; then
   doing 'Installing Spell Checking files'
