@@ -6,6 +6,8 @@
 # Color management and setup
 # ############################
 
+red=`tput setaf 1`
+blue=`tput setaf 4`
 mage=`tput setaf 5`
 green=`tput setaf 1`
 reset=`tput sgr0`
@@ -16,7 +18,11 @@ function msg {
 }
 
 function doing {
-  echo "${green}> $1...${reset}"
+  echo "${blue}> $1...${reset}"
+}
+
+function warning {
+  echo "${red}$1.${reset}"
 }
 
 set -e
@@ -50,6 +56,8 @@ else
   msg "Unknown Linux flavor here!"
 fi
 
+echo
+
 # Add spell check dictionaries
 if [ ! -f $home/.vim/spell/fr.utf-8.spl ]; then
   doing 'Installing Spell Checking files'
@@ -72,3 +80,5 @@ select yn in "Yes" "No"; do
     No ) exit;;
   esac
 done
+
+msg "Install script over \o/"
