@@ -9,7 +9,6 @@
 red=`tput setaf 1`
 blue=`tput setaf 4`
 mage=`tput setaf 5`
-green=`tput setaf 1`
 reset=`tput sgr0`
 
 # Output messages in magenta
@@ -71,14 +70,22 @@ if [ ! -f $home/.vim/autoload/plug.vim ]; then
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-msg "Do you want to install and update your vim plugins?"
-select yn in "Yes" "No"; do
-  case $yn in
-    Yes ) doing 'Installing and updating vim plugins';
-      vim +PlugUpdate +qall
-      break;;
-    No ) exit;;
-  esac
+for f in ./script/install-*; do
+  # source install file:
+  # retrieve message var and install function
+  . ./$f
+
+  msg "$message"
+
+  select yn in "Yes" "No" "Exit"; do
+    case $yn in
+      Yes ) install; break;;
+      No ) warning "Skipping install"; break;;
+      Exit ) warning "Game over"; exit;;
+    esac
+  done
+
+  echo
 done
 
 msg "Install script over \o/"

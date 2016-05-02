@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# Install neovim 
+
+message="Do you want to (re)install neovim?"
+
+function install {
+  if [ "$system" == "arch" ]; then
+    #TODO: setup arch
+    doing 'Installing neovim for ArchLinux'
+  elif [ "$system" == "ubuntu" ]; then
+    #TODO: ubuntu setup
+    doing 'Installing neovim for Ubuntu'
+  fi
+}
