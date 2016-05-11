@@ -20,7 +20,7 @@ endfunction
 
 " Add completion for NEOVIM
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote'), 'for' : ['javascript', 'typescript', 'c', 'python', 'html'] }
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote'), 'for' : ['javascript', 'typescript', 'c', 'python', 'html', 'latex', 'bash', 'shell'] }
 
   " Add ternjs support to Deoplete
   Plug 'carlitux/deoplete-ternjs', { 'for' : 'javascript' }
@@ -61,7 +61,7 @@ Plug 'bling/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 
 " Create templates when opening new file
-Plug 'ap/vim-templates'
+Plug 'aperezdc/vim-template'
 
 " ////////////////////////////
 " Version control integration
