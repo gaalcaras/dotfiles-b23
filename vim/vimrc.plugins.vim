@@ -27,7 +27,7 @@ nnoremap <Leader>s :Unite -quick-match buffer<cr>
 let g:surround_no_mappings = 1
 
 " Set my own mappings
-nmap da <Plug>Dsurround
+nmap da  <Plug>Dsurround
 nmap la  <Plug>Csurround
 nmap lA  <Plug>CSurround
 nmap ha  <Plug>Ysurround
@@ -35,25 +35,10 @@ nmap hA  <Plug>YSurround
 nmap haa <Plug>Yssurround
 nmap hAa <Plug>YSsurround
 nmap hAA <Plug>YSsurround
+
+" Visual mode
 xmap A   <Plug>VSurround
 xmap gA  <Plug>VgSurround
-
-" ###########################
-" LATEXSUITE: plugin config
-" ###########################
-
-" REQUIRED: This makes vim invoke Latex-Suite when you open a tex file.
-filetype plugin on
-
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'''''"''''"""""""''""
 
 " ###########################
 " DEOPLETE: plugin config
@@ -76,6 +61,23 @@ let g:tern_show_argument_hints = 'on_move'
 " ###########################
 
 autocmd FileType typescript setlocal completeopt+=menu,preview
+
+" ###########################
+" LATEXSUITE: plugin config
+" ###########################
+
+" REQUIRED: This makes vim invoke Latex-Suite when you open a tex file.
+filetype plugin on
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'''''"''''"""""""''""
 
 " ###########################
 " VIMLATEX: plugin config
@@ -159,3 +161,10 @@ let g:vim_markdown_frontmatter=1
 
 " Force vertical split event on small screens
 set diffopt+=vertical
+
+" ###########################
+" TEMPLATE: plugin config
+" ###########################
+
+let g:templates_directory = '$HOME/.dotfiles/vim/templates'
+let g:templates_global_name_prefix = 'template'

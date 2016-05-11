@@ -1,3 +1,7 @@
+# ZMV
+
+autoload -U zmv
+
 # VARS
 
 export NOTES_FOLDER='/home/gabo/ownCloud/notes/md/'
