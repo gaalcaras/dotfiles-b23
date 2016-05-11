@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom French Article
+% chktex-file 26 % enable spaces around punctuation
+
+% Fichier : pdt_galcaras.tex
+% Créé le : mar. janv.05 04:00  2016 C
+% Dernière version : mar. janv.05 04:00  2016 C
+%
+% arara: pdflatex
+% arara: biber
+% arara: pdflatex
+% arara: remove: { items: [ aux, bbl, bcf, blg, out, toc, run.xml ] }
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------------------
+%   PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%-----------------------------------------------
+
+\documentclass[paper=a4]{scrartcl} % A4, police 11
+
+\usepackage[T1]{fontenc} % Utilisation encodage 8-bit avec 256 glyphs
+\usepackage[in]{fullpage} % Pas de marges
+\usepackage{fourier} % Police Adobe Utopia
+\usepackage[utf8]{inputenc} 
+\usepackage{amsmath,amsfonts,amsthm} % Pour les maths
+\usepackage{mathtools}
+\usepackage[autostyle]{csquotes}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage[
+  backend=biber,
+  style=authoryear-icomp,
+  sortlocale=fr_FR,
+  natbib=true,
+  url=false, 
+  doi=false,
+  eprint=false
+]{biblatex}
+\addbibresource{%FILE%.bib}
+
+\usepackage{hyperref} % Pour les liens
+\usepackage[french]{babel}
+
+\usepackage{booktabs} % Pour les tableaux
+
+\usepackage{sectsty} % Personnalisation des sections
+\allsectionsfont{\centering \normalfont\scshape} % Sections centrées, petites majuscules
+
+\usepackage{fancyhdr} % En-tête et pied de page
+\pagestyle{fancyplain} % Toutes les pages adoptent les en-tête et les pied de page
+\fancyhead{} % Pas d'en-tête - pour en faire un, faire comme ci-dessous
+\fancyfoot[L]{} % Pied-de page gauche vide
+\fancyfoot[C]{\thepage} % Pied-de page centre : numéro de la page
+\fancyfoot[R]{} % Pied de page droit vide
+\renewcommand{\headrulewidth}{0pt} % Pas de lignes pour en-tête
+\renewcommand{\footrulewidth}{0pt} % Pas de lignes pour pied de page
+\setlength{\headheight}{13.6pt} % Taille personnalisée de l'en-tête
+
+% Numérotation des équations, figures et tables
+% avec les sections (i.e. 1.1, 1.2, 2.1, 2.2 au lieu de 1, 2, 3, 4)
+\numberwithin{equation}{section} 
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
+\setlength\parindent{15pt} % Pas d'alinéa en début de ligne
+
+%----------------------------------------------------------------------------------------
+%   TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Barre horizontale 1pt épaisseur
+
+\title{\normalfont\normalsize 
+  \textsc{École Normale Supérieure de Paris} \\[25pt] % Établissement 
+  \horrule{0.5pt} \\[0.4cm] % Barre horizontale
+  \large %HERE% % Titre de l'article
+  \horrule{2pt} \\[0.5cm] % Barre horizontale
+}
+
+\author{Gabriel Alcaras} % Nom
+
+\date{\normalsize \today} % Date du jour
+
+\begin{document}
+
+\frenchspacing
+\maketitle % Insérer le titre
+
+\pagebreak
+\printbibliography\
+\end{document}
