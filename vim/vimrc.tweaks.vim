@@ -75,3 +75,15 @@ set mousehide
 
 " French Spelling
 setlocal spell spelllang=fr
+
+" Abbreviations
+
+function LatexAbbreviations()
+  iab git \spacedlowsmallcaps{git}
+  iab Git \spacedlowsmallcaps{git}
+endfunction
+
+augroup MyAbbreviations
+  autocmd!
+  autocmd BufNewFile,BufRead *.tex call LatexAbbreviations()
+augroup
