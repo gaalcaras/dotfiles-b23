@@ -1,0 +1,13 @@
+!config
+# renamepdf rule for arara
+identifier: renamepdf
+name: rename PDF
+command: <arara> mv -n @{force} @{options} "@{getBasename(file)}.pdf" "@{output}.pdf"
+arguments:
+- identifier: output
+  flag: <arara> @{parameters.output}
+  default: <arara> @{getBasename(file).concat("copy")}
+- identifier: force
+  flag: <arara> @{isTrue(parameters.force,"-f")}
+- identifier: options
+  flag: <arara> @{parameters.options}

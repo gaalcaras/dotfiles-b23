@@ -1,0 +1,10 @@
+!config
+# Clean rule for arara
+# author: Paulo Cereda
+# requires arara 3.0+
+identifier: remove
+name: Remove
+command: <arara> @{remove}
+arguments:
+- identifier: remove
+  default: <arara> @{isNotEmpty(item, isWindows("cmd /c del", "rm -f").concat(' "').concat(getBasename(file))concat('.').concat(item).concat('"'))}
