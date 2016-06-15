@@ -76,14 +76,22 @@ set mousehide
 " French Spelling
 setlocal spell spelllang=fr
 
-" Abbreviations
+" Add quick delimiters for tex (since delimitmate and vim-latex are
+" conflicting)
+autocmd FileType tex inoremap <buffer> ( ()<C-G>U<Left>
+autocmd FileType tex inoremap <buffer> [ []<C-G>U<Left>
+autocmd FileType tex inoremap <buffer> { {}<C-G>U<Left>
+autocmd FileType tex inoremap <buffer> " ""<C-G>U<Left>
+autocmd FileType tex inoremap <buffer> « «~~»<C-G>U<Left><Left>
 
+" Add TeX Abbreviations
 function LatexAbbreviations()
-  iab git \spacedlowsmallcaps{git}
-  iab Git \spacedlowsmallcaps{git}
+  iab git \gls{git}
+  iab Git \gls{git}
+  iab Linux \gls{linux}
 endfunction
 
 augroup MyAbbreviations
   autocmd!
-  autocmd BufNewFile,BufRead *.tex call LatexAbbreviations()
-augroup
+  autocmd FileType tex call LatexAbbreviations()
+augroup END
