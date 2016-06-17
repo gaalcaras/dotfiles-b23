@@ -40,6 +40,7 @@ set breakindent showbreak=..
 
 " But when coding, we will want to see the 80 character limit as a reminder
 " of good practices.
+" Go to ftplugin for disabling it for certain filetypes.
 set colorcolumn=80
 
 " Show cursor at all times

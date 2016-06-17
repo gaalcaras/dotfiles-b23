@@ -19,3 +19,6 @@ endfun
 
 map <Leader>lp :call CompileMarkdown(1)<CR>
 map <Leader>ll :call CompileMarkdown(0)<CR>
+
+" Hide 80 char limit
+set colorcolumn=0

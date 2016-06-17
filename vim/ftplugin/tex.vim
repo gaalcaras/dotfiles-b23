@@ -12,3 +12,6 @@ inoremap <buffer> [ []<C-G>U<Left>
 inoremap <buffer> { {}<C-G>U<Left>
 inoremap <buffer> " ""<C-G>U<Left>
 inoremap <buffer> « «~~»<C-G>U<Left><Left>
+
+" Hide 80 char limit
+set colorcolumn=0
