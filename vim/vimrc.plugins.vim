@@ -128,6 +128,9 @@ let g:vim_markdown_frontmatter=1
 " Force vertical split event on small screens
 set diffopt+=vertical
 
+" Force git english
+let g:fugitive_git_executable = 'LANG=en_US git'
+
 " ###########################
 " TEMPLATE: plugin config
 " ###########################
