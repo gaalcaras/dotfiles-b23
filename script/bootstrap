@@ -50,11 +50,17 @@ setup_gitconfig () {
 }
 
 
-link_file () {
-  local src=$1 dst=$2
+link () {
+  local src=$1 dst=$2 dir=$3
 
+  local obj='File'
   local overwrite= backup= skip=
   local action=
+
+  if [ "$dir" -eq "1" ]
+  then
+    obj='Directory'
+  fi
 
   if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
   then
@@ -71,7 +77,7 @@ link_file () {
 
       else
 
-        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+        user "$obj already exists: $dst ($(basename "$src")), what do you want to do?\n\
         [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
         read -n 1 action
 
@@ -141,10 +147,11 @@ install_dotfiles () {
     link "$src" "$dst" "0"
   done
 
-  for src in $(find -H "$DOTFILES_ROOT" -maxdepth 2 -name '*.vsymlink' -not -path '*.git*')
+  . $DOTFILES_ROOT/script/folders
+
+  for i in ${!folders[*]}
   do
-    dst="$HOME/$(basename "${src%.*}")"
-    link_file "$src" "$dst"
+    link "$i" "${folders[$i]}" "1"
   done
 }
 
