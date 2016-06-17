@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+declare -A folders
+
+folders[$DOTFILES_ROOT/vim/ftplugin]=$HOME/.vim/ftplugin

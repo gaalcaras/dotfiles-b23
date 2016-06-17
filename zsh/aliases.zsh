@@ -8,3 +8,5 @@ alias trensmissions="ssh -A -t alcaras@sas.eleves.ens.fr ssh -A alcaras@www.tren
 alias lsa="ls -l --block-size=M"
 alias nv="nvim"
 alias mmv='noglob zmv -W'
+
+alias git='LANG=en_US git'

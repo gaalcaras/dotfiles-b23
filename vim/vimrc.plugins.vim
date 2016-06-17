@@ -63,40 +63,6 @@ let g:tern_show_argument_hints = 'on_move'
 autocmd FileType typescript setlocal completeopt+=menu,preview
 
 " ###########################
-" LATEXSUITE: plugin config
-" ###########################
-
-" REQUIRED: This makes vim invoke Latex-Suite when you open a tex file.
-filetype plugin on
-
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
-" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
-" The following changes the default filetype back to 'tex':
-let g:tex_flavor='latex'''''"''''"""""""''""
-
-" ###########################
-" VIMLATEX: plugin config
-" ###########################
-
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_CompileRule_pdf = 'arara -v $*'
-let g:Tex_IgnoredWarnings =
-            \'Underfull'."\n".
-            \'Overfull'."\n".
-            \'specifier changed to'."\n".
-            \'You have requested'."\n".
-            \'Missing number, treated as zero.'."\n".
-            \'There were undefined references'."\n".
-            \'Citation %.%# undefined'."\n".
-            \'Empty bibliography'."\n"
-let g:Tex_IgnoreLevel = 8
-
-" ###########################
 " AIRLINE: plugin config
 " ###########################
 
@@ -161,6 +127,9 @@ let g:vim_markdown_frontmatter=1
 
 " Force vertical split event on small screens
 set diffopt+=vertical
+
+" Force git english
+let g:fugitive_git_executable = 'LANG=en_US git'
 
 " ###########################
 " TEMPLATE: plugin config

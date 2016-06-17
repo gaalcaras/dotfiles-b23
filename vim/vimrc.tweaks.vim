@@ -5,6 +5,9 @@
 " Set comma as leader
 let mapleader = ","
 
+" Set ; as localleader
+let maplocalleader = ';'
+
 " Display number of current line
 set number
 
@@ -76,23 +79,3 @@ set mousehide
 " Enable both French and English spell check
 setlocal spell spelllang=fr,en
 setlocal spell spelllang=fr
-
-" Add quick delimiters for tex (since delimitmate and vim-latex are
-" conflicting)
-autocmd FileType tex inoremap <buffer> ( ()<C-G>U<Left>
-autocmd FileType tex inoremap <buffer> [ []<C-G>U<Left>
-autocmd FileType tex inoremap <buffer> { {}<C-G>U<Left>
-autocmd FileType tex inoremap <buffer> " ""<C-G>U<Left>
-autocmd FileType tex inoremap <buffer> « «~~»<C-G>U<Left><Left>
-
-" Add TeX Abbreviations
-function LatexAbbreviations()
-  iab git \gls{git}
-  iab Git \gls{git}
-  iab Linux \gls{linux}
-endfunction
-
-augroup MyAbbreviations
-  autocmd!
-  autocmd FileType tex call LatexAbbreviations()
-augroup END

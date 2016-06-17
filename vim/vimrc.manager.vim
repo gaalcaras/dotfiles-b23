@@ -36,7 +36,7 @@ Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
 Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript'] }
 
 " Add latex support
-Plug 'vim-latex/vim-latex', { 'for' : ['latex', 'tex'] }
+Plug 'lervag/vimtex', { 'for' : ['latex', 'tex'] }
 
 " Enable markdown support
 Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
@@ -94,6 +94,9 @@ Plug 'raimondi/delimitmate'
 
 " Add text alignment capabilities to vim
 Plug 'godlygeek/tabular'
+
+" Add support for abbreviations
+Plug 'tpope/vim-abolish'
 
 " ////////////////////////////
 " Niceties
