@@ -135,5 +135,5 @@ let g:fugitive_git_executable = 'LANG=en_US git'
 " TEMPLATE: plugin config
 " ###########################
 
-let g:templates_directory = '$HOME/.dotfiles/vim/templates'
+let g:templates_directory = ['$HOME/.dotfiles/vim/templates']
 let g:templates_global_name_prefix = 'template'
