@@ -79,4 +79,3 @@ set mousehide
 
 " Enable both French and English spell check
 setlocal spell spelllang=fr,en
-setlocal spell spelllang=fr
