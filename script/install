@@ -90,4 +90,10 @@ select yn in "Yes" "No"; do
 done
 
 header 'Install script over \o/'
+
+echo "Don't forget to:"
+echo "+ Log into zsh to install plugins and stuff"
+echo "+ Make zsh your default shell (chsh -l / chsh -s)"
+echo "+ Use your SSH keys, they're all in $pubrecap"
+echo
 msg "Go back to being awesome"
