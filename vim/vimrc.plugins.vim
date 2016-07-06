@@ -1,10 +1,11 @@
 " ###########################
-" GRUVBOX: colorscheme config
+" SOLARIZED: colorscheme config
 " ###########################
 
-silent! let g:gruvbox_italic=1
-silent! colorscheme gruvbox 
-silent! set background=dark
+let g:solarized_termcolors=256
+set background=dark
+hi clear SpellBad
+hi SpellBad cterm=underline
 
 " ###########################
 " UNITE: plugin config

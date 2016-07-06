@@ -2,6 +2,8 @@
 " PLUG: manage plugins
 " ###########################
 
+" Reminder : PlugUpdate, PlugClean
+
 call plug#begin('~/.vim/plugged')
 
 " Add support for async processes
@@ -103,7 +105,7 @@ Plug 'tpope/vim-abolish'
 " ////////////////////////////
 
 " Use a pretty colorscheme ;-)
-Plug 'morhetz/gruvbox'
+Plug 'altercation/vim-colors-solarized'
 
 " ////////////////////////////
 " THE END
