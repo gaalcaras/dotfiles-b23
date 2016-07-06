@@ -2,28 +2,6 @@
 #
 # Install all dependencies
 
-# ############################
-# Color management and setup
-# ############################
-
-red=`tput setaf 1`
-blue=`tput setaf 4`
-mage=`tput setaf 5`
-reset=`tput sgr0`
-
-# Output messages in magenta
-function msg {
-  echo "${mage}$1${reset}"
-}
-
-function doing {
-  echo "${blue}> $1...${reset}"
-}
-
-function warning {
-  echo "${red}$1.${reset}"
-}
-
 set -e
 
 cd "$(dirname $0)"/..
@@ -31,6 +9,8 @@ cd "$(dirname $0)"/..
 usr=$(env | grep SUDO_USER | cut -d= -f 2)
 home=$( getent passwd "$usr" | cut -d: -f6 )
 run_as_normal="sudo -u $usr"
+
+. ./script/functions
 
 # ############################
 # Script
@@ -41,51 +21,73 @@ if [ "$EUID" -ne 0 ]; then
   exit
 fi
 
-doing 'Checking your Linux flavor'
+clear
 
-response=`uname -a`
-if [[ $response == *"ARCH"* ]]; then
-  system='arch'
-  msg "You're running ArchLinux. KISS!"
-elif [[ $response == *"Ubuntu"* ]]; then
-  system='ubuntu'
-  msg "Your're running Ubuntu, mate."
-else
-  system=''
-  msg "Unknown Linux flavor here!"
-fi
+header 'Welcome to the dotfiles script installer'
+echo 'This script will set you up in minutes with the following steps:'
+echo '1/ Installing or updating apps'
+echo '2/ Linking your dotfiles (bootstrap script)'
+echo '3/ Post-install niceties (updating vim plugins, ssh keygen, etc.)'
+echo
+
+msg 'Are you ready?'
+
+select yn in "Hell yeah" "No, see ya later"; do
+  case $yn in
+    "Hell yeah" ) clear; break;;
+    "No, see ya later" ) exit; break;;
+  esac
+done
+
+header '1/ Installation'
+
+check_flavor
 
 echo
 
 # Add spell check dictionaries
-if [ ! -f $home/.vim/spell/fr.utf-8.spl ]; then
-  doing 'Installing Spell Checking files'
-  $run_as_normal cp -R $home/.dotfiles/vim/spell $home/.vim/spell
-fi
 
 # Install vim-plug if necessary
-if [ ! -f $home/.vim/autoload/plug.vim ]; then
-  doing 'Installing Vim-Plug'
-  $run_as_normal curl -fLo $home/.vim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
 
-for f in ./script/install-*; do
-  # source install file:
-  # retrieve message var and install function
-  . ./$f
+apps=""
 
-  msg "$message"
+msg "Do you want to (re)install apps on this machine?"
 
-  select yn in "Yes" "No" "Exit"; do
-    case $yn in
-      Yes ) install; break;;
-      No ) warning "Skipping install"; break;;
-      Exit ) warning "Game over"; exit;;
-    esac
-  done
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) echo;  install_apps; break;;
+    No ) warning "Skipping installation step"; break;;
+  esac
+done
+echo
 
-  echo
+header '2/ Bootstrap script'
+
+msg 'Do you want to symlink your dotfiles now?'
+
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) echo;  ./script/bootstrap; break;;
+    No ) warning "Skipping dotfiles step"; break;;
+  esac
+done
+echo
+
+header '3/ Post-installation niceties'
+
+echo 'This step takes care of some niceties for you,'
+echo 'including installing vim-plug and updating plugins,'
+echo 'installing spell check in vim, ssh-keygen, and more.'
+echo
+
+msg 'Do you want to execute the post-install script?'
+
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) echo;  niceties; break;;
+    No ) warning "Skipping dotfiles step"; break;;
+  esac
 done
 
-msg "Install script over \o/"
+header 'Install script over \o/'
+msg "Go back to being awesome"

@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+#
+# Install all dependencies
+
+# ############################
+# Color management and setup
+# ############################
+
+red=`tput setaf 1`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+mage=`tput setaf 5`
+reset=`tput sgr0`
+
+# Output messages in magenta
+function msg {
+  echo "${mage}$1${reset}"
+}
+
+function doing {
+  echo "${blue}> $1...${reset}"
+}
+
+function warning {
+  echo "${red}$1.${reset}"
+}
+
+function header {
+  clear
+  echo "${yellow}################################"
+  echo $1
+  echo "################################${reset}"
+  echo
+}
+
+# ############################
+# Installation step
+# ############################
+
+function check_flavor {
+  doing 'Checking your Linux flavor'
+
+  response=`uname -a`
+  do_install=''
+  if [[ $response == *"ARCH"* ]]; then
+    system='arch'
+    do_install='pacman -S --noconfirm'
+    msg "You're running ArchLinux. KISS!"
+  elif [[ $response == *"Ubuntu"* ]]; then
+    system='ubuntu'
+    do_install='apt-get install -y'
+    msg "Your're running Ubuntu, mate."
+  else
+    system=''
+    msg "Unknown Linux flavor here!"
+  fi
+}
+
+function select_apps {
+  apps=""
+
+  for f in ./script/modules/*; do
+    # source install file:
+    # retrieve message var and install function
+    . ./$f
+
+    msg "$message"
+
+    select yn in "Yes" "No"; do
+      case $yn in
+        Yes ) add_app; break;;
+        No ) warning "Skipping install"; break;;
+      esac
+    done
+
+    echo
+
+  done
+}
+
+function install_apps {
+  select_apps
+  
+  clear
+
+  msg "You have selected the following apps to install:"
+  echo $apps
+  echo
+  msg "Do you want to proceed?"
+  warning "The installer won't ask for confirmation again"
+
+  select yn in "Yes" "No"; do
+    case $yn in
+      Yes ) echo; $do_install $apps; break;;
+      No ) warning "Skipping everything"; break;;
+    esac
+  done
+}
+
+
+# ############################
+# Post-install step
+# ############################
+
+function niceties {
+  apps=""
+
+  for f in ./script/post/*; do
+    # source install file:
+    # retrieve message var and install function
+    . ./$f
+
+    msg "$message"
+
+    select yn in "Yes" "No"; do
+      case $yn in
+        Yes ) post_install; break;;
+        No ) warning "Skipping post-install"; break;;
+      esac
+    done
+
+    echo
+
+  done
+}

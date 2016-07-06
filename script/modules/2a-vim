@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#
+# Install vim 
+
+message="Do you want to (re)install vim?"
+
+function add_app {
+  if [ "$system" == "arch" ]; then
+    #TODO: setup arch
+    apps="$apps vim"
+  elif [ "$system" == "ubuntu" ]; then
+    #TODO: ubuntu setup
+    apps="$apps vim"
+  fi
+  doing 'Adding vim'
+}
