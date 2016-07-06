@@ -6,10 +6,8 @@ message="Do you want to (re)install neovim?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    #TODO: setup arch
     apps="$apps neovim"
   elif [ "$system" == "ubuntu" ]; then
-    #TODO: ubuntu setup
     apps="$apps neovim"
   fi
   doing 'Adding neovim'
