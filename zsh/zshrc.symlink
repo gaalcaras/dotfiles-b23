@@ -54,7 +54,9 @@ then
   source ~/.zplug/init.zsh
 
   zplug "plugins/git", from:oh-my-zsh, if:"(( $+commands[git] ))"
-  zplug "themes/pure", from:oh-my-zsh
+  puredir="$HOME/.zplug/repos/sindresorhus/pure"
+  zplug "mafredri/zsh-async", on:sindresorhus/pure
+  zplug "sindresorhus/pure", use:pure.zsh, nice:19
 
   # Install plugins if there are plugins that have not been installed
   if ! zplug check --verbose; then
@@ -67,3 +69,7 @@ then
   # Then, source plugins and add commands to $PATH
   zplug load
 fi
+
+fpath=( $puredir $fpath )
+
+eval `dircolors $HOME/.dotfiles/zsh/dircolors`
