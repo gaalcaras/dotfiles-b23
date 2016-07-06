@@ -3,6 +3,14 @@
 These are my own dotfiles, forked from the excellent
 [@holman dotfiles](https://github.com/holman/dotfiles/fork).
 
+## What's this?
+
+My goal is to make an install script to set up my console workflow on a new machine within seconds.
+It's also a simple way to synchronise all my workflows, apps and config accross all my machines.
+
+While the specific details of the config are personal, it could be (yet) another source of inspiration for your own dotfiles scripts.
+Feel free to fork and hack at it!
+
 ## Instructions
 
 Run this:
@@ -34,16 +42,15 @@ The order of installation is set by the prefix : "0a, 0b, ..., 1a, 1b, ...".
 
 This will symlink the appropriate files in `.dotfiles` to your home directory.
 Everything is configured and tweaked within `~/.dotfiles`.
-
-Sometimes software (like arara) needs to have a config file in your home
-directory, not a dotfile. If so, use the `.vsymlink` (for 'visible symlink')
-instead of `.symlink`.
-
 The main file you'll want to change right off the bat is `zsh/zshrc.symlink`,
 which sets up a few paths that'll be different on your particular machine.
 
-Sometimes, you want to symlink an entire folder to a directory in your dotfiles.
-You can edit the associative array in `script/folders` for that purpose.
+Main difference from the original `bootstrap` script :
+
++ Sometimes software (like arara) needs to have a visible config file in your home directory, not a dotfile.
+  If so, use the `.vsymlink` extension (for 'visible symlink') instead of `.symlink`.
++ You might want to symlink an entire folder to a directory in your dotfiles.
+  You can edit the associative array in `script/folders` for that purpose.
 
 The bootstrap script can be run on its own, outside of the install script :
 `script/bootstrap`.

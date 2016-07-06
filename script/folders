@@ -2,8 +2,4 @@
 
 declare -A folders
 
-if [[ ! -d $HOME/.vim ]]; then
-  mkdir $HOME/.vim
-fi
-
-folders[$DOTFILES_ROOT/vim/ftplugin]=$HOME/.vim/ftplugin
+folders[$DOTFILES_ROOT/tilda]=$HOME/.config/tilda

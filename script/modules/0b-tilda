@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Install tilda
+
+message="Do you want to (re)install tilda?"
+
+function add_app {
+  if [ "$system" == "arch" ]; then
+    apps="$apps tilda"
+  elif [ "$system" == "ubuntu" ]; then
+    apps="$apps tilda"
+  fi
+  doing 'Adding tilda'
+}
