@@ -2,9 +2,9 @@
 " GRUVBOX: colorscheme config
 " ###########################
 
-let g:gruvbox_italic=1
-colorscheme gruvbox 
-set background=dark
+silent! let g:gruvbox_italic=1
+silent! colorscheme gruvbox 
+silent! set background=dark
 
 " ###########################
 " UNITE: plugin config

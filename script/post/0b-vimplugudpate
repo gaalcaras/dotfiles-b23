@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Post-Install : vimplug update
+
+message="Do you want to install and update your vim plugins?"
+
+function post_install {
+  doing 'Installing and updating vim plugins'
+  $run_as_normal vim +PlugUpdate +qall
+}

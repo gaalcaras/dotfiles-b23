@@ -1,14 +1,93 @@
 #!/usr/bin/env bash
 #
-# Run all dotfiles installers.
+# Install all dependencies
 
 set -e
 
 cd "$(dirname $0)"/..
 
-# Run Homebrew through the Brewfile
-echo "› brew bundle"
-brew bundle
+usr=$(env | grep SUDO_USER | cut -d= -f 2)
+home=$( getent passwd "$usr" | cut -d: -f6 )
+run_as_normal="sudo -u $usr"
 
-# find the installers and run them iteratively
-find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+. ./script/functions
+
+# ############################
+# Script
+# ############################
+
+if [ "$EUID" -ne 0 ]; then
+  warning "Please, run this script with sudo ;-)"
+  exit
+fi
+
+clear
+
+header 'Welcome to the dotfiles script installer'
+echo 'This script will set you up in minutes with the following steps:'
+echo '1/ Installing or updating apps'
+echo '2/ Linking your dotfiles (bootstrap script)'
+echo '3/ Post-install niceties (updating vim plugins, ssh keygen, etc.)'
+echo
+
+msg 'Are you ready?'
+
+select yn in "Hell yeah" "No, see ya later"; do
+  case $yn in
+    "Hell yeah" ) clear; break;;
+    "No, see ya later" ) exit; break;;
+  esac
+done
+
+header '1/ Installation'
+
+check_flavor
+
+echo
+
+# Add spell check dictionaries
+
+# Install vim-plug if necessary
+
+apps=""
+
+msg "Do you want to (re)install apps on this machine?"
+
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) echo;  install_apps; break;;
+    No ) warning "Skipping installation step"; break;;
+  esac
+done
+echo
+
+header '2/ Bootstrap script'
+
+msg 'Do you want to symlink your dotfiles now?'
+
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) echo;  ./script/bootstrap; break;;
+    No ) warning "Skipping dotfiles step"; break;;
+  esac
+done
+echo
+
+header '3/ Post-installation niceties'
+
+echo 'This step takes care of some niceties for you,'
+echo 'including installing vim-plug and updating plugins,'
+echo 'installing spell check in vim, ssh-keygen, and more.'
+echo
+
+msg 'Do you want to execute the post-install script?'
+
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) echo;  niceties; break;;
+    No ) warning "Skipping dotfiles step"; break;;
+  esac
+done
+
+header 'Install script over \o/'
+msg "Go back to being awesome"
