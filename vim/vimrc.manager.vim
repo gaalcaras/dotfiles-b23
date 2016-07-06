@@ -57,7 +57,8 @@ Plug 'tpope/vim-sensible'
 Plug 'Shougo/unite.vim'
 
 " Display various info in lowerbar
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Add tmuxline support
 Plug 'edkolev/tmuxline.vim'
