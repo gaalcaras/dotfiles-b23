@@ -4,7 +4,7 @@
 
 set -e
 
-cd "$(dirname $0)"/..
+cd "$(dirname "$0")/.."
 
 usr=$(env | grep SUDO_USER | cut -d= -f 2)
 home=$( getent passwd "$usr" | cut -d: -f6 )
@@ -67,7 +67,7 @@ msg 'Do you want to symlink your dotfiles now?'
 
 select yn in "Yes" "No"; do
   case $yn in
-    Yes ) echo;  ./script/bootstrap; break;;
+    Yes ) echo;  $run_as_normal ./script/bootstrap; break;;
     No ) warning "Skipping dotfiles step"; break;;
   esac
 done
