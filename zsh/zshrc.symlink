@@ -48,27 +48,22 @@ done
 
 unset config_files
 
-# OH MY ZSH
+if [[ -d ~/.zplug ]]
+then
+  #ZPLUG
+  source ~/.zplug/init.zsh
 
-# Path to your oh-my-zsh installation.
-ZSH=/usr/share/oh-my-zsh
+  zplug "plugins/git", from:oh-my-zsh, if:"(( $+commands[git] ))"
+  zplug "themes/pure", from:oh-my-zsh
 
-# Set name of the theme to load.
-ZSH_THEME="pure"
+  # Install plugins if there are plugins that have not been installed
+  if ! zplug check --verbose; then
+      printf "Install? [y/N]: "
+      if read -q; then
+          echo; zplug install
+      fi
+  fi
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
-
-ZSH_CACHE_DIR=$HOME/.oh-my-zsh-cache
-
-if [[ ! -d $ZSH_CACHE_DIR ]]; then
-  mkdir $ZSH_CACHE_DIR
+  # Then, source plugins and add commands to $PATH
+  zplug load
 fi
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Plugins
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
