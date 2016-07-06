@@ -70,6 +70,4 @@ then
   zplug load
 fi
 
-fpath=( $puredir $fpath )
-
 eval `dircolors $HOME/.dotfiles/zsh/dircolors`
