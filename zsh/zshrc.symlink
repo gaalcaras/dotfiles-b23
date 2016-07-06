@@ -9,17 +9,6 @@ export NOTES_FOLDER_PDF='/home/gabo/ownCloud/notes/pdf/'
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.3.0/bin:/bin:/usr/local/bin:/usr/bin
 export EDITOR="nvim"
 
-# JAVA (manual tweak, setting advised by pacman)
-
-JAVA_HOME="/usr/lib/jvm/default"; export JAVA_HOME;
-
-# Python VirtualEnvWrapper
-# Cf. ArchWiki
-#export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3.4
-
-export WORKON_HOME=~/.pythonvirtualenvs
-source /usr/bin/virtualenvwrapper.sh
-
 # Shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
