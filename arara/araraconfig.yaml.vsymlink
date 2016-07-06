@@ -1,3 +1,0 @@
-!config
-paths:
-  - '@{userhome}/.dotfiles/arara/rules'
