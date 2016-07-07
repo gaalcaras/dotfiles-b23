@@ -5,10 +5,6 @@
 message="Do you want to (re)install tmux?"
 
 function add_app {
-  if [ "$system" == "arch" ]; then
-    apps="$apps tmux"
-  elif [ "$system" == "ubuntu" ]; then
-    apps="$apps tmux"
-  fi
+  apps="$apps tmux"
   doing 'Adding tmux'
 }

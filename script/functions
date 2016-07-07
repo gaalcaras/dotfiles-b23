@@ -44,10 +44,12 @@ function check_flavor {
   do_install=''
   if [[ $response == *"ARCH"* ]]; then
     system='arch'
+    pre_install=''
     do_install='pacman -S --noconfirm'
     msg "You're running ArchLinux. KISS!"
   elif [[ $response == *"Ubuntu"* ]]; then
     system='ubuntu'
+    pre_install='apt-get update && apt-get upgrade'
     do_install='apt-get install -y'
     msg "Your're running Ubuntu, mate."
   else
@@ -91,7 +93,7 @@ function install_apps {
 
   select yn in "Yes" "No"; do
     case $yn in
-      Yes ) echo; $do_install $apps; break;;
+      Yes ) echo; $pre_install; $do_install $apps; break;;
       No ) warning "Skipping everything"; break;;
     esac
   done

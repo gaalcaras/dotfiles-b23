@@ -5,10 +5,6 @@
 message="Do you want to (re)install zsh?"
 
 function add_app {
-  if [ "$system" == "arch" ]; then
-    apps="$apps zsh"
-  elif [ "$system" == "ubuntu" ]; then
-    apps="$apps zsh"
-  fi
+  apps="$apps zsh"
   doing 'Adding zsh'
 }

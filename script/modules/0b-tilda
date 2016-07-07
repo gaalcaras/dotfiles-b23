@@ -5,10 +5,6 @@
 message="Do you want to (re)install tilda?"
 
 function add_app {
-  if [ "$system" == "arch" ]; then
-    apps="$apps tilda"
-  elif [ "$system" == "ubuntu" ]; then
-    apps="$apps tilda"
-  fi
+  apps="$apps tilda"
   doing 'Adding tilda'
 }

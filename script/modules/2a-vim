@@ -5,10 +5,6 @@
 message="Do you want to (re)install vim?"
 
 function add_app {
-  if [ "$system" == "arch" ]; then
-    apps="$apps vim"
-  elif [ "$system" == "ubuntu" ]; then
-    apps="$apps vim"
-  fi
+  apps="$apps vim"
   doing 'Adding vim'
 }
