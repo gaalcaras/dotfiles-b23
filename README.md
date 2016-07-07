@@ -23,7 +23,7 @@ sudo script/install
 
 The install script has 3 main steps :
 
-+ installing useful apps (ArchLinux only, Ubuntu coming soon)
++ installing useful apps (ArchLinux & Ubuntu)
 + symlinking dotfiles (running `script/bootstrap`)
 + making your system comfy (updating zsh and vim plugins, adding SSH keys if needed, etc.)
 
