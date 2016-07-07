@@ -49,7 +49,7 @@ function check_flavor {
     msg "You're running ArchLinux. KISS!"
   elif [[ $response == *"Ubuntu"* ]]; then
     system='ubuntu'
-    pre_install='apt-get update && apt-get upgrade'
+    pre_install='apt-get update'
     do_install='apt-get install -y'
     msg "Your're running Ubuntu, mate."
   else
