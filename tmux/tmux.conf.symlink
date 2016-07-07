@@ -8,11 +8,11 @@ set -g default-terminal "screen-256color"
 # Increase scroll-back history
 set -g history-limit 5000
 
-# Use vim key bindings
-setw -g mode-keys vi
+# Use emacs key bindings
+setw -g mode-keys emacs
 
-# Disable mouse
-# setw -g mode-mouse off
+# Enable mouse
+setw -g mode-mouse on
 
 # Decrease command delay (increases vim responsiveness)
 set -sg escape-time 1
