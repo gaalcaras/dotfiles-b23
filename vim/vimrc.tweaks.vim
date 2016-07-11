@@ -79,3 +79,6 @@ set mousehide
 
 " Enable both French and English spell check
 setlocal spell spelllang=fr,en
+
+" Add es6 as extension for JS
+au! BufNewFile,BufRead *.es6 setf javascript
