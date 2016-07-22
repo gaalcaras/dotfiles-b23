@@ -4,13 +4,11 @@
 
 set -e
 
+install_sourced=1
 cd "$(dirname "$0")/.."
+DOTFILES_ROOT=$(pwd -P)
 
-usr=$(env | grep SUDO_USER | cut -d= -f 2)
-home=$( getent passwd "$usr" | cut -d: -f6 )
-run_as_normal="sudo -u $usr"
-
-. ./script/functions
+source $DOTFILES_ROOT/script/prepare
 
 # ############################
 # Script
@@ -22,7 +20,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 clear
-
+ 
 header 'Welcome to the dotfiles script installer'
 echo 'This script will set you up in minutes with the following steps:'
 echo '1/ Installing or updating apps'

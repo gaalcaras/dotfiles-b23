@@ -3,3 +3,7 @@
 declare -A folders
 
 folders[$DOTFILES_ROOT/tilda]=$HOME/.config/tilda
+
+# NeoVim setup (from VIM)
+folders[$HOME/.vim]=$HOME/.config/nvim
+symlink "$HOME/.vimrc" "$HOME/.config/nvim/init.vim" "0"

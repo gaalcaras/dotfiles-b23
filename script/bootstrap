@@ -2,35 +2,20 @@
 #
 # bootstrap installs things.
 
+if [ -z ${install_sourced+x} ]; then
+  echo "not sourced"
+  set -e
+fi
+
 cd "$(dirname "$0")/.."
 DOTFILES_ROOT=$(pwd -P)
 
-set -e
-
-echo ''
-
-info () {
-  printf "\r  [ \033[00;34m..\033[0m ] $1\n"
-}
-
-user () {
-  printf "\r  [ \033[0;33m??\033[0m ] $1\n"
-}
-
-success () {
-  printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
-}
-
-fail () {
-  printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n"
-  echo ''
-  exit
-}
+source $DOTFILES_ROOT/script/prepare
 
 setup_gitconfig () {
   if ! [ -f git/gitconfig.local.symlink ]
   then
-    info 'setup gitconfig'
+    doing 'setup gitconfig'
 
     git_credential='cache'
     if [ "$(uname -s)" == "Darwin" ]
@@ -38,101 +23,19 @@ setup_gitconfig () {
       git_credential='osxkeychain'
     fi
 
-    user ' - What is your github author name?'
+    msg 'What is your github author name?'
     read -e git_authorname
-    user ' - What is your github author email?'
+    msg 'What is your github author email?'
     read -e git_authoremail
 
+    doing 'Setting up gitconfig'
     sed -e "s/AUTHORNAME/$git_authorname/g" -e "s/AUTHOREMAIL/$git_authoremail/g" -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" git/gitconfig.local.symlink.example > git/gitconfig.local.symlink
 
-    success 'gitconfig'
-  fi
-}
-
-
-link () {
-  local src=$1 dst=$2 dir=$3
-
-  local obj='File'
-  local overwrite= backup= skip=
-  local action=
-
-  if [ "$dir" -eq "1" ]
-  then
-    obj='Directory'
-  fi
-
-  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
-  then
-
-    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
-    then
-
-      local currentSrc="$(readlink $dst)"
-
-      if [ "$currentSrc" == "$src" ]
-      then
-
-        skip=true;
-
-      else
-
-        user "$obj already exists: $dst ($(basename "$src")), what do you want to do?\n\
-        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
-        read -n 1 action
-
-        case "$action" in
-          o )
-            overwrite=true;;
-          O )
-            overwrite_all=true;;
-          b )
-            backup=true;;
-          B )
-            backup_all=true;;
-          s )
-            skip=true;;
-          S )
-            skip_all=true;;
-          * )
-            ;;
-        esac
-
-      fi
-
-    fi
-
-    overwrite=${overwrite:-$overwrite_all}
-    backup=${backup:-$backup_all}
-    skip=${skip:-$skip_all}
-
-    if [ "$overwrite" == "true" ]
-    then
-      rm -rf "$dst"
-      success "removed $dst"
-    fi
-
-    if [ "$backup" == "true" ]
-    then
-      mv "$dst" "${dst}.backup"
-      success "moved $dst to ${dst}.backup"
-    fi
-
-    if [ "$skip" == "true" ]
-    then
-      success "skipped $src"
-    fi
-  fi
-
-  if [ "$skip" != "true" ]  # "false" or empty
-  then
-    ln -s "$1" "$2"
-    success "linked $1 to $2"
   fi
 }
 
 install_dotfiles () {
-  info 'installing dotfiles'
+  doing 'Installing dotfiles'
 
   local overwrite_all=false backup_all=false skip_all=false
 
@@ -144,7 +47,7 @@ install_dotfiles () {
     else
       dst="$HOME/.$(basename "${src%.*}")"
     fi
-    link "$src" "$dst" "0"
+    symlink "$src" "$dst" "0"
   done
 
   . $DOTFILES_ROOT/script/folders
@@ -152,12 +55,12 @@ install_dotfiles () {
   for i in ${!folders[*]}
   do
     mkdir -p $i
-    link "$i" "${folders[$i]}" "1"
+    symlink "$i" "${folders[$i]}" "1"
   done
 }
 
 setup_gitconfig
 install_dotfiles
 
-echo ''
-echo '  All installed!'
+echo
+msg 'Dotfiles are linked!'

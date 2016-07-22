@@ -43,7 +43,11 @@ function add_ssh_host {
 
 function post_install {
   doing 'Backing up existing SSH config'
-  cp -r $sshdir $sshdir.bak
+  if [ ! -f $sshdir ]; then
+    $run_as_normal mkdir -p $sshdir
+  fi
+
+  $run_as_normal cp -r $sshdir $sshdir.bak
   echo
 
   echo '' > $file
