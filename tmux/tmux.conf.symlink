@@ -11,9 +11,6 @@ set -g history-limit 5000
 # Use emacs key bindings
 setw -g mode-keys emacs
 
-# Enable mouse
-setw -g mode-mouse on
-
 # Decrease command delay (increases vim responsiveness)
 set -sg escape-time 1
 
