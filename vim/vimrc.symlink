@@ -2,6 +2,9 @@
 " NEOVIM: better vim
 " ###########################
 
+" Set ; as localleader (before any mapping command)
+let maplocalleader = ';'
+
 if has('nvim')
   set runtimepath+=/usr/share/vim/vimfiles
 endif

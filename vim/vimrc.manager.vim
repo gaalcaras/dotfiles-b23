@@ -22,10 +22,10 @@ endfunction
 
 " Add completion for NEOVIM
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote'), 'for' : ['javascript', 'typescript', 'c', 'python', 'html', 'latex', 'tex', 'bash', 'shell'] }
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote'), 'for' : ['javascript', 'typescript', 'c', 'python', 'html', 'latex', 'tex', 'bash', 'shell', 'r'] }
 
   " Add ternjs support to Deoplete
-  Plug 'carlitux/deoplete-ternjs', { 'for' : 'javascript' }
+  Plug 'carlitux/deoplete-ternjs', { 'for' : ['javascript', 'es6'] }
 endif
 
 " Add support for TS autocompletion
@@ -35,7 +35,7 @@ Plug 'Quramy/tsuquyomi', { 'for' : ['javascript', 'typescript'] }
 Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
 
 " Improve javascript indentation and syntax support
-Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript'] }
+Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript', 'es6'] }
 
 " Add latex support
 Plug 'lervag/vimtex', { 'for' : ['latex', 'tex'] }
@@ -45,6 +45,13 @@ Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
 
 " Enable markdown toc generation
 Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
+
+" Enable markdown live preview
+" Do install steps : https://github.com/suan/vim-instant-markdown
+Plug 'suan/vim-instant-markdown', { 'for' : 'markdown' }
+
+" Enable R support
+Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 
 " ////////////////////////////
 " General functionnality

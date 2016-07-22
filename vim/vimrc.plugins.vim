@@ -53,6 +53,24 @@ if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
 endif
 
+" let g:deoplete#omni#input_patterns.r = '(\$|(data)?\.)'
+let g:deoplete#omni#input_patterns.r = '[a-zA-Z_]\w*?'
+
+let g:deoplete#omni#input_patterns.tex = '\\(?:'
+        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+        \ . '|hyperref\s*\[[^]]*'
+        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+\ .')'
+
+" inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS>  deoplete#mappings#smart_close_popup()."\<C-h>"
+
+
 " Automatically close preview window
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
@@ -123,6 +141,11 @@ let g:syntastic_typescript_checkers = ['tsuquyomi']
 " can be deleted.
 let g:vim_markdown_folding_disabled=1
 let g:vim_markdown_frontmatter=1
+
+" ###########################
+" NVim-R: plugin config
+" ###########################
+" let R_path = "/bin/R"
 
 " ###########################
 " FUGITIVE: plugin config

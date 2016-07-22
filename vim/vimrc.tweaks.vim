@@ -5,9 +5,6 @@
 " Set comma as leader
 let mapleader = ","
 
-" Set ; as localleader
-let maplocalleader = ';'
-
 " Display number of current line
 set number
 
