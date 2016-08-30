@@ -6,7 +6,7 @@ autoload -U zmv
 
 export NOTES_FOLDER='/home/gabo/ownCloud/notes/md/'
 export NOTES_FOLDER_PDF='/home/gabo/ownCloud/notes/pdf/'
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.3.0/bin:/bin:/usr/local/bin:/usr/bin
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.3.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl
 export EDITOR="nvim"
 
 # Shortcut to this dotfiles path is $ZSH
