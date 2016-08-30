@@ -14,6 +14,10 @@ syntax on
 " Force markdown recognition
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+" Force jsx recognition
+autocmd BufNewFile,BufReadPost *.jsx set filetype=javascript
+autocmd BufNewFile,BufReadPost *.es6 set filetype=javascript
+
 " Hit Control+g to "getaway" from parenthesis
 inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
 
