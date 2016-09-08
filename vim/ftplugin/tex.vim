@@ -3,7 +3,7 @@
 Abolish git \gls{git}
 Abolish correcti{f,fs} \gls{,pl}{patch}
 Abolish Linux \gls{linux}
-Abolish vger \spacedlowsmallcap{vger}
+Abolish vger \spacedlowsmallcaps{vger}
 Abolish cvs \gls{cvs}
 Abolish os{,s} \gls{,pl}{os}
 Abolish uni{x,ces} \gls{,pl}{unix}
