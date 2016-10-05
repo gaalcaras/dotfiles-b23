@@ -26,6 +26,9 @@ if has('nvim')
 
   " Add ternjs support to Deoplete
   Plug 'carlitux/deoplete-ternjs', { 'for' : ['javascript', 'es6'] }
+
+  " Add python support to Deoplete
+  Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
 endif
 
 " Add support for TS autocompletion
