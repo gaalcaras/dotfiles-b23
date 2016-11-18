@@ -84,6 +84,7 @@ autocmd FileType typescript setlocal completeopt+=menu,preview
 " ###########################
 
 let g:airline_powerline_fonts = 1
+let g:airline_theme = 'solarized'
 
 " Display buffers as tabs on top
 let g:airline#extensions#tabline#enabled = 1
