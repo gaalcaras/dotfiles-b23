@@ -70,9 +70,6 @@ Plug 'Shougo/unite.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" Add tmuxline support
-Plug 'edkolev/tmuxline.vim'
-
 " Create templates when opening new file
 Plug 'aperezdc/vim-template'
 
