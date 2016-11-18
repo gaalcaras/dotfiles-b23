@@ -5,6 +5,6 @@
 message="Do you want to (re)install tilda?"
 
 function add_app {
-  apps="$apps tilda"
-  doing 'Adding tilda'
+  apps="$apps guake"
+  doing 'Adding guake'
 }
