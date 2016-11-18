@@ -22,7 +22,7 @@ Plug 'scrooloose/syntastic'
 
 " Add completion for NEOVIM
 if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote'), 'for' : ['javascript', 'typescript', 'c', 'python', 'html', 'latex', 'tex', 'bash', 'shell', 'r'] }
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote'), 'for' : ['javascript', 'typescript', 'c', 'python', 'html', 'latex', 'tex', 'bash', 'shell', 'r', 'css'] }
 
   " Add ternjs support to Deoplete
   Plug 'carlitux/deoplete-ternjs', { 'for' : ['javascript', 'es6'] }
