@@ -9,16 +9,16 @@ call plug#begin('~/.vim/plugged')
 " Add support for async processes
 Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
 
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+
 " ////////////////////////////
 " Language specific support
 " ////////////////////////////
 
 " Check style and syntax
 Plug 'scrooloose/syntastic'
-
-function! DoRemote(arg)
-  UpdateRemotePlugins
-endfunction
 
 " Add completion for NEOVIM
 if has('nvim')
