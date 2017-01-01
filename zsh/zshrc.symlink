@@ -57,7 +57,7 @@ then
 
   puredir="$HOME/.zplug/repos/sindresorhus/pure"
   zplug "mafredri/zsh-async", on:sindresorhus/pure
-  zplug "sindresorhus/pure", use:pure.zsh, nice:19
+  zplug "sindresorhus/pure", use:pure.zsh, defer:1
 
   zplug "zsh-users/zsh-history-substring-search"
   zplug "zplug/zplug"
