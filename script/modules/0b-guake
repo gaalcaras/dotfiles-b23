@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# Install tilda
+# Install guake
 
-message="Do you want to (re)install tilda?"
+message="Do you want to (re)install guake?"
 
 function add_app {
   apps="$apps guake"
