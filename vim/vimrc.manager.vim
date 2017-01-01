@@ -49,10 +49,6 @@ Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
 " Enable markdown toc generation
 Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
 
-" Enable markdown live preview
-" Do install steps : https://github.com/suan/vim-instant-markdown
-Plug 'suan/vim-instant-markdown', { 'for' : 'markdown' }
-
 " Enable R support
 Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 
