@@ -57,6 +57,11 @@ install_dotfiles () {
     mkdir -p $i
     symlink "$i" "${folders[$i]}" "1"
   done
+
+  for i in ${!ffiles[*]}
+  do
+    symlink "$i" "${ffiles[$i]}" "0"
+  done
 }
 
 setup_gitconfig

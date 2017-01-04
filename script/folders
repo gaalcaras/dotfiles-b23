@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 declare -A folders
+declare -A ffiles
 
 # NeoVim setup (from VIM)
 folders[$HOME/.vim]=$HOME/.config/nvim
-symlink "$HOME/.vimrc" "$HOME/.config/nvim/init.vim" "0"
+ffils[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
