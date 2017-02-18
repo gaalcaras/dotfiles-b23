@@ -5,4 +5,7 @@ declare -A ffiles
 
 # NeoVim setup (from VIM)
 folders[$HOME/.vim]=$HOME/.config/nvim
-ffils[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
+ffiles[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
+
+# Nylas setup
+ffiles[$HOME/.dotfiles/nylas/keymap.json]=$HOME/.nylas/keymap.json
