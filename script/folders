@@ -9,3 +9,6 @@ ffiles[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
 
 # Nylas setup
 ffiles[$HOME/.dotfiles/nylas/keymap.json]=$HOME/.nylas/keymap.json
+
+# Tmuxifier
+folders[$HOME/.dotfiles/tmux/layouts]=$HOME/.tmuxifier/layouts
