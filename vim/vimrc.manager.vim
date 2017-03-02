@@ -23,7 +23,7 @@ Plug 'scrooloose/syntastic'
 " Add support for TS syntax colorscheme
 Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
 
-Improve javascript indentation and syntax support
+" Improve javascript indentation and syntax support
 Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript', 'es6'] }
 
 " Add latex support
