@@ -13,28 +13,28 @@ endif
 " PLUGINS: handled by Plug
 " ###########################
 
-source $HOME/.dotfiles/vim/vimrc.manager.vim
+source $HOME/.dotfiles/vim/manager.vim
 
 " ###########################
 " CONFIG: plugins
 " ###########################
 
-source $HOME/.dotfiles/vim/vimrc.plugins.vim
+source $HOME/.dotfiles/vim/plugins.vim
 
 " ###########################
 " TWEAKS: personal settings
 " ###########################
 
-source $HOME/.dotfiles/vim/vimrc.tweaks.vim
+source $HOME/.dotfiles/vim/tweaks.vim
 
 " ###########################
 " BÉPO: personal settings
 " ###########################
 
-source $HOME/.dotfiles/vim/vimrc.bepo.vim
+source $HOME/.dotfiles/vim/bepo.vim
 
 " ###########################
 " DATE: date functions
 " ###########################
 
-source $HOME/.dotfiles/vim/vimrc.date.vim
+source $HOME/.dotfiles/vim/date.vim
