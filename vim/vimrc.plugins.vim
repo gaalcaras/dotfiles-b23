@@ -44,42 +44,6 @@ xmap A   <Plug>VSurround
 xmap gA  <Plug>VgSurround
 
 " ###########################
-" DEOPLETE: plugin config
-" ###########################
-
-let g:deoplete#enable_at_startup = 1
-
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-
-" let g:deoplete#omni#input_patterns.r = '(\$|(data)?\.)'
-let g:deoplete#omni#input_patterns.r = '[a-zA-Z_]\w*?'
-
-let g:deoplete#omni#input_patterns.tex = '\\(?:'
-        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
-        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
-        \ . '|hyperref\s*\[[^]]*'
-        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
-        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
-        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
-\ .')'
-
-" Automatically close preview window
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-let g:tern_show_signature_in_pum = 1
-let g:tern_show_argument_hints = 'on_move'
-
-" ###########################
-" TSUQUYOMI: plugin config
-" ###########################
-
-autocmd FileType typescript setlocal completeopt+=menu,preview
-
-" ###########################
 " AIRLINE: plugin config
 " ###########################
 

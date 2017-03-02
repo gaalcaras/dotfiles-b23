@@ -20,24 +20,10 @@ endfunction
 " Check style and syntax
 Plug 'scrooloose/syntastic'
 
-" Add completion for NEOVIM
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote'), 'for' : ['javascript', 'typescript', 'c', 'python', 'html', 'latex', 'tex', 'bash', 'shell', 'r', 'css'] }
-
-  " Add ternjs support to Deoplete
-  Plug 'carlitux/deoplete-ternjs', { 'for' : ['javascript', 'es6'] }
-
-  " Add python support to Deoplete
-  Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
-endif
-
-" Add support for TS autocompletion
-Plug 'Quramy/tsuquyomi', { 'for' : ['javascript', 'typescript'] }
-
 " Add support for TS syntax colorscheme
 Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
 
-" Improve javascript indentation and syntax support
+Improve javascript indentation and syntax support
 Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript', 'es6'] }
 
 " Add latex support
