@@ -84,3 +84,17 @@ noremap w<CR> :vsplit<CR>
 " _______________
 noremap zs zk
 noremap zt zj
+
+" Réparer les netrw_mappings
+" _________________________
+augroup netrw_mapping
+    autocmd!
+    autocmd filetype netrw call NetrwMapping()
+augroup END
+
+function! NetrwMapping()
+    noremap <buffer> c h
+    noremap <buffer> r l
+    noremap <buffer> t j
+    noremap <buffer> s k
+endfunction
