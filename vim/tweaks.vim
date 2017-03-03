@@ -1,25 +1,70 @@
 " ###########################
-" VARIOUS: personal settings
+" MAPPINGS: personal tweaks
 " ###########################
 
 " Set comma as leader
 let mapleader = ","
 
-" Display number of current line
-set number
+" Hit Control+g to "getaway" from parenthesis
+inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
+
+" Easier tag navigation
+nnoremap <C-m> <C-]>
+vnoremap <C-m> <C-]>
+
+" Easier pipe operator in R: '>'
+autocmd FileType r inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
+autocmd FileType rnoweb inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
+autocmd FileType rmd inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
+
+" ###########################
+" HARDMODE: well, kind of
+" ###########################
+
+" Never use arrow keys ;-)
+nnoremap <Left> :echoe "Use c ;-)"<CR>
+nnoremap <Right> :echoe "Use r ;-)"<CR>
+nnoremap <Up> :echoe "Use s ;-)"<CR>
+nnoremap <Down> :echoe "Use t ;-)"<CR>
+
+inoremap <Left> <Esc>:echoe "Use c ;-)"<CR>
+inoremap <Right> <Esc>:echoe "Use r ;-)"<CR>
+inoremap <Up> <Esc>:echoe "Use s ;-)"<CR>
+inoremap <Down> <Esc>:echoe "Use t ;-)"<CR>
+
+vnoremap <Left> :echoe "Use c ;-)"<CR>
+vnoremap <Right> :echoe "Use r ;-)"<CR>
+vnoremap <Up> :echoe "Use s ;-)"<CR>
+vnoremap <Down> :echoe "Use t ;-)"<CR>
+
+" Say goodbye to backspace and delete in Insert mode
+inoremap <BS> <Nop>
+inoremap <Del> <Nop>
+
+" ###########################
+" FILE_BROWSING: it's better
+" ###########################
+
+" Make file search recursive in dirs and subdirs
+set path+=**
+
+" disable annoying banner
+let g:netrw_banner=0
+" open in prior window
+let g:netrw_browse_split=4
+" open splits to the right
+let g:netrw_altv=1
+" tree view
+let g:netrw_liststyle=3 
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" ###########################
+" MISC: all the small things
+" ###########################
 
 " Enable syntax highlighting
 syntax on
-
-" Force markdown recognition
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-
-" Force jsx recognition
-autocmd BufNewFile,BufReadPost *.jsx set filetype=javascript
-autocmd BufNewFile,BufReadPost *.es6 set filetype=javascript
-
-" Hit Control+g to "getaway" from parenthesis
-inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
 
 " Disable mouse visual mode
 set mouse-=a
@@ -32,17 +77,11 @@ set wrap
 set linebreak
 
 " Disable list (otherwise, breaks linebreak)
-set nolist 
-
+set nolist
 set textwidth=0
 set wrapmargin=0
 set formatoptions=qrn1
 silent! set breakindent showbreak=..
-
-" But when coding, we will want to see the 80 character limit as a reminder
-" of good practices.
-" Go to ftplugin for disabling it for certain filetypes.
-set colorcolumn=80
 
 " Show cursor at all times
 set ruler
@@ -50,22 +89,14 @@ set ruler
 " Display extra whitespace
 set list listchars=tab:»·,trail:·,nbsp:·
 
-set foldmethod=indent
-
-" Open all folds on document load
-set foldlevelstart=9
-
 set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 
 " Indent sanely
-set autoindent
 set smartindent
 
-" Never use arrow keys ;-)
-nnoremap <Left> :echoe "Use c"<CR>
-nnoremap <Right> :echoe "Use r"<CR>
-nnoremap <Up> :echoe "Use s"<CR>
-nnoremap <Down> :echoe "Use t"<CR>
+" Relative numbers
+set relativenumber
+set number
 
 " Get rid of additionnal files
 set nobackup
@@ -81,5 +112,10 @@ set mousehide
 " Enable both French and English spell check
 setlocal spell spelllang=fr,en
 
-" Add es6 as extension for JS
-au! BufNewFile,BufRead *.es6 setf javascript
+" Underline spell check results
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+" Sorry ExMode, but you've gotta go
+map q: <Nop>
+nnoremap Q <nop>
