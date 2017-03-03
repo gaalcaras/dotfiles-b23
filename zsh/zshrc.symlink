@@ -4,6 +4,7 @@ autoload -U zmv
 
 # VARS
 
+export TERM='screen-256color'
 export NOTES_FOLDER='/home/gabo/ownCloud/notes/md/'
 export NOTES_FOLDER_PDF='/home/gabo/ownCloud/notes/pdf/'
 export PATH=$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.4.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl
@@ -13,6 +14,10 @@ eval "$(tmuxifier init -)"
 
 # Shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
+
+# Base16-Shell
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but

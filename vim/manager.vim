@@ -51,9 +51,7 @@ Plug 'Shougo/unite.vim'
 " Display various info in lowerbar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-" Create templates when opening new file
-Plug 'aperezdc/vim-template'
+Plug 'edkolev/tmuxline.vim'
 
 " ////////////////////////////
 " Version control integration
@@ -95,7 +93,7 @@ Plug 'tpope/vim-abolish'
 " ////////////////////////////
 
 " Use a pretty colorscheme ;-)
-Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
 
 " ////////////////////////////
 " THE END
