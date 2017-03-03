@@ -79,3 +79,8 @@ noremap wo <C-w>s
 noremap wp <C-w>o
 noremap w<SPACE> :split<CR>
 noremap w<CR> :vsplit<CR>
+
+" Gestion des plis
+" _______________
+noremap zs zk
+noremap zt zj
