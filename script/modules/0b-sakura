@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Install sakura
+
+message="Do you want to (re)install sakura?"
+
+function add_app {
+  apps="$apps sakura"
+  doing 'Adding sakura'
+}
