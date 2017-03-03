@@ -13,12 +13,30 @@ function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
 
+" For vim-markdown-composer
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    !cargo build --release
+  endif
+endfunction
+
 " ////////////////////////////
 " Language specific support
 " ////////////////////////////
 
 " Check style and syntax
 Plug 'scrooloose/syntastic'
+
+if has('nvim')
+  " Use asynchronous completion
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+  " Enable included files completion
+  Plug 'Shougo/neoinclude.vim'
+
+  " Use super cool nvim asynchronous markdown preview
+  Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+endif
 
 " Add support for TS syntax colorscheme
 Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
@@ -45,8 +63,8 @@ Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 " Use sensible vim defaults
 Plug 'tpope/vim-sensible'
 
-" Get fuzzy file search
-Plug 'Shougo/unite.vim'
+" Enable repeat for plugins
+Plug 'tpope/vim-repeat'
 
 " Display various info in lowerbar
 Plug 'vim-airline/vim-airline'
@@ -69,9 +87,6 @@ Plug 'airblade/vim-gitgutter'
 
 " Enable user to change, replace or delete surround (brackets, etc.)
 Plug 'tpope/vim-surround'
-
-" Add mappings
-Plug 'tpope/vim-unimpaired'
 
 " Automatically set 'set:paste' in insert mode
 Plug 'ConradIrwin/vim-bracketed-paste'
