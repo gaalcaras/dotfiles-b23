@@ -1,4 +1,14 @@
 " ###########################
+" BASE16: personal settings
+" ###########################
+
+" Interface with base16-shell (theme)
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+" ###########################
 " DEOPLETE: plugin config
 " ###########################
 
