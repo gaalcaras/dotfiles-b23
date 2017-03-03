@@ -1,26 +1,33 @@
 " ###########################
-" SOLARIZED: colorscheme config
+" DEOPLETE: plugin config
 " ###########################
 
-set background=dark
-colorscheme solarized
+let g:deoplete#enable_at_startup = 1
 
-" Underline spell check results
-hi clear SpellBad
-hi SpellBad cterm=underline
+" Initialize Input Patterns
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
 
-" ###########################
-" UNITE: plugin config
-" ###########################
+" R Patterns
+let g:deoplete#omni#input_patterns.r = '\$'
 
-" Add fuzzy search for files (Ctrlp like)
-nnoremap <C-p> :Unite file_rec/async<cr>
+" Tex
+let g:deoplete#omni#input_patterns.tex = '\\(?:'
+        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+        \ . '|hyperref\s*\[[^]]*'
+        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+\ .')'
 
-" Add content searching (ag.vim like)
-nnoremap <space>/ :Unite grep:.<cr>
+" Let Tab do completion as well
+inoremap <expr><tab> pumvisible() ? "\<c-p>" : "\<tab>"
 
-" Add content searching (ag.vim like)
-nnoremap <Leader>s :Unite -quick-match buffer<cr>
+set completeopt=longest,menuone
 
 " ###########################
 " SURROUND: plugin config
@@ -29,26 +36,27 @@ nnoremap <Leader>s :Unite -quick-match buffer<cr>
 " Disable default mappings
 let g:surround_no_mappings = 1
 
-" Set my own mappings
-nmap da  <Plug>Dsurround
-nmap la  <Plug>Csurround
-nmap lA  <Plug>CSurround
-nmap ha  <Plug>Ysurround
-nmap hA  <Plug>YSurround
-nmap haa <Plug>Yssurround
-nmap hAa <Plug>YSsurround
-nmap hAA <Plug>YSsurround
+" Default mappings
+nmap ds  <Plug>Dsurround
+nmap ys  <Plug>Ysurround
+nmap yS  <Plug>YSurround
+nmap yss <Plug>Yssurround
+nmap ySs <Plug>YSsurround
+
+" Special mappings for bépo layout
+nmap ls  <Plug>Csurround
+nmap lS  <Plug>CSurround
 
 " Visual mode
-xmap A   <Plug>VSurround
-xmap gA  <Plug>VgSurround
+xmap S   <Plug>VSurround
+xmap gS  <Plug>VgSurround
 
 " ###########################
 " AIRLINE: plugin config
 " ###########################
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'solarized'
+let g:airline_theme = 'base16_solarized'
 
 " Display buffers as tabs on top
 let g:airline#extensions#tabline#enabled = 1
@@ -62,16 +70,9 @@ let g:airline#extensions#tabline#enabled = 1
 let delimitMate_expand_cr = 1
 
 " ###########################
-" UNIMPAIRED: plugin config
+" NVIM_R: plugin config
 " ###########################
-
-" Remap for non-US keyboard
-nmap ( [
-nmap ) ]
-omap ( [
-omap ) ]
-xmap ( [
-xmap ) ]
+let r_syntax_folding = 1
 
 " ###########################
 " SYNTASTIC: plugin config
@@ -89,24 +90,18 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_php_checkers = ['php']
 let g:syntastic_tex_checkers = ['chktex']
 let g:syntastic_javascript_checkers = ['standard']
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
 
 " ###########################
 " VIMMARKDOWN: personal settings
 " ###########################
 
-" Vim-markdown folding HAS to be disabled
-" with plugin vim-templates : other wise, some
-" folded text (eg YAML instructions for pandoc)
-" can be deleted.
-let g:vim_markdown_folding_disabled=1
-let g:vim_markdown_frontmatter=1
+let g:vim_markdown_folding_level = 2
 
 " ###########################
-" NVim-R: plugin config
+" VIMTEX: personal settings
 " ###########################
-" let R_path = "/bin/R"
+
+let g:vimtex_fold_enabled = 1
 
 " ###########################
 " FUGITIVE: plugin config
@@ -117,10 +112,3 @@ set diffopt+=vertical
 
 " Force git english
 let g:fugitive_git_executable = 'LANG=en_US git'
-
-" ###########################
-" TEMPLATE: plugin config
-" ###########################
-
-let g:templates_directory = ['$HOME/.dotfiles/vim/templates']
-let g:templates_global_name_prefix = 'template'
