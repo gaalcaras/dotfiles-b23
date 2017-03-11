@@ -7,6 +7,12 @@ declare -A ffiles
 folders[$HOME/.vim]=$HOME/.config/nvim
 ffiles[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
 
+# Base16
+ffiles[$HOME/.dotfiles/vim/colors.vim]=$HOME/.vimrc_background
+
+# Mutt
+folders[$HOME/.dotfiles/mutt]=$HOME/.mutt
+
 # Nylas setup
 ffiles[$HOME/.dotfiles/nylas/keymap.json]=$HOME/.nylas/keymap.json
 

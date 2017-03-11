@@ -1,0 +1,41 @@
+# Telecom configuration
+
+set header_cache = "~/.cache/mutt/telecom/headers"
+set message_cachedir = "~/.cache/mutt/telecom/messages"
+set certificate_file = "~/.cache/mutt/telecom/cert"
+
+# IMAP
+set imap_user=$my_telecom_em
+set imap_pass=$my_telecom_pw
+set folder=imaps://$my_telecom_em@z.mines-telecom.fr/
+
+# Folders
+set spoolfile="+INBOX"
+set record="+Sent"
+set postponed="+Drafts"
+set mbox="+Archives"
+
+mailboxes "+====== TELECOM =========" \
+          "+INBOX" \
+          "+Archives" \
+          "+Drafts" \
+          "+Sent" \
+          "+Trash" \
+
+# Specific macros
+macro index gi "<change-folder>+INBOX<enter>" "Go to inbox"
+macro index ga "<change-folder>+Archives<enter>" "Go to all mail"
+macro index gs "<change-folder>+Sent<enter>" "Go to sent mail"
+macro index gt "<change-folder>+Trash<enter>" "Go to trash"
+macro index gd "<change-folder>+Drafts<enter>" "Go to drafts"
+
+# Archive with one key
+macro index a "<save-message>+Archive<enter>" "Archive"
+
+# SMTP
+set realname="Gabriel Alcaras"
+set from="$my_telecom_em"
+set use_from=yes
+set smtp_url=smtps://$imap_user:$imap_pass@z.mines-telecom.fr/
+
+account-hook $folder "set imap_user=$my_telecom_em imap_pass=$my_telecom_pw"

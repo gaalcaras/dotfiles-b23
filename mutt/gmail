@@ -1,0 +1,41 @@
+# Gmail configuration
+
+set header_cache = "~/.cache/mutt/gmail/headers"
+set message_cachedir = "~/.cache/mutt/gmail/messages"
+set certificate_file = "~/.cache/mutt/gmail/cert"
+
+# IMAP
+set imap_user='$my_gmail_em@gmail.com'
+set imap_pass=$my_gmail_pw
+set folder=imaps://$my_gmail_em@imap.gmail.com/
+
+# Folders
+set spoolfile="+INBOX"
+set postponed="+[Gmail]/Brouillons"
+set record="+[Gmail]/Messages envoyés"
+set mbox="+Archives"
+
+mailboxes "+====== GMAIL ===========" \
+          "+INBOX" \
+          "+Archives" \
+          "+[Gmail]/Brouillons" \
+          "+[Gmail]/Messages envoyés" \
+          "+[Gmail]/Corbeille" \
+
+# Specific macros
+macro index,pager gi "<change-folder>+INBOX<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>+Archives<enter>" "Go to all mail"
+macro index,pager gs "<change-folder>+[Gmail]/Messages envoyés<enter>" "Go to sent mail"
+macro index,pager gt "<change-folder>+[Gmail]/Corbeille<enter>" "Go to trash"
+macro index,pager gd "<change-folder>+[Gmail]/Brouillons<enter>" "Go to drafts"
+
+# Archive with one key
+macro index,pager a "<save-message>+Archives<enter>" "Archive"
+
+# SMTP
+set realname="Gabriel Alcaras"
+set from="Gabriel Alcaras <$my_gmail_em>"
+set use_from=yes
+set smtp_url=smtps://$imap_user:$imap_pass@smtp.gmail.com
+
+account-hook $folder "set imap_user=$my_gmail_em@gmail.com imap_pass=$my_gmail_pw"

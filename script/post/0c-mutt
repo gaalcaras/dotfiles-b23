@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# Post-Install: mutt
+
+message="Do you want to set up your mutt mailboxes?"
+
+function post_install {
+  doing 'Setting up mutt'
+  $run_as_normal vim $home/.dotfiles/mutt/passwds
+  $run_as_normal gpg --gen-key
+  $run_as_normal gpg -e -r 'Gabriel Alcaras' $home/.dotfiles/mutt/passwds
+  $run_as_normal shred -xu $home/.dotfiles/mutt/passwds
+}

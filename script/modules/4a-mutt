@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# Install neomutt
+
+message="Do you want to install neomutt?"
+
+function add_app {
+  if [ "$system" == "arch" ]; then
+    apps="$apps neomutt urlscan-git"
+    doing 'Adding neomutt and urlscan'
+  elif [ "$system" == "ubuntu" ]; then
+    apps=""
+    warning 'No support for Ubuntu yet, sorry'
+  fi
+}

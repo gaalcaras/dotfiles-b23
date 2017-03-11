@@ -1,0 +1,126 @@
+# ##############
+# MUTTRC
+# ##############
+
+source "gpg2 -dq ~/.mutt/passwds.gpg |"
+
+set my_name="Gabriel Alcaras"
+alternates $my_gmail_em|$my_ehess_em|$my_telecom_em
+
+# MAILBOXES {{{
+
+# Mailboxes
+folder-hook gmail* 'source ~/.mutt/gmail'
+folder-hook ehess* 'source ~/.mutt/ehess'
+folder-hook telecom* 'source ~/.mutt/telecom'
+
+# Default mailbox
+source ~/.mutt/gmail
+
+# }}}
+
+# GENERAL PARAMETERS  {{{
+unset imap_passive
+set imap_keepalive = 300
+set mail_check = 120
+set sleep_time = 0
+
+set include=yes # Include a copy of the message when replying
+set copy=yes # Copy sent mail to Sent folder
+set delete=yes # Just delete it
+unset confirmappend # Just append messages to folder
+set quit=ask-yes
+set postpone=ask-yes
+
+set pager_index_lines = 10 # Show index lines in pager
+
+set send_charset="utf-8"
+
+set date_format="%m/%d %I:%M"
+set index_format="%2C %Z %d %-15.15F %s (%-4.4c)"
+
+# Vim, of course
+set editor=`echo \$EDITOR`
+
+auto_view text/html # View html emails
+alternative_order text/plain text/enriched text/html
+# }}}
+
+# SIDEBAR {{{
+set sidebar_visible
+set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats
+set status_chars  = " *%A"
+set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+set sidebar_divider_char = " | "
+
+set sidebar_short_path = yes
+set sidebar_delim_chars = '/.'
+# }}}
+
+# THREADS {{{
+set sort="threads" 
+set strict_threads="yes"
+set sort_browser="reverse-date"
+set sort_aux="reverse-last-date-received"
+set uncollapse_jump # Go to next unread message when thread uncollapsed
+set collapse_unread # don't collapse on an unread message
+# }}}
+
+# BINDINGS {{{
+bind editor <space> noop # Accept spaces in your folder names
+
+bind index \Cs save-message
+bind index,pager s previous-entry
+bind index,pager t next-entry
+bind index,pager } next-thread
+bind index,pager { previous-thread
+bind index,pager \Cf next-page
+bind index,pager \Cb previous-page
+bind index G last-entry
+bind index gg first-entry
+
+bind index,pager z noop
+bind index zC collapse-all
+bind index zc collapse-thread
+
+bind index,pager \CP sidebar-prev
+bind index,pager \CN sidebar-next
+bind index,pager \CO sidebar-open
+# }}}
+
+# COLORS {{{
+source ~/.mutt/colors # Nice colorscheme
+
+# Colors in the pager
+color index yellow default '.*'
+color index_author red default '.*'
+color index_number blue default
+color index_subject cyan default '.s'
+color index_size green default
+
+# Current mailbox
+color indicator cyan black
+# Color highlighted mailbox in sidebar
+color sidebar_highlight black color8
+# Color for new emails
+color sidebar_new green black
+# Color for sidebar-divider
+color sidebar_divider yellow default
+# }}}
+
+# MACROS {{{
+# View email in $BROWSER
+macro attach 'V' "<pipe-entry>cat >~/.cache/mutt/mail.html && $BROWSER ~/.cache/mutt/mail.html && rm ~/.cache/mutt/mail.html<enter>"
+
+# Display links in email
+macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
+
+# Save attachment
+macro attach S <save-entry><kill-line>/home/gabo/Downloads/mutt/<enter>
+
+# Switch between mailboxes
+macro index <F1> '<sync-mailbox><enter-command>source ~/.mutt/gmail<enter><change-folder>!<enter>'
+macro index <F2> '<sync-mailbox><enter-command>source ~/.mutt/ehess<enter><change-folder>!<enter>'
+macro index <F3> '<sync-mailbox><enter-command>source ~/.mutt/telecom<enter><change-folder>!<enter>'
+# }}}
