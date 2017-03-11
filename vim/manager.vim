@@ -1,6 +1,4 @@
-" ###########################
-" PLUG: manage plugins
-" ###########################
+" PLUG: manage plugins {{{
 
 " Reminder : PlugUpdate, PlugClean
 
@@ -20,9 +18,9 @@ function! BuildComposer(info)
   endif
 endfunction
 
-" ////////////////////////////
-" Language specific support
-" ////////////////////////////
+" }}}
+
+" Language specific support {{{
 
 " Check style and syntax
 Plug 'scrooloose/syntastic'
@@ -36,6 +34,9 @@ if has('nvim')
 
   " Use super cool nvim asynchronous markdown preview
   Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+
+  " Enable python jedi support
+  Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
 endif
 
 " Add support for TS syntax colorscheme
@@ -56,9 +57,9 @@ Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
 " Enable R support
 Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 
-" ////////////////////////////
-" General functionnality
-" ////////////////////////////
+" }}}
+
+" General functionnality {{{
 
 " Use sensible vim defaults
 Plug 'tpope/vim-sensible'
@@ -71,9 +72,12 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 
-" ////////////////////////////
-" Version control integration
-" ////////////////////////////
+" Taskwarrior is awesome
+Plug 'blindFS/vim-taskwarrior'
+
+" }}}
+
+" Version control integration {{{
 
 " Get awesome git support
 Plug 'tpope/vim-fugitive'
@@ -81,9 +85,9 @@ Plug 'tpope/vim-fugitive'
 " Display git lines status
 Plug 'airblade/vim-gitgutter'
 
-" ////////////////////////////
-" Text & code manipulation
-" ////////////////////////////
+" }}}
+
+" Text & code manipulation {{{
 
 " Enable user to change, replace or delete surround (brackets, etc.)
 Plug 'tpope/vim-surround'
@@ -103,16 +107,18 @@ Plug 'godlygeek/tabular'
 " Add support for abbreviations
 Plug 'tpope/vim-abolish'
 
-" ////////////////////////////
-" Niceties
-" ////////////////////////////
+" }}}
+
+" Niceties {{{
 
 " Use a pretty colorscheme ;-)
 Plug 'chriskempson/base16-vim'
 
-" ////////////////////////////
-" THE END
-" ////////////////////////////
+" }}}
+
+" PLUG: THE END {{{
 
 " Add plugins to &runtimepath
 call plug#end()
+
+" }}}

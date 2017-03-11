@@ -1,6 +1,4 @@
-" ###########################
-" MAPPINGS: personal tweaks
-" ###########################
+" MAPPINGS: personal tweaks {{{
 
 " Set comma as leader
 let mapleader = ","
@@ -12,14 +10,20 @@ inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
 nnoremap <C-m> <C-]>
 vnoremap <C-m> <C-]>
 
+" Open file under cursor in vertical split
+nnoremap g<CR> <C-w>vgf
+
+" Open file under cursor in horizontal split
+nnoremap g<SPACE> <C-w>f
+
 " Easier pipe operator in R: '>'
 autocmd FileType r inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
 autocmd FileType rnoweb inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
 autocmd FileType rmd inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
 
-" ###########################
-" HARDMODE: well, kind of
-" ###########################
+" }}}
+
+" HARDMODE: well, kind of {{{
 
 " Never use arrow keys ;-)
 nnoremap <Left> :echoe "Use c ;-)"<CR>
@@ -41,9 +45,9 @@ vnoremap <Down> :echoe "Use t ;-)"<CR>
 inoremap <BS> <Nop>
 inoremap <Del> <Nop>
 
-" ###########################
-" FILE_BROWSING: it's better
-" ###########################
+" }}}
+
+" FILE_BROWSING: it's better {{{
 
 " Make file search recursive in dirs and subdirs
 set path+=**
@@ -59,9 +63,9 @@ let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
-" ###########################
-" MISC: all the small things
-" ###########################
+" }}}
+
+" MISC: all the small things {{{
 
 " Enable syntax highlighting
 syntax on
@@ -71,6 +75,9 @@ set mouse-=a
 
 " Have sane text files
 set fileformat=unix
+
+" Folding with brackets
+set foldmethod=marker
 
 " The idea here is to allow wrapping, mainly for text editing.
 set wrap
@@ -119,3 +126,5 @@ hi SpellBad cterm=underline
 " Sorry ExMode, but you've gotta go
 map q: <Nop>
 nnoremap Q <nop>
+
+" }}}

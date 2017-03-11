@@ -32,9 +32,3 @@ source $HOME/.dotfiles/vim/tweaks.vim
 " ###########################
 
 source $HOME/.dotfiles/vim/bepo.vim
-
-" ###########################
-" DATE: date functions
-" ###########################
-
-source $HOME/.dotfiles/vim/date.vim
