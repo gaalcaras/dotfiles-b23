@@ -10,4 +10,10 @@ function post_install {
   $run_as_normal gpg --gen-key
   $run_as_normal gpg -e -r 'Gabriel Alcaras' $home/.dotfiles/mutt/passwds
   $run_as_normal shred -xu $home/.dotfiles/mutt/passwds
+  $run_as_normal mkdir -p $home/.cache/mutt/ehess/messages
+  $run_as_normal mkdir -p $home/.cache/mutt/ehess/headers
+  $run_as_normal mkdir -p $home/.cache/mutt/gmail/headers
+  $run_as_normal mkdir -p $home/.cache/mutt/gmail/messages
+  $run_as_normal mkdir -p $home/.cache/mutt/telecom/messages
+  $run_as_normal mkdir -p $home/.cache/mutt/telecom/headers
 }

@@ -2,7 +2,6 @@
 
 set header_cache = "~/.cache/mutt/ehess/headers"
 set message_cachedir = "~/.cache/mutt/ehess/messages"
-set certificate_file = "~/.cache/mutt/gmail/cert"
 
 # IMAP
 set imap_user=$my_ehess_em

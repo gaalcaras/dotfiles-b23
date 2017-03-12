@@ -2,7 +2,6 @@
 
 set header_cache = "~/.cache/mutt/telecom/headers"
 set message_cachedir = "~/.cache/mutt/telecom/messages"
-set certificate_file = "~/.cache/mutt/telecom/cert"
 
 # IMAP
 set imap_user=$my_telecom_em

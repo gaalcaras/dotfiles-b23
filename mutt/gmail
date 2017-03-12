@@ -2,7 +2,6 @@
 
 set header_cache = "~/.cache/mutt/gmail/headers"
 set message_cachedir = "~/.cache/mutt/gmail/messages"
-set certificate_file = "~/.cache/mutt/gmail/cert"
 
 # IMAP
 set imap_user='$my_gmail_em@gmail.com'
