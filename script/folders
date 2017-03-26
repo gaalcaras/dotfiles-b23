@@ -13,6 +13,10 @@ ffiles[$HOME/.dotfiles/vim/colors.vim]=$HOME/.vimrc_background
 # Mutt
 folders[$HOME/.dotfiles/mutt]=$HOME/.mutt
 
+# Vdirsyncer, khal and khard
+ffiles[$HOME/.dotfiles/khard/khard.conf]=$HOME/.config/khard/khard.conf
+ffiles[$HOME/.dotfiles/khal/config]=$HOME/.config/khal/config
+
 # Nylas setup
 ffiles[$HOME/.dotfiles/nylas/keymap.json]=$HOME/.nylas/keymap.json
 
