@@ -12,7 +12,7 @@ export BROWSER="/usr/bin/firefox"
 eval "$(tmuxifier init -)"
 
 # Shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
+export ZSH=$HOME/.dotfiles/zsh
 
 # Base16-Shell
 BASE16_SHELL=$HOME/.config/base16-shell/

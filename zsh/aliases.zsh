@@ -13,3 +13,5 @@ alias nv="nvim"
 alias mmv='noglob zmv -W'
 
 alias git='LANG=en_US git'
+alias khal='LC_TIME=C khal'
+alias ikhal='LC_TIME=C ikhal'
