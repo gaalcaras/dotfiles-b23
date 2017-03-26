@@ -14,6 +14,7 @@ ffiles[$HOME/.dotfiles/vim/colors.vim]=$HOME/.vimrc_background
 folders[$HOME/.dotfiles/mutt]=$HOME/.mutt
 
 # Vdirsyncer, khal and khard
+folders[$HOME/.dotfiles/vdirsyncer]=$HOME/.vdirsyncer
 ffiles[$HOME/.dotfiles/khard/khard.conf]=$HOME/.config/khard/khard.conf
 ffiles[$HOME/.dotfiles/khal/config]=$HOME/.config/khal/config
 

@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 #
-# Install neomutt
+# Install vdirsyncer on Arch
 
-message="Do you want to install neomutt?"
+message="Do you want to install vdirsyncer?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    apps="$apps neomutt urlscan-git"
-    doing 'Adding neomutt and urlscan'
+    pacaur -S vdirsyncer --needed --noconfirm
   elif [ "$system" == "ubuntu" ]; then
     apps=""
     warning 'No support for Ubuntu yet, sorry'

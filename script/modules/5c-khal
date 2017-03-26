@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Install khal and khard
+
+message="Do you want to install khal and khard?"
+
+function add_app {
+  if [ "$system" == "arch" ]; then
+    if [ ! -n "$(pacman -Qs python-pip)" ]; then
+      doing 'Installing pip'
+      pacman -s python-pip --needed --noconfirm
+    fi
+
+    $run_as_normal pip install khal khard
+  elif [ "$system" == "ubuntu" ]; then
+    apps=""
+    warning 'No support for Ubuntu yet, sorry'
+  fi
+}
