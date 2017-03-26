@@ -60,6 +60,8 @@ install_dotfiles () {
 
   for i in ${!ffiles[*]}
   do
+    dir=$(dirname "${ffiles[$i]}")
+    mkdir -p $dir
     symlink "$i" "${ffiles[$i]}" "0"
   done
 }
@@ -69,3 +71,4 @@ install_dotfiles
 
 echo
 msg 'Dotfiles are linked!'
+read -n 1 -s -p "Press any key to continue..."
