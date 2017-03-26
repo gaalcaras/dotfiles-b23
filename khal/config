@@ -1,0 +1,36 @@
+[calendars]
+
+[[personal]]
+path = ~/.calendars/personal/
+color = dark green
+
+[[trainline]]
+path = ~/.calendars/trainline/
+color = yellow
+readonly = True
+
+[[holidays]]
+path = ~/.calendars/holidays/
+color = dark blue
+readonly = True
+
+[default]
+default_calendar = personal
+highlight_event_days = true
+timedelta = 15d
+
+[keybindings]
+down = down,t
+up = up,s
+left = left,c
+right = right,r
+today = T
+
+[locale]
+timeformat = %H:%M
+dateformat = %Y-%m-%d
+longdateformat = %Y-%m-%d
+datetimeformat = %Y-%m-%d %H:%M
+longdatetimeformat = %Y-%m-%d %H:%M
+local_timezone = 'Europe/Paris'
+default_timezone = 'Europe/Paris'
