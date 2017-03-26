@@ -12,6 +12,9 @@ Abolish bsd \gls{bsd}
 Abolish lkml \gls{lkml}
 Abolish bitkeeper \gls{bitkeeper}
 Abolish versioncontrol \gls{versioncontrol}
+
+Abolish bd \textit{big data}
+
 " Abolish '---' ~---
 
 " Add quick delimiters for tex (since delimitmate and vim-latex are
