@@ -1,0 +1,63 @@
+[general]
+status_path = "~/.vdirsyncer/status/"
+
+[pair batcloud_contacts]
+a = "batcloud_contacts_local"
+b = "batcloud_contacts_remote"
+collections = ["from a", "from b"]
+
+[storage batcloud_contacts_local]
+type = "filesystem"
+path = "~/.contacts/"
+fileext = ".vcf"
+
+[storage batcloud_contacts_remote]
+type = "carddav"
+url.fetch = ["command", "pass", "show", "servers/batcloud/nextcloud-dav/url"]
+username.fetch = ["command", "pass", "show", "servers/batcloud/nextcloud-dav/user"]
+password.fetch = ["command", "pass", "show", "servers/batcloud/nextcloud-dav/pass"]
+
+[pair batcloud_calendars]
+a = "batcloud_calendars_local"
+b = "batcloud_calendars_remote"
+collections = ["personal"]
+metadata = ["color"]
+
+[storage batcloud_calendars_local]
+type = "filesystem"
+path = "~/.calendars/"
+fileext = ".ics"
+
+[storage batcloud_calendars_remote]
+type = "caldav"
+url.fetch = ["command", "pass", "show", "servers/batcloud/nextcloud-dav/url"]
+username.fetch = ["command", "pass", "show", "servers/batcloud/nextcloud-dav/user"]
+password.fetch = ["command", "pass", "show", "servers/batcloud/nextcloud-dav/pass"]
+
+[pair trainline]
+a = "trainline_local"
+b = "trainline_remote"
+collections = null
+
+[storage trainline_local]
+type = "filesystem"
+path = "~/.calendars/trainline/"
+fileext = ".ics"
+
+[storage trainline_remote]
+type = "http"
+url = "https://www.trainline.eu/calendars/dqrhtjgvacyriygvgfakbovhcpgfnaarhm.ics"
+
+[pair holidays]
+a = "holidays_local"
+b = "holidays_remote"
+collections = null
+
+[storage holidays_local]
+type = "filesystem"
+path = "~/.calendars/holidays/"
+fileext = ".ics"
+
+[storage holidays_remote]
+type = "http"
+url = "https://calendar.google.com/calendar/ical/fr.french%23holiday%40group.v.calendar.google.com/public/basic.ics"

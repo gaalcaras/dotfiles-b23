@@ -1,2 +1,3 @@
 *.local*
 *.gpg
+vdirsyncer/status
