@@ -2,12 +2,21 @@
 # MUTTRC
 # ##############
 
-source "gpg2 -dq ~/.mutt/passwds.gpg |"
+# MAILBOXES {{{
 
+# Identifiants
+set my_gmail_em=`pass show email/gmail.com/user`
+set my_gmail_pw=`pass show email/gmail.com/pass`
+
+set my_ehess_em=`pass show email/ehess.fr/user`
+set my_ehess_pw=`pass show email/ehess.fr/pass`
+
+set my_telecom_em=`pass show email/telecom-paristech.fr/user`
+set my_telecom_pw=`pass show email/telecom-paristech.fr/pass`
+
+# Noms et emails
 set my_name="Gabriel Alcaras"
 alternates $my_gmail_em|$my_ehess_em|$my_telecom_em
-
-# MAILBOXES {{{
 
 # Mailboxes
 folder-hook gmail* 'source ~/.mutt/gmail'
@@ -91,6 +100,8 @@ bind index,pager \CP sidebar-prev
 bind index,pager \CN sidebar-next
 bind index,pager \CO sidebar-open
 
+bind index,pager R group-reply
+
 # Khard
 bind editor <Tab> complete-query
 bind editor ^T    complete
@@ -127,9 +138,9 @@ macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
 macro attach S <save-entry><kill-line>/home/gabo/Downloads/mutt/<enter>
 
 # Switch between mailboxes
-macro index <F1> '<sync-mailbox><enter-command>source ~/.mutt/gmail<enter><change-folder>!<enter>'
-macro index <F2> '<sync-mailbox><enter-command>source ~/.mutt/ehess<enter><change-folder>!<enter>'
-macro index <F3> '<sync-mailbox><enter-command>source ~/.mutt/telecom<enter><change-folder>!<enter>'
+macro index,pager <F1> '<sync-mailbox><enter-command>source ~/.mutt/gmail<enter><change-folder>!<enter>'
+macro index,pager <F2> '<sync-mailbox><enter-command>source ~/.mutt/ehess<enter><change-folder>!<enter>'
+macro index,pager <F3> '<sync-mailbox><enter-command>source ~/.mutt/telecom<enter><change-folder>!<enter>'
 
 macro index,pager A "<pipe-message>khard add-email<return>" "add the sender email address to khard"
 # }}}
