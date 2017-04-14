@@ -8,7 +8,7 @@ function add_app {
   if [ "$system" == "arch" ]; then
     if [ ! -n "$(pacman -Qs python-pip)" ]; then
       doing 'Installing pip'
-      pacman -s python-pip --needed --noconfirm
+      pacman -S python-pip --needed --noconfirm
     fi
 
     $run_as_normal pip install khal khard
