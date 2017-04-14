@@ -11,7 +11,7 @@ function add_app {
       pacman -S python-pip --needed --noconfirm
     fi
 
-    $run_as_normal pip install khal khard
+    pip install khal khard
   elif [ "$system" == "ubuntu" ]; then
     apps=""
     warning 'No support for Ubuntu yet, sorry'
