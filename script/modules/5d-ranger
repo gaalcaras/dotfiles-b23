@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Install ranger
+
+message="Do you want to (re)install ranger?"
+
+function add_app {
+  apps="$apps ranger"
+  doing 'Adding ranger'
+}
