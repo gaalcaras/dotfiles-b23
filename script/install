@@ -90,6 +90,7 @@ done
 header 'Install script over \o/'
 
 echo "Don't forget to:"
+echo "+ Clone your password-store repo"
 echo "+ Log into zsh to install plugins and stuff"
 echo "+ Make zsh your default shell (chsh -l / chsh -s)"
 echo "+ Use your SSH keys (public keys are in your home dir)"
