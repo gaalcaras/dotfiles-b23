@@ -131,6 +131,8 @@ function check_flavor {
     system='arch'
     pre_install='pacman -Syu'
     do_install='pacman -S --noconfirm'
+    pacaur_install='pacaur -S --needed --noconfirm --noedit'
+    pip_install='pip install'
     msg "You're running ArchLinux. KISS!"
   elif [[ $response == *"Ubuntu"* ]]; then
     system='ubuntu'
@@ -145,6 +147,8 @@ function check_flavor {
 
 function select_apps {
   apps=""
+  pacaur_apps=""
+  pip_apps=""
 
   for f in ./script/modules/*; do
     # source install file:
@@ -165,20 +169,29 @@ function select_apps {
   done
 }
 
+function install {
+  $pre_install
+  $do_install $apps
+
+  if [[ $response == *"ARCH"* ]]; then
+    $pacaur_install $pacaur_apps
+    $pip_install $pip_apps
+  fi
+}
+
 function install_apps {
   select_apps
-  
   clear
 
   msg "You have selected the following apps to install:"
-  echo $apps
+  echo $apps $pacaur_apps $pip_apps
   echo
   msg "Do you want to proceed?"
   warning "The installer won't ask for confirmation again"
 
   select yn in "Yes" "No"; do
     case $yn in
-      Yes ) echo; $pre_install; $do_install $apps; break;;
+      Yes ) echo; install; break;;
       No ) warning "Skipping everything"; break;;
     esac
   done

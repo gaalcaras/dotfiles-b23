@@ -6,12 +6,8 @@ message="Do you want to install khal and khard?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    if [ ! -n "$(pacman -Qs python-pip)" ]; then
-      doing 'Installing pip'
-      pacman -S python-pip --needed --noconfirm
-    fi
-
-    pip install khal khard
+    apps="$apps python-pip"
+    pip_apps="$pip_apps khal khard"
   elif [ "$system" == "ubuntu" ]; then
     apps=""
     warning 'No support for Ubuntu yet, sorry'

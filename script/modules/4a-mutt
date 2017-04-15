@@ -6,7 +6,7 @@ message="Do you want to install neomutt?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    apps="$apps neomutt urlscan-git"
+    pacaur_apps="$pacaur_apps neomutt urlscan-git"
     doing 'Adding neomutt and urlscan'
   elif [ "$system" == "ubuntu" ]; then
     apps=""
