@@ -1,6 +1,9 @@
 " PLUG: manage plugins {{{
 
-" Reminder : PlugUpdate, PlugClean
+" Reminder :
+" + PlugUpdate
+" + PlugClean (remove unused directories)
+" + PlugUpgrade (upgrade vim-plug)
 
 call plug#begin('~/.vim/plugged')
 
@@ -14,10 +17,13 @@ endfunction
 " For vim-markdown-composer
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
-    !cargo build --release
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
   endif
 endfunction
-
 " }}}
 
 " Language specific support {{{
@@ -32,12 +38,12 @@ if has('nvim')
   " Enable included files completion
   Plug 'Shougo/neoinclude.vim'
 
-  " Use super cool nvim asynchronous markdown preview
-  Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-
   " Enable python jedi support
   Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
 endif
+
+" Use super cool nvim asynchronous markdown preview
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
 " Add support for TS syntax colorscheme
 Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
