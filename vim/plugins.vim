@@ -110,6 +110,15 @@ let g:vim_markdown_folding_level = 2
 " VIMTEX: personal settings {{{
 
 let g:vimtex_fold_enabled = 1
+let g:vimtex_quickfix_latexlog = {'fix_paths':0}
+
+augroup vimtex_config
+    au!
+    " Clean aux files after quitting
+    au User VimtexEventQuit     VimtexClean
+    " Open pdf when opening
+    au User VimtexEventInitPost VimtexCompile
+augroup END
 
 " }}}
 
