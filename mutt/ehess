@@ -22,11 +22,12 @@ mailboxes "+====== EHESS ===========" \
           "+Trash" \
 
 # Specific macros
-macro index gi "<change-folder>+INBOX<enter>" "Go to inbox"
-macro index ga "<change-folder>+Archive<enter>" "Go to all mail"
-macro index gs "<change-folder>+Sent<enter>" "Go to sent mail"
-macro index gt "<change-folder>+Trash<enter>" "Go to trash"
-macro index gd "<change-folder>+Drafts<enter>" "Go to drafts"
+bind index,pager g noop
+macro index,pager gi "<change-folder>+INBOX<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>+Archive<enter>" "Go to all mail"
+macro index,pager gs "<change-folder>+Sent<enter>" "Go to sent mail"
+macro index,pager gt "<change-folder>+Trash<enter>" "Go to trash"
+macro index,pager gd "<change-folder>+Drafts<enter>" "Go to drafts"
 
 # Archive with one key
 macro index a "<save-message>+Archive<enter>" "Archive"

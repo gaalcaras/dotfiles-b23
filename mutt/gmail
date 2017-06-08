@@ -22,6 +22,7 @@ mailboxes "+====== GMAIL ===========" \
           "+[Gmail]/Corbeille" \
 
 # Specific macros
+bind index,pager g noop
 macro index,pager gi "<change-folder>+INBOX<enter>" "Go to inbox"
 macro index,pager ga "<change-folder>+Archives<enter>" "Go to all mail"
 macro index,pager gs "<change-folder>+[Gmail]/Messages envoyés<enter>" "Go to sent mail"
