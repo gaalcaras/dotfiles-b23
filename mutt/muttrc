@@ -21,6 +21,9 @@ set my_telecom_pw=`pass show email/telecom-paristech.fr/pass`
 set my_name="Gabriel Alcaras"
 alternates $my_gmail_em|$my_ehess_em|$my_telecom_em
 
+# unbind g before loading macros
+bind index,pager g noop
+
 # Mailboxes
 folder-hook gmail* 'source ~/.mutt/gmail'
 folder-hook ehess* 'source ~/.mutt/ehess'
@@ -37,6 +40,8 @@ set imap_keepalive = 300
 set mail_check = 120
 set sleep_time = 0
 
+set mailcap_path = ~/.dotfiles/mutt/mailcap
+
 set include=yes # Include a copy of the message when replying
 set copy=yes # Copy sent mail to Sent folder
 set delete=yes # Just delete it
@@ -44,12 +49,19 @@ unset confirmappend # Just append messages to folder
 set quit=ask-yes
 set postpone=ask-yes
 
+# Pager
+set pager="builtin"
+set pager_context=5 # 5 lines of overlap when scrolling up or down
 set pager_index_lines = 10 # Show index lines in pager
+
+# Order headers
+unhdr_order *
+hdr_order Date: From: Subject: To: Cc
 
 set send_charset="utf-8"
 
 set date_format="%m/%d %H:%M"
-set index_format="%2C %Z %d %-15.15F %s (%-4.4c)"
+set index_format="%2C %Z %d %-15.15F %s"
 
 # Vim, of course
 set editor=`echo \$EDITOR`
@@ -59,6 +71,7 @@ set query_command= "khard email --parsable %s"
 
 auto_view text/html # View html emails
 alternative_order text/plain text/enriched text/html
+auto_view application/pdf
 # }}}
 
 # SIDEBAR {{{
@@ -111,23 +124,9 @@ bind editor ^T    complete
 # }}}
 
 # COLORS {{{
+
 source ~/.mutt/colors # Nice colorscheme
 
-# Colors in the pager
-color index yellow default '.*'
-color index_author red default '.*'
-color index_number blue default
-color index_subject cyan default '.s'
-color index_size green default
-
-# Current mailbox
-color indicator cyan black
-# Color highlighted mailbox in sidebar
-color sidebar_highlight black color8
-# Color for new emails
-color sidebar_new green black
-# Color for sidebar-divider
-color sidebar_divider yellow default
 # }}}
 
 # MACROS {{{
@@ -138,12 +137,12 @@ macro attach 'V' "<pipe-entry>cat >~/.cache/mutt/mail.html && $BROWSER ~/.cache/
 macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
 
 # Save attachment
-macro attach S <save-entry><kill-line>/home/gabo/Downloads/mutt/<enter>
+macro attach S <save-entry><bol>/home/gabo/Downloads/mutt/<eol><enter>
 
 # Switch between mailboxes
-macro index,pager <F1> '<sync-mailbox><enter-command>source ~/.mutt/gmail<enter><change-folder>!<enter>'
-macro index,pager <F2> '<sync-mailbox><enter-command>source ~/.mutt/ehess<enter><change-folder>!<enter>'
-macro index,pager <F3> '<sync-mailbox><enter-command>source ~/.mutt/telecom<enter><change-folder>!<enter>'
+macro index,pager <F1> '<enter-command>source ~/.mutt/gmail<enter><change-folder>!<enter>'
+macro index,pager <F2> '<enter-command>source ~/.mutt/ehess<enter><change-folder>!<enter>'
+macro index,pager <F3> '<enter-command>source ~/.mutt/telecom<enter><change-folder>!<enter>'
 
 macro index,pager A "<pipe-message>khard add-email<return>" "add the sender email address to khard"
 # }}}
