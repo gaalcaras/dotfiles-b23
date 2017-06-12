@@ -1,0 +1,109 @@
+[general]
+accounts = gmail, ehess, telecom
+pythonfile = ~/.dotfiles/offlineimap/offlineimap-helpers.py
+
+# Gmail setup {{{
+[Account gmail]
+localrepository = gmail-local
+remoterepository = gmail-remote
+
+[Repository gmail-local]
+type = Maildir
+localfolders = ~/.email/gmail
+
+# Reverse name trans can be tricky.
+# Debug and test new configs with "offlineimap --info"!
+# Also, read:
+# http://www.offlineimap.org/doc/nametrans.html#reverse-nametrans
+nametrans = lambda foldername: re.sub ('bak.sent', '[Gmail]/Messages envoy&AOk-s',
+                               re.sub ('bak.drafts', '[Gmail]/Brouillons',
+                               re.sub ('archives', 'Archives',
+                               re.sub ('inbox', 'INBOX',
+                               re.sub ('bak.spam', '[Gmail]/Spam',
+                               re.sub ('bak.trash', '[Gmail]/Corbeille', foldername))))))
+
+[Repository gmail-remote]
+type = IMAP
+remotehost = imap.gmail.com
+remoteusereval = get_user('gmail.com')
+remotepasseval = get_pass('gmail.com')
+
+# Translate folder names to English, lowercase + underscores
+nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
+                               re.sub ('messages_envoy&aok-s', 'sent',
+                               re.sub ('brouillons', 'drafts',
+                               re.sub ('corbeille', 'trash',
+                               re.sub (' ', '_', foldername.lower())))))
+
+# Do not sync All folders
+folderfilter = lambda foldername: foldername not in ['[Gmail]/Tous les messages']
+
+# Necessary as of OfflineIMAP 6.5.4
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# }}}
+
+# Ehess setup {{{
+[Account ehess]
+localrepository = ehess-local
+remoterepository = ehess-remote
+
+[Repository ehess-local]
+type = Maildir
+localfolders = ~/.email/ehess
+# Reverse name trans can be tricky.
+# Debug and test new configs with "offlineimap --info"!
+# Also, read:
+# http://www.offlineimap.org/doc/nametrans.html#reverse-nametrans
+nametrans = lambda foldername: re.sub ('Spam', 'Junk',
+                               re.sub ('Inbox', 'INBOX',
+                               re.sub ('_', ' ', foldername.capitalize())))
+
+[Repository ehess-remote]
+type = IMAP
+remotehost = rosa.ehess.fr
+remoteusereval = get_user('ehess.fr')
+remotepasseval = get_pass('ehess.fr')
+
+# Translate folder names, lowercase + underscores
+nametrans = lambda foldername: re.sub ('junk', 'spam',
+                               re.sub (' ', '_', foldername.lower()))
+
+# Do not sync All folders
+folderfilter = lambda foldername: foldername not in ['Chats', 'Contacts', 'Emailed Contacts']
+
+# Necessary as of OfflineIMAP 6.5.4
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# }}}
+
+# Télécom setup {{{
+[Account telecom]
+localrepository = telecom-local
+remoterepository = telecom-remote
+
+[Repository telecom-local]
+type = Maildir
+localfolders = ~/.email/telecom
+# Reverse name trans can be tricky.
+# Debug and test new configs with "offlineimap --info"!
+# Also, read:
+# http://www.offlineimap.org/doc/nametrans.html#reverse-nametrans
+nametrans = lambda foldername: re.sub ('Spam', 'Junk',
+                               re.sub ('Inbox', 'INBOX',
+                               re.sub ('_', ' ', foldername.capitalize())))
+
+[Repository telecom-remote]
+type = IMAP
+remotehost = z.mines-telecom.fr
+remoteusereval = get_user('telecom-paristech.fr')
+remotepasseval = get_pass('telecom-paristech.fr')
+
+# Translate folder names, lowercase + underscores
+nametrans = lambda foldername: re.sub ('junk', 'spam',
+                               re.sub (' ', '_', foldername.lower()))
+
+# Do not sync All folders
+folderfilter = lambda foldername: foldername not in ['Chats', 'Contacts', 'Emailed Contacts']
+
+# Necessary as of OfflineIMAP 6.5.4
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# }}}
