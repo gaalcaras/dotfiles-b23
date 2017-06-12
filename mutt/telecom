@@ -3,39 +3,31 @@
 set header_cache = "~/.cache/mutt/telecom/headers"
 set message_cachedir = "~/.cache/mutt/telecom/messages"
 
-# IMAP
-set imap_user=$my_telecom_em
-set imap_pass=$my_telecom_pw
-set folder=imaps://$my_telecom_em@z.mines-telecom.fr/
-
 # Folders
-set spoolfile="+INBOX"
-set record="+Sent"
-set postponed="+Drafts"
-set mbox="+Archives"
+set spoolfile="+telecom/inbox"
+set record="+telecom/sent"
+set postponed="+telecom/drafts"
+set mbox="+telecom/drafts"
 
 mailboxes "+====== TELECOM =========" \
-          "+INBOX" \
-          "+Archives" \
-          "+Drafts" \
-          "+Sent" \
-          "+Trash" \
+          "+telecom/inbox" \
+          "+telecom/archives" \
+          "+telecom/drafts" \
+          "+telecom/sent" \
+          "+telecom/trash" \
 
 # Specific macros
-bind index,pager g noop
-macro index,pager gi "<change-folder>+INBOX<enter>" "Go to inbox"
-macro index,pager ga "<change-folder>+Archives<enter>" "Go to all mail"
-macro index,pager gs "<change-folder>+Sent<enter>" "Go to sent mail"
-macro index,pager gt "<change-folder>+Trash<enter>" "Go to trash"
-macro index,pager gd "<change-folder>+Drafts<enter>" "Go to drafts"
+macro index,pager gi "<change-folder>+telecom/inbox<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>+telecom/archives<enter>" "Go to all mail"
+macro index,pager gs "<change-folder>+telecom/sent<enter>" "Go to sent mail"
+macro index,pager gt "<change-folder>+telecom/trash<enter>" "Go to trash"
+macro index,pager gd "<change-folder>+telecom/drafts<enter>" "Go to drafts"
 
 # Archive with one key
-macro index a "<save-message>+Archives<enter>" "Archive"
+macro index a "<save-message>+telecom/archives<enter>" "Move to archives"
 
 # SMTP
 set realname="Gabriel Alcaras"
 set from="$my_telecom_em"
 set use_from=yes
 set smtp_url=smtps://$imap_user:$imap_pass@z.mines-telecom.fr/
-
-account-hook $folder "set imap_user=$my_telecom_em imap_pass=$my_telecom_pw"

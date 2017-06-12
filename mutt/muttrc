@@ -4,6 +4,9 @@
 
 # MAILBOXES {{{
 
+# Offlineimap downloads email there:
+set folder=~/.email/
+
 # Identifiants
 set my_gmail_em=`pass show email/gmail.com/user`
 set my_gmail_pw=`pass show email/gmail.com/pass`

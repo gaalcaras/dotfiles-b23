@@ -3,34 +3,28 @@
 set header_cache = "~/.cache/mutt/ehess/headers"
 set message_cachedir = "~/.cache/mutt/ehess/messages"
 
-# IMAP
-set imap_user=$my_ehess_em
-set imap_pass=$my_ehess_pw
-set folder=imaps://$my_ehess_em@rosa.ehess.fr/
-
 # Folders
-set spoolfile="+INBOX"
-set record="+Sent"
-set postponed="+Drafts"
-set mbox="Archive"
+set spoolfile="+ehess/inbox"
+set record="+ehess/sent"
+set postponed="+ehess/drafts"
+set mbox="ehess/archives"
 
 mailboxes "+====== EHESS ===========" \
-          "+INBOX" \
-          "+Archive" \
-          "+Drafts" \
-          "+Sent" \
-          "+Trash" \
+          "+ehess/inbox" \
+          "+ehess/archives" \
+          "+ehess/drafts" \
+          "+ehess/sent" \
+          "+ehess/trash" \
 
 # Specific macros
-bind index,pager g noop
-macro index,pager gi "<change-folder>+INBOX<enter>" "Go to inbox"
-macro index,pager ga "<change-folder>+Archive<enter>" "Go to all mail"
-macro index,pager gs "<change-folder>+Sent<enter>" "Go to sent mail"
-macro index,pager gt "<change-folder>+Trash<enter>" "Go to trash"
-macro index,pager gd "<change-folder>+Drafts<enter>" "Go to drafts"
+macro index,pager gi "<change-folder>+ehess/inbox<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>+ehess/archives<enter>" "Go to archives"
+macro index,pager gs "<change-folder>+ehess/sent<enter>" "Go to sent mail"
+macro index,pager gt "<change-folder>+ehess/trash<enter>" "Go to trash"
+macro index,pager gd "<change-folder>+ehess/drafts<enter>" "Go to drafts"
 
-# Archive with one key
-macro index a "<save-message>+Archive<enter>" "Archive"
+# ehess/archives with one key
+macro index a "<save-message>+ehess/archives<enter>" "Move to archives"
 
 # SMTP
 set realname="Gabriel Alcaras"
@@ -39,5 +33,3 @@ set my_username="$my_gmail_em@gmail.com"
 set from="$my_ehess_em"
 set use_from=yes
 set smtp_url=smtps://$my_username:$my_pass@smtp.gmail.com
-
-account-hook $folder "set imap_user=$my_ehess_em imap_pass=$my_ehess_pw"
