@@ -19,6 +19,7 @@ set my_telecom_pw=`pass show email/telecom-paristech.fr/pass`
 
 # Noms et emails
 set my_name="Gabriel Alcaras"
+set use_from=yes
 alternates $my_gmail_em|$my_ehess_em|$my_telecom_em
 
 # unbind g before loading macros
@@ -35,6 +36,8 @@ source ~/.mutt/gmail
 # }}}
 
 # GENERAL PARAMETERS  {{{
+set realname = "Gabriel Alcaras"
+
 unset imap_passive
 set imap_keepalive = 300
 set mail_check = 120
