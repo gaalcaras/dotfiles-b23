@@ -54,7 +54,8 @@ install_dotfiles () {
 
   for i in ${!folders[*]}
   do
-    mkdir -p $i
+    dir=$(dirname "${folders[$i]}")
+    mkdir -p "$dir"
     symlink "$i" "${folders[$i]}" "1"
   done
 
