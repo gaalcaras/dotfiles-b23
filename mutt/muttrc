@@ -35,6 +35,8 @@ source ~/.mutt/gmail
 # }}}
 
 # GENERAL PARAMETERS  {{{
+set realname = "Gabriel Alcaras"
+
 unset imap_passive
 set imap_keepalive = 300
 set mail_check = 120

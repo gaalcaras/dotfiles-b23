@@ -27,7 +27,6 @@ macro index,pager gd "<change-folder>+telecom/drafts<enter>" "Go to drafts"
 macro index a "<save-message>+telecom/archives<enter>" "Move to archives"
 
 # SMTP
-set realname="Gabriel Alcaras"
+set sendmail = "msmtp-enqueue.sh -a telecom"
 set from="$my_telecom_em"
 set use_from=yes
-set smtp_url=smtps://$imap_user:$imap_pass@z.mines-telecom.fr/

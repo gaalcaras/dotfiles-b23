@@ -27,7 +27,6 @@ macro index,pager gd "<change-folder>+gmail/bak.drafts" "Go to drafts"
 macro index,pager a "<save-message>+gmail/archives<enter>" "Move to archives"
 
 # SMTP
-set realname="Gabriel Alcaras"
-set from="Gabriel Alcaras <$my_gmail_em>"
+set sendmail = "msmtp-enqueue.sh -a gmail"
+set from="$my_gmail_em"
 set use_from=yes
-set smtp_url=smtps://$imap_user:$imap_pass@smtp.gmail.com
