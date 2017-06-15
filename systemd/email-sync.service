@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync emails (retrieve and send queue)
+After=keyring.target network.target
+ConditionPathExistsGlob=/home/gabo/.msmtpqueue
+
+[Service]
+Type=oneshot
+ExecStart=/home/gabo/.dotfiles/bin/email-long-sync
+
+[Install]
+Also=email-sync.timer
