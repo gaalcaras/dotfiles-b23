@@ -21,11 +21,17 @@ sync_email="offlineimap -o -u quiet -l $HOME/.offlineimap-cron.log"
 send_email="msmtp-runqueue.sh"
 
 # Exit if we're offline
-check-connection
+if ! ping -c1 www.google.com > /dev/null 2>&1; then
+    echo 'No ping from Google...'
+    # But ping could be firewalled ...
 
-connection_status=$?
-if [ $connection_status -ne 0 ]; then
-  exit 1
+    # '-O -' will redirect the actual html to stdout and thus to /dev/null
+    if ! wget -O - www.google.com > /dev/null 2>&1; then
+        # Both test have failed
+        echo 'No website at google.com...'
+        echo "We're either offline or Google has been vanquished by Framasoft"
+        exit 1;
+    fi
 fi
 
 # We are online: So let's get mail going first
