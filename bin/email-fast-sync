@@ -1,24 +1,18 @@
 #!/bin/bash
 
 # ==========================================
-# Email long sync (complete)
+# Fast email sync
 #
-# Send emails in queue and retrieve emails
-# from IMAP servers, only when connected to
+# Retrieve inboxes only, when connected to
 # the Internet.
 # ==========================================
 
-# Thanks to msabramo:
-# https://github.com/msabramo/dotfiles-1/blob/master/_mutt/msmtp-cron.sh
-
 # Syncing email command with offlineimap:
+#   -f just sync inbox folders to keep it fast
 #   -o run only once
 #   -u choose interface to be quiet except in case of errors
 #   -l log it to file
-sync_email="offlineimap -o -u quiet -l $HOME/.offlineimap-cron.log"
-
-# Send emails in queue with msmtp-runqueue
-send_email="msmtp-runqueue.sh"
+sync_email="offlineimap -f inbox -o -u quiet -l $HOME/.offlineimap-cron.log"
 
 # Exit if we're offline
 check-connection
@@ -27,9 +21,6 @@ connection_status=$?
 if [ $connection_status -ne 0 ]; then
   exit 1
 fi
-
-# We are online: So let's get mail going first
-(${send_email} &> ~/.msmtp-queue.log) &
 
 # Check if offlineimap is running:
 pid=$(pgrep -f offlineimap)
