@@ -1,4 +1,5 @@
 *.local*
 *.gpg
 *.pyc
+systemd/timers.target.wants
 vdirsyncer/status
