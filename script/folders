@@ -26,3 +26,6 @@ ffiles[/home/gabo/.dotfiles/ranger/rc.conf]=$HOME/.config/ranger/rc.conf
 
 # Tmuxifier
 folders[$HOME/.dotfiles/tmux/layouts]=$HOME/.tmuxifier/layouts
+
+# Systemd units (user mode)
+folders[$HOME/.dotfiles/systemd]=$HOME/.config/systemd/user
