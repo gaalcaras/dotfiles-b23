@@ -7,15 +7,10 @@
 # Offlineimap downloads email there:
 set folder=~/.email/
 
-# Identifiants
+# Email adresses
 set my_gmail_em=`pass show email/gmail.com/user`
-set my_gmail_pw=`pass show email/gmail.com/pass`
-
 set my_ehess_em=`pass show email/ehess.fr/user`
-set my_ehess_pw=`pass show email/ehess.fr/pass`
-
 set my_telecom_em=`pass show email/telecom-paristech.fr/user`
-set my_telecom_pw=`pass show email/telecom-paristech.fr/pass`
 
 # Noms et emails
 set my_name="Gabriel Alcaras"
@@ -28,6 +23,14 @@ bind index,pager g noop
 folder-hook gmail* 'source ~/.mutt/gmail'
 folder-hook ehess* 'source ~/.mutt/ehess'
 folder-hook telecom* 'source ~/.mutt/telecom'
+
+# unset wait_key
+
+# Sync inbox on startup
+# startup-hook "push '<shell-escape>email-fast-sync<enter>'"
+
+# Sync folders and send queue on shutdown
+# shutdown-hook "push '<shell-escape>email-long-sync<enter>'"
 
 # Default mailbox
 source ~/.mutt/gmail
