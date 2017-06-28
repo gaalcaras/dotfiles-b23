@@ -11,38 +11,51 @@
 # Thanks to msabramo:
 # https://github.com/msabramo/dotfiles-1/blob/master/_mutt/msmtp-cron.sh
 
+EMAIL_LOG="$HOME/.email-syncing.log"
+
 # Syncing email command with offlineimap:
 #   -o run only once
-#   -u choose interface to be quiet except in case of errors
 #   -l log it to file
-sync_email="offlineimap -o -u quiet -l $HOME/.offlineimap-cron.log"
+#   -u quiet to just log errors
+sync_email="offlineimap -o -u quiet -l $EMAIL_LOG"
 
 # Send emails in queue with msmtp-runqueue
-send_email="msmtp-runqueue.sh"
+send_email="msmtp-runqueue"
+
+function log {
+  echo `date +"%Y-%m-%d %H:%M:%S"` "INFO: $1" >> $EMAIL_LOG 2>&1
+}
+
+log "Starting email-long-sync"
+log "Testing if we're online..."
 
 # Exit if we're offline
 if ! ping -c1 www.google.com > /dev/null 2>&1; then
-    echo 'No ping from Google...'
+    log 'No ping from Google...'
     # But ping could be firewalled ...
 
     # '-O -' will redirect the actual html to stdout and thus to /dev/null
     if ! wget -O - www.google.com > /dev/null 2>&1; then
         # Both test have failed
-        echo 'No website at google.com...'
-        echo "We're either offline or Google has been vanquished by Framasoft"
+        log 'No website at google.com...'
+        log "We're either offline or Google has been vanquished by Framasoft"
         exit 1;
     fi
 fi
 
+log "We're online, let's sync inboxes!"
+
 # We are online: So let's get mail going first
-(${send_email} &> ~/.msmtp-queue.log) &
+(${send_email} >> $EMAIL_LOG 2>&1) &
 
 # Check if offlineimap is running:
 pid=$(pgrep -f offlineimap)
 if [[ ${pid} -gt 0 ]] ; then
-    echo "Offlineimap is running with pid ${pid}"
+    log "Offlineimap is already running with pid ${pid}"
     exit 1
 fi
 
 # If offlineimap is not running, then:
 exec ${sync_email}
+
+log "Long sync completed."
