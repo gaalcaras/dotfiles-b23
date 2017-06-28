@@ -80,11 +80,13 @@ auto_view application/pdf
 # }}}
 
 # SIDEBAR {{{
-set sidebar_visible
+macro index,pager,attach '~' '<enter-command>toggle sidebar_visible<enter>'
+
+unset sidebar_visible
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
 set status_chars  = " *%A"
-set status_format = "───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+set status_format = "\n───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
 set sidebar_divider_char = " | "
 
 set sidebar_short_path = yes
