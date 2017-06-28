@@ -22,7 +22,8 @@ ffiles[$HOME/.dotfiles/khal/config]=$HOME/.config/khal/config
 ffiles[$HOME/.dotfiles/nylas/keymap.json]=$HOME/.nylas/keymap.json
 
 # Ranger
-ffiles[/home/gabo/.dotfiles/ranger/rc.conf]=$HOME/.config/ranger/rc.conf
+ffiles[$HOME/.dotfiles/ranger/rc.conf]=$HOME/.config/ranger/rc.conf
+ffiles[$HOME/.dotfiles/ranger/scope.sh]=$HOME/.config/ranger/scope.sh
 
 # Tmuxifier
 folders[$HOME/.dotfiles/tmux/layouts]=$HOME/.tmuxifier/layouts
