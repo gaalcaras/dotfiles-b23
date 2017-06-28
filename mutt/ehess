@@ -24,8 +24,8 @@ macro index,pager gt "<change-folder>+ehess/trash<enter>" "Go to trash"
 macro index,pager gd "<change-folder>+ehess/drafts<enter>" "Go to drafts"
 
 # ehess/archives with one key
-macro index a "<save-message>+ehess/archives<enter>" "Move to archives"
+macro index,pager a "<save-message>+ehess/archives<enter>" "Move to archives"
 
 # SMTP
-set sendmail="msmtp-enqueue.sh -a ehess --user=$my_gmail_em --from=$my_ehess_em"
+set sendmail="msmtp-enqueue -a ehess --user=$my_gmail_em --from=$my_ehess_em"
 set from="$my_name <$my_ehess_em>"

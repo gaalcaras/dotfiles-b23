@@ -24,8 +24,8 @@ macro index,pager gt "<change-folder>+telecom/trash<enter>" "Go to trash"
 macro index,pager gd "<change-folder>+telecom/drafts<enter>" "Go to drafts"
 
 # Archive with one key
-macro index a "<save-message>+telecom/archives<enter>" "Move to archives"
+macro index,pager a "<save-message>+telecom/archives<enter>" "Move to archives"
 
 # SMTP
-set sendmail="msmtp-enqueue.sh -a telecom --user=$my_telecom_em --from=$my_telecom_em"
+set sendmail="msmtp-enqueue -a telecom --user=$my_telecom_em --from=$my_telecom_em"
 set from="$my_name <$my_telecom_em>"
