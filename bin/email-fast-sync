@@ -14,7 +14,7 @@ EMAIL_LOG="$HOME/.email-syncing.log"
 #   -o run only once
 #   -l log it to file
 #   -u quiet to just log errors
-sync_email="offlineimap -f inbox -u quiet -o -l $EMAIL_LOG"
+sync_email="offlineimap -f INBOX -u quiet -o -l $EMAIL_LOG"
 
 function log {
   echo `date +"%Y-%m-%d %H:%M:%S"` "INFO: $1" >> $EMAIL_LOG 2>&1
