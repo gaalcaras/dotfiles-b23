@@ -13,6 +13,16 @@ MAXWAIT=120
 
 OPTIONS=$@
 
+function warn {
+  echo `date +"%Y-%m-%d %H:%M:%S"` "WARNING: $1"
+}
+
+function log {
+  echo `date +"%Y-%m-%d %H:%M:%S"` "INFO: $1"
+}
+
+log "Starting msmtp-runqueue..."
+
 # Wait for a lock that another instance has set
 WAIT=0
 while [ -e "$LOCKFILE" -a "$WAIT" -lt "$MAXWAIT" ]; do
@@ -20,10 +30,10 @@ while [ -e "$LOCKFILE" -a "$WAIT" -lt "$MAXWAIT" ]; do
   WAIT="`expr "$WAIT" + 1`"
 done
 if [ -e "$LOCKFILE" ]; then
-  echo "Cannot use $QUEUEDIR: waited $MAXWAIT seconds for"
-  echo "lockfile $LOCKFILE to vanish, giving up."
-  echo "If you are sure that no other instance of this script is"
-  echo "running, then delete the lock file."
+  warn "Cannot use $QUEUEDIR: waited $MAXWAIT seconds for"
+  warn "lockfile $LOCKFILE to vanish, giving up."
+  warn "If you are sure that no other instance of this script is"
+  warn "running, then delete the lock file."
   exit 1
 fi
 
@@ -32,7 +42,7 @@ cd "$QUEUEDIR" || exit 1
 
 # Check for empty queuedir
 if [ "`echo *.mail`" = '*.mail' ]; then
-  echo "No mails in $QUEUEDIR"
+  log "No mails in $QUEUEDIR"
   exit 0
 fi
 
@@ -42,22 +52,24 @@ touch "$LOCKFILE" || exit 1
 # Process all mails
 for MAILFILE in *.mail; do
   MSMTPFILE="`echo $MAILFILE | sed -e 's/mail/msmtp/'`"
-  echo "*** Sending $MAILFILE to `sed -e 's/^.*-- \(.*$\)/\1/' $MSMTPFILE` ..."
+  log "Sending $MAILFILE to `sed -e 's/^.*-- \(.*$\)/\1/' $MSMTPFILE` ..."
   if [ ! -f "$MSMTPFILE" ]; then
-    echo "No corresponding file $MSMTPFILE found"
-    echo "FAILURE"
+    warn "No corresponding file $MSMTPFILE found"
+    warn "FAILURE"
     continue
   fi
   msmtp $OPTIONS `cat "$MSMTPFILE"` < "$MAILFILE"
   if [ $? -eq 0 ]; then
     rm "$MAILFILE" "$MSMTPFILE"
-    echo "$MAILFILE sent successfully"
+    log "$MAILFILE sent successfully"
   else
-    echo "FAILURE"
+    warn "FAILURE"
   fi
 done
 
 # Remove the lock
 rm -f "$LOCKFILE"
+
+log "Stop msmtp-runqueue"
 
 exit 0
