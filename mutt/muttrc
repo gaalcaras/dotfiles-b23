@@ -148,8 +148,8 @@ macro attach S <save-entry><bol>/home/gabo/Downloads/mutt/<eol><enter>
 
 # Send and sync emails
 bind index,pager . noop
-macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>email-fast-sync<enter><enter-command>set wait_key<enter>' 'Sync email inboxes'
-macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>email-long-sync<enter><enter-command>set wait_key<enter>' 'Sync everything and send emails'
+macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>email-sync --fast<enter><enter-command>set wait_key<enter>' 'Sync email inboxes'
+macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>email-sync<enter><enter-command>set wait_key<enter>' 'Sync everything and send emails'
 macro index,pager .l '<shell-escape>msmtp-listqueue<enter>' 'List emails in queue'
 macro index,pager .r '<shell-escape>msmtp-runqueue<enter>' 'Send emails in queue'
 
