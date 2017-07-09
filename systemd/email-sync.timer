@@ -2,7 +2,7 @@
 Description=Timer to sync emails
 
 [Timer]
-OnUnitInactiveSec=1m
+OnUnitInactiveSec=15m
 
 [Install]
 WantedBy=timers.target

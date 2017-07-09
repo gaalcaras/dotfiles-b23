@@ -5,7 +5,7 @@ ConditionPathExistsGlob=/home/gabo/.msmtpqueue
 
 [Service]
 Type=oneshot
-ExecStart=/home/gabo/.dotfiles/bin/email-long-sync
+ExecStart=%h/.dotfiles/bin/email-sync --quiet --daily
 
 [Install]
 Also=email-sync.timer
