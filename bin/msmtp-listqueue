@@ -8,7 +8,13 @@
 
 QUEUEDIR=$HOME/.msmtpqueue
 
+function log {
+  echo `date +"%Y-%m-%d %H:%M:%S"` "INFO: $1"
+}
+
+log 'Running msmtp-listqueue...'
+
 for i in $QUEUEDIR/*.mail; do
-  egrep -s --colour -h '(^From:|^To:|^Subject:)' "$i" || echo "No mail in queue";
+  egrep -s --colour -h '(^From:|^To:|^Subject:)' "$i" || log "No mail in queue";
   echo " "
 done
