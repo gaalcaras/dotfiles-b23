@@ -1,88 +1,53 @@
 # ZMV
 
 autoload -U zmv
+autoload -U compinit && compinit
 
-# VARS
+# VARS {{{
 
-export TERM='screen-256color'
+# Path to your oh-my-zsh installation.
+export ZSH=/home/gabo/.oh-my-zsh
+
 export PATH=$HOME/.dotfiles/bin/:$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.4.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl
 export EDITOR="nvim"
 export BROWSER="/usr/bin/firefox"
+export MANPATH="/usr/local/man:$MANPATH"
+
+# }}}
+
+# ALIAS {{{
+alias reload='source ~/.zshrc'
+
+alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
+
+alias ls="ls -F --color=auto --block-size=M"
+alias la="ls -a"
+alias ll="ls -l"
+alias lla="ll -a"
+alias ldot="ll -d .*"
+
+alias nv="nvim"
+alias mmv='noglob zmv -W'
+
+alias git='LANG=en_US git'
+alias khal='LC_TIME=C khal'
+alias ikhal='LC_TIME=C ikhal'
+# }}}
 
 eval "$(tmuxifier init -)"
 
-# Shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles/zsh
+# Oh My Zsh {{{
 
-# Base16-Shell
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+ZSH_THEME="agnoster"
 
-# Stash your environment variables in ~/.localrc. This means they'll stay out
-# of your main dotfiles repository (which may be public, like this one), but
-# you'll have access to them in your scripts.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
-fi
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
 
-# All of our zsh files
-typeset -U config_files
-config_files=($ZSH/**/*.zsh)
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git colored-man-pages cp pass)
 
-# Load the path files
-for file in ${(M)config_files:#*/path.zsh}
-do
-  source $file
-done
-
-# Load everything but the path and completion files
-for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
-do
-  source $file
-done
-
-# Initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
-
-# Load every completion after autocomplete loads
-for file in ${(M)config_files:#*/completion.zsh}
-do
-  source $file
-done
-
-unset config_files
-
-if [[ -d ~/.zplug ]]
-then
-  #ZPLUG
-  source ~/.zplug/init.zsh
-
-  zplug "plugins/git", from:oh-my-zsh, if:"(( $+commands[git] ))"
-
-  puredir="$HOME/.zplug/repos/sindresorhus/pure"
-  zplug "mafredri/zsh-async", on:sindresorhus/pure
-  zplug "sindresorhus/pure", use:pure.zsh, defer:1
-
-  zplug "zsh-users/zsh-history-substring-search"
-  zplug "zplug/zplug"
-
-  # Install plugins if there are plugins that have not been installed
-  if ! zplug check --verbose; then
-      printf "Install? [y/N]: "
-      if read -q; then
-          echo; zplug install
-      fi
-  fi
-
-  # Then, source plugins and add commands to $PATH
-  zplug load
-
-fi
-
-# Load solarized dircolors
-eval `dircolors $HOME/.dotfiles/zsh/dircolors`
-
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
+source $ZSH/oh-my-zsh.sh
+# }}}

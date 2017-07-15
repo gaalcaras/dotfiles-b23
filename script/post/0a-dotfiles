@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# Post-Install: dotfiles
+
+message="Do you want to (re)install dotfiles?"
+
+function post_install {
+  doing 'Installing dotfiles'
+  git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+
+  warning 'You may need to reload zsh to enact changes'
+}

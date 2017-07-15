@@ -14,6 +14,7 @@ set my_telecom_em=`pass show email/telecom-paristech.fr/user`
 
 # Noms et emails
 set my_name="Gabriel Alcaras"
+set use_from=yes
 alternates $my_gmail_em|$my_ehess_em|$my_telecom_em
 
 # unbind g before loading macros

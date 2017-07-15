@@ -15,8 +15,6 @@ logfile ~/.msmtp.log
 account gmail
 host smtp.gmail.com
 port 587
-from gaby.alcaras@gmail.com
-user gaby.alcaras
 passwordeval "pass show email/gmail.com/pass"
 
 # }}}
@@ -26,8 +24,6 @@ passwordeval "pass show email/gmail.com/pass"
 account ehess
 host smtp.gmail.com
 port 587
-from gabriel.alcaras@ehess.fr
-user gaby.alcaras
 passwordeval "pass show email/gmail.com/pass"
 
 # }}}
@@ -37,8 +33,6 @@ passwordeval "pass show email/gmail.com/pass"
 account telecom
 host z.mines-telecom.fr
 port 587
-from gabriel.alcaras@telecom-paristech.fr
-user gabriel.alcaras@telecom-paristech.fr
 passwordeval "pass show email/telecom-paristech.fr/pass"
 
 # }}}

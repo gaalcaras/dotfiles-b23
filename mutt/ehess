@@ -27,6 +27,5 @@ macro index,pager gd "<change-folder>+ehess/drafts<enter>" "Go to drafts"
 macro index,pager a "<save-message>+ehess/archives<enter>" "Move to archives"
 
 # SMTP
-set sendmail = "msmtp-enqueue -a ehess"
-set from="$my_ehess_em"
-set use_from=yes
+set sendmail="msmtp-enqueue -a ehess --user=$my_gmail_em --from=$my_ehess_em"
+set from="$my_name <$my_ehess_em>"

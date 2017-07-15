@@ -27,6 +27,5 @@ macro index,pager gd "<change-folder>+telecom/drafts<enter>" "Go to drafts"
 macro index,pager a "<save-message>+telecom/archives<enter>" "Move to archives"
 
 # SMTP
-set sendmail = "msmtp-enqueue -a telecom"
-set from="$my_telecom_em"
-set use_from=yes
+set sendmail="msmtp-enqueue -a telecom --user=$my_telecom_em --from=$my_telecom_em"
+set from="$my_name <$my_telecom_em>"
