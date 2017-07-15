@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync contacts and calendars (with vdirsyncer)
+After=keyring.target network.target
+ConditionPathExistsGlob=/home/gabo/.dotfiles/bin/vdir-sync
+
+[Service]
+Type=oneshot
+ExecStart=%h/.dotfiles/bin/vdir-sync --daily
+
+[Install]
+Also=email-sync.timer
