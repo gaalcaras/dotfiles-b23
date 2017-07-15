@@ -128,20 +128,3 @@ map q: <Nop>
 nnoremap Q <nop>
 
 " }}}
-"
-" function! CountdownStart(seconds)
-"   let iter = a:seconds
-"   let timer = timer_start(1000, 'WriteSomeStuff', {'repeat':iter+1})
-" endfunction
-"
-" function! WriteSomeStuff(timer)
-"   let info = timer_info(a:timer)
-"   if empty(info)
-"     let msg = 'Timer is over'
-"   else
-"     let msg = printf('Countdown: %d seconds', info[0]['repeat'])
-"   endif
-"   echomsg msg
-" endfunction
-"
-" autocmd CursorHold * call CountdownStart(15)
