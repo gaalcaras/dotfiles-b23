@@ -122,7 +122,7 @@ Plug 'tpope/vim-abolish'
 " Niceties {{{
 
 " Use a pretty colorscheme ;-)
-Plug 'chriskempson/base16-vim'
+Plug 'lifepillar/vim-solarized8'
 
 " }}}
 

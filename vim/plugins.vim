@@ -1,8 +1,7 @@
-" BASE16: personal settings {{{
+" SOLARIZED: personal settings {{{
 
-" Interface with base16-shell (theme)
+" Interface with solarized dark (theme)
 if filereadable(expand("~/.dotfiles/vim/colors.vim"))
-  let base16colorspace=256
   source ~/.dotfiles/vim/colors.vim
 endif
 
