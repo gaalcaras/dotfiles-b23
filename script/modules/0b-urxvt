@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Install urxvt
+
+message="Do you want to (re)install urxvt?"
+
+function add_app {
+  apps="$apps urxvt-unicode ttf-dejavu-sans-mono-powerline-git"
+  doing 'Adding urxvt and dejavu font'
+}
