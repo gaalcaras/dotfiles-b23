@@ -78,6 +78,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 
+" Give vim some note taking abilities
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-notes'
+
 " Taskwarrior is awesome
 Plug 'blindFS/vim-taskwarrior'
 

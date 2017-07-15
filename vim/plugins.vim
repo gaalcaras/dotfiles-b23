@@ -131,3 +131,9 @@ set diffopt+=vertical
 let g:fugitive_git_executable = 'LANG=en_US git'
 
 " }}}
+
+" VIMNOTES: plugin config {{{
+
+let g:notes_directories = ['~/Nextcloud/Notes']
+
+" }}}
