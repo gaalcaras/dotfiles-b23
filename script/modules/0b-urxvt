@@ -5,6 +5,6 @@
 message="Do you want to (re)install urxvt?"
 
 function add_app {
-  apps="$apps urxvt-unicode ttf-dejavu-sans-mono-powerline-git"
+  apps="$apps urxvt-unicode urxvt-perls urxvt-fullscreen urxvt-resize-font-git ttf-dejavu-sans-mono-powerline-git"
   doing 'Adding urxvt and dejavu font'
 }

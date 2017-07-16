@@ -72,4 +72,15 @@ Xft.font: xft:DejaVu Sans Mono for Powerline:style=Book:size=10
 
 URxvt*scrollBar: false
 
+! Extensions
+URxvt.perl-ext: default,fullscreen,url-select,resize-font
+
+! URLs
+URxvt.keysym.M-s: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/xdg-open
+URxvt.url-select.underline: true
+
+! Fullscreen
+URxvt.keysym.F11: perl:fullscreen:switch
+
 ! }}}
