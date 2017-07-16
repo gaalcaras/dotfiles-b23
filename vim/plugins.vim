@@ -97,6 +97,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_php_checkers = ['php']
 let g:syntastic_tex_checkers = ['chktex']
 let g:syntastic_javascript_checkers = ['standard']
+let g:syntastic_shell_checkers = ['shellcheck']
 
 " }}}
 
