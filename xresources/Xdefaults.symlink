@@ -3,9 +3,9 @@
 
 Xft.dpi:       220
 
-! fc-list | grep Source
+! fc-list | grep DejaVu
 ! On Arch: ttf-dejavu-sans-mono-powerline-git
-Xft.font: xft:DejaVu Sans Mono for Powerline:style=Book:size=10
+URxvt.font: xft:DejaVu\ Sans\ Mono\ for\ Powerline:style=Book:size=10
 
 ! Solarized dark theme {{{
 ! https://github.com/solarized/xresources
