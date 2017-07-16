@@ -2,6 +2,9 @@
 ! Use xrdb -merge ~/.Xdefaults
 
 Xft.dpi:       220
+
+! fc-list | grep Source
+! On Arch: ttf-dejavu-sans-mono-powerline-git
 Xft.font: xft:DejaVu Sans Mono for Powerline:style=Book:size=10
 
 ! Solarized dark theme {{{
@@ -68,9 +71,5 @@ Xft.font: xft:DejaVu Sans Mono for Powerline:style=Book:size=10
 ! URxvt {{{
 
 URxvt*scrollBar: false
-
-! fc-list | grep Source
-! On Arch: ttf-dejavu-sans-mono-powerline-git
-
 
 ! }}}
