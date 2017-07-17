@@ -1,5 +1,3 @@
-# ZMV
-
 autoload -U zmv
 autoload -U compinit && compinit
 
@@ -46,6 +44,7 @@ bindkey -M vicmd 'll' vi-change-whole-line
 
 # }}}
 
+# ALIAS {{{
 alias reload='source ~/.zshrc'
 
 alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
@@ -64,7 +63,7 @@ alias khal='LC_TIME=C khal'
 alias ikhal='LC_TIME=C ikhal'
 # }}}
 
-eval "$(tmuxifier init -)"
+# eval "$(tmuxifier init -)"
 
 # Oh My Zsh {{{
 
