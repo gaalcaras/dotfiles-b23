@@ -76,7 +76,6 @@ Plug 'tpope/vim-repeat'
 " Display various info in lowerbar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'edkolev/tmuxline.vim'
 
 " Give vim some note taking abilities
 Plug 'xolox/vim-misc'

@@ -2,6 +2,10 @@
 #  Configuration
 ###########################
 
+# Powerline
+run-shell "powerline-daemon -q"
+source "/usr/lib/python3.6/site-packages/powerline/bindings/tmux/powerline.conf"
+
 # Increase scroll-back history
 set -g history-limit 5000
 
@@ -27,9 +31,6 @@ set -g visual-activity on
 # Re-number windows when one is closed
 set -g renumber-windows on
 
-# Get tmuxline configuration
-source-file /home/gabo/.dotfiles/tmux/tmuxline_solarized.conf
-
 ###########################
 #  Key Bindings
 ###########################
@@ -49,9 +50,6 @@ bind r selectp -R # switch to panel Right
 # Split windows
 bind h split-window -v
 bind v split-window -h
-
-# Create 'v' alias for selecting text
-bind-key -t vi-copy v begin-selection
 
 # Paste
 unbind C-p
