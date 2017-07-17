@@ -22,6 +22,30 @@ powerline-daemon -q
 
 # }}}
 
+# VIM KEYBINDING {{{
+bindkey -v
+
+# http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html
+bindkey -M vicmd '^' vi-beginning-of-line
+bindkey -M vicmd '0' vi-beginning-of-line
+
+bindkey -M vicmd 'c' vi-backward-char
+bindkey -M vicmd 'r' vi-forward-char
+bindkey -M vicmd 't' vi-down-line-or-history
+bindkey -M vicmd 's' vi-up-line-or-history
+
+bindkey -M vicmd 'b' backward-word
+bindkey -M vicmd 'é' forward-word
+
+bindkey -M vicmd 'yy' vi-yank-whole-line
+bindkey -M vicmd 'Y' vi-yank-eol
+
+bindkey -M vicmd 'l' vi-change-eol
+bindkey -M vicmd 'L' vi-change-eol
+bindkey -M vicmd 'll' vi-change-whole-line
+
+# }}}
+
 alias reload='source ~/.zshrc'
 
 alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
