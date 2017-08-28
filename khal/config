@@ -4,6 +4,10 @@
 path = ~/.calendars/personal/
 color = dark green
 
+[[commun]]
+path = ~/.calendars/commun/
+color = dark red
+
 [[trainline]]
 path = ~/.calendars/trainline/
 color = yellow
