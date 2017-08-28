@@ -30,8 +30,11 @@ bindkey -M vicmd '0' vi-beginning-of-line
 
 bindkey -M vicmd 'c' vi-backward-char
 bindkey -M vicmd 'r' vi-forward-char
-bindkey -M vicmd 't' vi-down-line-or-history
-bindkey -M vicmd 's' vi-up-line-or-history
+bindkey -M vicmd 't' history-search-backward
+bindkey -M vicmd 's' history-search-forward
+
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
 
 bindkey -M vicmd 'b' backward-word
 bindkey -M vicmd 'é' forward-word
