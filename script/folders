@@ -30,3 +30,6 @@ folders[$HOME/.dotfiles/tmux/layouts]=$HOME/.tmuxifier/layouts
 
 # Systemd units (user mode)
 folders[$HOME/.dotfiles/systemd]=$HOME/.config/systemd/user
+
+# Termite
+folders[$HOME/.dotfiles/termite]=$HOME/.config/termite

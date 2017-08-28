@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Install termite
+
+message="Do you want to (re)install termite?"
+
+function add_app {
+  apps="$apps termite ttf-dejavu-sans-mono-powerline-git"
+  doing 'Adding termite and dejavu powerline font'
+}
