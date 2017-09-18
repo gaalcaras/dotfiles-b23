@@ -6,6 +6,11 @@
 run-shell "powerline-daemon -q"
 source "/usr/lib/python3.6/site-packages/powerline/bindings/tmux/powerline.conf"
 
+# If TERM is set to xterm-256color mutt has problems redrawing
+# after viewing attachments.
+# See: https://superuser.com/questions/844058/tmux-mutt-not-redrawing
+set -g default-terminal "screen-256color"
+
 # Increase scroll-back history
 set -g history-limit 5000
 
