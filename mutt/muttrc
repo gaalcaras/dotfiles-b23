@@ -107,8 +107,8 @@ set collapse_unread # don't collapse on an unread message
 bind editor <space> noop # Accept spaces in your folder names
 
 bind index \Cs save-message
-bind index,pager s previous-entry
-bind index,pager t next-entry
+bind index,pager,attach s previous-entry
+bind index,pager,attach t next-entry
 bind index,pager } next-thread
 bind index,pager { previous-thread
 bind index,pager \Cf next-page
