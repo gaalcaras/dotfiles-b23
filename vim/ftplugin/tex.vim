@@ -1,7 +1,7 @@
 " ABOLISH: abbreviations for LaTeX :)
 
 Abolish git \gls{git}
-Abolish correcti{f,fs} \gls{,pl}{patch}
+Abolish patch{,s} \gls{,pl}{patch}
 Abolish Linux \gls{linux}
 Abolish vger \spacedlowsmallcaps{vger}
 Abolish cvs \gls{cvs}
@@ -24,6 +24,7 @@ inoremap <buffer> [ []<C-G>U<Left>
 inoremap <buffer> { {}<C-G>U<Left>
 inoremap <buffer> " ""<C-G>U<Left>
 inoremap <buffer> « «~~»<C-G>U<Left><Left>
+inoremap <buffer> » ~»<C-G>U<Left><Left>
 
 " Hide 80 char limit
 set colorcolumn=0
