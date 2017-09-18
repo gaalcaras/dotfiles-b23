@@ -37,8 +37,21 @@ bindkey -M vicmd 'r' vi-forward-char
 bindkey -M vicmd 't' history-search-backward
 bindkey -M vicmd 's' history-search-forward
 
-bindkey '\e[A' history-search-backward
-bindkey '\e[B' history-search-forward
+# Vi mode breaks up and down arrow keys with history search.
+# This is the fix:
+# https://github.com/robbyrussell/oh-my-zsh/issues/1720#issuecomment-286366959
+
+if [[ "${terminfo[kcuu1]}" != "" ]]; then
+  autoload -U up-line-or-beginning-search
+  zle -N up-line-or-beginning-search
+  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+# start typing + [Down-Arrow] - fuzzy find history backward
+if [[ "${terminfo[kcud1]}" != "" ]]; then
+  autoload -U down-line-or-beginning-search
+  zle -N down-line-or-beginning-search
+  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
 
 bindkey -M vicmd 'b' backward-word
 bindkey -M vicmd 'é' forward-word
