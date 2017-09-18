@@ -126,6 +126,8 @@ bind index,pager \CO sidebar-open
 
 bind index,pager R group-reply
 
+bind attach <return>    view-mailcap
+
 # Khard
 bind editor <Tab> complete-query
 bind editor ^T    complete
@@ -139,7 +141,6 @@ source ~/.mutt/colors # Nice colorscheme
 
 # MACROS {{{
 # View email in $BROWSER
-macro attach 'V' "<pipe-entry>cat >~/.cache/mutt/mail.html && $BROWSER ~/.cache/mutt/mail.html<enter>"
 
 # Display links in email
 macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
