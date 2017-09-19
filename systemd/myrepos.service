@@ -1,0 +1,10 @@
+[Unit]
+Description=Monitor all git repos state
+After=keyring.target network.target
+ConditionPathExistsGlob=/home/gabo/.dotfiles/bin/myrepos
+
+[Service]
+ExecStart=%h/.dotfiles/bin/myrepos
+
+[Install]
+Also=myrepos.timer
