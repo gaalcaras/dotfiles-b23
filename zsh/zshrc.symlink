@@ -82,6 +82,8 @@ alias mmv='noglob zmv -W'
 alias git='LANG=en_US.UTF-8 git'
 alias khal='LC_TIME=C khal'
 alias ikhal='LC_TIME=C ikhal'
+
+alias mr='mr -mj 5'
 # }}}
 
 # eval "$(tmuxifier init -)"
