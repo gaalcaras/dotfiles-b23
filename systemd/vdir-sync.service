@@ -8,4 +8,4 @@ Type=oneshot
 ExecStart=%h/.dotfiles/bin/vdir-sync --daily
 
 [Install]
-Also=email-sync.timer
+Also=vdir-sync.timer
