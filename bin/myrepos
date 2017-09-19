@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# ===============================================================
+# Check repos status and send Telegram message if needed
+# ===============================================================
+
+MR_STATUS="$HOME/.mr_last_status"
+
+# Enter your Telegram Bot API token and chat id.
+# I've stored mine in pass but it's kind of overkill really ;)
+BOT_TKN=$(pass show computers/alfred/api_token)
+CHAT_ID=$(pass show computers/alfred/chat_id)
+SEND_MSG="https://api.telegram.org/bot$BOT_TKN/sendMessage"
+
+# Use myrepos to check on all monitored repos:
+#  -m : show only repos with output
+#  -j : use 5 parallel jobs
+#  -d : run myrepos in the $HOME directory to show every registered repo
+mr -mj 5 -d "$HOME" status > "$MR_STATUS"
+
+# How long is the status message?
+N_LINES=$(wc -l "$MR_STATUS" | cut -c1)
+
+if [ "$N_LINES" -gt 0 ]; then
+  # If the message has at least one line, then alert me via Telegram.
+  MSG=$(cat "$MR_STATUS")
+  MSG="Hey Gabriel, I thought you might want to deal with these repos ASAP:
+
+$MSG
+
+I'll keep you posted."
+
+  curl -s -X POST "$SEND_MSG" -d chat_id="$CHAT_ID" \
+    -d text="$MSG"
+fi
+
+# Finally, remove the status file
+rm "$MR_STATUS"
