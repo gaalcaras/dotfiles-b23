@@ -1,0 +1,35 @@
+# Systemd Units and Timers
+
+## Units and timers overview
+
+`email-sync` and `vdir-sync` run every 15 minutes. Each script then decides if it's time to update and sync. With the `--daily` parameter, then it's about twice a day.
+
+`myrepos` is calendar based. It should run around 7PM or, if the machine was asleep at that time, as soon as it boots.
+
+## Useful commands
+
+Enable service or timer:
+
+```
+systemctl --user enable email-sync.service
+systemctl --user enable email-sync.timer
+```
+
+Check if everything is running smoothly:
+
+```
+systemctl --user status email-sync.timer
+```
+
+After changing files, reload daemon:
+
+```
+systemctl --user daemon-reload
+```
+
+To get an overview of all timers, run:
+
+```
+systemctl --user list-timers
+```
+
