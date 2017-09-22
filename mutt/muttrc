@@ -21,6 +21,7 @@ alternates $my_gmail_em|$my_ehess_em|$my_telecom_em
 bind index,pager g noop
 
 # Mailboxes
+bind index,pager . noop
 folder-hook gmail* 'source ~/.mutt/gmail'
 folder-hook ehess* 'source ~/.mutt/ehess'
 folder-hook telecom* 'source ~/.mutt/telecom'
@@ -149,9 +150,6 @@ macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
 macro attach S <save-entry><bol>/home/gabo/Downloads/mutt/<eol><enter>
 
 # Send and sync emails
-bind index,pager . noop
-macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>email-sync --fast<enter><enter-command>set wait_key<enter>' 'Sync email inboxes'
-macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>email-sync<enter><enter-command>set wait_key<enter>' 'Sync everything and send emails'
 macro index,pager .l '<shell-escape>msmtp-listqueue<enter>' 'List emails in queue'
 macro index,pager .r '<shell-escape>msmtp-runqueue<enter>' 'Send emails in queue'
 

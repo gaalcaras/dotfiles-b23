@@ -23,6 +23,9 @@ macro index,pager gs "<change-folder>+telecom/sent<enter>" "Go to sent mail"
 macro index,pager gt "<change-folder>+telecom/trash<enter>" "Go to trash"
 macro index,pager gd "<change-folder>+telecom/drafts<enter>" "Go to drafts"
 
+macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>offlineimap -o -a telecom -f INBOX<enter><enter-command>set wait_key<enter>' 'Sync inbox'
+macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>offlineimap -o -a telecom<enter><enter-command>set wait_key<enter>' 'Sync everything'
+
 # Archive with one key
 macro index,pager a "<save-message>+telecom/archives<enter>" "Move to archives"
 
