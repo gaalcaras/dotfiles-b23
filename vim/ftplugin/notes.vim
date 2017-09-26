@@ -1,22 +1,21 @@
+" Case doesn't matter in notes
+set ignorecase
+
 " DATE: {{{
 
 iab <expr> ddate strftime("%c")
 
 " }}}
 
-" ABOLISH: {{{
-
-
-" }}}
-
 " REMAPS: {{{
 
-" Add quick delimiters for tex (since delimitmate and vim-latex are
-" conflicting)
+" Some useful completion when taking notes
 inoremap <buffer> ( ()<C-G>U<Left>
 inoremap <buffer> [ []<C-G>U<Left>
 inoremap <buffer> { {}<C-G>U<Left>
-inoremap <buffer> " ""<C-G>U<Left>
-inoremap <buffer> « «~~»<C-G>U<Left><Left>
+inoremap <buffer> ' ''<C-G>U<Left><Left>
+inoremap <buffer> " ""<C-G>U<Left><Left>
+inoremap <buffer> « ""<C-G>U<Left><Left>
+inoremap <buffer> » "<C-G>U<Left><Left>
 
 " }}}

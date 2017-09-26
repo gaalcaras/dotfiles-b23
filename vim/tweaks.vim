@@ -127,4 +127,8 @@ hi SpellBad cterm=underline
 map q: <Nop>
 nnoremap Q <nop>
 
+" Lowercase is case sensitive, upper case is not
+set ignorecase
+set smartcase
+
 " }}}
