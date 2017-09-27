@@ -6,13 +6,12 @@ function! LastModified()
   if &modified
     let save_cursor = getpos(".")
     let n = min([20, line("$")])
-    keepjumps exe '1,' . n . 's#^\(.\{,10}lastmodified: \).*#\1' .
+    keepjumps exe '1,' . n . 's#^\(.\{,10}Dernière modification : \)$#\1' .
           \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
   endif
 endfun
-autocmd BufWritePre * call LastModified()
 
 " When new file is created, edit any 'date: ' in the first 20 lines.
 " 'date: ' can have up to 10 characters before (they are retained). 
@@ -21,9 +20,8 @@ autocmd BufWritePre * call LastModified()
 function! DateCreated()
     let save_cursor = getpos(".")
     let n = min([20, line("$")])
-    keepjumps exe '1,' . n . 's#^\(.\{,10}date: \).*#\1' .
-          \ strftime('%d %B %Y') . '#e'
+    keepjumps exe '1,' . n . 's#^\(.\{,10}Date de création      : \).*#\1' .
+          \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
 endfun
-autocmd BufNewFile * call DateCreated()
