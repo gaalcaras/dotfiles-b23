@@ -50,11 +50,15 @@ else
 
   last_log=$(tail -n1 "$output_file" | cut -d, -f1)
   if [ "$last_log" = "$date" ]; then
-    # If last log was today, then remove last logged line
+    # If last log was today, update word count
+    last_wc=$(tail -n1 "$output_file" | cut -d, -f2)
+    diff_words=$((diff_words+last_wc))
+
+    # Remove last logged line
     tmp_output=$(head -n -1 "$output_file")
     echo "$tmp_output" > "$output_file"
   fi
 
-  # Add today's word count to csv
+  # Add today's updated word count to csv
   echo "$date,$diff_words," >> "$output_file"
 fi
