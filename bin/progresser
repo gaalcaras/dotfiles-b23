@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# ===============================================
+# progresser
+#
+# by Gabriel Alcaras
+#
+# A simple program to track and log your writing
+# progress.
+#
+# Prerequisite : has to be run from a git repo.
+#
+# Arguments :
+# -o : output file (csv format)
+#
+# ===============================================
+
+#TODO: -a argument
+
+while getopts o: option
+do
+ case "${option}"
+ in
+ o) output_file=$OPTARG;;
+ esac
+done
+
+# Getting word count from diff between master and staged
+diff_words=$(git diff --staged --word-diff=porcelain master | grep -e '^+[^+]' | wc -w)
+date=$(date +%Y-%m-%d)
+
+if [ -z "${output_file+x}" ]; then
+  # If no -o argument
+  echo "You have staged $diff_words words so far!"
+else
+  # Else, if an output file has been specified
+
+  if [ ! -f "$output_file" ]; then
+    # If the file doesn't exist, give it some headers
+    echo 'date,words,' >> "$output_file"
+  fi
+
+  last_log=$(tail -n1 "$output_file" | cut -d, -f1)
+  if [ "$last_log" = "$date" ]; then
+    # If last log was today, then remove last logged line
+    tmp_output=$(head -n -1 "$output_file")
+    echo "$tmp_output" > "$output_file"
+  fi
+
+  # Add today's word count to csv
+  echo "$date,$diff_words," >> "$output_file"
+fi
