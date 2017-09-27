@@ -13,6 +13,12 @@
 # Arguments :
 # -o : output file (csv format)
 #
+# If you want to exclude files or directories
+# from this count, you should update your
+# .gitattributes file:
+#
+# *.csv -dif
+#
 # ===============================================
 
 #TODO: -a argument
