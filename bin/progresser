@@ -39,7 +39,7 @@ diff_words=$(eval "$wc_cmd")
 
 if [ -z "${output_file+x}" ]; then
   # If no -o argument
-  echo "You have staged $diff_words words so far!"
+  echo "You have staged $diff_words new words so far!"
 else
   # Else, if an output file has been specified
 
