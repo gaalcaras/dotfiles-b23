@@ -25,9 +25,11 @@ do
  esac
 done
 
-# Getting word count from diff between master and staged
-diff_words=$(git diff --staged --word-diff=porcelain master | grep -e '^+[^+]' | wc -w)
 date=$(date +%Y-%m-%d)
+
+# Getting word count from diff between master and staged
+wc_cmd="git diff --staged --word-diff=porcelain master | grep -e '^+[^+]' | wc -w"
+diff_words=$(eval "$wc_cmd")
 
 if [ -z "${output_file+x}" ]; then
   # If no -o argument
