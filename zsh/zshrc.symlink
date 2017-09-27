@@ -70,21 +70,36 @@ alias reload='source ~/.zshrc'
 
 alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
 
+# ls aliases
 alias ls="ls -F --color=auto --block-size=M"
 alias la="ls -a"
 alias ll="ls -l"
 alias lla="ll -a"
 alias ldot="ll -d .*"
 
-alias nv="nvim"
 alias mmv='noglob zmv -W'
 
+# Locale stuff
 alias git='LANG=en_US.UTF-8 git'
 alias khal='LC_TIME=C khal'
 alias ikhal='LC_TIME=C ikhal'
 
-alias mr='mr -mj 5'
+alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
+
+# Vim and stuff
+alias nv="nvim"
 # }}}
+
+# Functions {{{
+
+note() {
+  nvim -c "Note $1"
+}
+
+compdef '_path_files -W $HOME/Zettelkasten/zettel' note
+
+# }}}
+
 
 # eval "$(tmuxifier init -)"
 
