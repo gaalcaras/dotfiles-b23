@@ -25,3 +25,17 @@ function! DateCreated()
     call histdel('search', -1)
     call setpos('.', save_cursor)
 endfun
+
+" When new file is created, add the time id on the first line.
+
+function! DateID()
+    let save_cursor = getpos(".")
+
+    " autocmd can be called twice, so we check that the first
+    " character on the first line is not the beginning of a date
+    exe '1s#^\([^2]\)#' .  strftime('%Y%m%d%H%M') . ' \1#e'
+    call histdel('search', -1)
+
+    " Move cursor after time id
+    call setpos('.', [0, 1, 14])
+endfun
