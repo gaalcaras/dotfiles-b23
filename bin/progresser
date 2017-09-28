@@ -45,7 +45,7 @@ else
 
   if [ ! -f "$output_file" ]; then
     # If the file doesn't exist, give it some headers
-    echo 'date,words,' >> "$output_file"
+    echo 'date,words' >> "$output_file"
   fi
 
   last_log=$(tail -n1 "$output_file" | cut -d, -f1)
@@ -60,5 +60,5 @@ else
   fi
 
   # Add today's updated word count to csv
-  echo "$date,$diff_words," >> "$output_file"
+  echo "$date,$diff_words" >> "$output_file"
 fi
