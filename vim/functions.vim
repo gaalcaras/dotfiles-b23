@@ -18,17 +18,20 @@ endfun
 " Restores cursor and window position using save_cursor variable.
 
 function! DateCreated()
+  if &modified
     let save_cursor = getpos(".")
     let n = min([20, line("$")])
     keepjumps exe '1,' . n . 's#^\(.\{,10}Date de création      : \).*#\1' .
           \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
+  endif
 endfun
 
 " When new file is created, add the time id on the first line.
 
 function! DateID()
+  if &modified
     let save_cursor = getpos(".")
 
     " autocmd can be called twice, so we check that the first
@@ -38,4 +41,5 @@ function! DateID()
 
     " Move cursor after time id
     call setpos('.', [0, 1, 14])
+  endif
 endfun
