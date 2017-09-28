@@ -6,7 +6,7 @@ function! LastModified()
   if &modified
     let save_cursor = getpos(".")
     let n = min([20, line("$")])
-    keepjumps exe '1,' . n . 's#^\(.\{,10}Dernière modification : \)$#\1' .
+    keepjumps exe '1,' . n . 's#^\(.\{,10}Dernière modification : \).*$#\1' .
           \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
@@ -21,7 +21,7 @@ function! DateCreated()
   if &modifiable
     let save_cursor = getpos(".")
     let n = min([20, line("$")])
-    keepjumps exe '1,' . n . 's#^\(.\{,10}Date de création      : \).*#\1' .
+    keepjumps exe '1,' . n . 's#^\(.\{,10}Date de création      : \)$#\1' .
           \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
     call histdel('search', -1)
     call setpos('.', save_cursor)
