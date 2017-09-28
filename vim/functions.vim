@@ -32,14 +32,16 @@ endfun
 
 function! DateID()
   if &modifiable
-    let save_cursor = getpos(".")
+    if (&ft == 'notes')
+      let save_cursor = getpos(".")
 
-    " autocmd can be called twice, so we check that the first
-    " character on the first line is not the beginning of a date
-    exe '1s#^\([^2]\)#' .  strftime('%Y%m%d%H%M') . ' \1#e'
-    call histdel('search', -1)
+      " autocmd can be called twice, so we check that the first
+      " character on the first line is not the beginning of a date
+      exe '1s#^\([^2]\)#' .  strftime('%Y%m%d%H%M') . ' \1#e'
+      call histdel('search', -1)
 
-    " Move cursor after time id
-    call setpos('.', [0, 1, 14])
+      " Move cursor after time id
+      call setpos('.', [0, 1, 14])
+    endif
   endif
 endfun
