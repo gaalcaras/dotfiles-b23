@@ -9,6 +9,7 @@
 
 QUEUEDIR="$HOME/.msmtpqueue"
 LOCKFILE="$QUEUEDIR/.lock"
+TRACKFILE="$QUEUEDIR/progress.csv"
 MAXWAIT=120
 
 OPTIONS=$*
@@ -51,6 +52,12 @@ if [ "$(echo ./*.mail)" = './*.mail' ]; then
   exit 0
 fi
 
+# Create tracking file
+if [ ! -f "$TRACKFILE" ]; then
+  # If the file doesn't exist, give it some headers
+  echo 'date,words' >> "$TRACKFILE"
+fi
+
 # Lock the $QUEUEDIR
 touch "$LOCKFILE" || exit 1
 
@@ -69,8 +76,13 @@ for MAILFILE in *.mail; do
   CONTENT=( $(cat "$MSMTPFILE") )
   if msmtp "$OPTIONS" "${CONTENT[@]}" < "$MAILFILE"
   then
-    rm "$MAILFILE" "$MSMTPFILE"
     log "$MAILFILE sent successfully"
+
+    # Log the number of words in the email (headers are excluded)
+    WC=$(sed '/^[a-zA-Z\-]*: /d' "$MAILFILE" | wc -w)
+    echo "$(date +"%Y-%m-%d"),$WC" >> "$TRACKFILE"
+
+    rm "$MAILFILE" "$MSMTPFILE"
   else
     warn "FAILURE"
   fi
