@@ -136,5 +136,6 @@ let g:fugitive_git_executable = 'LANG=en_US git'
 
 let g:notes_directories = ['~/Zettelkasten/zettel']
 let g:notes_new_note_template = '~/Zettelkasten/new_zettel'
+let g:notes_title_sync = 'rename_file'
 
 " }}}
