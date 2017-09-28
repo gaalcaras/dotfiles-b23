@@ -7,7 +7,8 @@ iab <expr> ddate strftime("%c")
 
 source $HOME/.dotfiles/vim/functions.vim
 autocmd BufWritePre * call LastModified()
-autocmd BufReadPost * nested call DateCreated()
+autocmd BufRead * nested call DateCreated()
+autocmd BufReadPost * call DateID()
 
 " }}}
 
