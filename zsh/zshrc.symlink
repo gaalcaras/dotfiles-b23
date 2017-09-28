@@ -93,13 +93,12 @@ alias nv="nvim"
 # Functions {{{
 
 note() {
-  nvim -c "Note $1"
+  nvim -c "Note $@"
 }
 
 compdef '_path_files -W $HOME/Zettelkasten/zettel' note
 
 # }}}
-
 
 # eval "$(tmuxifier init -)"
 
