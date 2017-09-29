@@ -3,3 +3,4 @@
 *.pyc
 systemd/timers.target.wants
 vdirsyncer/status
+mutt/alias
