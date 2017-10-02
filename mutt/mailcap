@@ -2,3 +2,7 @@ text/html; uconv --add-signature -f %{charset} -t UTF-8 %s && $BROWSER -new-tab 
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
 
 application/pdf; /usr/bin/evince %s 2>/dev/null;
+
+image/jpeg; eog %s 2>/dev/null;
+image/png; eog %s 2>/dev/null;
+image/gif; eog %s 2>/dev/null;
