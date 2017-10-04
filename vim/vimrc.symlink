@@ -92,29 +92,6 @@ map q: <Nop>
 nnoremap Q <nop>
 
 " }}}
-" Hardmode {{{
-
-" Never use arrow keys ;-)
-nnoremap <Left> :echoe "Use c ;-)"<CR>
-nnoremap <Right> :echoe "Use r ;-)"<CR>
-nnoremap <Up> :echoe "Use s ;-)"<CR>
-nnoremap <Down> :echoe "Use t ;-)"<CR>
-
-inoremap <Left> <Esc>:echoe "Use c ;-)"<CR>
-inoremap <Right> <Esc>:echoe "Use r ;-)"<CR>
-inoremap <Up> <Esc>:echoe "Use s ;-)"<CR>
-inoremap <Down> <Esc>:echoe "Use t ;-)"<CR>
-
-vnoremap <Left> :echoe "Use c ;-)"<CR>
-vnoremap <Right> :echoe "Use r ;-)"<CR>
-vnoremap <Up> :echoe "Use s ;-)"<CR>
-vnoremap <Down> :echoe "Use t ;-)"<CR>
-
-" Say goodbye to backspace and delete in Insert mode
-inoremap <BS> <Nop>
-inoremap <Del> <Nop>
-
-" }}}
 
 " }}}
 " PLUGINS: handled by Plug {{{
@@ -173,7 +150,6 @@ Plug 'vim-airline/vim-airline-themes'
 " Give vim some note taking abilities
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
-
 
 " }}}
 " Text & code manipulation {{{
@@ -320,6 +296,64 @@ let g:notes_title_sync = 'rename_file'
 " }}}
 
 " }}}
+" Hardmode {{{
+
+function! DisableIfNonCounted(move) range
+    if v:count
+        return a:move
+    else
+        return ""
+    endif
+endfunction
+
+function! SetDisablingOfBasicMotionsIfNonCounted(on)
+    let keys_to_disable = get(g:, "keys_to_disable_if_not_preceded_by_count", ["c", "t", "s", "r"])
+    if a:on
+        for key in keys_to_disable
+            execute "noremap <expr> <silent> " . key . " DisableIfNonCounted('" . key . "')"
+        endfor
+        let g:keys_to_disable_if_not_preceded_by_count = keys_to_disable
+        let g:is_non_counted_basic_motions_disabled = 1
+    else
+        for key in keys_to_disable
+            try
+                execute "unmap " . key
+
+                execute "noremap c h"
+                execute "noremap r l"
+                execute "noremap t j"
+                execute "noremap s k"
+            catch /E31:/
+            endtry
+        endfor
+        let g:is_non_counted_basic_motions_disabled = 0
+    endif
+endfunction
+
+function! ToggleDisablingOfBasicMotionsIfNonCounted()
+    let is_disabled = get(g:, "is_non_counted_basic_motions_disabled", 0)
+    if is_disabled
+        call SetDisablingOfBasicMotionsIfNonCounted(0)
+    else
+        call SetDisablingOfBasicMotionsIfNonCounted(1)
+    endif
+endfunction
+
+command! ToggleDisablingOfNonCountedBasicMotions :call ToggleDisablingOfBasicMotionsIfNonCounted()
+command! DisableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(1)
+command! EnableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(0)
+
+" Never use arrow keys ;-)
+noremap <Left> :echoe "Use c ;-)"<CR>
+noremap <Right> :echoe "Use r ;-)"<CR>
+noremap <Up> :echoe "Use s ;-)"<CR>
+noremap <Down> :echoe "Use t ;-)"<CR>
+
+" Say goodbye to backspace and delete in Insert mode
+inoremap <BS> <Nop>
+inoremap <Del> <Nop>
+
+" }}}
 " LAYOUT: settings for french bépo layout {{{
 
 " {W} -> [É] {{{
@@ -361,9 +395,6 @@ noremap S K
 " Corollaire : repli suivant / précédent
 noremap zs zj
 noremap zt zk
-
-" }}}
-" {HJKL} <- [CTSR] {{{
 
 " {J} = « Jusqu'à »           (j = suivant, J = précédant)
 noremap j t
