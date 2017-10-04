@@ -27,7 +27,7 @@ set foldmethod=marker " Folding with brackets
 
 set linebreak " Wrap lines smartly (not always in the middle of a word)
 set nolist " Disable list (otherwise, breaks linebreak)
-set formatoptions=qrn1tl " Add options for wrapping (see help for details)
+set formatoptions=qrn1t " Add options for wrapping (see help for details)
 silent! set breakindent showbreak=.. " Visually show soft breaks
 
 set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
