@@ -2,8 +2,8 @@
 " NEOVIM: better vim
 " ###########################
 
-" Set ; as localleader (before any mapping command)
 let maplocalleader = ';'
+let mapleader = ","
 
 if has('nvim')
   set runtimepath+=/usr/share/vim/vimfiles
@@ -11,23 +11,26 @@ endif
 
 " PLUGINS: handled by Plug {{{
 
-" PLUG: manage plugins {{{
-
-" Reminder :
-" + PlugUpdate
-" + PlugClean (remove unused directories)
-" + PlugUpgrade (upgrade vim-plug)
-
 call plug#begin('~/.vim/plugged')
 
-" Add support for async processes
-Plug 'Shougo/vimproc.vim', { 'do' : 'make' }
+Plug 'Shougo/vimproc.vim', { 'do' : 'make' } " Add support for async processes
 
 function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
 
-" For vim-markdown-composer
+" Language specific support {{{
+
+Plug 'scrooloose/syntastic' " Check style and syntax
+
+if has('nvim')
+  " Use asynchronous completion
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/neoinclude.vim'
+  Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
+endif
+
+" Use super cool nvim asynchronous markdown preview
 function! BuildComposer(info)
   if a:info.status != 'unchanged' || a:info.force
     if has('nvim')
@@ -37,113 +40,59 @@ function! BuildComposer(info)
     endif
   endif
 endfunction
-" }}}
 
-" Language specific support {{{
-
-" Check style and syntax
-Plug 'scrooloose/syntastic'
-
-if has('nvim')
-  " Use asynchronous completion
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-  " Enable included files completion
-  Plug 'Shougo/neoinclude.vim'
-
-  " Enable python jedi support
-  Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
-endif
-
-" Use super cool nvim asynchronous markdown preview
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
-" Add support for TS syntax colorscheme
-Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
-
-" Improve javascript indentation and syntax support
-Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript', 'es6'] }
-
-" Add latex support
+Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript'] }
 Plug 'lervag/vimtex', { 'for' : ['latex', 'tex'] }
-
-" Enable markdown support
 Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
-
-" Enable markdown toc generation
 Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
-
-" Enable R support
 Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 
 " }}}
 
 " General functionnality {{{
 
-" Use sensible vim defaults
-Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sensible' " Use sensible vim defaults
 
-" Enable repeat for plugins
-Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat' " Enable repeat for plugins
 
-" Display various info in lowerbar
-Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline' " Display various info in lowerbar
 Plug 'vim-airline/vim-airline-themes'
 
 " Give vim some note taking abilities
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 
-" Taskwarrior is awesome
-Plug 'blindFS/vim-taskwarrior'
+Plug 'blindFS/vim-taskwarrior' " Taskwarrior is awesome
 
 " }}}
 
 " Version control integration {{{
 
-" Get awesome git support
-Plug 'tpope/vim-fugitive'
-
-" Display git lines status
-Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive' " Get awesome git support
+Plug 'airblade/vim-gitgutter' " Display git lines status
 
 " }}}
 
 " Text & code manipulation {{{
 
-" Enable user to change, replace or delete surround (brackets, etc.)
-Plug 'tpope/vim-surround'
-
-" Automatically set 'set:paste' in insert mode
-Plug 'ConradIrwin/vim-bracketed-paste'
-
-" Enable toggling comment
-Plug 'tomtom/tcomment_vim'
-
-" Handle delimiters automatically
-Plug 'raimondi/delimitmate'
-
-" Add text alignment capabilities to vim
-Plug 'godlygeek/tabular'
-
-" Add support for abbreviations
-Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-surround' " Improve surroundings manipulations
+Plug 'ConradIrwin/vim-bracketed-paste' " Set 'set:paste' in insert mode
+Plug 'tomtom/tcomment_vim' " Enable toggling comment
+Plug 'raimondi/delimitmate' " Handle delimiters automatically
+Plug 'godlygeek/tabular' " Add text alignment capabilities to vim
+Plug 'tpope/vim-abolish' " Add support for abbreviations
 
 " }}}
 
 " Niceties {{{
 
-" Use a pretty colorscheme ;-)
-Plug 'lifepillar/vim-solarized8'
+Plug 'lifepillar/vim-solarized8' " Use a pretty colorscheme ;-)
 
 " }}}
 
-" PLUG: THE END {{{
-
-" Add plugins to &runtimepath
-call plug#end()
-
-" }}}
+call plug#end() " Add plugins to &runtimepath
 
 " }}}
 
@@ -265,21 +214,16 @@ let g:vimtex_quickfix_latexlog = {'fix_paths':0}
 
 augroup vimtex_config
     au!
-    " Clean aux files after quitting
-    au User VimtexEventQuit     VimtexClean
-    " Open pdf when opening
-    au User VimtexEventInitPost VimtexCompile
+    au User VimtexEventQuit     VimtexClean " Clean aux files after quitting
+    au User VimtexEventInitPost VimtexCompile " Open pdf when opening
 augroup END
 
 " }}}
 
 " FUGITIVE: plugin config {{{
 
-" Force vertical split event on small screens
-set diffopt+=vertical
-
-" Force git english
-let g:fugitive_git_executable = 'LANG=en_US git'
+set diffopt+=vertical " Force vertical split event on small screens
+let g:fugitive_git_executable = 'LANG=en_US git' " Force git english
 
 " }}}
 
@@ -297,21 +241,16 @@ let g:notes_title_sync = 'rename_file'
 
 " MAPPINGS: personal tweaks {{{
 
-" Set comma as leader
-let mapleader = ","
-
-" Hit Control+g to "getaway" from parenthesis
-inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
+inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a " Control+g to "getaway"
 
 " Easier tag navigation
 nnoremap <C-m> <C-]>
 vnoremap <C-m> <C-]>
 
-" Open file under cursor in vertical split
-nnoremap g<CR> <C-w>vgf
+nnoremap g<CR> <C-w>vgf " Open file under cursor in vertical split
+nnoremap g<SPACE> <C-w>f " Open file under cursor in horizontal split
 
-" Open file under cursor in horizontal split
-nnoremap g<SPACE> <C-w>f
+nnoremap <leader>t :m-2<CR>:j<CR> " Append the line above to the end
 
 " Easier pipe operator in R: '>'
 autocmd FileType r inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
@@ -346,17 +285,14 @@ inoremap <Del> <Nop>
 
 " FILE_BROWSING: it's better {{{
 
-" Make file search recursive in dirs and subdirs
-set path+=**
+set path+=** " Make file search recursive in dirs and subdirs
 
-" disable annoying banner
-let g:netrw_banner=0
-" open in prior window
-let g:netrw_browse_split=4
-" open splits to the right
-let g:netrw_altv=1
-" tree view
-let g:netrw_liststyle=3 
+let g:netrw_banner=0 " Disable annoying banner
+let g:netrw_browse_split=4 " Open in prior window
+let g:netrw_altv=1 " Open splits to the right
+
+" Tree view
+let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
@@ -364,17 +300,13 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " MISC: all the small things {{{
 
-" Enable syntax highlighting
-syntax on
+syntax on " Enable syntax highlighting
 
-" Disable mouse visual mode
-set mouse-=a
+set mouse-=a " Disable mouse visual mode
 
-" Have sane text files
-set fileformat=unix
+set fileformat=unix " Have sane text files
 
-" Folding with brackets
-set foldmethod=marker
+set foldmethod=marker " Folding with brackets
 
 " The idea here is to allow wrapping, mainly for text editing.
 set wrap
@@ -387,19 +319,15 @@ set wrapmargin=0
 set formatoptions=qrn1
 silent! set breakindent showbreak=..
 
-" Show cursor at all times
-set ruler
+set ruler " Show cursor at all times
 
-" Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
+set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 
 set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 
-" Indent sanely
-set smartindent
+set smartindent " Indent sanely
 
-" Relative numbers
-set relativenumber
+set relativenumber " Relative numbers
 set number
 
 " Get rid of additionnal files
@@ -407,14 +335,11 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" Prefer a slightly higher line height
-set linespace=3
+set linespace=3 " Prefer a slightly higher line height
 
-" Hide mouse when typing
-set mousehide
+set mousehide " Hide mouse when typing
 
-" Enable both French and English spell check
-setlocal spell spelllang=fr,en
+setlocal spell spelllang=fr,en " Enable both French and English spell check
 
 " Underline spell check results
 hi clear SpellBad
@@ -479,19 +404,19 @@ noremap zt zk
 
 " {HJKL} <- [CTSR] {{{
 
-" {J} = « Jusqu'à »            (j = suivant, J = précédant)
+" {J} = « Jusqu'à »           (j = suivant, J = précédant)
 noremap j t
 noremap J T
 
-" {L} = « Change »             (l = attend un mvt, L = jusqu'à la fin de ligne)
+" {L} = « Change »            (l = attend un mvt, L = jusqu'à la fin de ligne)
 noremap l c
 noremap L C
 
-" {H} = « Remplace »           (h = un caractère slt, H = reste en « Remplace »)
+" {H} = « Remplace »          (h = un caractère slt, H = reste en "remplace")
 noremap h r
 noremap H R
 
-" {K} = « Substitue »          (k = caractère, K = ligne)
+" {K} = « Substitue »         (k = caractère, K = ligne)
 noremap k s
 noremap K S
 
@@ -515,8 +440,7 @@ noremap gé gt
 noremap gB :exe "silent! tabfirst"<CR>
 noremap gÉ :exe "silent! tablast"<CR>
 
-" optionnel : {g"} pour aller au début de la ligne écran
-noremap g" g0
+noremap g" g0 optionnel : {g"} pour aller au début de la ligne écran
 
 " }}}
 
