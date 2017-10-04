@@ -1,14 +1,120 @@
 " ###########################
-" NEOVIM: better vim
-" ###########################
-
-let maplocalleader = ';'
-let mapleader = ","
+" vimrc by @gaalcaras
+"
+" Meant to be used with NeoVim
 
 if has('nvim')
   set runtimepath+=/usr/share/vim/vimfiles
 endif
 
+if has('autocmd')
+  filetype plugin indent on
+endif
+
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
+
+" GENERAL SETTINGS {{{
+
+let maplocalleader = ';'
+let mapleader = ","
+
+set foldmethod=marker " Folding with brackets
+
+set linebreak " Wrap lines smartly (not always in the middle of a word)
+set nolist " Disable list (otherwise, breaks linebreak)
+set formatoptions=qrn1tl " Add options for wrapping (see help for details)
+silent! set breakindent showbreak=.. " Visually show soft breaks
+
+set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
+set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+set smartindent " Indent sanely
+
+" Relative numbers
+set relativenumber
+set number
+
+" Lowercase is case sensitive, upper case is not
+set ignorecase
+set smartcase
+
+" Get rid of additionnal files
+set nobackup
+set nowritebackup
+set noswapfile
+
+set nrformats-=octal " Do not consider number beginning with 0 as octal
+set scrolloff=1 " Always show at least one line above or below current line
+set sidescrolloff=5 " Keep 5 columns to the right or left of cursor
+set linespace=3 " Prefer a slightly higher line height
+set spell spelllang=fr,en " Enable both French and English spell check
+set mouse-=a " Disable mouse visual mode
+
+" Underline spell check results
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+set path+=** " Make file search recursive in dirs and subdirs
+
+let g:netrw_banner=0 " Disable annoying banner
+let g:netrw_browse_split=4 " Open in prior window
+let g:netrw_altv=1 " Open splits to the right
+
+" Tree view
+let g:netrw_liststyle=3
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" MAPPINGS: personal tweaks {{{
+
+" Control+g to "getaway"
+inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
+
+" Easier tag navigation
+nnoremap <C-m> <C-]>
+vnoremap <C-m> <C-]>
+
+nnoremap g<CR> <C-w>vgf " Open file under cursor in vertical split
+nnoremap g<SPACE> <C-w>f " Open file under cursor in horizontal split
+
+nnoremap <leader>t :m-2<CR>:j<CR> " Append the line above to the end
+
+" Use Ctrl+L to clear highlighted search results
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+" Sorry ExMode, but you've gotta go
+map q: <Nop>
+nnoremap Q <nop>
+
+" }}}
+" HARDMODE: well, kind of {{{
+
+" Never use arrow keys ;-)
+nnoremap <Left> :echoe "Use c ;-)"<CR>
+nnoremap <Right> :echoe "Use r ;-)"<CR>
+nnoremap <Up> :echoe "Use s ;-)"<CR>
+nnoremap <Down> :echoe "Use t ;-)"<CR>
+
+inoremap <Left> <Esc>:echoe "Use c ;-)"<CR>
+inoremap <Right> <Esc>:echoe "Use r ;-)"<CR>
+inoremap <Up> <Esc>:echoe "Use s ;-)"<CR>
+inoremap <Down> <Esc>:echoe "Use t ;-)"<CR>
+
+vnoremap <Left> :echoe "Use c ;-)"<CR>
+vnoremap <Right> :echoe "Use r ;-)"<CR>
+vnoremap <Up> :echoe "Use s ;-)"<CR>
+vnoremap <Down> :echoe "Use t ;-)"<CR>
+
+" Say goodbye to backspace and delete in Insert mode
+inoremap <BS> <Nop>
+inoremap <Del> <Nop>
+
+" }}}
+
+" }}}
 " PLUGINS: handled by Plug {{{
 
 call plug#begin('~/.vim/plugged')
@@ -42,7 +148,6 @@ function! BuildComposer(info)
 endfunction
 
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-
 Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript'] }
 Plug 'lervag/vimtex', { 'for' : ['latex', 'tex'] }
 Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
@@ -50,31 +155,25 @@ Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
 Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 
 " }}}
-
 " General functionnality {{{
 
-Plug 'tpope/vim-sensible' " Use sensible vim defaults
-
 Plug 'tpope/vim-repeat' " Enable repeat for plugins
+Plug 'blindFS/vim-taskwarrior' " Taskwarrior is awesome
+Plug 'lifepillar/vim-solarized8' " Use a pretty colorscheme ;-)
 
-Plug 'vim-airline/vim-airline' " Display various info in lowerbar
+Plug 'tpope/vim-fugitive' " Get awesome git support
+Plug 'airblade/vim-gitgutter' " Display git lines status
+
+" Display various info in lowerbar
+Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Give vim some note taking abilities
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 
-Plug 'blindFS/vim-taskwarrior' " Taskwarrior is awesome
 
 " }}}
-
-" Version control integration {{{
-
-Plug 'tpope/vim-fugitive' " Get awesome git support
-Plug 'airblade/vim-gitgutter' " Display git lines status
-
-" }}}
-
 " Text & code manipulation {{{
 
 Plug 'tpope/vim-surround' " Improve surroundings manipulations
@@ -82,20 +181,13 @@ Plug 'ConradIrwin/vim-bracketed-paste' " Set 'set:paste' in insert mode
 Plug 'tomtom/tcomment_vim' " Enable toggling comment
 Plug 'raimondi/delimitmate' " Handle delimiters automatically
 Plug 'godlygeek/tabular' " Add text alignment capabilities to vim
-Plug 'tpope/vim-abolish' " Add support for abbreviations
-
-" }}}
-
-" Niceties {{{
-
-Plug 'lifepillar/vim-solarized8' " Use a pretty colorscheme ;-)
+Plug 'tpope/vim-abolish' " Add improved support for abbreviations
 
 " }}}
 
 call plug#end() " Add plugins to &runtimepath
 
 " }}}
-
 " CONFIG: plugins {{{
 
 " SOLARIZED: personal settings {{{
@@ -106,7 +198,6 @@ if filereadable(expand("~/.dotfiles/vim/colors.vim"))
 endif
 
 " }}}
-
 " DEOPLETE: plugin config {{{
 
 let g:deoplete#enable_at_startup = 1
@@ -137,7 +228,6 @@ inoremap <expr><tab> pumvisible() ? "\<c-p>" : "\<tab>"
 set completeopt=longest,menuone
 
 " }}}
-
 " SURROUND: plugin config {{{
 
 " Disable default mappings
@@ -159,7 +249,6 @@ xmap S   <Plug>VSurround
 xmap gS  <Plug>VgSurround
 
 " }}}
-
 " AIRLINE: plugin config {{{
 
 let g:airline_powerline_fonts = 1
@@ -169,7 +258,6 @@ let g:airline_theme = 'base16_solarized'
 let g:airline#extensions#tabline#enabled = 1
 
 " }}}
-
 " DELIMITMATE: plugin config {{{
 
 " When hitting enter between surrounding characters,
@@ -177,12 +265,10 @@ let g:airline#extensions#tabline#enabled = 1
 let delimitMate_expand_cr = 1
 
 " }}}
-
 " NVIM_R: plugin config {{{
 let r_syntax_folding = 1
 
 " }}}
-
 " SYNTASTIC: plugin config {{{
 
 set statusline+=%#warningmsg#
@@ -200,13 +286,11 @@ let g:syntastic_javascript_checkers = ['standard']
 let g:syntastic_shell_checkers = ['shellcheck']
 
 " }}}
-
 " VIMMARKDOWN: personal settings {{{
 
 let g:vim_markdown_folding_level = 2
 
 " }}}
-
 " VIMTEX: personal settings {{{
 
 let g:vimtex_fold_enabled = 1
@@ -219,14 +303,12 @@ augroup vimtex_config
 augroup END
 
 " }}}
-
 " FUGITIVE: plugin config {{{
 
 set diffopt+=vertical " Force vertical split event on small screens
 let g:fugitive_git_executable = 'LANG=en_US git' " Force git english
 
 " }}}
-
 " VIMNOTES: plugin config {{{
 
 let g:notes_directories = ['~/Zettelkasten/zettel']
@@ -236,127 +318,6 @@ let g:notes_title_sync = 'rename_file'
 " }}}
 
 " }}}
-
-" TWEAKS: personal settings {{{
-
-" MAPPINGS: personal tweaks {{{
-
-inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a " Control+g to "getaway"
-
-" Easier tag navigation
-nnoremap <C-m> <C-]>
-vnoremap <C-m> <C-]>
-
-nnoremap g<CR> <C-w>vgf " Open file under cursor in vertical split
-nnoremap g<SPACE> <C-w>f " Open file under cursor in horizontal split
-
-nnoremap <leader>t :m-2<CR>:j<CR> " Append the line above to the end
-
-" Easier pipe operator in R: '>'
-autocmd FileType r inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
-autocmd FileType rnoweb inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
-autocmd FileType rmd inoremap <buffer> > <Esc>:normal! a%>%<CR>a<CR>
-
-" }}}
-
-" HARDMODE: well, kind of {{{
-
-" Never use arrow keys ;-)
-nnoremap <Left> :echoe "Use c ;-)"<CR>
-nnoremap <Right> :echoe "Use r ;-)"<CR>
-nnoremap <Up> :echoe "Use s ;-)"<CR>
-nnoremap <Down> :echoe "Use t ;-)"<CR>
-
-inoremap <Left> <Esc>:echoe "Use c ;-)"<CR>
-inoremap <Right> <Esc>:echoe "Use r ;-)"<CR>
-inoremap <Up> <Esc>:echoe "Use s ;-)"<CR>
-inoremap <Down> <Esc>:echoe "Use t ;-)"<CR>
-
-vnoremap <Left> :echoe "Use c ;-)"<CR>
-vnoremap <Right> :echoe "Use r ;-)"<CR>
-vnoremap <Up> :echoe "Use s ;-)"<CR>
-vnoremap <Down> :echoe "Use t ;-)"<CR>
-
-" Say goodbye to backspace and delete in Insert mode
-inoremap <BS> <Nop>
-inoremap <Del> <Nop>
-
-" }}}
-
-" FILE_BROWSING: it's better {{{
-
-set path+=** " Make file search recursive in dirs and subdirs
-
-let g:netrw_banner=0 " Disable annoying banner
-let g:netrw_browse_split=4 " Open in prior window
-let g:netrw_altv=1 " Open splits to the right
-
-" Tree view
-let g:netrw_liststyle=3
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
-
-" }}}
-
-" MISC: all the small things {{{
-
-syntax on " Enable syntax highlighting
-
-set mouse-=a " Disable mouse visual mode
-
-set fileformat=unix " Have sane text files
-
-set foldmethod=marker " Folding with brackets
-
-" The idea here is to allow wrapping, mainly for text editing.
-set wrap
-set linebreak
-
-" Disable list (otherwise, breaks linebreak)
-set nolist
-set textwidth=0
-set wrapmargin=0
-set formatoptions=qrn1
-silent! set breakindent showbreak=..
-
-set ruler " Show cursor at all times
-
-set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
-
-set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-
-set smartindent " Indent sanely
-
-set relativenumber " Relative numbers
-set number
-
-" Get rid of additionnal files
-set nobackup
-set nowritebackup
-set noswapfile
-
-set linespace=3 " Prefer a slightly higher line height
-
-set mousehide " Hide mouse when typing
-
-setlocal spell spelllang=fr,en " Enable both French and English spell check
-
-" Underline spell check results
-hi clear SpellBad
-hi SpellBad cterm=underline
-
-" Sorry ExMode, but you've gotta go
-map q: <Nop>
-nnoremap Q <nop>
-
-" Lowercase is case sensitive, upper case is not
-set ignorecase
-set smartcase
-
-" }}}
-
-" }}}
-
 " LAYOUT: settings for french bépo layout {{{
 
 " {W} -> [É] {{{
@@ -377,7 +338,6 @@ noremap w <C-w>
 noremap W <C-w><C-w>
 
 " }}}
-
 " [HJKL] -> {CTSR} {{{
 
 " {cr} = « gauche / droite »
@@ -401,7 +361,6 @@ noremap zs zj
 noremap zt zk
 
 " }}}
-
 " {HJKL} <- [CTSR] {{{
 
 " {J} = « Jusqu'à »           (j = suivant, J = précédant)
@@ -425,7 +384,6 @@ noremap ]k ]s
 noremap [k [s
 
 " }}}
-
 " Désambiguation de {g} {{{
 
 " ligne écran précédente / suivante (à l'intérieur d'une phrase)
@@ -443,7 +401,6 @@ noremap gÉ :exe "silent! tablast"<CR>
 noremap g" g0 optionnel : {g"} pour aller au début de la ligne écran
 
 " }}}
-
 " Divers {{{
 
 " Remaper la gestion des fenêtres
@@ -466,7 +423,6 @@ noremap zs zk
 noremap zt zj
 
 " }}}
-
 " Réparer les netrw_mappings {{{
 
 augroup netrw_mapping
