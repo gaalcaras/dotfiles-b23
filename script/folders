@@ -7,8 +7,9 @@ declare -A ffiles
 folders[$HOME/.vim]=$HOME/.config/nvim
 ffiles[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
 
-# Base16
+# Vim
 ffiles[$HOME/.dotfiles/vim/colors.vim]=$HOME/.vimrc_background
+folders[$HOME/.dotfiles/vim/ftplugin]=$HOME/.vim/after/ftplugin
 
 # Mutt
 folders[$HOME/.dotfiles/mutt]=$HOME/.mutt
