@@ -6,7 +6,6 @@ setlocal tw=79
 
 iab <expr> ddate strftime("%c")
 
-source $HOME/.dotfiles/vim/functions.vim
 autocmd BufWritePre * call LastModified()
 autocmd BufRead * nested call DateCreated()
 autocmd BufReadPost * call DateID()
@@ -22,7 +21,6 @@ noremap <c-g> <Esc>/<++><CR><Esc>cf>
 inoremap <buffer> ( ()<C-G>U<Left>
 inoremap <buffer> [ []<C-G>U<Left>
 inoremap <buffer> { {}<C-G>U<Left>
-inoremap <buffer> ' ''<C-G>U<Left><Left>
 inoremap <buffer> " ""<C-G>U<Left><Left>
 inoremap <buffer> « ""<C-G>U<Left><Left>
 inoremap <buffer> » "<C-G>U<Left><Left>
