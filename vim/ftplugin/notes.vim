@@ -1,6 +1,6 @@
 " Case doesn't matter in notes
-set ignorecase
-set tw=79
+setlocal ignorecase
+setlocal tw=79
 
 " DATE: {{{
 
