@@ -17,6 +17,7 @@ endif
 
 " GENERAL SETTINGS {{{
 
+" Main settings {{{
 let maplocalleader = ';'
 let mapleader = ","
 
@@ -66,7 +67,8 @@ let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
-" MAPPINGS: personal tweaks {{{
+" }}}
+" Personal mappings {{{
 
 " Control+g to "getaway"
 inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
@@ -90,7 +92,7 @@ map q: <Nop>
 nnoremap Q <nop>
 
 " }}}
-" HARDMODE: well, kind of {{{
+" Hardmode {{{
 
 " Never use arrow keys ;-)
 nnoremap <Left> :echoe "Use c ;-)"<CR>
