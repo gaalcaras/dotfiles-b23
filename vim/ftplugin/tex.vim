@@ -25,3 +25,11 @@ inoremap <buffer> { {}<C-G>U<Left>
 inoremap <buffer> " ""<C-G>U<Left>
 inoremap <buffer> « «~~»<C-G>U<Left><Left>
 inoremap <buffer> » ~»<C-G>U<Left><Left>
+
+" Make small undo chunks for writing prose
+inoremap . .<c-g>u
+inoremap ? ?<c-g>u
+inoremap ! !<c-g>u
+inoremap : :<c-g>u
+inoremap , ,<c-g>u
+inoremap ; ;<c-g>u
