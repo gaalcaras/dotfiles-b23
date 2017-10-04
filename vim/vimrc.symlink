@@ -46,6 +46,8 @@ set smartcase
 set nobackup
 set nowritebackup
 set noswapfile
+set undofile
+set undodir=~/.vim/undodir " But persistent undo is pretty rad
 
 set nrformats-=octal " Do not consider number beginning with 0 as octal
 set scrolloff=1 " Always show at least one line above or below current line
