@@ -34,3 +34,6 @@ folders[$HOME/.dotfiles/systemd]=$HOME/.config/systemd/user
 
 # Termite
 folders[$HOME/.dotfiles/termite]=$HOME/.config/termite
+
+# Mpv
+ffiles[$HOME/.dotfiles/mpv/mpv.conf]=$HOME/.config/mpv/mpv.conf
