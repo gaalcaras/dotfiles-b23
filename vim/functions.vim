@@ -1,3 +1,12 @@
+" ########################################
+" Useful functions
+"
+" by Gabriel Alcaras
+"
+" ########################################
+
+" Dates {{{
+
 " If buffer modified, update any 'lastmodified: ' in the first 20 lines.
 " 'lastmodified: 2016-01-13 16:51:48
 " Restores cursor and window position using save_cursor variable.
@@ -45,3 +54,66 @@ function! DateID()
     endif
   endif
 endfun
+
+" }}}
+" Hardmode {{{
+
+" Inspired from this gist :
+" https://gist.github.com/jeetsukumaran/96474ebbd00b874f0865
+" and adapted to bépo layout
+
+function! DisableIfNonCounted(move) range
+    if v:count
+      if a:move == 'c'
+        return "h"
+      elseif a:move == 't'
+        return "j"
+      elseif a:move == 's'
+        return "k"
+      elseif a:move == 'r'
+        return "l"
+      else
+        return a:move
+      endif
+    else
+        return ""
+    endif
+endfunction
+
+function! SetDisablingOfBasicMotionsIfNonCounted(on)
+    let keys_to_disable = get(g:, "keys_to_disable_if_not_preceded_by_count", ["c", "t", "s", "r"])
+    if a:on
+        for key in keys_to_disable
+            execute "noremap <expr> <silent> " . key . " DisableIfNonCounted('" . key . "')"
+        endfor
+        let g:keys_to_disable_if_not_preceded_by_count = keys_to_disable
+        let g:is_non_counted_basic_motions_disabled = 1
+    else
+        for key in keys_to_disable
+            try
+                execute "unmap " . key
+                execute "noremap c h"
+                execute "noremap r l"
+                execute "noremap t j"
+                execute "noremap s k"
+            catch /E31:/
+            endtry
+        endfor
+        let g:is_non_counted_basic_motions_disabled = 0
+    endif
+endfunction
+
+function! ToggleDisablingOfBasicMotionsIfNonCounted()
+    let is_disabled = get(g:, "is_non_counted_basic_motions_disabled", 0)
+    if is_disabled
+        call SetDisablingOfBasicMotionsIfNonCounted(0)
+    else
+        call SetDisablingOfBasicMotionsIfNonCounted(1)
+    endif
+endfunction
+
+command! ToggleDisablingOfNonCountedBasicMotions :call ToggleDisablingOfBasicMotionsIfNonCounted()
+command! DisableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(1)
+command! EnableNonCountedBasicMotions :call SetDisablingOfBasicMotionsIfNonCounted(0)
+
+" }}}

@@ -21,4 +21,12 @@ map <Leader>lp :call CompileMarkdown(1)<CR>
 map <Leader>ll :call CompileMarkdown(0)<CR>
 
 " Hide 80 char limit
-set colorcolumn=0
+setlocal colorcolumn=0
+
+" Make small undo chunks for writing prose
+inoremap . .<c-g>u
+inoremap ? ?<c-g>u
+inoremap ! !<c-g>u
+inoremap : :<c-g>u
+inoremap , ,<c-g>u
+inoremap ; ;<c-g>u

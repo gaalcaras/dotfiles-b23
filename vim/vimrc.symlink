@@ -1,34 +1,436 @@
 " ###########################
-" NEOVIM: better vim
-" ###########################
-
-" Set ; as localleader (before any mapping command)
-let maplocalleader = ';'
+" vimrc by @gaalcaras
+"
+" Meant to be used with NeoVim
 
 if has('nvim')
   set runtimepath+=/usr/share/vim/vimfiles
 endif
 
-" ###########################
-" PLUGINS: handled by Plug
-" ###########################
+if has('autocmd')
+  filetype plugin indent on
+endif
 
-source $HOME/.dotfiles/vim/manager.vim
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
 
-" ###########################
-" CONFIG: plugins
-" ###########################
+source $HOME/.dotfiles/vim/functions.vim
 
-source $HOME/.dotfiles/vim/plugins.vim
+" GENERAL SETTINGS {{{
 
-" ###########################
-" TWEAKS: personal settings
-" ###########################
+" Main settings {{{
+let maplocalleader = ';'
+let mapleader = ","
 
-source $HOME/.dotfiles/vim/tweaks.vim
+set foldmethod=marker " Folding with brackets
 
-" ###########################
-" BÉPO: personal settings
-" ###########################
+set linebreak " Wrap lines smartly (not always in the middle of a word)
+set nolist " Disable list (otherwise, breaks linebreak)
+set formatoptions=qrn1t " Add options for wrapping (see help for details)
+silent! set breakindent showbreak=.. " Visually show soft breaks
 
-source $HOME/.dotfiles/vim/bepo.vim
+set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
+set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
+set smartindent " Indent sanely
+
+" Relative numbers
+set relativenumber
+set number
+
+" Lowercase is case sensitive, upper case is not
+set ignorecase
+set smartcase
+
+" Get rid of additionnal files
+set nobackup
+set nowritebackup
+set noswapfile
+set undofile
+set undodir=~/.vim/undodir " But persistent undo is pretty rad
+
+set nrformats-=octal " Do not consider number beginning with 0 as octal
+set scrolloff=1 " Always show at least one line above or below current line
+set sidescrolloff=5 " Keep 5 columns to the right or left of cursor
+set linespace=3 " Prefer a slightly higher line height
+set spell spelllang=fr,en " Enable both French and English spell check
+set mouse-=a " Disable mouse visual mode
+
+" Underline spell check results
+hi clear SpellBad
+hi SpellBad cterm=underline
+
+set path+=** " Make file search recursive in dirs and subdirs
+
+let g:netrw_banner=0 " Disable annoying banner
+let g:netrw_browse_split=4 " Open in prior window
+let g:netrw_altv=1 " Open splits to the right
+
+" Tree view
+let g:netrw_liststyle=3
+let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" }}}
+" Personal mappings {{{
+
+" Control+g to "getaway"
+inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
+
+" Easier tag navigation
+nnoremap <C-m> <C-]>
+vnoremap <C-m> <C-]>
+
+nnoremap g<CR> <C-w>vgf " Open file under cursor in vertical split
+nnoremap g<SPACE> <C-w>f " Open file under cursor in horizontal split
+
+nnoremap <leader>t :m-2<CR>:j<CR> " Append the line above to the end
+
+" Use Ctrl+L to clear highlighted search results
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+" Sorry ExMode, but you've gotta go
+map q: <Nop>
+nnoremap Q <nop>
+
+" }}}
+
+" }}}
+" PLUGINS: handled by Plug {{{
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'Shougo/vimproc.vim', { 'do' : 'make' } " Add support for async processes
+
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+
+" Language specific support {{{
+
+Plug 'scrooloose/syntastic' " Check style and syntax
+
+if has('nvim')
+  " Use asynchronous completion
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/neoinclude.vim'
+  Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
+endif
+
+" Use super cool nvim asynchronous markdown preview
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript'] }
+Plug 'lervag/vimtex', { 'for' : ['latex', 'tex'] }
+Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
+Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
+Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
+
+" }}}
+" General functionnality {{{
+
+Plug 'tpope/vim-repeat' " Enable repeat for plugins
+Plug 'blindFS/vim-taskwarrior' " Taskwarrior is awesome
+Plug 'lifepillar/vim-solarized8' " Use a pretty colorscheme ;-)
+
+Plug 'tpope/vim-fugitive' " Get awesome git support
+Plug 'airblade/vim-gitgutter' " Display git lines status
+
+" Display various info in lowerbar
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Give vim some note taking abilities
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-notes'
+
+" }}}
+" Text & code manipulation {{{
+
+Plug 'tpope/vim-surround' " Improve surroundings manipulations
+Plug 'ConradIrwin/vim-bracketed-paste' " Set 'set:paste' in insert mode
+Plug 'tomtom/tcomment_vim' " Enable toggling comment
+Plug 'raimondi/delimitmate' " Handle delimiters automatically
+Plug 'godlygeek/tabular' " Add text alignment capabilities to vim
+Plug 'tpope/vim-abolish' " Add improved support for abbreviations
+
+" }}}
+
+call plug#end() " Add plugins to &runtimepath
+
+" }}}
+" CONFIG: plugins {{{
+
+" SOLARIZED: personal settings {{{
+
+" Interface with solarized dark (theme)
+if filereadable(expand("~/.dotfiles/vim/colors.vim"))
+  source ~/.dotfiles/vim/colors.vim
+endif
+
+" }}}
+" DEOPLETE: plugin config {{{
+
+let g:deoplete#enable_at_startup = 1
+
+" Initialize Input Patterns
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+
+" R Patterns
+let g:deoplete#omni#input_patterns.r = '\$'
+
+" Tex
+let g:deoplete#omni#input_patterns.tex = '\\(?:'
+        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+        \ . '|hyperref\s*\[[^]]*'
+        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+\ .')'
+
+" Let Tab do completion as well
+inoremap <expr><tab> pumvisible() ? "\<c-p>" : "\<tab>"
+
+set completeopt=longest,menuone
+
+" }}}
+" SURROUND: plugin config {{{
+
+" Disable default mappings
+let g:surround_no_mappings = 1
+
+" Default mappings
+nmap ds  <Plug>Dsurround
+nmap ys  <Plug>Ysurround
+nmap yS  <Plug>YSurround
+nmap yss <Plug>Yssurround
+nmap ySs <Plug>YSsurround
+
+" Special mappings for bépo layout
+nmap ls  <Plug>Csurround
+nmap lS  <Plug>CSurround
+
+" Visual mode
+xmap S   <Plug>VSurround
+xmap gS  <Plug>VgSurround
+
+" }}}
+" AIRLINE: plugin config {{{
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'base16_solarized'
+
+" Display buffers as tabs on top
+let g:airline#extensions#tabline#enabled = 1
+
+" }}}
+" DELIMITMATE: plugin config {{{
+
+" When hitting enter between surrounding characters,
+" indent correctly.
+let delimitMate_expand_cr = 1
+
+" }}}
+" NVIM_R: plugin config {{{
+let r_syntax_folding = 1
+
+" }}}
+" SYNTASTIC: plugin config {{{
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_php_checkers = ['php']
+let g:syntastic_tex_checkers = ['chktex']
+let g:syntastic_javascript_checkers = ['standard']
+let g:syntastic_shell_checkers = ['shellcheck']
+
+" }}}
+" VIMMARKDOWN: personal settings {{{
+
+let g:vim_markdown_folding_level = 2
+
+" }}}
+" VIMTEX: personal settings {{{
+
+let g:vimtex_fold_enabled = 1
+let g:vimtex_quickfix_latexlog = {'fix_paths':0}
+
+augroup vimtex_config
+    au!
+    au User VimtexEventQuit     VimtexClean " Clean aux files after quitting
+    au User VimtexEventInitPost VimtexCompile " Open pdf when opening
+augroup END
+
+" }}}
+" FUGITIVE: plugin config {{{
+
+set diffopt+=vertical " Force vertical split event on small screens
+let g:fugitive_git_executable = 'LANG=en_US git' " Force git english
+
+" }}}
+" VIMNOTES: plugin config {{{
+
+let g:notes_directories = ['~/Zettelkasten/zettel']
+let g:notes_new_note_template = '~/Zettelkasten/new_zettel'
+let g:notes_title_sync = 'rename_file'
+
+" }}}
+
+" }}}
+" LAYOUT: settings for french bépo layout {{{
+
+" {W} -> [É] {{{
+
+" On remappe W sur É :
+noremap é w
+noremap É W
+
+" Corollaire: on remplace les text objects aw, aW, iw et iW
+" pour effacer/remplacer un mot quand on n’est pas au début (daé / laé).
+onoremap aé aw
+onoremap aÉ aW
+onoremap ié iw
+onoremap iÉ iW
+
+" Pour faciliter les manipulations de fenêtres, on utilise {W} comme un Ctrl+W :
+noremap w <C-w>
+noremap W <C-w><C-w>
+
+" }}}
+" [HJKL] -> {CTSR} {{{
+
+" {cr} = « gauche / droite »
+noremap c h
+noremap r l
+
+" {ts} = « haut / bas »
+noremap t j
+noremap s k
+
+" {CR} = « haut / bas de l'écran »
+noremap C H
+noremap R L
+
+" {TS} = « joindre / aide »
+noremap T J
+noremap S K
+
+" Corollaire : repli suivant / précédent
+noremap zs zj
+noremap zt zk
+
+" {J} = « Jusqu'à »           (j = suivant, J = précédant)
+noremap j t
+noremap J T
+
+" {L} = « Change »            (l = attend un mvt, L = jusqu'à la fin de ligne)
+noremap l c
+noremap L C
+
+" {H} = « Remplace »          (h = un caractère slt, H = reste en "remplace")
+noremap h r
+noremap H R
+
+" {K} = « Substitue »         (k = caractère, K = ligne)
+noremap k s
+noremap K S
+
+" Corollaire : correction orthographique
+noremap ]k ]s
+noremap [k [s
+
+" }}}
+" Désambiguation de {g} {{{
+
+" ligne écran précédente / suivante (à l'intérieur d'une phrase)
+noremap gs gk
+noremap gt gj
+
+" onglet précédant / suivant
+noremap gb gT
+noremap gé gt
+
+" optionnel : {gB} / {gÉ} pour aller au premier / dernier onglet
+noremap gB :exe "silent! tabfirst"<CR>
+noremap gÉ :exe "silent! tablast"<CR>
+
+noremap g" g0 optionnel : {g"} pour aller au début de la ligne écran
+
+" }}}
+" Divers {{{
+
+" Remaper la gestion des fenêtres
+noremap wt <C-w>j
+noremap ws <C-w>k
+noremap wc <C-w>h
+noremap wr <C-w>l
+noremap wd <C-w>c
+noremap wo <C-w>s
+noremap wp <C-w>o
+noremap w<SPACE> :split<CR>
+noremap w<CR> :vsplit<CR>
+
+" <> en direct
+noremap « <
+noremap » >
+
+" Gestion des plis
+noremap zs zk
+noremap zt zj
+
+" }}}
+" Réparer les netrw_mappings {{{
+
+augroup netrw_mapping
+    autocmd!
+    autocmd filetype netrw call NetrwMapping()
+augroup END
+
+function! NetrwMapping()
+    noremap <buffer> c h
+    noremap <buffer> r l
+    noremap <buffer> t j
+    noremap <buffer> s k
+endfunction
+
+" }}}
+
+" }}}
+" Hardmode {{{
+
+autocmd VimEnter * DisableNonCountedBasicMotions
+
+" Never use arrow keys ;-)
+noremap <Left> :echoe "Use c ;-)"<CR>
+noremap <Right> :echoe "Use r ;-)"<CR>
+noremap <Up> :echoe "Use s ;-)"<CR>
+noremap <Down> :echoe "Use t ;-)"<CR>
+
+" Say goodbye to backspace and delete in Insert mode
+inoremap <BS> <Nop>
+inoremap <Del> <Nop>
+
+" }}}
