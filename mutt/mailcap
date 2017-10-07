@@ -6,3 +6,6 @@ application/pdf; /usr/bin/evince %s 2>/dev/null;
 image/jpeg; eog %s 2>/dev/null;
 image/png; eog %s 2>/dev/null;
 image/gif; eog %s 2>/dev/null;
+
+application/msword; /usr/bin/libreoffice --writer %s;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document; /usr/bin/libreoffice --writer %s;
