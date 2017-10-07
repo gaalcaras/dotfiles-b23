@@ -174,7 +174,7 @@ function install {
   $do_install $apps
 
   if [[ $response == *"ARCH"* ]]; then
-    $pacaur_install $pacaur_apps
+    $run_as_normal $pacaur_install $pacaur_apps
     $pip_install $pip_apps
   fi
 }
