@@ -23,6 +23,7 @@ source $HOME/.dotfiles/vim/functions.vim
 let maplocalleader = ';'
 let mapleader = ","
 
+set nocompatible
 set foldmethod=marker " Folding with brackets
 
 set linebreak " Wrap lines smartly (not always in the middle of a word)
@@ -85,6 +86,7 @@ nnoremap g<CR> <C-w>vgf " Open file under cursor in vertical split
 nnoremap g<SPACE> <C-w>f " Open file under cursor in horizontal split
 
 nnoremap <leader>t :m-2<CR>:j<CR> " Append the line above to the end
+nnoremap <leader>= yyp:s/./=/g<CR>:noh<CR> " Add a line of = below
 
 " Use Ctrl+L to clear highlighted search results
 if maparg('<C-L>', 'n') ==# ''
