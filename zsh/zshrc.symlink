@@ -93,7 +93,8 @@ alias nv="nvim"
 # Functions {{{
 
 note() {
-  nvim -c "Note $@"
+  local cmd="Note $@"
+  nvim -c "$cmd"
 }
 
 compdef '_path_files -W $HOME/Zettelkasten/zettel' note
