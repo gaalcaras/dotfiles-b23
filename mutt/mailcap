@@ -9,3 +9,4 @@ image/gif; eog %s 2>/dev/null;
 
 application/msword; /usr/bin/libreoffice --writer %s;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document; /usr/bin/libreoffice --writer %s;
+application/vnd.oasis.opendocument.spreadsheet; /usr/bin/libreoffice --calc %s;
