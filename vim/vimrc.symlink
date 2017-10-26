@@ -104,22 +104,16 @@ nnoremap Q <nop>
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'Shougo/vimproc.vim', { 'do' : 'make' } " Add support for async processes
-
 function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
 
 " Language specific support {{{
 
-Plug 'scrooloose/syntastic' " Check style and syntax
+Plug 'w0rp/ale' " Check style and syntax asynchronously
+Plug 'roxma/nvim-completion-manager' " Use asynchronous completion
 
-if has('nvim')
-  " Use asynchronous completion
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/neoinclude.vim'
-  Plug 'zchee/deoplete-jedi', { 'for' : 'python' }
-endif
+" Plug 'roxma/python-support.nvim'
 
 " Use super cool nvim asynchronous markdown preview
 function! BuildComposer(info)
@@ -140,11 +134,13 @@ Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
 Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 
 " }}}
-" General functionnality {{{
+"  General functionnality {{{
 
 Plug 'tpope/vim-repeat' " Enable repeat for plugins
 Plug 'blindFS/vim-taskwarrior' " Taskwarrior is awesome
 Plug 'lifepillar/vim-solarized8' " Use a pretty colorscheme ;-)
+Plug 'Shougo/denite.nvim'
+Plug '~/Codecave/transcribe.nvim'
 
 Plug 'tpope/vim-fugitive' " Get awesome git support
 Plug 'airblade/vim-gitgutter' " Display git lines status
@@ -157,6 +153,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 
+" Focused writing
+Plug 'junegunn/goyo.vim'
 " }}}
 " Text & code manipulation {{{
 
@@ -182,35 +180,10 @@ if filereadable(expand("~/.dotfiles/vim/colors.vim"))
 endif
 
 " }}}
-" DEOPLETE: plugin config {{{
-
-let g:deoplete#enable_at_startup = 1
-
-" Initialize Input Patterns
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-
-" R Patterns
-let g:deoplete#omni#input_patterns.r = '\$'
-
-" Tex
-let g:deoplete#omni#input_patterns.tex = '\\(?:'
-        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
-        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
-        \ . '|hyperref\s*\[[^]]*'
-        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
-        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
-        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
-\ .')'
-
-" Let Tab do completion as well
-inoremap <expr><tab> pumvisible() ? "\<c-p>" : "\<tab>"
-
-set completeopt=longest,menuone
-
+" nvim-completion-manager: plugin config {{{
+set shortmess+=c
+let g:cm_matcher = {'module': 'cm_matchers.substr_matcher',
+      \'case': 'smartcase'}
 " }}}
 " SURROUND: plugin config {{{
 
@@ -233,6 +206,12 @@ xmap S   <Plug>VSurround
 xmap gS  <Plug>VgSurround
 
 " }}}
+" PYTHON: plugin config {{{
+let g:python_support_python3_requirements = add(get(g:,
+      \'python_support_python3_requirements',[]),'flake8')
+let g:python_support_python2_requirements = add(get(g:,
+      \'python_support_python2_requirements',[]),'flake8')
+" }}}
 " AIRLINE: plugin config {{{
 
 let g:airline_powerline_fonts = 1
@@ -251,23 +230,6 @@ let delimitMate_expand_cr = 1
 " }}}
 " NVIM_R: plugin config {{{
 let r_syntax_folding = 1
-
-" }}}
-" SYNTASTIC: plugin config {{{
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_php_checkers = ['php']
-let g:syntastic_tex_checkers = ['chktex']
-let g:syntastic_javascript_checkers = ['standard']
-let g:syntastic_shell_checkers = ['shellcheck']
 
 " }}}
 " VIMMARKDOWN: personal settings {{{

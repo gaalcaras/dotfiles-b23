@@ -1,3 +1,17 @@
+" NCM: autocompletion {{{
+augroup my_cm_setup
+    autocmd!
+    autocmd User CmSetup call cm#register_source({
+          \ 'name' : 'vimtex',
+          \ 'priority': 8,
+          \ 'scoping': 1,
+          \ 'scopes': ['tex'],
+          \ 'abbreviation': 'tex',
+          \ 'cm_refresh_patterns': g:vimtex#re#ncm,
+          \ 'cm_refresh': {'omnifunc': 'vimtex#complete#omnifunc'},
+          \ })
+augroup END
+" }}}
 " ABOLISH: abbreviations for LaTeX :)
 
 Abolish git \gls{git}
