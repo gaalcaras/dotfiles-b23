@@ -84,10 +84,20 @@ alias git='LANG=en_US.UTF-8 git'
 alias khal='LC_TIME=C khal'
 alias ikhal='LC_TIME=C ikhal'
 
+
+# Tools
+alias nv="nvim"
+alias mutt="neomutt"
 alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 
-# Vim and stuff
-alias nv="nvim"
+# Dotfiles
+alias vimrc="$EDITOR ~/.dotfiles/vim/vimrc.symlink"
+alias zshrc="$EDITOR ~/.dotfiles/zsh/zshrc.symlink"
+alias muttrc="$EDITOR ~/.dotfiles/mutt/muttrc"
+
+# Directories
+alias dotfiles="cd ~/.dotfiles"
+alias pdw="cd ~/Documents/phd-writing"
 # }}}
 
 # Functions {{{
