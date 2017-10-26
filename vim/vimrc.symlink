@@ -25,6 +25,7 @@ let mapleader = ","
 
 set nocompatible
 set foldmethod=marker " Folding with brackets
+set splitright " Open splits on the right
 
 set linebreak " Wrap lines smartly (not always in the middle of a word)
 set nolist " Disable list (otherwise, breaks linebreak)
@@ -87,6 +88,10 @@ nnoremap g<SPACE> <C-w>f " Open file under cursor in horizontal split
 
 nnoremap <leader>t :m-2<CR>:j<CR> " Append the line above to the end
 nnoremap <leader>= yyp:s/./=/g<CR>:noh<CR> " Add a line of = below
+
+nnoremap <leader>, :Denite file_rec<CR> " Open fuzzy file search
+nnoremap <leader>b :Denite buffer<CR> " Open fuzzy buffer search
+nnoremap <leader>v :vsplit ~/.dotfiles/vim/vimrc.symlink<CR> " Open vimrc
 
 " Use Ctrl+L to clear highlighted search results
 if maparg('<C-L>', 'n') ==# ''
