@@ -1,7 +1,9 @@
-" ###########################
+" ############################
 " vimrc by @gaalcaras
 "
 " Meant to be used with NeoVim
+
+scriptencoding utf8
 
 if has('nvim')
   set runtimepath+=/usr/share/vim/vimfiles
@@ -17,15 +19,18 @@ endif
 
 source $HOME/.dotfiles/vim/functions.vim
 
-" GENERAL SETTINGS {{{
+" ================
+" General settings
+" ================
 
-" Main settings {{{
-let maplocalleader = ';'
-let mapleader = ","
+let g:maplocalleader = ';'
+let g:mapleader = ','
 
-set nocompatible
-set foldmethod=marker " Folding with brackets
+set foldmethod=syntax
+set foldlevelstart=1
 set splitright " Open splits on the right
+set wildignore=*.pdf,*.aux,*.png,*.pyc
+set modeline
 
 set linebreak " Wrap lines smartly (not always in the middle of a word)
 set nolist " Disable list (otherwise, breaks linebreak)
@@ -73,56 +78,54 @@ let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
-" }}}
-" Personal mappings {{{
+" Auto save buffers
+autocmd! BufLeave,InsertLeave,CursorHold * silent! :w
+autocmd! FocusLost,FocusGained * silent! :wa
 
-" Control+g to "getaway"
-inoremap <C-g> <Esc>/[)}*"»'`\]*]<CR>:nohl<CR>a
+" =================
+" Personal mappings
+" =================
+
+" Get away from inside [], (), {}, «», '', "", **
+inoremap <c-g> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
+nnoremap <c-g> /[)}*"»'`\]*]<cr>:nohl<cr>a
 
 " Easier tag navigation
-nnoremap <C-m> <C-]>
-vnoremap <C-m> <C-]>
+nnoremap <c-m> <c-]>
+vnoremap <c-m> <c-]>
 
-nnoremap g<CR> <C-w>vgf " Open file under cursor in vertical split
-nnoremap g<SPACE> <C-w>f " Open file under cursor in horizontal split
+nnoremap gf :w<cr>gf
+nnoremap g<cr> :w<cr><c-w>vgf " Open file under cursor in vertical split
+nnoremap g<space> :w<cr><c-w>f " Open file under cursor in horizontal split
 
-nnoremap <leader>t :m-2<CR>:j<CR> " Append the line above to the end
-nnoremap <leader>= yyp:s/./=/g<CR>:noh<CR> " Add a line of = below
+nnoremap <c-s> :w<cr>
+inoremap <c-s> <c-o>:w<cr>
 
-nnoremap <leader>, :Denite file_rec<CR> " Open fuzzy file search
-nnoremap <leader>b :Denite buffer<CR> " Open fuzzy buffer search
-nnoremap <leader>v :vsplit ~/.dotfiles/vim/vimrc.symlink<CR> " Open vimrc
+nnoremap <leader>tt :m-2<cr>:j<cr> " Append the line above to the end
+nnoremap <leader>= yyp:s/./=/g<cr>:noh<cr> " Add a line of = below
+nnoremap <leader>- yyp:s/./-/g<cr>:noh<cr> " Add a line of = below
+nnoremap <leader>$ :call AlignWithSpaces(78)<cr> " Align with spaces
 
-" Use Ctrl+L to clear highlighted search results
-if maparg('<C-L>', 'n') ==# ''
-  nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
+nnoremap <leader>, :Denite file_rec<cr> " Open fuzzy file search
+nnoremap <leader>b :Denite buffer<cr> " Open fuzzy buffer search
+nnoremap <leader>v :edit ~/.dotfiles/vim/vimrc.symlink<cr> " Open vimrc
+nnoremap <leader>rr :w<cr>:source $MYVIMRC<cr> " Reload vimrc"
 
+" Clear highlighted search results
+nnoremap <silent> <c-L> :nohlsearch<cr>
+nnoremap <silent> <localleader>B :call ToggleSolarizedDarkTheme()<cr> 
 " Sorry ExMode, but you've gotta go
 map q: <Nop>
 nnoremap Q <nop>
 
-" }}}
-
-" }}}
-" PLUGINS: handled by Plug {{{
+" ========
+" vim-plug
+" ========
 
 call plug#begin('~/.vim/plugged')
 
-function! DoRemote(arg)
-  UpdateRemotePlugins
-endfunction
-
-" Language specific support {{{
-
-Plug 'w0rp/ale' " Check style and syntax asynchronously
-Plug 'roxma/nvim-completion-manager' " Use asynchronous completion
-
-" Plug 'roxma/python-support.nvim'
-
-" Use super cool nvim asynchronous markdown preview
 function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
+  if a:info.status !=# 'unchanged' || a:info.force
     if has('nvim')
       !cargo build --release
     else
@@ -131,24 +134,29 @@ function! BuildComposer(info)
   endif
 endfunction
 
+" Language related plugins
 Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript'] }
 Plug 'lervag/vimtex', { 'for' : ['latex', 'tex'] }
 Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
 Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
 Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
+Plug 'Shougo/neco-vim', { 'for' : 'vim' }
+Plug 'tmhedberg/simpylfold', { 'for' : 'python' } " Adequate Python folding
+Plug 'tpope/vim-endwise', { 'for' : ['ruby', 'vim', 'lua'] }
 
-" }}}
-"  General functionnality {{{
-
-Plug 'tpope/vim-repeat' " Enable repeat for plugins
-Plug 'blindFS/vim-taskwarrior' " Taskwarrior is awesome
-Plug 'lifepillar/vim-solarized8' " Use a pretty colorscheme ;-)
-Plug 'Shougo/denite.nvim'
-Plug '~/Codecave/transcribe.nvim'
-
-Plug 'tpope/vim-fugitive' " Get awesome git support
-Plug 'airblade/vim-gitgutter' " Display git lines status
+"  General functionnality
+Plug 'w0rp/ale' " Check style and syntax asynchronously
+Plug 'roxma/nvim-completion-manager'
+" Plug 'roxma/python-support.nvim'
+Plug 'tpope/vim-repeat'
+Plug 'blindFS/vim-taskwarrior'
+Plug 'lifepillar/vim-solarized8'
+Plug 'Shougo/denite.nvim', { 'do' : ':UpdateRemotePlugins' }
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/goyo.vim' " Focused writing
+Plug 'tmux-plugins/vim-tmux-focus-events'
 
 " Display various info in lowerbar
 Plug 'vim-airline/vim-airline'
@@ -158,200 +166,128 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 
-" Focused writing
-Plug 'junegunn/goyo.vim'
-" }}}
-" Text & code manipulation {{{
+" Development
+Plug '~/Codecave/transcribe.nvim'
+" Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
 
-Plug 'tpope/vim-surround' " Improve surroundings manipulations
+" Text & code manipulation
+Plug 'tpope/vim-surround'
 Plug 'ConradIrwin/vim-bracketed-paste' " Set 'set:paste' in insert mode
-Plug 'tomtom/tcomment_vim' " Enable toggling comment
+Plug 'scrooloose/nerdcommenter'
 Plug 'raimondi/delimitmate' " Handle delimiters automatically
-Plug 'godlygeek/tabular' " Add text alignment capabilities to vim
 Plug 'tpope/vim-abolish' " Add improved support for abbreviations
-
-" }}}
+Plug 'junegunn/vim-easy-align'
 
 call plug#end() " Add plugins to &runtimepath
 
-" }}}
-" CONFIG: plugins {{{
+" =======
+" Plugins
+" =======
 
-" SOLARIZED: personal settings {{{
+" Denite
+call denite#custom#source('file_rec', 'matchers',
+  \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+  \ [ '.git/', '.ropeproject/', '__pycache__/',
+  \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
+  \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
-" Interface with solarized dark (theme)
-if filereadable(expand("~/.dotfiles/vim/colors.vim"))
-  source ~/.dotfiles/vim/colors.vim
+" Solarized
+if !exists('g:colors_name') || g:colors_name !=# 'solarized8_dark'
+  colorscheme solarized8_dark
 endif
 
-" }}}
-" nvim-completion-manager: plugin config {{{
+" nvim-completion-manager
 set shortmess+=c
 let g:cm_matcher = {'module': 'cm_matchers.substr_matcher',
       \'case': 'smartcase'}
-" }}}
-" SURROUND: plugin config {{{
 
-" Disable default mappings
-let g:surround_no_mappings = 1
+" Surround
+let g:surround_no_mappings = 1 " Disable default mappings
 
-" Default mappings
 nmap ds  <Plug>Dsurround
 nmap ys  <Plug>Ysurround
 nmap yS  <Plug>YSurround
 nmap yss <Plug>Yssurround
 nmap ySs <Plug>YSsurround
-
-" Special mappings for bépo layout
 nmap ls  <Plug>Csurround
 nmap lS  <Plug>CSurround
-
-" Visual mode
 xmap S   <Plug>VSurround
 xmap gS  <Plug>VgSurround
 
-" }}}
-" PYTHON: plugin config {{{
-let g:python_support_python3_requirements = add(get(g:,
-      \'python_support_python3_requirements',[]),'flake8')
-let g:python_support_python2_requirements = add(get(g:,
-      \'python_support_python2_requirements',[]),'flake8')
-" }}}
-" AIRLINE: plugin config {{{
-
+" Airline
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'base16_solarized'
+let g:airline#extensions#tabline#enabled = 1 " Display buffers as tabs on top
 
-" Display buffers as tabs on top
-let g:airline#extensions#tabline#enabled = 1
+" Delimitmate
+let g:delimitMate_expand_cr = 1 " Correct indentation
 
-" }}}
-" DELIMITMATE: plugin config {{{
+" Nvim-R
+let g:r_syntax_folding = 1
 
-" When hitting enter between surrounding characters,
-" indent correctly.
-let delimitMate_expand_cr = 1
-
-" }}}
-" NVIM_R: plugin config {{{
-let r_syntax_folding = 1
-
-" }}}
-" VIMMARKDOWN: personal settings {{{
-
+" Vim Markdown
 let g:vim_markdown_folding_level = 2
 
-" }}}
-" VIMTEX: personal settings {{{
-
+" vimtex
 let g:vimtex_fold_enabled = 1
 let g:vimtex_quickfix_latexlog = {'fix_paths':0}
 
 augroup vimtex_config
-    au!
-    au User VimtexEventQuit     VimtexClean " Clean aux files after quitting
-    au User VimtexEventInitPost VimtexCompile " Open pdf when opening
+  au!
+  au User VimtexEventQuit     VimtexClean " Clean aux files after quitting
+  au User VimtexEventInitPost VimtexCompile " Open pdf when opening
 augroup END
 
-" }}}
-" FUGITIVE: plugin config {{{
-
+" Fugitive
 set diffopt+=vertical " Force vertical split event on small screens
 let g:fugitive_git_executable = 'LANG=en_US git' " Force git english
 
-" }}}
-" VIMNOTES: plugin config {{{
-
+" vim-notes
 let g:notes_directories = ['~/Zettelkasten/zettel']
 let g:notes_new_note_template = '~/Zettelkasten/new_zettel'
 let g:notes_title_sync = 'rename_file'
 
-" }}}
+" Transcribe
+imap <silent><buffer> <C-S> <plug>(transcribe-speed-inc)
+nmap <silent><buffer> <leader>s <plug>(transcribe-speed-inc)
+imap <silent><buffer> <C-t> <plug>(transcribe-speed-dec)
+nmap <silent><buffer> <leader>t <plug>(transcribe-speed-dec)
 
-" }}}
-" LAYOUT: settings for french bépo layout {{{
+imap <silent><buffer> <C-c> <plug>(transcribe-seek-backward)
+nmap <silent><buffer> <leader>c <plug>(transcribe-seek-backward)
+imap <silent><buffer> <C-r> <plug>(transcribe-seek-forward)
+nmap <silent><buffer> <leader>r <plug>(transcribe-seek-forward)
 
-" {W} -> [É] {{{
+imap <silent><buffer> <C-v> <plug>(transcribe-timepos-get)
 
-" On remappe W sur É :
+" vim-easy-align
+vmap <Enter> <Plug>(LiveEasyAlign)
+nmap ga <Plug>(LiveEasyAlign)
+
+" nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDTrimTrailingWhitespace = 1
+
+" ALE
+nmap <silent> <C-t> <Plug>(ale_previous_wrap)
+nmap <silent> <C-s> <Plug>(ale_next_wrap)
+
+" ==================
+" French bépo layout
+" ==================
+
+" Text objects
 noremap é w
 noremap É W
-
-" Corollaire: on remplace les text objects aw, aW, iw et iW
-" pour effacer/remplacer un mot quand on n’est pas au début (daé / laé).
 onoremap aé aw
 onoremap aÉ aW
 onoremap ié iw
 onoremap iÉ iW
 
-" Pour faciliter les manipulations de fenêtres, on utilise {W} comme un Ctrl+W :
+" Easier pane navigation
 noremap w <C-w>
 noremap W <C-w><C-w>
-
-" }}}
-" [HJKL] -> {CTSR} {{{
-
-" {cr} = « gauche / droite »
-noremap c h
-noremap r l
-
-" {ts} = « haut / bas »
-noremap t j
-noremap s k
-
-" {CR} = « haut / bas de l'écran »
-noremap C H
-noremap R L
-
-" {TS} = « joindre / aide »
-noremap T J
-noremap S K
-
-" Corollaire : repli suivant / précédent
-noremap zs zj
-noremap zt zk
-
-" {J} = « Jusqu'à »           (j = suivant, J = précédant)
-noremap j t
-noremap J T
-
-" {L} = « Change »            (l = attend un mvt, L = jusqu'à la fin de ligne)
-noremap l c
-noremap L C
-
-" {H} = « Remplace »          (h = un caractère slt, H = reste en "remplace")
-noremap h r
-noremap H R
-
-" {K} = « Substitue »         (k = caractère, K = ligne)
-noremap k s
-noremap K S
-
-" Corollaire : correction orthographique
-noremap ]k ]s
-noremap [k [s
-
-" }}}
-" Désambiguation de {g} {{{
-
-" ligne écran précédente / suivante (à l'intérieur d'une phrase)
-noremap gs gk
-noremap gt gj
-
-" onglet précédant / suivant
-noremap gb gT
-noremap gé gt
-
-" optionnel : {gB} / {gÉ} pour aller au premier / dernier onglet
-noremap gB :exe "silent! tabfirst"<CR>
-noremap gÉ :exe "silent! tablast"<CR>
-
-noremap g" g0 optionnel : {g"} pour aller au début de la ligne écran
-
-" }}}
-" Divers {{{
-
-" Remaper la gestion des fenêtres
 noremap wt <C-w>j
 noremap ws <C-w>k
 noremap wc <C-w>h
@@ -362,35 +298,73 @@ noremap wp <C-w>o
 noremap w<SPACE> :split<CR>
 noremap w<CR> :vsplit<CR>
 
-" <> en direct
-noremap « <
-noremap » >
+" [HJKL] -> {CTSR}
+noremap c h
+noremap r l
+noremap t j
+noremap s k
+noremap C H
+noremap R L
+noremap gs gk
+noremap gt gj
+noremap gb gT
+noremap gé gt
+noremap g" g0
 
-" Gestion des plis
+" {JK} -> {TS}
+noremap T J
+noremap S K
+
+" Folds
 noremap zs zk
 noremap zt zj
 
-" }}}
-" Réparer les netrw_mappings {{{
+" {J}
+noremap j t
+noremap J T
 
+" {L}
+noremap l c
+noremap L C
+
+" {H}
+noremap h r
+noremap H R
+
+" {K}
+noremap k s
+noremap K S
+
+" Spellcheck
+noremap ]k ]s
+noremap [k [s
+
+" Indentation
+noremap « <
+noremap » >
+
+" Netwr
 augroup netrw_mapping
-    autocmd!
-    autocmd filetype netrw call NetrwMapping()
+  autocmd!
+  autocmd filetype netrw call NetrwMapping()
 augroup END
+inoremap <c-g> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
 
 function! NetrwMapping()
-    noremap <buffer> c h
-    noremap <buffer> r l
-    noremap <buffer> t j
-    noremap <buffer> s k
+  noremap <buffer> c h
+  noremap <buffer> r l
+  noremap <buffer> t j
+  noremap <buffer> s k
 endfunction
 
-" }}}
+" ========
+" Hardmode
+" ========
 
-" }}}
-" Hardmode {{{
-
-autocmd VimEnter * DisableNonCountedBasicMotions
+augroup hardmode
+  autocmd!
+  autocmd VimEnter * DisableNonCountedBasicMotions
+augroup END
 
 " Never use arrow keys ;-)
 noremap <Left> :echoe "Use c ;-)"<CR>
@@ -401,5 +375,3 @@ noremap <Down> :echoe "Use t ;-)"<CR>
 " Say goodbye to backspace and delete in Insert mode
 inoremap <BS> <Nop>
 inoremap <Del> <Nop>
-
-" }}}
