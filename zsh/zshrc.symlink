@@ -90,6 +90,10 @@ alias nv="nvim"
 alias mutt="neomutt"
 alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 
+# Development
+alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio https://www.youtube.com/watch?v=dm3Na4XU3us"'
+
+
 # Dotfiles
 alias vimrc="$EDITOR ~/.dotfiles/vim/vimrc.symlink"
 alias zshrc="$EDITOR ~/.dotfiles/zsh/zshrc.symlink"
@@ -99,6 +103,7 @@ alias muttrc="$EDITOR ~/.dotfiles/mutt/muttrc"
 alias dotfiles="cd ~/.dotfiles"
 alias pdw="cd ~/Documents/phd-writing"
 # }}}
+
 
 # Functions {{{
 
