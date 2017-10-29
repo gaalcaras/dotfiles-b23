@@ -108,6 +108,7 @@ nnoremap <leader>$ :call AlignWithSpaces(78)<cr> " Align with spaces
 
 nnoremap <leader>, :Denite file_rec<cr> " Open fuzzy file search
 nnoremap <leader>b :Denite buffer<cr> " Open fuzzy buffer search
+nnoremap <leader><cr> :vsplit<cr> :Denite file_rec<cr>
 nnoremap <leader>v :edit ~/.dotfiles/vim/vimrc.symlink<cr> " Open vimrc
 nnoremap <leader>rr :w<cr>:source $MYVIMRC<cr> " Reload vimrc"
 
