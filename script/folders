@@ -8,8 +8,8 @@ folders[$HOME/.vim]=$HOME/.config/nvim
 ffiles[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
 
 # Vim
-ffiles[$HOME/.dotfiles/vim/colors.vim]=$HOME/.vimrc_background
 folders[$HOME/.dotfiles/vim/ftplugin]=$HOME/.vim/after/ftplugin
+ffiles[$HOME/.dotfiles/vim/dotfiles.vim]=$HOME/.vim/autoload/dotfiles.vim
 
 # Mutt
 folders[$HOME/.dotfiles/mutt]=$HOME/.mutt

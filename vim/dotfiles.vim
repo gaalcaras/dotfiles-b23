@@ -6,7 +6,7 @@ scriptencoding utf8
 
 " Useful for writing vim documentation: right align text by inserting
 " n spaces at current cursor position.
-function! AlignWithSpaces(last_col) abort
+function! dotfiles#AlignWithSpaces(last_col) abort
   let l:cur_pos = getpos('.') " Save current position
 
   " Go to first space in line and save position
@@ -31,7 +31,7 @@ function! AlignWithSpaces(last_col) abort
   call setpos('.', l:cur_pos) " Go back to original position
 endfunction
 
-function! ToggleSolarizedDarkTheme() abort
+function! dotfiles#ToggleSolarizedDarkTheme() abort
   if g:colors_name =~# 'dark'
     let g:colors_name = substitute(g:colors_name, 'dark', 'light', '')
   else
@@ -43,7 +43,7 @@ endfunction
 " If buffer modified, update any 'lastmodified: ' in the first 20 lines.
 " 'lastmodified: 2016-01-13 16:51:48
 " Restores cursor and window position using save_cursor variable.
-function! LastModified()
+function! dotfiles#LastModified()
   if &modified
     let l:save_cursor = getpos('.')
     let l:n = min([20, line('$')])
@@ -57,7 +57,7 @@ endfun
 " When new file is created, edit any 'date: ' in the first 20 lines.
 " 'date: ' can have up to 10 characters before (they are retained). 
 " Restores cursor and window position using save_cursor variable.
-function! DateCreated()
+function! dotfiles#DateCreated()
   if &modifiable
     let l:save_cursor = getpos('.')
     let l:n = min([20, line('$')])
@@ -69,7 +69,7 @@ function! DateCreated()
 endfun
 
 " When new file is created, add the time id on the first line.
-function! DateID()
+function! dotfiles#DateID()
   if &modifiable
     if (&filetype ==# 'notes')
       let l:save_cursor = getpos('.')
@@ -85,9 +85,23 @@ function! DateID()
   endif
 endfun
 
+" Define new text objects with delimiters : **, --, __, etc.
+function! dotfiles#DefineNewTextObjects(arr_delimiters) abort
+  for l:char in a:arr_delimiters
+    execute 'xnoremap i' . l:char . ' :<C-u>normal! T'
+          \ . l:char . 'vt' . l:char . '<cr>'
+    execute 'onoremap i' . l:char . ' :normal vi'
+          \ . l:char . '<cr>'
+    execute 'xnoremap a' . l:char . ' :<C-u>normal! F'
+          \ . l:char . 'vf' . l:char . '<cr>'
+    execute 'onoremap a' . l:char . ' :normal va'
+          \ . l:char . '<cr>'
+  endfor
+endfunction
+
 " HARDMODE, adpated from this gist to bépo layout:
 " https://gist.github.com/jeetsukumaran/96474ebbd00b874f0865
-function! DisableIfNonCounted(move) range
+function! dotfiles#DisableIfNonCounted(move) range
   if v:count
     if a:move ==? 'c'
       return 'h'
@@ -105,13 +119,13 @@ function! DisableIfNonCounted(move) range
   endif
 endfunction
 
-function! SetDisablingOfBasicMotionsIfNonCounted(on)
+function! dotfiles#SetDisablingOfBasicMotionsIfNonCounted(on)
   let l:keys_to_disable = get(g:, 'keys_to_disable_if_not_preceded_by_count',
         \ ['c', 't', 's', 'r'])
   if a:on
     for l:key in l:keys_to_disable
-      execute 'noremap <expr> <silent> ' . l:key . " DisableIfNonCounted('"
-            \ . l:key . "')"
+      execute 'noremap <expr> <silent> ' . l:key
+            \ . " dotfiles#DisableIfNonCounted('" . l:key . "')"
     endfor
     let g:keys_to_disable_if_not_preceded_by_count = l:keys_to_disable
     let g:is_non_counted_basic_motions_disabled = 1
@@ -130,18 +144,24 @@ function! SetDisablingOfBasicMotionsIfNonCounted(on)
     endif
 endfunction
 
-function! ToggleDisablingOfBasicMotionsIfNonCounted()
+function! dotfiles#ToggleDisablingOfBasicMotionsIfNonCounted()
   let l:is_disabled = get(g:, 'is_non_counted_basic_motions_disabled', 0)
   if l:is_disabled
-    call SetDisablingOfBasicMotionsIfNonCounted(0)
+    call dotfiles#SetDisablingOfBasicMotionsIfNonCounted(0)
   else
-    call SetDisablingOfBasicMotionsIfNonCounted(1)
+    call dotfiles#SetDisablingOfBasicMotionsIfNonCounted(1)
   endif
 endfunction
 
-command! ToggleDisablingOfNonCountedBasicMotions
-      \ :call ToggleDisablingOfBasicMotionsIfNonCounted()
-command! DisableNonCountedBasicMotions
-      \ :call SetDisablingOfBasicMotionsIfNonCounted(1)
-command! EnableNonCountedBasicMotions
-      \ :call SetDisablingOfBasicMotionsIfNonCounted(0)
+function! dotfiles#OpenPluginHomepage() abort
+   " Get line under cursor
+  let line = getline(".")
+
+  " Matches for instance Plug 'tpope/surround' -> tpope/surround
+  " Non-greedy match in order to not capture trailing comments
+  let plugin_name = '\w\+ \([''"]\)\(.\{-}\)\1'
+  let repository = matchlist(line, plugin_name)[2]
+
+  " Open the corresponding GitHub homepage with $BROWSER
+  silent exec "!$BROWSER https://github.com/".repository
+endfunction

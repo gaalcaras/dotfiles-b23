@@ -1,14 +1,18 @@
 " Case doesn't matter in notes
+scriptencoding utf8
+
 setlocal ignorecase
-setlocal tw=79
+setlocal textwidth=79
 
 " DATE: {{{
 
 iab <expr> ddate strftime("%c")
 
-autocmd BufWritePre * call LastModified()
-autocmd BufRead * nested call DateCreated()
-autocmd BufReadPost * call DateID()
+augroup Notes
+  autocmd BufWritePre * call   dotfiles#LastModified()
+  autocmd BufRead     * nested call dotfiles#DateCreated()
+  autocmd BufReadPost * call   dotfiles#DateID()
+augroup END
 
 " }}}
 

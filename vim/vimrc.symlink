@@ -2,6 +2,7 @@
 " vimrc by @gaalcaras
 "
 " Meant to be used with NeoVim
+" Autoload functions --> $HOME/.dotfiles/vim/dotfiles.vim
 
 scriptencoding utf8
 
@@ -17,7 +18,6 @@ if has('syntax') && !exists('g:syntax_on')
   syntax enable
 endif
 
-source $HOME/.dotfiles/vim/functions.vim
 
 " ================
 " General settings
@@ -361,6 +361,13 @@ endfunction
 " ========
 " Hardmode
 " ========
+
+command! ToggleDisablingOfNonCountedBasicMotions
+      \ :call dotfiles#ToggleDisablingOfBasicMotionsIfNonCounted()
+command! DisableNonCountedBasicMotions
+      \ :call dotfiles#SetDisablingOfBasicMotionsIfNonCounted(1)
+command! EnableNonCountedBasicMotions
+      \ :call dotfiles#SetDisablingOfBasicMotionsIfNonCounted(0)
 
 augroup hardmode
   autocmd!
