@@ -30,6 +30,7 @@ set foldmethod=syntax
 set foldlevelstart=1
 set splitright " Open splits on the right
 set wildignore=*.pdf,*.aux,*.png,*.pyc
+set wildmode=longest,list,full
 set modeline
 
 set linebreak " Wrap lines smartly (not always in the middle of a word)
@@ -82,9 +83,9 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 autocmd! BufLeave,InsertLeave,CursorHold * silent! :w
 autocmd! FocusLost,FocusGained * silent! :wa
 
-" =================
-" Personal mappings
-" =================
+" ==================================
+" Personal mappings and text objects
+" ==================================
 
 " Get away from inside [], (), {}, «», '', "", **
 inoremap <c-g> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
@@ -95,29 +96,47 @@ nnoremap <c-m> <c-]>
 vnoremap <c-m> <c-]>
 
 nnoremap gf :w<cr>gf
-nnoremap g<cr> :w<cr><c-w>vgf " Open file under cursor in vertical split
-nnoremap g<space> :w<cr><c-w>f " Open file under cursor in horizontal split
+" Open file under cursor in vertical split
+nnoremap g<cr> :w<cr><c-w>vgf
+" Open file under cursor in horizontal split
+nnoremap g<space> :w<cr><c-w>f
 
 nnoremap <c-s> :w<cr>
 inoremap <c-s> <c-o>:w<cr>
 
-nnoremap <leader>tt :m-2<cr>:j<cr> " Append the line above to the end
-nnoremap <leader>= yyp:s/./=/g<cr>:noh<cr> " Add a line of = below
-nnoremap <leader>- yyp:s/./-/g<cr>:noh<cr> " Add a line of = below
-nnoremap <leader>$ :call AlignWithSpaces(78)<cr> " Align with spaces
+" Append the line above to the end
+nnoremap <leader>tt :m-2<cr>:j<cr>
+" Delete everything right of the cursor and paste it in a new line
+" line above, then delete beginning and trailing whitespaces
+nnoremap <leader>ts DO<Esc>p:.s/^\s\+//<cr>:+1<cr>:.s/\s\+$//<cr>$
+" Add a line of = below
+nnoremap <leader>= yyp:s/./=/g<cr>:noh<cr>
+" Add a line of = below
+nnoremap <leader>- yyp:s/./-/g<cr>:noh<cr>
+" Align with spaces
+nnoremap <leader>$ :call dotfiles#AlignWithSpaces(78)<cr>
 
-nnoremap <leader>, :Denite file_rec<cr> " Open fuzzy file search
-nnoremap <leader>b :Denite buffer<cr> " Open fuzzy buffer search
+" Open fuzzy file search
+nnoremap <leader>, :Denite file_rec<cr>
+" Open fuzzy buffer search
+nnoremap <leader>b :Denite buffer<cr>
 nnoremap <leader><cr> :vsplit<cr> :Denite file_rec<cr>
-nnoremap <leader>v :edit ~/.dotfiles/vim/vimrc.symlink<cr> " Open vimrc
-nnoremap <leader>rr :w<cr>:source $MYVIMRC<cr> " Reload vimrc"
+" Edit vimrc
+nnoremap <leader>ve :edit ~/.dotfiles/vim/vimrc.symlink<cr>
+" Reload vimrc
+nnoremap <leader>vr :w<cr>:source $MYVIMRC<cr>
 
 " Clear highlighted search results
 nnoremap <silent> <c-L> :nohlsearch<cr>
-nnoremap <silent> <localleader>B :call ToggleSolarizedDarkTheme()<cr> 
+nnoremap <silent> <localleader>B :call dotfiles#ToggleSolarizedDarkTheme()<cr>
+
 " Sorry ExMode, but you've gotta go
 map q: <Nop>
 nnoremap Q <nop>
+
+" Add new text objects delimited by :
+call dotfiles#DefineNewTextObjects([ '_', '.', ':', ',', ';', '<bar>', '/',
+                          \ '<bslash>', '*', '+', '%', '-', '#' ])
 
 " ========
 " vim-plug
@@ -145,6 +164,7 @@ Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 Plug 'Shougo/neco-vim', { 'for' : 'vim' }
 Plug 'tmhedberg/simpylfold', { 'for' : 'python' } " Adequate Python folding
 Plug 'tpope/vim-endwise', { 'for' : ['ruby', 'vim', 'lua'] }
+Plug 'neomutt/neomutt.vim'
 
 "  General functionnality
 Plug 'w0rp/ale' " Check style and syntax asynchronously
@@ -244,6 +264,10 @@ augroup END
 set diffopt+=vertical " Force vertical split event on small screens
 let g:fugitive_git_executable = 'LANG=en_US git' " Force git english
 
+" Gitgutter
+nmap (c [c
+nmap )c ]c
+
 " vim-notes
 let g:notes_directories = ['~/Zettelkasten/zettel']
 let g:notes_new_note_template = '~/Zettelkasten/new_zettel'
@@ -268,6 +292,7 @@ nmap ga <Plug>(LiveEasyAlign)
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
 let g:NERDTrimTrailingWhitespace = 1
 
 " ALE
@@ -316,9 +341,9 @@ noremap g" g0
 noremap T J
 noremap S K
 
-" Folds
-noremap zs zk
-noremap zt zj
+" Screen shifting
+noremap zs zb
+noremap zt zt
 
 " {J}
 noremap j t
