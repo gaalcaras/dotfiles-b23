@@ -80,7 +80,7 @@ alias ldot="ll -d .*"
 alias mmv='noglob zmv -W'
 
 # Locale stuff
-alias git='LANG=en_US.UTF-8 git'
+alias git='LC_ALL=C git'
 alias khal='LC_TIME=C khal'
 alias ikhal='LC_TIME=C ikhal'
 
@@ -91,13 +91,13 @@ alias mutt="neomutt"
 alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 
 # Development
-alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio https://www.youtube.com/watch?v=dm3Na4XU3us"'
+alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
 
 
 # Dotfiles
-alias vimrc="$EDITOR ~/.dotfiles/vim/vimrc.symlink"
-alias zshrc="$EDITOR ~/.dotfiles/zsh/zshrc.symlink"
-alias muttrc="$EDITOR ~/.dotfiles/mutt/muttrc"
+alias vimrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/vim/vimrc.symlink"
+alias zshrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/zsh/zshrc.symlink"
+alias muttrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/mutt/muttrc"
 
 # Directories
 alias dotfiles="cd ~/.dotfiles"
