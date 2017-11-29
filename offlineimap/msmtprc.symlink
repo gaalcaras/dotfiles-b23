@@ -36,3 +36,12 @@ port 587
 passwordeval "pass show email/telecom-paristech.fr/pass"
 
 # }}}
+
+# RESET {{{
+
+account reset
+host smtp.gmail.com
+port 587
+passwordeval "pass show email/reset/pass"
+
+# }}}

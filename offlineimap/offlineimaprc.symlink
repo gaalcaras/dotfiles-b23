@@ -1,5 +1,5 @@
 [general]
-accounts = gmail, ehess, telecom
+accounts = gmail, ehess, telecom, reset
 pythonfile = ~/.dotfiles/offlineimap/offlineimap-helpers.py
 
 # Gmail setup {{{
@@ -107,3 +107,44 @@ folderfilter = lambda foldername: foldername not in ['Chats', 'Contacts', 'Email
 # Necessary as of OfflineIMAP 6.5.4
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 # }}}
+
+# reset setup {{{
+[Account reset]
+localrepository = reset-local
+remoterepository = reset-remote
+synclabels = yes
+labelsheader = X-Keywords
+
+[Repository reset-local]
+type = GmailMaildir
+localfolders = ~/.email/reset
+
+# Reverse name trans can be tricky.
+# Debug and test new configs with "offlineimap --info"!
+# Also, read:
+# http://www.offlineimap.org/doc/nametrans.html#reverse-nametrans
+nametrans = lambda foldername: re.sub ('Numeros', 'Num&AOk-ros',
+                               re.sub ('Bak', '[Gmail]',
+                               re.sub ('Inbox', 'INBOX',
+                               re.sub ('\.', '/',
+                               re.sub ('_', ' ', foldername.title())))))
+
+[Repository reset-remote]
+type = Gmail
+remotehost = imap.gmail.com
+remoteusereval = get_user('reset')
+remotepasseval = get_pass('reset')
+
+# Translate folder names to English, lowercase + underscores
+nametrans = lambda foldername: re.sub ('^\[gmail\]', 'bak',
+                               re.sub ('num&aok-ros', 'numeros',
+                               re.sub (' ', '_', foldername.lower())))
+
+# # Do not sync All folders
+folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', '[Gmail]/Important', '[Gmail]/Starred', '[Gmail]/Spam']
+
+# # Necessary as of OfflineIMAP 6.5.4
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# }}}
+
+# vim: fdm=marker fmr={{{,}}} fdl=0 fen

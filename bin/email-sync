@@ -122,7 +122,7 @@ check rosa.ehess.fr
 e_status=$?
 if [ $e_status -ne 0 ]; then
   log "rosa.ehess.fr seems down. Only syncing other accounts."
-  sync_email="$sync_email -a gmail,telecom"
+  sync_email="$sync_email -a gmail,telecom,reset"
 fi
 
 # }}}
