@@ -66,9 +66,16 @@ set pager="builtin"
 set pager_context=5 # 5 lines of overlap when scrolling up or down
 set pager_index_lines = 10 # Show index lines in pager
 
-# Order headers
-unhdr_order *
-hdr_order Date: From: Subject: To: Cc
+# Collapse all threads on open
+folder-hook . "exec collapse-all"
+folder-hook . "exec first-entry"
+
+# Forward with attachments
+set mime_forward=yes 
+set mime_forward_rest=yes
+
+# Keywords
+bind index,pager y edit-label
 
 set send_charset="utf-8"
 
@@ -106,7 +113,7 @@ set strict_threads="yes"
 set sort_browser="reverse-date"
 set sort_aux="reverse-last-date-received"
 set uncollapse_jump # Go to next unread message when thread uncollapsed
-set collapse_unread # don't collapse on an unread message
+# set collapse_unread # don't collapse on an unread message
 # }}}
 
 # BINDINGS {{{
@@ -147,6 +154,9 @@ source ~/.mutt/colors # Nice colorscheme
 
 # MACROS {{{
 # View email in $BROWSER
+
+# Reload muttrc
+macro index,pager,attach \cr '<enter-command>source ~/.mutt/muttrc<enter>' 'Reload muttrc'
 
 # Display links in email
 macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
