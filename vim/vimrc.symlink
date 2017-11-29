@@ -45,6 +45,7 @@ set smartindent " Indent sanely
 " Relative numbers
 set relativenumber
 set number
+au TermOpen * setlocal nonumber norelativenumber " Not in the terminal tho
 
 " Lowercase is case sensitive, upper case is not
 set ignorecase
@@ -163,12 +164,14 @@ Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
 Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
 Plug 'Shougo/neco-vim', { 'for' : 'vim' }
 Plug 'tmhedberg/simpylfold', { 'for' : 'python' } " Adequate Python folding
+Plug 'Vimjas/vim-python-pep8-indent', { 'for' : 'python' }
 Plug 'tpope/vim-endwise', { 'for' : ['ruby', 'vim', 'lua'] }
 Plug 'neomutt/neomutt.vim'
 
 "  General functionnality
 Plug 'w0rp/ale' " Check style and syntax asynchronously
 Plug 'roxma/nvim-completion-manager'
+Plug 'roxma/ncm-github'
 " Plug 'roxma/python-support.nvim'
 Plug 'tpope/vim-repeat'
 Plug 'blindFS/vim-taskwarrior'
@@ -188,7 +191,8 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 
 " Development
-Plug '~/Codecave/transcribe.nvim'
+Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
+Plug '~/Codecave/ncm-R'
 " Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
 
 " Text & code manipulation
@@ -211,6 +215,7 @@ call denite#custom#source('file_rec', 'matchers',
 call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
   \ [ '.git/', '.ropeproject/', '__pycache__/',
   \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
+  \   '.Rproj.user/*', '.~lock*', '.Rhistory',
   \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
 " Solarized
@@ -246,6 +251,8 @@ let g:delimitMate_expand_cr = 1 " Correct indentation
 
 " Nvim-R
 let g:r_syntax_folding = 1
+let g:R_assign = 0 " Do not expand _ to <-
+let g:R_clear_line = 1 " Always clear line in the R Console
 
 " Vim Markdown
 let g:vim_markdown_folding_level = 2
@@ -278,13 +285,12 @@ imap <silent><buffer> <C-S> <plug>(transcribe-speed-inc)
 nmap <silent><buffer> <leader>s <plug>(transcribe-speed-inc)
 imap <silent><buffer> <C-t> <plug>(transcribe-speed-dec)
 nmap <silent><buffer> <leader>t <plug>(transcribe-speed-dec)
-
 imap <silent><buffer> <C-c> <plug>(transcribe-seek-backward)
 nmap <silent><buffer> <leader>c <plug>(transcribe-seek-backward)
 imap <silent><buffer> <C-r> <plug>(transcribe-seek-forward)
 nmap <silent><buffer> <leader>r <plug>(transcribe-seek-forward)
-
 imap <silent><buffer> <C-v> <plug>(transcribe-timepos-get)
+imap <silent><buffer> <C-p> <plug>(transcribe-sync)
 
 " vim-easy-align
 vmap <Enter> <Plug>(LiveEasyAlign)

@@ -1,3 +1,5 @@
+setlocal textwidth=79
+
 function! CompileMarkdown(open_pdf)
    let cur_file = expand('%:p')
    let pdf_folder = $NOTES_FOLDER_PDF
@@ -14,7 +16,6 @@ function! CompileMarkdown(open_pdf)
 
    silent !clear
    execute instruction
-
 endfun
 
 map <Leader>lp :call CompileMarkdown(1)<CR>
