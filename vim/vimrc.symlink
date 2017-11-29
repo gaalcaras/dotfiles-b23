@@ -181,6 +181,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/goyo.vim' " Focused writing
 Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Display various info in lowerbar
 Plug 'vim-airline/vim-airline'
@@ -304,6 +306,16 @@ let g:NERDTrimTrailingWhitespace = 1
 " ALE
 nmap <silent> <C-t> <Plug>(ale_previous_wrap)
 nmap <silent> <C-s> <Plug>(ale_next_wrap)
+
+" UltiSnips
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsListSnippets='<c-tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
+let g:UltiSnipsEditSplit='vertical'
+let g:UltiSnipsSnippetsDir='.vim/myownsnips'
+let g:UltiSnipsSnippetDirectories=['UltiSnips', 'myownsnips']
+
 
 " ==================
 " French bépo layout
