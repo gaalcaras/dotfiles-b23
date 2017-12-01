@@ -1,7 +1,6 @@
-" Case doesn't matter in notes
 scriptencoding utf8
 
-setlocal ignorecase
+setlocal ignorecase " Case doesn't matter in notes
 setlocal textwidth=79
 
 " DATE: {{{
@@ -9,8 +8,8 @@ setlocal textwidth=79
 iab <expr> ddate strftime("%c")
 
 augroup Notes
-  autocmd BufWritePre * call   dotfiles#LastModified()
-  autocmd BufRead     * nested call dotfiles#DateCreated()
+  autocmd BufWritePre * call dotfiles#LastModified("Dernière modification")
+  autocmd BufRead     * nested call dotfiles#DateCreated("Date de création")
   autocmd BufReadPost * call   dotfiles#DateID()
 augroup END
 
@@ -31,10 +30,4 @@ inoremap <buffer> » "<C-G>U<Left><Left>
 
 " }}}
 
-" Make small undo chunks for writing prose
-inoremap . .<c-g>u
-inoremap ? ?<c-g>u
-inoremap ! !<c-g>u
-inoremap : :<c-g>u
-inoremap , ,<c-g>u
-inoremap ; ;<c-g>u
+call dotfiles#UndoChunks()

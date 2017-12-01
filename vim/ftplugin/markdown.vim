@@ -1,33 +1,17 @@
+scriptencoding utf8
+
+setlocal ignorecase " Case doesn't matter in notes
 setlocal textwidth=79
 
-function! CompileMarkdown(open_pdf)
-   let cur_file = expand('%:p')
-   let pdf_folder = $NOTES_FOLDER_PDF
-   let file_root = expand('%:t:r')
-   write
+map <Leader>lp :call dotfiles#CompileMarkdown(1)<CR>
+map <Leader>ll :call dotfiles#CompileMarkdown(0)<CR>
 
-   let instruction = "! pandoc " . cur_file .
-               \ " -f markdown -t latex -s --toc -V geometry:margin=1in -o " .
-               \ pdf_folder . file_root . ".pdf"
+augroup markdown
+  autocmd BufWritePre * call dotfiles#LastModified("lastmodified")
+augroup END
 
-   if a:open_pdf == 1
-       let instruction = instruction . " && evince " . pdf_folder . file_root . ".pdf &" 
-   endif
+" Some useful completion when taking notes
+inoremap <buffer> « ""<C-G>U<Left><Left>
+inoremap <buffer> » "<C-G>U<Left><Left>
 
-   silent !clear
-   execute instruction
-endfun
-
-map <Leader>lp :call CompileMarkdown(1)<CR>
-map <Leader>ll :call CompileMarkdown(0)<CR>
-
-" Hide 80 char limit
-setlocal colorcolumn=0
-
-" Make small undo chunks for writing prose
-inoremap . .<c-g>u
-inoremap ? ?<c-g>u
-inoremap ! !<c-g>u
-inoremap : :<c-g>u
-inoremap , ,<c-g>u
-inoremap ; ;<c-g>u
+call dotfiles#UndoChunks()

@@ -43,25 +43,23 @@ endfunction
 " If buffer modified, update any 'lastmodified: ' in the first 20 lines.
 " 'lastmodified: 2016-01-13 16:51:48
 " Restores cursor and window position using save_cursor variable.
-function! dotfiles#LastModified()
-  if &modified
-    let l:save_cursor = getpos('.')
-    let l:n = min([20, line('$')])
-    keepjumps exe '1,' . l:n . 's#^\(.\{,10}Dernière modification : \).*$#\1'.
-          \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
-    call histdel('search', -1)
-    call setpos('.', l:save_cursor)
-  endif
+function! dotfiles#LastModified(prefix)
+  let l:save_cursor = getpos('.')
+  let l:n = min([20, line('$')])
+  keepjumps exe '1,' . l:n . 's#^\(.\{,10}' . a:prefix . '\s*: \).*$#\1'.
+        \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
+  call histdel('search', -1)
+  call setpos('.', l:save_cursor)
 endfun
 
 " When new file is created, edit any 'date: ' in the first 20 lines.
 " 'date: ' can have up to 10 characters before (they are retained). 
 " Restores cursor and window position using save_cursor variable.
-function! dotfiles#DateCreated()
+function! dotfiles#DateCreated(prefix)
   if &modifiable
     let l:save_cursor = getpos('.')
     let l:n = min([20, line('$')])
-    keepjumps exe '1,' . l:n . 's#^\(.\{,10}Date de création      : \)$#\1' .
+    keepjumps exe '1,' . l:n . 's#^\(.\{,10}' . a:prefix . '\s*: \)$#\1' .
           \ strftime('%Y-%m-%d %H:%M:%S') . '#e'
     call histdel('search', -1)
     call setpos('.', l:save_cursor)
@@ -164,4 +162,42 @@ function! dotfiles#OpenPluginHomepage() abort
 
   " Open the corresponding GitHub homepage with $BROWSER
   silent exec "!$BROWSER https://github.com/".repository
+endfunction
+
+" Make small undo chunks for writing prose
+function! dotfiles#UndoChunks() abort
+  inoremap . .<c-g>u
+  inoremap ? ?<c-g>u
+  inoremap ! !<c-g>u
+  inoremap : :<c-g>u
+  inoremap , ,<c-g>u
+  inoremap ; ;<c-g>u
+endfunction
+
+function! dotfiles#CompileMarkdown(open_pdf)
+   let l:cur_file = expand('%:p')
+   let l:cur_dir = expand('%:h')
+   let l:file_root = expand('%:t:r')
+   let l:pdf_file = l:cur_dir . '/' . l:file_root . '.pdf'
+   write
+
+   let l:instruction = '! pandoc ' . l:cur_file .
+               \ ' -f markdown -t latex -s --toc -V geometry:margin=1in -o ' .
+               \ l:pdf_file
+
+   if a:open_pdf == 1
+     let l:instruction = l:instruction . ' && evince ' .
+           \ l:pdf_file
+   endif
+
+   silent !clear
+   execute l:instruction
+endfun
+
+function ExpandYamlNote() abort
+  let l:first_line = getline(1)
+
+  if l:first_line !=# '---'
+    execute "normal! iyaml_note\<C-r>=UltiSnips#ExpandSnippet()\<CR>"
+  endif
 endfunction

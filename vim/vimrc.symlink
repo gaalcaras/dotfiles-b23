@@ -258,6 +258,8 @@ let g:R_clear_line = 1 " Always clear line in the R Console
 
 " Vim Markdown
 let g:vim_markdown_folding_level = 2
+let g:vim_markdown_new_list_item_indent = 2
+let g:vim_markdown_frontmatter = 1
 
 " vimtex
 let g:vimtex_fold_enabled = 1
