@@ -107,12 +107,28 @@ alias pdw="cd ~/Documents/phd-writing"
 
 # Functions {{{
 
-note() {
+zettel() {
   local cmd="Note $@"
   nvim -c "$cmd"
 }
 
-compdef '_path_files -W $HOME/Zettelkasten/zettel' note
+note() {
+  local file="$@"
+  local date_regex="^[0-9]{4}\-[0-9]{2}\-[0-9]{2}\-.*"
+  if [[ "$file" =~ "$date_regex" ]]
+  then
+    local filename=$file
+  else
+    local tdate=$(date +%Y-%m-%d)
+    local filename="$tdate-$file.md"
+  fi
+  local filepath="$HOME/Nextcloud/Notes/$filename"
+
+  nvim $filepath
+}
+
+compdef '_path_files -W $HOME/Zettelkasten/zettel' zettel
+compdef '_path_files -W $HOME/Nextcloud/Notes' note
 
 # }}}
 
