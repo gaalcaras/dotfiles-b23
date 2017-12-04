@@ -6,6 +6,7 @@
 [alias]
         co = checkout
         br = branch
+        st = status -sb
 [color]
         diff = auto
         status = auto

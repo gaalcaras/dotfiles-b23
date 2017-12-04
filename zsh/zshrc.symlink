@@ -65,45 +65,6 @@ bindkey -M vicmd 'll' vi-change-whole-line
 
 # }}}
 
-# ALIAS {{{
-alias reload='source ~/.zshrc'
-
-alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
-
-# ls aliases
-alias ls="ls -F --color=auto --block-size=M"
-alias la="ls -a"
-alias ll="ls -l"
-alias lla="ll -a"
-alias ldot="ll -d .*"
-
-alias mmv='noglob zmv -W'
-
-# Locale stuff
-alias git='LC_ALL=C git'
-alias khal='LC_TIME=C khal'
-alias ikhal='LC_TIME=C ikhal'
-
-# Tools
-alias nv="nvim"
-alias mutt="neomutt"
-alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
-
-# Development
-alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
-
-
-# Dotfiles
-alias vimrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/vim/vimrc.symlink"
-alias zshrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/zsh/zshrc.symlink"
-alias muttrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/mutt/muttrc"
-
-# Directories
-alias dotfiles="cd ~/.dotfiles"
-alias pdw="cd ~/Documents/phd-writing"
-# }}}
-
-
 # Functions {{{
 
 zettel() {
@@ -138,7 +99,10 @@ compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 
 # }}}
 
-# eval "$(tmuxifier init -)"
+if hash tmuxifier 2>/dev/null;
+then
+  eval "$(tmuxifier init -)"
+fi
 
 # Oh My Zsh {{{
 
@@ -166,3 +130,49 @@ plugins=(git cp pass taskwarrior vi-mode zsh-dircolors-solarized)
 
 source $ZSH/oh-my-zsh.sh
 # }}}
+
+# ALIAS {{{
+alias reload='source ~/.zshrc'
+
+alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
+
+# ls aliases
+alias ls="ls -F --color=auto --block-size=M"
+alias la="ls -a"
+alias ll="ls -l"
+alias lla="ll -a"
+alias ldot="ll -d .*"
+
+alias mmv='noglob zmv -W'
+
+# git aliases
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gs='git status -sb'
+alias gst='git status -sb'
+alias gc='git commit'
+alias ga='git add -p'
+
+# Locale stuff
+alias git='LC_ALL=C git'
+alias khal='LC_TIME=C khal'
+alias ikhal='LC_TIME=C ikhal'
+
+# Tools
+alias nv="nvim"
+alias mutt="neomutt"
+alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
+
+# Development
+alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
+
+# Dotfiles
+alias vimrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/vim/vimrc.symlink"
+alias zshrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/zsh/zshrc.symlink"
+alias muttrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/mutt/muttrc"
+
+# Directories
+alias dotfiles="cd ~/.dotfiles"
+alias pdw="cd ~/Documents/phd-writing"
+# }}}
+
+# vim: fdm=marker fmr={{{,}}} fdl=0 fen
