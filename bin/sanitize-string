@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# ==========================================
+# Sanitize string
+# ==========================================
+
+string=$*
+
+# Strip spaces at both ends ; replace spaces with dashes
+clean_str=${string//^ /}
+clean_str=${clean_str// $/}
+clean_str=${clean_str// /\-}
+
+# Delete all non alphanumeric characters
+clean_str=${clean_str//[^a-zA-Z0-9\-]/}
+
+# Strip dashes at both ends
+clean_str=$(echo "$clean_str" | sed -e 's/^\-*//g')
+clean_str=$(echo "$clean_str" | sed -e 's/\-*$//g')
+
+# To lowercase
+clean_str=$(echo "$clean_str" | tr '[:upper:]' '[:lower:]')
+
+echo "$clean_str"
