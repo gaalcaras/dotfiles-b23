@@ -1,0 +1,153 @@
+#!/bin/bash
+
+# ==========================================
+# Create new or open existing note
+# ==========================================
+
+NOTE_DIR="$HOME/Nextcloud/Notes"
+NOTE_TYPES=("Réunion" "Séminaire" "Colloque" "Journée Études" "Journée doctorale"
+            "Notes de lecture" "Conférence" "Atelier")
+NOTE_INST=("Formation doctorale" "EHESS" "RESET" "Directeurs" "CMH" "CPES")
+
+FILE="$*"
+
+# Color management and setup
+red=`tput setaf 1`
+yellow=`tput setaf 3`
+blue=`tput setaf 4`
+mage=`tput setaf 5`
+reset=`tput sgr0`
+
+function print_option {
+  echo "${mage}$1${reset}"
+}
+
+function warning {
+  echo "${red}$1${reset}"
+}
+
+function question {
+  echo "${yellow}$1${reset}"
+  echo
+}
+
+# Given an array, list options and their indexes
+function list_options {
+  local options=( "$@" )
+  for index in "${!options[@]}";
+  do
+    print_option "$index. ${options[$index]}"
+  done
+  echo
+}
+
+# Ask user to choose between options (given as an array)
+# Does not return anything, but assigns given value to $export_prompt
+function read_options {
+  local options=( "$@" )
+  local options_len=${#options[@]}
+  local input
+
+  list_options "${options[@]}"
+
+  local keep_asking=true
+  while [[ $keep_asking == true ]]; do
+    read -p "Votre choix ${blue}[p pour autre; q pour quitter]${reset} $ " input
+
+    if ! [[ $input =~ ^[0-9]+$ ]];
+    then
+      # If input is not a number...
+      if [ $input == "q" ];
+      then
+        tput rc && tput ed && exit 0
+      elif [ $input == "p" ];
+      then
+        # Prompt for user to enter a custom value
+        read -p "${mage}> " other_value
+        echo "${reset}"
+
+        if [[ -z "${other_value// }" ]];
+        then
+          warning "Valeurs vides non acceptées ;-)"
+        else
+          keep_asking=false
+          export_prompt="$other_value"
+        fi
+      else
+        warning "La valeur est incorrecte :("
+      fi
+    elif [ $input -le $((options_len-1)) ];
+    then
+      # If input is a number in the range of available options...
+      keep_asking=false
+      export_prompt="${options[$input]}"
+    else
+      warning "La valeur est incorrecte :("
+    fi
+  done
+}
+
+function create_new_note {
+  tput sc
+
+  # First section
+  question "De quel type de note s'agit-il ?"
+  export_prompt=""
+  read_options "${NOTE_TYPES[@]}"
+  note_type=$(sanitize-string "$export_prompt")
+
+  tput rc && tput ed # Clear part of the screen
+
+  # Second section
+  question "Quelle institution, quel endroit, quelles personnes ?"
+  export_prompt=""
+  read_options "${NOTE_INST[@]}"
+  note_inst=$(sanitize-string "$export_prompt")
+
+  tput rc && tput ed # Clear part of the screen
+
+  # Last section
+  keep_asking=true
+  while [[ $keep_asking == true ]]; do
+    read -p "${yellow}La note a-t-elle un titre? ${blue}[y/n/q]${reset} $ " has_title
+
+    if [ "$has_title" == "y" ];
+    then
+      read -p "${mage}> " note_title
+      echo "${reset}"
+      keep_asking=false
+      note_title=$(sanitize-string "$note_title")
+    elif [ "$has_title" == "n" ];
+    then
+      keep_asking=false
+      note_title=""
+    elif [ "$has_title" == "q" ];
+    then
+      tput rc && tput ed && exit 0
+    else
+      warning "La valeur est incorrecte :("
+    fi
+  done
+
+  tput rc && tput ed # Clear part of the screen
+
+  # Combine all sections to make the note
+  tdate=$(date +%Y-%m-%d)
+  filename="$tdate-$note_type-$note_inst-$note_title.md"
+
+  # Remove anomalies introduced when an option is missing
+  filename=${filename//\-\-/\-} # doubles dashes
+  filename=${filename//\-\./\.} # -.md at the end of the file
+
+  # Tadaa! Edit file and expand snippet after opening vim
+  nvim "$NOTE_DIR/$filename" -c "call ExpandYamlNote()"
+}
+
+# The script per se
+if [[ "$FILE" =~ ^[0-9]{4} ]];
+then
+  # If given a filename with a date (e.g. 2014xxx), edit it
+  nvim "$NOTE_DIR/$FILE"
+else
+  create_new_note
+fi

@@ -72,28 +72,6 @@ zettel() {
   nvim -c "$cmd"
 }
 
-note() {
-  local file="$@"
-  local run_command=""
-
-  local date_regex="^[0-9]{4}\-[0-9]{2}\-[0-9]{2}\-.*"
-  if [[ "$file" =~ "$date_regex" ]]
-  then
-    local filename=$file
-  else
-    local tdate=$(date +%Y-%m-%d)
-    local filename="$tdate-$file.md"
-  fi
-  local filepath="$HOME/Nextcloud/Notes/$filename"
-
-  if [[ "$file" =~ "$date_regex" ]]
-  then
-    nvim $filepath
-  else
-    nvim $filepath -c "call ExpandYamlNote()"
-  fi
-}
-
 compdef '_path_files -W $HOME/Zettelkasten/zettel' zettel
 compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 
