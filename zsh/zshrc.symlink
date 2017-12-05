@@ -137,16 +137,16 @@ alias ikhal='LC_TIME=C ikhal'
 
 # Tools
 alias nv="nvim"
-alias mutt="neomutt"
+alias mutt="neomutt && email-sync --quiet &>/dev/null &"
 alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 
 # Development
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
 
 # Dotfiles
-alias vimrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/vim/vimrc.symlink"
-alias zshrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/zsh/zshrc.symlink"
-alias muttrc="cd ~/.dotfiles && $EDITOR ~/.dotfiles/mutt/muttrc"
+alias vimrc="cd ~/.dotfiles/vim && $EDITOR ~/.dotfiles/vim/vimrc.symlink"
+alias zshrc="cd ~/.dotfiles/zsh && $EDITOR ~/.dotfiles/zsh/zshrc.symlink"
+alias muttrc="cd ~/.dotfiles/mutt && $EDITOR ~/.dotfiles/mutt/muttrc"
 
 # Directories
 alias dotfiles="cd ~/.dotfiles"
