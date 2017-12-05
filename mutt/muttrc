@@ -54,6 +54,7 @@ set sleep_time = 0
 
 set mailcap_path = ~/.dotfiles/mutt/mailcap
 
+set auto_tag=yes
 set include=yes # Include a copy of the message when replying
 set copy=yes # Copy sent mail to Sent folder
 set delete=yes # Just delete it

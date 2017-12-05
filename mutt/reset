@@ -30,11 +30,11 @@ macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>offlinei
 macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>offlineimap -o -a reset<enter><enter-command>set wait_key<enter>' 'Sync everything'
 
 # Archive with one key
-macro index,pager aa "<save-message>+reset/archives<enter>" "Move to archives"
-macro index,pager ai "<save-message>+reset/inbox<enter>" "Move to inbox"
-macro index,pager a8 "<save-message>+reset/numeros.#8<enter>" "Apply label Numéro #8"
-macro index,pager a7 "<save-message>+reset/numeros.#7<enter>" "Apply label Numéro #7"
-macro index,pager a7 "<save-message>+reset/varia<enter>" "Apply label Varia"
+macro index,pager aa "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/archives<enter><untag-pattern>.<enter>" "Move to archives"
+macro index,pager ai "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/inbox<enter><untag-pattern>.<enter>" "Move to inbox"
+macro index,pager a8 "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/numeros.#8<enter><untag-pattern>.<enter>" "Apply label Numéro #8"
+macro index,pager a7 "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/numeros.#7<enter><untag-pattern>.<enter>" "Apply label Numéro #7"
+macro index,pager av "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/varia<enter><untag-pattern>.<enter>" "Apply label Varia"
 
 # SMTP
 set sendmail="msmtp-enqueue -a reset --user=$my_reset_em --from=$my_reset_em"

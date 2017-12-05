@@ -27,7 +27,7 @@ macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>offlinei
 macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>offlineimap -o -a telecom<enter><enter-command>set wait_key<enter>' 'Sync everything'
 
 # Archive with one key
-macro index,pager a "<save-message>+telecom/archives<enter>" "Move to archives"
+macro index,pager a "<collapse-thread><tag-thread><clear-flag>N<save-message>+telecom/archives<enter><untag-pattern>.<enter>" "Move to archives"
 
 # SMTP
 set sendmail="msmtp-enqueue -a telecom --user=$my_telecom_em --from=$my_telecom_em"
