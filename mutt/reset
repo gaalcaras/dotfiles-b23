@@ -26,15 +26,20 @@ macro index,pager gv "<change-folder>+reset/varia<enter>" "Go to Varia label"
 macro index,pager g8 "<change-folder>+reset/numeros.#8<enter>" "Go to Numéro 8 label"
 macro index,pager g7 "<change-folder>+reset/numeros.#7<enter>" "Go to Numéro 7 label"
 
-macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>offlineimap -o -a reset -f INBOX<enter><enter-command>set wait_key<enter>' 'Sync inbox'
-macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>offlineimap -o -a reset<enter><enter-command>set wait_key<enter>' 'Sync everything'
+macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>clear && offlineimap -o -a reset -f INBOX<enter><enter-command>set wait_key<enter>' 'Sync inbox'
+macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>clear && offlineimap -o -a reset<enter><enter-command>set wait_key<enter>' 'Sync everything'
 
 # Archive with one key
-macro index,pager aa "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/archives<enter><untag-pattern>.<enter>" "Move to archives"
-macro index,pager ai "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/inbox<enter><untag-pattern>.<enter>" "Move to inbox"
-macro index,pager a8 "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/numeros.#8<enter><untag-pattern>.<enter>" "Apply label Numéro #8"
-macro index,pager a7 "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/numeros.#7<enter><untag-pattern>.<enter>" "Apply label Numéro #7"
-macro index,pager av "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/varia<enter><untag-pattern>.<enter>" "Apply label Varia"
+macro index aa "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/archives<enter><untag-pattern>.<enter>" "Move to archives"
+macro pager aa "qaa<enter>" "Move to archives (from pager)"
+macro index ai "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/inbox<enter><untag-pattern>.<enter>" "Move to inbox"
+macro pager ai "qai<enter>" "Move to inbox (from pager)"
+macro index a8 "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/numeros.#8<enter><untag-pattern>.<enter>" "Apply label Numéro #8"
+macro pager a8 "qa8<enter>" "Apply label Numéro #8 (from pager)"
+macro index a7 "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/numeros.#7<enter><untag-pattern>.<enter>" "Apply label Numéro #7"
+macro pager a7 "qa7<enter>" "Apply label Numéro #7 (from pager)"
+macro index av "<collapse-thread><tag-thread><clear-flag>N<save-message>+reset/varia<enter><untag-pattern>.<enter>" "Apply label Varia"
+macro pager av "qav<enter>" "Apply label Varia (from pager)"
 
 # SMTP
 set sendmail="msmtp-enqueue -a reset --user=$my_reset_em --from=$my_reset_em"

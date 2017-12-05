@@ -29,14 +29,6 @@ folder-hook ehess* 'source ~/.mutt/ehess'
 folder-hook telecom* 'source ~/.mutt/telecom'
 folder-hook reset* 'source ~/.mutt/reset
 
-# unset wait_key
-
-# Sync inbox on startup
-# startup-hook "push '<shell-escape>email-fast-sync<enter>'"
-
-# Sync folders and send queue on shutdown
-# shutdown-hook "push '<shell-escape>email-long-sync<enter>'"
-
 # Default mailbox
 source ~/.mutt/gmail
 
@@ -132,7 +124,11 @@ bind index gg first-entry
 
 bind index,pager z noop
 bind index zC collapse-all
+macro pager zC 'qzC'
 bind index zc collapse-thread
+bind index zz collapse-thread
+bind index zo collapse-thread
+macro pager zc 'qzc'
 
 bind index,pager \CP sidebar-prev
 bind index,pager \CN sidebar-next
@@ -166,8 +162,8 @@ macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
 macro attach S <save-entry><bol>/home/gabo/Downloads/mutt/<eol><enter>
 
 # Send and sync emails
-macro index,pager .l '<shell-escape>msmtp-listqueue<enter>' 'List emails in queue'
-macro index,pager .r '<shell-escape>msmtp-runqueue<enter>' 'Send emails in queue'
+macro index,pager .l '<shell-escape>clear && msmtp-listqueue<enter>' 'List emails in queue'
+macro index,pager .r '<shell-escape>clear && msmtp-runqueue<enter>' 'Send emails in queue'
 
 # Switch between mailboxes
 bind index,pager <F1> noop
