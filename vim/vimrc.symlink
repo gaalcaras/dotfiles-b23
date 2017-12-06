@@ -236,9 +236,9 @@ call denite#custom#map(
 
 
 " Solarized
-if !exists('g:colors_name') || g:colors_name !=# 'solarized8_dark'
-  colorscheme solarized8_dark
-endif
+set background=dark
+let g:current_background='dark'
+colorscheme solarized8
 
 " nvim-completion-manager
 set shortmess+=c

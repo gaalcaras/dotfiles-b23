@@ -32,12 +32,13 @@ function! dotfiles#AlignWithSpaces(last_col) abort
 endfunction
 
 function! dotfiles#ToggleSolarizedDarkTheme() abort
-  if g:colors_name =~# 'dark'
-    let g:colors_name = substitute(g:colors_name, 'dark', 'light', '')
+  if g:current_background =~# 'dark'
+    let g:current_background='light'
   else
-    let g:colors_name = substitute(g:colors_name, 'light', 'dark', '')
+    let g:current_background='dark'
   endif
-  exe 'colors ' . g:colors_name
+  exec 'set background=' . g:current_background
+  colorscheme solarized8
 endfunction
 
 " If buffer modified, update any 'lastmodified: ' in the first 20 lines.
