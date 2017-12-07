@@ -156,33 +156,46 @@ function! BuildComposer(info)
 endfunction
 
 " Language related plugins
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-Plug 'pangloss/vim-javascript', { 'for' : ['javascript', 'typescript'] }
-Plug 'lervag/vimtex', { 'for' : ['latex', 'tex'] }
-Plug 'plasticboy/vim-markdown', { 'for' : 'markdown' }
-Plug 'mzlogin/vim-markdown-toc', { 'for' : 'markdown' }
-Plug 'jalvesaq/Nvim-R', { 'for' : 'r' }
-Plug 'Shougo/neco-vim', { 'for' : 'vim' }
-Plug 'tmhedberg/simpylfold', { 'for' : 'python' } " Adequate Python folding
-Plug 'Vimjas/vim-python-pep8-indent', { 'for' : 'python' }
-Plug 'tpope/vim-endwise', { 'for' : ['ruby', 'vim', 'lua'] }
+" ------------------------
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer'),
+      \ 'for' : 'markdown' }
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
+Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'tex'] } " Focused writing
+
+" Adequate Python folding
+Plug 'tmhedberg/simpylfold', { 'for': 'python' }
+Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
+
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
+Plug 'lervag/vimtex', { 'for': ['latex', 'tex'] }
+Plug 'jalvesaq/Nvim-R', { 'for': 'r' }
+Plug 'Shougo/neco-vim', { 'for': 'vim' }
+Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vim', 'lua'] }
 Plug 'neomutt/neomutt.vim'
 
-"  General functionnality
+" General functionnality
+" ----------------------
 Plug 'w0rp/ale' " Check style and syntax asynchronously
-Plug 'roxma/nvim-completion-manager'
-Plug 'roxma/ncm-github'
-" Plug 'roxma/python-support.nvim'
+Plug 'roxma/nvim-completion-manager', { 'on': [] }
+  Plug 'roxma/ncm-github', { 'for': 'markdown' }
+Plug 'SirVer/ultisnips', { 'on': [] }
+  Plug 'honza/vim-snippets', { 'for': 'vim' }
+
 Plug 'tpope/vim-repeat'
-Plug 'blindFS/vim-taskwarrior'
+Plug 'blindFS/vim-taskwarrior', { 'on': 'TW' }
 Plug 'lifepillar/vim-solarized8'
-Plug 'Shougo/denite.nvim', { 'do' : ':UpdateRemotePlugins' }
+Plug 'Shougo/denite.nvim', { 'do' : 'UpdateRemotePlugins', 'on': 'Denite' }
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/goyo.vim' " Focused writing
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
+
+augroup load_on_insert
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips', 'nvim-completion-manager')
+                     \| autocmd! load_on_insert
+augroup END
 
 " Display various info in lowerbar
 Plug 'vim-airline/vim-airline'
@@ -195,10 +208,11 @@ Plug 'xolox/vim-notes'
 " Development
 Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
 Plug '~/Codecave/ncm-R'
+" Plug 'gaalcaras/ncm-R'
 " Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
 
 " Text & code manipulation
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 Plug 'ConradIrwin/vim-bracketed-paste' " Set 'set:paste' in insert mode
 Plug 'scrooloose/nerdcommenter'
 Plug 'raimondi/delimitmate' " Handle delimiters automatically
@@ -212,27 +226,29 @@ call plug#end() " Add plugins to &runtimepath
 " =======
 
 " Denite
-call denite#custom#source('file_rec', 'matchers',
-  \ ['matcher_fuzzy', 'matcher_ignore_globs'])
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-  \ [ '.git/', '.ropeproject/', '__pycache__/',
-  \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
-  \   '.Rproj.user/*', '.~lock*', '.Rhistory',
-  \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+if exists('g:loaded_denite')
+  call denite#custom#source('file_rec', 'matchers',
+    \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+  call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+    \ [ '.git/', '.ropeproject/', '__pycache__/',
+    \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
+    \   '.Rproj.user/*', '.~lock*', '.Rhistory',
+    \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
-call denite#custom#map(
-        \ 'insert',
-        \ '<C-n>',
-        \ '<denite:move_to_next_line>',
-        \ 'noremap'
-        \)
+  call denite#custom#map(
+          \ 'insert',
+          \ '<C-n>',
+          \ '<denite:move_to_next_line>',
+          \ 'noremap'
+          \)
 
-call denite#custom#map(
-        \ 'insert',
-        \ '<C-p>',
-        \ '<denite:move_to_previous_line>',
-        \ 'noremap'
-        \)
+  call denite#custom#map(
+          \ 'insert',
+          \ '<C-p>',
+          \ '<denite:move_to_previous_line>',
+          \ 'noremap'
+          \)
+endif
 
 
 " Solarized
