@@ -144,9 +144,9 @@ alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
 
 # Dotfiles
-alias vimrc="cd ~/.dotfiles/vim && $EDITOR ~/.dotfiles/vim/vimrc.symlink"
-alias zshrc="cd ~/.dotfiles/zsh && $EDITOR ~/.dotfiles/zsh/zshrc.symlink"
-alias muttrc="cd ~/.dotfiles/mutt && $EDITOR ~/.dotfiles/mutt/muttrc"
+alias vimrc="tmpdir=$(pwd) && cd ~/.dotfiles/vim && $EDITOR ~/.dotfiles/vim/vimrc.symlink && cd $tmpdir"
+alias zshrc="tmpdir=$(pwd) && cd ~/.dotfiles/zsh && $EDITOR ~/.dotfiles/zsh/zshrc.symlink && cd $tmpdir"
+alias muttrc="tmpdir=$(pwd) && cd ~/.dotfiles/mutt && $EDITOR ~/.dotfiles/mutt/muttrc && cd $tmpdir"
 
 # Directories
 alias dotfiles="cd ~/.dotfiles"
