@@ -42,18 +42,6 @@ function! dotfiles#AlignWithSpaces(last_col) abort
   call setpos('.', l:cur_pos) " Go back to original position
 endfunction
 
-function! dotfiles#ToggleSolarizedDarkTheme() abort
-  if g:current_background =~# 'dark'
-    let g:current_background='light'
-  else
-    let g:current_background='dark'
-  endif
-  exec 'set background=' . g:current_background
-  colorscheme solarized8
-  exec 'AirlineTheme ' . g:airline_theme
-  call jobstart('echo "' . g:current_background . '" > $HOME/.solarized')
-endfunction
-
 " If buffer modified, update any 'lastmodified: ' in the first 20 lines.
 " 'lastmodified: 2016-01-13 16:51:48
 " Restores cursor and window position using save_cursor variable.
