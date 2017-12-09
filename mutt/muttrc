@@ -64,7 +64,7 @@ folder-hook . "exec collapse-all"
 folder-hook . "exec first-entry"
 
 # Forward with attachments
-set mime_forward=yes 
+set mime_forward=yes
 set mime_forward_rest=yes
 
 # Keywords
@@ -101,7 +101,7 @@ set sidebar_delim_chars = '/.'
 # }}}
 
 # THREADS {{{
-set sort="threads" 
+set sort="threads"
 set strict_threads="yes"
 set sort_browser="reverse-date"
 set sort_aux="reverse-last-date-received"
