@@ -266,8 +266,9 @@ endif
 
 
 " Solarized
-set background=dark
-let g:current_background='dark'
+let g:current_background=readfile(glob('~/.solarized'))[0]
+exe 'set background=' . g:current_background
+" let g:current_background='dark'
 colorscheme solarized8
 
 " nvim-completion-manager

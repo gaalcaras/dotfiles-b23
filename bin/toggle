@@ -1,0 +1,14 @@
+#!/bin/bash
+
+SOLARIZED=$(cat "$HOME/.solarized")
+if [ "$SOLARIZED" = "dark" ]
+then
+  solarized-light
+  new_color="light"
+else
+  solarized-dark
+  new_color="dark"
+fi
+
+echo "$new_color" > "$HOME/.solarized"
+nvim "+Tmuxline airline" "+q"

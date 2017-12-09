@@ -39,6 +39,8 @@ function! dotfiles#ToggleSolarizedDarkTheme() abort
   endif
   exec 'set background=' . g:current_background
   colorscheme solarized8
+  exec 'AirlineTheme ' . g:airline_theme
+  call jobstart('echo "' . g:current_background . '" > $HOME/.solarized')
 endfunction
 
 " If buffer modified, update any 'lastmodified: ' in the first 20 lines.

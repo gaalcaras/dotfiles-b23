@@ -153,4 +153,12 @@ alias dotfiles="cd ~/.dotfiles"
 alias pdw="cd ~/Documents/phd-writing"
 # }}}
 
+local SOLARIZED=$(cat "$HOME/.solarized")
+if [ "$SOLARIZED" = "dark" ]
+then
+  solarized-dark
+else
+  solarized-light
+  POWERLEVEL9K_COLOR_SCHEME='light'
+fi
 # vim: fdm=marker fmr={{{,}}} fdl=0 fen
