@@ -88,6 +88,10 @@ autocmd! FocusLost,FocusGained * silent! :wa
 " Personal mappings and text objects
 " ==================================
 
+" Show next matched string at the center of screen
+nnoremap n nzz
+nnoremap N Nzz
+
 " Get away from inside [], (), {}, «», '', "", **
 inoremap <c-g> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
 nnoremap <c-g> /[)}*"»'`\]*]<cr>:nohl<cr>a
@@ -186,10 +190,13 @@ Plug 'tpope/vim-repeat'
 Plug 'blindFS/vim-taskwarrior', { 'on': 'TW' }
 Plug 'lifepillar/vim-solarized8'
 Plug 'Shougo/denite.nvim', { 'do' : 'UpdateRemotePlugins', 'on': 'Denite' }
+Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
+
+" Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
+Plug 'jreybert/vimagit', { 'on': 'Magit' }
 
 augroup load_on_insert
   autocmd!
@@ -200,6 +207,7 @@ augroup END
 " Display various info in lowerbar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
 
 " Give vim some note taking abilities
 Plug 'xolox/vim-misc'
@@ -224,6 +232,12 @@ call plug#end() " Add plugins to &runtimepath
 " =======
 " Plugins
 " =======
+
+" vimagit
+let g:magit_stage_line_mapping = 'LL'
+
+" vim-sandwich with surround mappings
+runtime macros/sandwich/keymap/surround.vim
 
 " Denite
 if exists('g:loaded_denite')
@@ -261,23 +275,15 @@ set shortmess+=c
 let g:cm_matcher = {'module': 'cm_matchers.substr_matcher',
       \'case': 'smartcase'}
 
-" Surround
-let g:surround_no_mappings = 1 " Disable default mappings
-
-nmap ds  <Plug>Dsurround
-nmap ys  <Plug>Ysurround
-nmap yS  <Plug>YSurround
-nmap yss <Plug>Yssurround
-nmap ySs <Plug>YSsurround
-nmap ls  <Plug>Csurround
-nmap lS  <Plug>CSurround
-xmap S   <Plug>VSurround
-xmap gS  <Plug>VgSurround
-
 " Airline
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16_solarized'
+let g:airline_theme = 'base16'
 let g:airline#extensions#tabline#enabled = 1 " Display buffers as tabs on top
+let g:airline_detect_spelllang=0
+let g:airline_detect_spell=0
+let g:airline#extensions#hunks#enabled=0
+let g:airline#extensions#wordcount#enabled=1
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
 " Delimitmate
 let g:delimitMate_expand_cr = 1 " Correct indentation
