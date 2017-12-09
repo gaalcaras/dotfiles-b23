@@ -67,14 +67,6 @@ bindkey -M vicmd 'll' vi-change-whole-line
 
 # Functions {{{
 
-zettel() {
-  local cmd="Note $@"
-  nvim -c "$cmd"
-}
-
-compdef '_path_files -W $HOME/Zettelkasten/zettel' zettel
-compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
-
 # }}}
 
 if hash tmuxifier 2>/dev/null;
@@ -144,13 +136,40 @@ alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
 
 # Dotfiles
-alias vimrc="tmpdir=$(pwd) && cd ~/.dotfiles/vim && $EDITOR ~/.dotfiles/vim/vimrc.symlink && cd $tmpdir"
-alias zshrc="tmpdir=$(pwd) && cd ~/.dotfiles/zsh && $EDITOR ~/.dotfiles/zsh/zshrc.symlink && cd $tmpdir"
-alias muttrc="tmpdir=$(pwd) && cd ~/.dotfiles/mutt && $EDITOR ~/.dotfiles/mutt/muttrc && cd $tmpdir"
+function vimrc() {
+  tmpdir=$(pwd)
+  cd "$HOME/.dotfiles/vim"
+  $EDITOR $HOME/.dotfiles/vim/vimrc.symlink
+  cd "$tmpdir"
+}
+
+function zshrc() {
+  tmpdir=$(pwd)
+  cd "$HOME/.dotfiles/zsh"
+  $EDITOR $HOME/.dotfiles/zsh/zshrc.symlink
+  cd "$tmpdir"
+}
+
+function muttrc() {
+  tmpdir=$(pwd)
+  cd "$HOME/.dotfiles/mutt"
+  $EDITOR $HOME/.dotfiles/mutt/muttrc
+  cd "$tmpdir"
+}
 
 # Directories
 alias dotfiles="cd ~/.dotfiles"
 alias pdw="cd ~/Documents/phd-writing"
+
+# Note taking
+zettel() {
+  local cmd="Note $@"
+  nvim -c "$cmd"
+}
+
+compdef '_path_files -W $HOME/Zettelkasten/zettel' zettel
+compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
+
 # }}}
 
 local SOLARIZED=$(cat "$HOME/.solarized")
