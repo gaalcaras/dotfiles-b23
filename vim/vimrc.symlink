@@ -18,7 +18,6 @@ if has('syntax') && !exists('g:syntax_on')
   syntax enable
 endif
 
-
 " ================
 " General settings
 " ================
@@ -46,6 +45,8 @@ set smartindent " Indent sanely
 set relativenumber
 set number
 au TermOpen * setlocal nonumber norelativenumber " Not in the terminal tho
+
+set cursorline
 
 " Lowercase is case sensitive, upper case is not
 set ignorecase
@@ -149,89 +150,105 @@ call dotfiles#DefineNewTextObjects([ '_', '.', ':', ',', ';', '<bar>', '/',
 
 call plug#begin('~/.vim/plugged')
 
-function! BuildComposer(info)
-  if a:info.status !=# 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-
 " Language related plugins
 " ------------------------
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer'),
+
+" Markdown
+Plug 'euclio/vim-markdown-composer', {'do':function('dotfiles#BuildComposer'),
       \ 'for' : 'markdown' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'tex'] } " Focused writing
 
-" Adequate Python folding
-Plug 'tmhedberg/simpylfold', { 'for': 'python' }
+" Python
+Plug 'tmhedberg/simpylfold', { 'for': 'python' } " Adequate Python folding
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 
+" Other programming languages
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
 Plug 'lervag/vimtex', { 'for': ['latex', 'tex'] }
 Plug 'jalvesaq/Nvim-R', { 'for': 'r' }
 Plug 'Shougo/neco-vim', { 'for': 'vim' }
 Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vim', 'lua'] }
-Plug 'neomutt/neomutt.vim'
 
-" General functionnality
-" ----------------------
+" Language completion and syntax checking
 Plug 'w0rp/ale' " Check style and syntax asynchronously
 Plug 'roxma/nvim-completion-manager', { 'on': [] }
   Plug 'roxma/ncm-github', { 'for': 'markdown' }
 Plug 'SirVer/ultisnips', { 'on': [] }
   Plug 'honza/vim-snippets', { 'for': 'vim' }
 
+" General functionnality
+" ----------------------
+
 Plug 'tpope/vim-repeat'
 Plug 'blindFS/vim-taskwarrior', { 'on': 'TW' }
-Plug 'lifepillar/vim-solarized8'
+Plug 'neomutt/neomutt.vim'
 Plug 'Shougo/denite.nvim', { 'do' : 'UpdateRemotePlugins', 'on': 'Denite' }
 Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
+Plug 'tmux-plugins/vim-tmux-focus-events'
+
+" Give vim some note taking abilities
+Plug 'xolox/vim-misc'
+  Plug 'xolox/vim-notes'
 
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'jreybert/vimagit', { 'on': 'Magit' }
 
-augroup load_on_insert
-  autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'nvim-completion-manager')
-                     \| autocmd! load_on_insert
-augroup END
-
-" Display various info in lowerbar
+" Colors and appearance
+Plug 'lifepillar/vim-solarized8'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+  Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 
-" Give vim some note taking abilities
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-notes'
+" Improve text editing
+" --------------------
 
-" Development
-Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
-Plug '~/Codecave/ncm-R'
-" Plug 'gaalcaras/ncm-R'
-" Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
-
-" Text & code manipulation
 Plug 'machakann/vim-sandwich'
 Plug 'ConradIrwin/vim-bracketed-paste' " Set 'set:paste' in insert mode
 Plug 'scrooloose/nerdcommenter'
 Plug 'raimondi/delimitmate' " Handle delimiters automatically
 Plug 'tpope/vim-abolish' " Add improved support for abbreviations
 Plug 'junegunn/vim-easy-align'
+Plug 'yangmillstheory/vim-snipe'
+
+" My own plugins
+" --------------
+
+Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
+Plug '~/Codecave/ncm-R'
+" Plug 'gaalcaras/ncm-R'
+" Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
+
+" Load these plugins only when entering Insert Mode
+augroup load_on_insert
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips', 'nvim-completion-manager')
+                     \| autocmd! load_on_insert
+augroup END
 
 call plug#end() " Add plugins to &runtimepath
 
 " =======
 " Plugins
 " =======
+
+" vim-snipe
+map <leader>sf <Plug>(snipe-f)
+map <leader>sF <Plug>(snipe-F)
+map <leader>st <Plug>(snipe-t)
+map <leader>sT <Plug>(snipe-T)
+map <leader>sé <Plug>(snipe-w)
+map <leader>sÉ <Plug>(snipe-W)
+map <leader>sb <Plug>(snipe-b)
+map <leader>sB <Plug>(snipe-B)
+map <leader>sgé <Plug>(snipe-ge)
+map <leader>sgÉ <Plug>(snipe-gE)
+nmap <leader>sx <Plug>(snipe-f-xp)
+nmap <leader>sX <Plug>(snipe-F-xp)
+let g:snipe_jump_tokens = 'auiectsrnmbépo'
 
 " vimagit
 let g:magit_stage_line_mapping = 'LL'
@@ -263,7 +280,6 @@ if exists('g:loaded_denite')
           \ 'noremap'
           \)
 endif
-
 
 " Solarized
 let g:current_background=readfile(glob('~/.solarized'))[0]
@@ -323,16 +339,16 @@ let g:notes_new_note_template = '~/Zettelkasten/new_zettel'
 let g:notes_title_sync = 'rename_file'
 
 " Transcribe
-imap <silent><buffer> <C-S> <plug>(transcribe-speed-inc)
-nmap <silent><buffer> <leader>s <plug>(transcribe-speed-inc)
-imap <silent><buffer> <C-t> <plug>(transcribe-speed-dec)
-nmap <silent><buffer> <leader>t <plug>(transcribe-speed-dec)
-imap <silent><buffer> <C-c> <plug>(transcribe-seek-backward)
-nmap <silent><buffer> <leader>c <plug>(transcribe-seek-backward)
-imap <silent><buffer> <C-r> <plug>(transcribe-seek-forward)
-nmap <silent><buffer> <leader>r <plug>(transcribe-seek-forward)
-imap <silent><buffer> <C-v> <plug>(transcribe-timepos-get)
-imap <silent><buffer> <C-p> <plug>(transcribe-sync)
+" imap <silent><buffer> <C-S> <plug>(transcribe-speed-inc)
+" nmap <silent><buffer> <leader>s <plug>(transcribe-speed-inc)
+" imap <silent><buffer> <C-t> <plug>(transcribe-speed-dec)
+" nmap <silent><buffer> <leader>t <plug>(transcribe-speed-dec)
+" imap <silent><buffer> <C-c> <plug>(transcribe-seek-backward)
+" nmap <silent><buffer> <leader>c <plug>(transcribe-seek-backward)
+" imap <silent><buffer> <C-r> <plug>(transcribe-seek-forward)
+" nmap <silent><buffer> <leader>r <plug>(transcribe-seek-forward)
+" imap <silent><buffer> <C-v> <plug>(transcribe-timepos-get)
+" imap <silent><buffer> <C-p> <plug>(transcribe-sync)
 
 " vim-easy-align
 vmap <Enter> <Plug>(LiveEasyAlign)

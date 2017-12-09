@@ -4,6 +4,17 @@
 
 scriptencoding utf8
 
+" Build function for vim-markdown-composer
+function! dotfiles#BuildComposer(info)
+  if a:info.status !=# 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+
 " Useful for writing vim documentation: right align text by inserting
 " n spaces at current cursor position.
 function! dotfiles#AlignWithSpaces(last_col) abort
