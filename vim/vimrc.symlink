@@ -39,7 +39,7 @@ silent! set breakindent showbreak=.. " Visually show soft breaks
 
 set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
-set smartindent " Indent sanely
+set autoindent
 
 " Relative numbers
 set relativenumber
@@ -82,8 +82,12 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " Auto save buffers
-autocmd! BufLeave,InsertLeave,CursorHold * silent! :w
-autocmd! FocusLost,FocusGained * silent! :wa
+augroup AutoSaveBuffers
+  autocmd!
+
+  autocmd! BufLeave,InsertLeave,CursorHold * silent! :w
+  autocmd! FocusLost,FocusGained * silent! :wa
+augroup END
 
 " ==================================
 " Personal mappings and text objects
@@ -142,7 +146,7 @@ nnoremap Q <nop>
 
 " Add new text objects delimited by :
 call dotfiles#DefineNewTextObjects([ '_', '.', ':', ',', ';', '<bar>', '/',
-                          \ '<bslash>', '*', '+', '%', '-', '#' ])
+      \ '<bslash>', '*', '+', '%', '-', '#' ])
 
 " ========
 " vim-plug
@@ -167,16 +171,16 @@ Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 " Other programming languages
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
 Plug 'lervag/vimtex', { 'for': ['latex', 'tex'] }
-Plug 'jalvesaq/Nvim-R', { 'for': 'r' }
+Plug 'jalvesaq/Nvim-R', { 'for': ['r', 'rmd'] }
 Plug 'Shougo/neco-vim', { 'for': 'vim' }
 Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vim', 'lua'] }
 
 " Language completion and syntax checking
 Plug 'w0rp/ale' " Check style and syntax asynchronously
 Plug 'roxma/nvim-completion-manager', { 'on': [] }
-  Plug 'roxma/ncm-github', { 'for': 'markdown' }
+Plug 'roxma/ncm-github', { 'for': 'markdown' }
 Plug 'SirVer/ultisnips', { 'on': [] }
-  Plug 'honza/vim-snippets', { 'for': 'vim' }
+Plug 'honza/vim-snippets', { 'for': 'vim' }
 
 " General functionnality
 " ----------------------
@@ -184,13 +188,13 @@ Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'tpope/vim-repeat'
 Plug 'blindFS/vim-taskwarrior', { 'on': 'TW' }
 Plug 'neomutt/neomutt.vim'
-Plug 'Shougo/denite.nvim', { 'do' : 'UpdateRemotePlugins', 'on': 'Denite' }
+Plug 'Shougo/denite.nvim', { 'do' : 'UpdateRemotePlugins' }
 Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
 " Give vim some note taking abilities
 Plug 'xolox/vim-misc'
-  Plug 'xolox/vim-notes'
+Plug 'xolox/vim-notes'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -226,7 +230,7 @@ Plug '~/Codecave/ncm-R'
 augroup load_on_insert
   autocmd!
   autocmd InsertEnter * call plug#load('ultisnips', 'nvim-completion-manager')
-                     \| autocmd! load_on_insert
+        \| autocmd! load_on_insert
 augroup END
 
 call plug#end() " Add plugins to &runtimepath
@@ -236,16 +240,16 @@ call plug#end() " Add plugins to &runtimepath
 " =======
 
 " vim-snipe
-map <leader>sf <Plug>(snipe-f)
-map <leader>sF <Plug>(snipe-F)
-map <leader>st <Plug>(snipe-t)
-map <leader>sT <Plug>(snipe-T)
-map <leader>sé <Plug>(snipe-w)
-map <leader>sÉ <Plug>(snipe-W)
-map <leader>sb <Plug>(snipe-b)
-map <leader>sB <Plug>(snipe-B)
-map <leader>sgé <Plug>(snipe-ge)
-map <leader>sgÉ <Plug>(snipe-gE)
+nmap <leader>sf <Plug>(snipe-f)
+nmap <leader>sF <Plug>(snipe-F)
+nmap <leader>st <Plug>(snipe-t)
+nmap <leader>sT <Plug>(snipe-T)
+nmap <leader>sé <Plug>(snipe-w)
+nmap <leader>sÉ <Plug>(snipe-W)
+nmap <leader>sb <Plug>(snipe-b)
+nmap <leader>sB <Plug>(snipe-B)
+nmap <leader>sgé <Plug>(snipe-ge)
+nmap <leader>sgÉ <Plug>(snipe-gE)
 nmap <leader>sx <Plug>(snipe-f-xp)
 nmap <leader>sX <Plug>(snipe-F-xp)
 let g:snipe_jump_tokens = 'auiectsrnmbépo'
@@ -254,38 +258,42 @@ let g:snipe_jump_tokens = 'auiectsrnmbépo'
 let g:magit_stage_line_mapping = 'LL'
 
 " vim-sandwich with surround mappings
-runtime macros/sandwich/keymap/surround.vim
+nmap ys <Plug>(operator-sandwich-add)
+nmap ls <Plug>(operator-sandwich-replace)
+      \<Plug>(operator-sandwich-release-count)
+      \<Plug>(textobj-sandwich-query-a)
+nmap ds <Plug>(operator-sandwich-delete)
+      \<Plug>(operator-sandwich-release-count)
+      \<Plug>(textobj-sandwich-query-a)
 
 " Denite
-if exists('g:loaded_denite')
-  call denite#custom#source('file_rec', 'matchers',
-    \ ['matcher_fuzzy', 'matcher_ignore_globs'])
-  call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-    \ [ '.git/', '.ropeproject/', '__pycache__/',
-    \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
-    \   '.Rproj.user/*', '.~lock*', '.Rhistory',
-    \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+call denite#custom#source('file_rec', 'matchers',
+      \ ['matcher_fuzzy', 'matcher_ignore_globs'])
+call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
+      \ [ '.git/', '.ropeproject/', '__pycache__/',
+      \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
+      \   '.Rproj.user/*', '.~lock*', '.Rhistory',
+      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
-  call denite#custom#map(
-          \ 'insert',
-          \ '<C-n>',
-          \ '<denite:move_to_next_line>',
-          \ 'noremap'
-          \)
+call denite#custom#map(
+      \ 'insert',
+      \ '<C-n>',
+      \ '<denite:move_to_next_line>',
+      \ 'noremap'
+      \)
 
-  call denite#custom#map(
-          \ 'insert',
-          \ '<C-p>',
-          \ '<denite:move_to_previous_line>',
-          \ 'noremap'
-          \)
+call denite#custom#map(
+      \ 'insert',
+      \ '<C-p>',
+      \ '<denite:move_to_previous_line>',
+      \ 'noremap'
+      \)
+
+" Solarized via base16
+if filereadable(expand('~/.vimrc_background'))
+  let g:base16colorspace=256
+  source ~/.vimrc_background
 endif
-
-" Solarized
-let g:current_background=readfile(glob('~/.solarized'))[0]
-exe 'set background=' . g:current_background
-" let g:current_background='dark'
-colorscheme solarized8
 
 " nvim-completion-manager
 set shortmess+=c

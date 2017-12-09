@@ -21,7 +21,7 @@ function! dotfiles#AlignWithSpaces(last_col) abort
   let l:cur_pos = getpos('.') " Save current position
 
   " Go to first space in line and save position
-  normal! ^f 
+  normal! ^f
   let l:first_space_pos = getpos('.')
 
   " Go to end of the line and compute difference
@@ -55,7 +55,7 @@ function! dotfiles#LastModified(prefix)
 endfun
 
 " When new file is created, edit any 'date: ' in the first 20 lines.
-" 'date: ' can have up to 10 characters before (they are retained). 
+" 'date: ' can have up to 10 characters before (they are retained).
 " Restores cursor and window position using save_cursor variable.
 function! dotfiles#DateCreated(prefix)
   if &modifiable
@@ -155,15 +155,15 @@ endfunction
 
 function! dotfiles#OpenPluginHomepage() abort
    " Get line under cursor
-  let line = getline(".")
+  let l:line = getline('.')
 
   " Matches for instance Plug 'tpope/surround' -> tpope/surround
   " Non-greedy match in order to not capture trailing comments
-  let plugin_name = '\w\+ \([''"]\)\(.\{-}\)\1'
-  let repository = matchlist(line, plugin_name)[2]
+  let l:plugin_name = '\w\+ \([''"]\)\(.\{-}\)\1'
+  let l:repository = matchlist(l:line, l:plugin_name)[2]
 
   " Open the corresponding GitHub homepage with $BROWSER
-  silent exec "!$BROWSER https://github.com/".repository
+  silent exec '!$BROWSER https://github.com/'.l:repository
 endfunction
 
 " Make small undo chunks for writing prose
