@@ -1,5 +1,5 @@
 autoload -U zmv
-autoload -U compinit && compinit
+autoload -U compinit && compinit -d $HOME/.cache/zsh/zcompdump-$ZSH_VERSION
 
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"

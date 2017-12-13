@@ -258,6 +258,9 @@ let g:snipe_jump_tokens = 'auiectsrnmbépo'
 let g:magit_stage_line_mapping = 'LL'
 
 " vim-sandwich with surround mappings
+let g:sandwich_no_default_key_mappings = 1
+let g:operator_sandwich_no_default_key_mappings = 1
+let g:textobj_sandwich_no_default_key_mappings = 1
 nmap ys <Plug>(operator-sandwich-add)
 nmap ls <Plug>(operator-sandwich-replace)
       \<Plug>(operator-sandwich-release-count)
@@ -309,6 +312,7 @@ let g:airline_detect_spell=0
 let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#wordcount#enabled=1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline_section_z=':%c'
 
 " Delimitmate
 let g:delimitMate_expand_cr = 1 " Correct indentation

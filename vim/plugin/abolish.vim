@@ -7,3 +7,4 @@ Abolish improbale improbable
 Abolish boutde bout de
 Abolish doftiles dotfiles
 Abolish abbrevations abbreviations
+Abolish principalemnet principalement
