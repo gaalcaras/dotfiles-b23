@@ -1,0 +1,60 @@
+
+[.dotfiles]
+checkout = git clone 'git@github.com:gaalcaras/dotfiles.git' '.dotfiles'
+
+[Documents/phd-thesis]
+checkout = git clone 'git@gitlab.com:batlab/phd-thesis.git' 'phd-thesis'
+
+[Documents/phd-writing]
+checkout = git clone 'git@gitlab.com:batlab/phd-writing.git' 'phd-writing'
+push = 
+	 git push --all
+
+[Documents/curriculum]
+checkout = git clone 'git@gitlab.com:batlab/curriculum.git' 'curriculum'
+
+[.password-store]
+checkout = git clone 'git@gitlab.com:batlab/password-store.git' '.password-store'
+
+[Codecave/academic]
+checkout = git clone 'git@github.com:gaalcaras/academic.git' 'academic'
+
+[Codecave/gaalcaras]
+checkout = git clone 'git@github.com:gaalcaras/gaalcaras.git' 'gaalcaras'
+
+[Codecave/mailingListScraper]
+checkout = git clone 'git@github.com:gaalcaras/mailingListScraper.git' 'mailingListScraper'
+push = 
+	 git push origin master
+	 git push private unstable
+
+[Codecave/sociologs]
+checkout = git clone 'git@github.com:gaalcaras/sociologs.git' 'sociologs'
+push = 
+	 git push origin master
+	 git push origin testing
+	 git push private drafts
+
+[Codecave/translators]
+checkout = git clone 'git@github.com:gaalcaras/translators.git' 'translators'
+
+[Documents/stat_intro]
+checkout = git clone 'git@gitlab.com:batlab/stat_intro.git' 'stat_intro'
+
+[Zettelkasten]
+checkout = git clone 'git@gitlab.com:batlab/zettelkasten.git' 'Zettelkasten'
+
+[Datacave/progress-tracker]
+checkout = git clone 'git@gitlab.com:batlab/progress-tracker.git' 'progress-tracker'
+
+[Codecave/transcribe.nvim]
+checkout = git clone 'git@github.com:gaalcaras/transcribe.nvim.git' 'transcribe.nvim'
+
+[Codecave/mines]
+checkout = git clone 'https://gitlab.com/batlab/mines-paris.git' 'mines'
+
+[Codecave/ncm-R]
+checkout = git clone 'git@github.com:gaalcaras/ncm-R.git' 'ncm-R'
+
+[Nextcloud/Notes]
+checkout = git clone 'git@gitlab.com:batlab/notes.git' 'Notes'
