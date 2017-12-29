@@ -5,6 +5,6 @@
 message="Do you want to (re)install scim?"
 
 function add_app {
-  apps="$apps sc-im"
+  pacaur_apps="$pacaur_apps sc-im"
   doing 'Adding scim'
 }
