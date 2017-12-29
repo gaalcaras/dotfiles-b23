@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Install zathura
+
+message="Do you want to (re)install zathura?"
+
+function add_app {
+  apps="$apps zathura zathura-djvu zathura-pdf-mupdf"
+  doing 'Adding zathura'
+}
