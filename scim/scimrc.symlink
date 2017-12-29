@@ -1,0 +1,7 @@
+" [HJKL] -> {CTSR}
+nmap "c" "h"
+nmap "r" "l"
+nmap "t" "j"
+nmap "s" "k"
+nmap "C" "H"
+nmap "R" "L"

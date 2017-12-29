@@ -5,6 +5,6 @@
 message="Do you want to (re)install ranger?"
 
 function add_app {
-  apps="$apps ranger"
+  apps="$apps ranger subliminal"
   doing 'Adding ranger'
 }
