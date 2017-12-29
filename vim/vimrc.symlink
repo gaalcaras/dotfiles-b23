@@ -34,7 +34,7 @@ set modeline
 
 set linebreak " Wrap lines smartly (not always in the middle of a word)
 set nolist " Disable list (otherwise, breaks linebreak)
-set formatoptions=qrn1t " Add options for wrapping (see help for details)
+set formatoptions=qrn1tj " Add options for wrapping (see help for details)
 silent! set breakindent showbreak=.. " Visually show soft breaks
 
 set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
@@ -44,7 +44,9 @@ set autoindent
 " Relative numbers
 set relativenumber
 set number
-au TermOpen * setlocal nonumber norelativenumber " Not in the terminal tho
+if has('nvim')
+  au TermOpen * setlocal nonumber norelativenumber " Not in the terminal tho
+endif
 
 set cursorline
 
@@ -80,6 +82,12 @@ let g:netrw_altv=1 " Open splits to the right
 let g:netrw_liststyle=3
 let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" Keep selection when changing indentation in visual mode
+vnoremap < <gv
+vnoremap « <gv
+vnoremap > >gv
+vnoremap » >gv
 
 " Auto save buffers
 augroup AutoSaveBuffers
@@ -170,17 +178,20 @@ Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 
 " Other programming languages
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
-Plug 'lervag/vimtex', { 'for': ['latex', 'tex'] }
-Plug 'jalvesaq/Nvim-R', { 'for': ['r', 'rmd'] }
+Plug 'lervag/vimtex', { 'for': ['latex', 'tex', 'rnoweb'] }
+Plug 'jalvesaq/Nvim-R', { 'for': ['r', 'rmd', 'rnoweb', 'rrst'] }
 Plug 'Shougo/neco-vim', { 'for': 'vim' }
 Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vim', 'lua'] }
 
 " Language completion and syntax checking
 Plug 'w0rp/ale' " Check style and syntax asynchronously
 Plug 'roxma/nvim-completion-manager', { 'on': [] }
+if !has('nvim')
+    Plug 'roxma/vim-hug-neovim-rpc'
+endif
 Plug 'roxma/ncm-github', { 'for': 'markdown' }
 Plug 'SirVer/ultisnips', { 'on': [] }
-Plug 'honza/vim-snippets', { 'for': 'vim' }
+Plug 'honza/vim-snippets'
 
 " General functionnality
 " ----------------------
@@ -188,7 +199,7 @@ Plug 'honza/vim-snippets', { 'for': 'vim' }
 Plug 'tpope/vim-repeat'
 Plug 'blindFS/vim-taskwarrior', { 'on': 'TW' }
 Plug 'neomutt/neomutt.vim'
-Plug 'Shougo/denite.nvim', { 'do' : 'UpdateRemotePlugins' }
+Plug 'Shougo/denite.nvim', { 'do' : ':UpdateRemotePlugins' }
 Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
@@ -342,8 +353,9 @@ set diffopt+=vertical " Force vertical split event on small screens
 let g:fugitive_git_executable = 'LANG=en_US git' " Force git english
 
 " Gitgutter
-nmap (c [c
-nmap )c ]c
+nnoremap <c-n> :GitGutterNextHunk<CR>
+nnoremap <c-p> :GitGutterPrevHunk<CR>
+nnoremap <c-u> :GitGutterUndoHunk<CR>
 
 " vim-notes
 let g:notes_directories = ['~/Zettelkasten/zettel']
@@ -374,6 +386,9 @@ let g:NERDTrimTrailingWhitespace = 1
 " ALE
 nmap <silent> <C-t> <Plug>(ale_previous_wrap)
 nmap <silent> <C-s> <Plug>(ale_next_wrap)
+nmap <silent> F <Plug>(ale_fix)
+
+let g:ale_fixers = ['autopep8', 'yapf'] " Fix Python files
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger='<tab>'

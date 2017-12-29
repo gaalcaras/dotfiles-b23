@@ -8,3 +8,7 @@ Abolish boutde bout de
 Abolish doftiles dotfiles
 Abolish abbrevations abbreviations
 Abolish principalemnet principalement
+Abolish francielenne francilienne
+Abolish das dans
+Abolish suprenant surprenant
+Abolish doctorants doctorant·e·s

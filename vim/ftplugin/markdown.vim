@@ -3,8 +3,8 @@ scriptencoding utf8
 setlocal ignorecase " Case doesn't matter in notes
 setlocal textwidth=79
 
-map <Leader>lp :call dotfiles#CompileMarkdown(1)<CR>
-map <Leader>ll :call dotfiles#CompileMarkdown(0)<CR>
+map <Localleader>lv :call dotfiles#CompileMarkdown(1)<CR>
+map <Localleader>ll :call dotfiles#CompileMarkdown(0)<CR>
 
 augroup markdown
   autocmd BufWritePre * call dotfiles#LastModified("lastmodified")

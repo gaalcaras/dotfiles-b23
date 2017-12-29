@@ -20,8 +20,8 @@ endfunction
 function! dotfiles#AlignWithSpaces(last_col) abort
   let l:cur_pos = getpos('.') " Save current position
 
-  " Go to first space in line and save position
-  normal! ^f
+  " Go to first double space in line and save position
+  execute "normal! ^/\\s\\s\<cr>"
   let l:first_space_pos = getpos('.')
 
   " Go to end of the line and compute difference
