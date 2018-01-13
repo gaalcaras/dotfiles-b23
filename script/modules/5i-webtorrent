@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Install webtorrent
+
+message="Do you want to (re)install webtorrent?"
+
+function add_app {
+  pacaur_apps="$pacaur_apps webtorrent-desktop-bin"
+  doing 'Adding webtorrent'
+}

@@ -2,12 +2,12 @@
 #
 # Install neomutt
 
-message="Do you want to install neomutt?"
+message="Do you want to install offlineimap?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    pacaur_apps="$pacaur_apps neomutt urlscan-git w3m"
-    doing 'Adding neomutt, urlscan and w3m'
+    pacaur_apps="$pacaur_apps offlineimap msmtp"
+    doing 'Adding offlineimap'
   elif [ "$system" == "ubuntu" ]; then
     apps=""
     warning 'No support for Ubuntu yet, sorry'

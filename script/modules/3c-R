@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
-# Install neomutt
+# Install R packages
 
-message="Do you want to install neomutt?"
+message="Do you want to install R and RStudio?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    pacaur_apps="$pacaur_apps neomutt urlscan-git w3m"
-    doing 'Adding neomutt, urlscan and w3m'
+    pacaur_apps="$pacaur_apps r rstudio-desktop-bin"
+    doing 'Adding R and RStudio'
   elif [ "$system" == "ubuntu" ]; then
     apps=""
     warning 'No support for Ubuntu yet, sorry'

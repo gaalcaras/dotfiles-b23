@@ -43,12 +43,6 @@ check_flavor
 
 echo
 
-# Add spell check dictionaries
-
-# Install vim-plug if necessary
-
-apps=""
-
 msg "Do you want to (re)install apps on this machine?"
 
 select yn in "Yes" "No"; do

@@ -7,5 +7,5 @@ message="Do you want to (re)install ranger?"
 function add_app {
   apps="$apps ranger"
   pacaur_apps="$pacaur_apps subliminal"
-  doing 'Adding ranger'
+  doing 'Adding ranger and subliminal'
 }

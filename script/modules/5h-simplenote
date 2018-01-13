@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Install myrepos
+
+message="Do you want to (re)install simplenote?"
+
+function add_app {
+  pacaur_apps="$pacaur_apps simplenote-electron-bin"
+  doing 'Adding simplenote'
+}

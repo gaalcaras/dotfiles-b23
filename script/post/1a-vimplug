@@ -9,7 +9,7 @@ function post_install {
     doing 'Installing Vim-Plug'
 
     if [[ $response == *"ARCH"* ]]; then
-      $run_as_normal pacaur -S rust # This is for a plugin that uses cargo
+      $run_as_normal pacaur -S rust cargo # This is for a plugin that uses cargo
     fi
 
     $run_as_normal curl -fLo $home/.vim/autoload/plug.vim --create-dirs \

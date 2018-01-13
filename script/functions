@@ -171,11 +171,12 @@ function select_apps {
 
 function install {
   $pre_install
-  $do_install $apps
 
   if [[ $response == *"ARCH"* ]]; then
-    $run_as_normal $pacaur_install $pacaur_apps
+    $run_as_normal $pacaur_install $apps $pacaur_apps
     $pip_install $pip_apps
+  else
+    $do_install $apps
   fi
 }
 
