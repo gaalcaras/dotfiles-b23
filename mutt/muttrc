@@ -159,7 +159,7 @@ macro index,pager,attach \cr '<enter-command>source ~/.mutt/muttrc<enter>' 'Relo
 macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
 
 # Save attachment
-macro attach S <save-entry><bol>/home/gabo/Downloads/mutt/<eol><enter>
+macro attach S <save-entry><bol>~/Downloads/mutt/<eol><enter>
 
 # Send and sync emails
 macro index,pager .l '<shell-escape>clear && msmtp-listqueue<enter>' 'List emails in queue'
