@@ -1,7 +1,11 @@
+nnoremap "dr" "dr"
+nnoremap "dc" "dc"
+nnoremap "or" "or"
+
 " [HJKL] -> {CTSR}
-nmap "c" "h"
-nmap "r" "l"
-nmap "t" "j"
-nmap "s" "k"
-nmap "C" "H"
-nmap "R" "L"
+nnoremap "c" "h"
+nnoremap "r" "l"
+nnoremap "t" "j"
+nnoremap "s" "k"
+nnoremap "C" "H"
+nnoremap "R" "L"
