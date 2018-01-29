@@ -1,5 +1,6 @@
 autoload -U zmv
-autoload -U compinit && compinit -d $HOME/.cache/zsh/zcompdump-$ZSH_VERSION
+autoload -U +X compinit && compinit -d $HOME/.cache/zsh/zcompdump-$ZSH_VERSION
+autoload -U +X bashcompinit && bashcompinit
 
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
@@ -81,8 +82,50 @@ fi
 
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable vcs)
+precmd() {
+  task="task rc.verbose:nothing"
+  overdue_count=$($(echo $task) +READY +OVERDUE count)
+  today_count=$($(echo $task) +READY +DUETODAY count)
+  tomorrow_count=$($(echo $task) +READY +TOMORROW count)
+  urgent_count=$($(echo $task) +READY urgency.above:10 count)
+
+  task_indicator(){
+    local output=""
+    if [[ "$overdue_count" -gt "0" ]]; then
+      output="💀 $overdue_count"
+    elif [[ "$today_count" -gt "0" ]]; then
+      output="😱 $today_count"
+    elif [[ "$tomorrow_count" -gt "0" ]]; then
+      output="📅 $tomorrow_count"
+    elif [[ "$urgent_count" -gt "0" ]]; then
+      output="❗$urgent_count"
+    else
+    fi
+
+    echo -n "$output"
+  }
+
+  task_color(){
+    local color=""
+    if [[ "$overdue_count" -gt "0" ]]; then
+      color="red"
+    elif [[ "$today_count" -gt "0" ]]; then
+      color="016"
+    elif [[ "$tomorrow_count" -gt "0" ]]; then
+      color="yellow"
+    else
+    fi
+
+    echo -n "$color"
+  }
+
+  POWERLEVEL9K_CUSTOM_TASKWARRIOR="task_indicator"
+  POWERLEVEL9K_CUSTOM_TASKWARRIOR_BACKGROUND="$(task_color)"
+}
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context custom_taskwarrior dir dir_writable vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vi_mode)
+
 
 # Fish shell shortening strategy for directories
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
@@ -95,7 +138,7 @@ then
 fi
 
 # Hide context module when user is gabo
-DEFAULT_USER="gabo"
+DEFAULT_USER="gaalcaras"
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
@@ -104,7 +147,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git cp pass taskwarrior vi-mode zsh-dircolors-solarized)
+plugins=(git cp pass taskwarrior vi-mode zsh-dircolors-solarized emoji)
 
 source $ZSH/oh-my-zsh.sh
 # }}}
@@ -140,7 +183,7 @@ alias ikhal='LC_TIME=C ikhal'
 
 # Tools
 alias nv="nvim"
-alias mutt="neomutt && email-sync --quiet &>/dev/null &"
+alias mutt="neomutt -n"
 alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 
 # Development
@@ -182,5 +225,7 @@ compdef '_path_files -W $HOME/Zettelkasten/zettel' zettel
 compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 
 # }}}
+
+eval "$(register-python-argcomplete pubs)"
 
 # vim: fdm=marker fmr={{{,}}} fdl=0 fen
