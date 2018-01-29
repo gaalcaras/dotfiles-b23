@@ -1,5 +1,7 @@
 text/html; uconv --add-signature -f %{charset} -t UTF-8 %s && $BROWSER -new-tab %s & sleep 5;
 text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/plain; nvim %s;
+text/csv; scim %s;
 
 application/pdf; /usr/bin/evince %s 2>/dev/null;
 

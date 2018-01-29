@@ -57,7 +57,19 @@ set postpone=ask-yes
 # Pager
 set pager="builtin"
 set pager_context=5 # 5 lines of overlap when scrolling up or down
+set pager_stop
 set pager_index_lines = 10 # Show index lines in pager
+
+# Pager Headers
+ignore *
+unignore date from to cc subject
+unignore x-mailer
+hdr_order From: Subject: To: Cc: Date:
+
+# Customize status flags with symbols and emojis
+# https://www.neomutt.org/guide/reference.html#to-chars
+set to_chars=" >TCFL"
+set flag_chars="* D ✔····  "
 
 # Collapse all threads on open
 folder-hook . "exec collapse-all"
@@ -67,13 +79,17 @@ folder-hook . "exec first-entry"
 set mime_forward=yes
 set mime_forward_rest=yes
 
+# Don't forget attachment
+set abort_noattach="ask-yes"
+set attach_keyword = "\\<(attach(é|ed|ments?)|PJ|(pièce|ci)( |-)joint|joins)\\>"
+
 # Keywords
 bind index,pager y edit-label
 
 set send_charset="utf-8"
 
 set date_format="%m/%d %H:%M"
-set index_format="%2C %Z %d %-15.15F %s"
+set index_format="%2C %Z %<[y?%<[m?%<[d?%[%H:%M  ]&%[%a %d]>&%[%b %d]>&%[%m/%Y]> %<M?[%M]&%<E? %e &   >> %-20.20F %s"
 
 # Vim, of course
 set editor=`echo \$EDITOR`
@@ -93,7 +109,7 @@ unset sidebar_visible
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
 set status_chars  = " *%A"
-set status_format = "\n───[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%>─%?p?( %p postponed )?───"
+set status_format = "─%>──[ Folder: %f ]───[%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]───%?p?( %p postponed )?───"
 set sidebar_divider_char = " | "
 
 set sidebar_short_path = yes
@@ -138,6 +154,10 @@ bind index,pager R group-reply
 
 bind attach <return>    view-mailcap
 
+bind index,pager d noop
+bind index,pager d delete-thread
+
+
 # Khard
 bind editor <Tab> complete-query
 bind editor ^T    complete
@@ -145,12 +165,26 @@ bind editor ^T    complete
 
 # COLORS {{{
 
-source ~/.mutt/colors # Nice colorscheme
+source ~/.mutt/colors
 
 # }}}
 
 # MACROS {{{
 # View email in $BROWSER
+
+# Open read only mutt in a new tmux pane
+macro index,pager,attach .m "<enter-command>unset wait\_key<enter><shell-escape>tmux split-window -h 'neomutt -R'<enter>set wait\_key<enter>" 'Open tmux pane with read-only mutt'
+
+# Taskwarrior integration
+macro index,pager .tt "<pipe-message>mutt2task.py<enter>" 'Add email to Taskwarrior'
+macro index,pager .tm "<pipe-message>mutt2task.py --modify<enter>" 'Add email to Taskwarrior and edit task name'
+macro index,pager .ta "<pipe-message>mutt2task.py --answer 'Répondre à '<enter>" 'Add answering reminder in Taskwarrior'
+
+# Quick limit macros
+macro index,pager ,a "<limit>all<enter>" 'Limit to all'
+macro index,pager ,l "<limit>~s[[]<enter>" 'Limit to mailing lists'
+macro index,pager ,m "<limit>~p!~F<enter>" 'Limit to direct emails'
+macro index,pager ,r "<limit>~sCR-RESET<enter>" 'Limit to RESET mailing list'
 
 # Reload muttrc
 macro index,pager,attach \cr '<enter-command>source ~/.mutt/muttrc<enter>' 'Reload muttrc'
