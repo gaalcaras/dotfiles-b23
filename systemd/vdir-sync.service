@@ -1,7 +1,7 @@
 [Unit]
 Description=Sync contacts and calendars (with vdirsyncer)
 After=keyring.target network.target
-ConditionPathExistsGlob=/home/gabo/.dotfiles/bin/vdir-sync
+ConditionPathExistsGlob=/home/gaalcaras/.dotfiles/bin/vdir-sync
 
 [Service]
 Type=oneshot
