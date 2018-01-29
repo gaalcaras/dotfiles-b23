@@ -51,7 +51,7 @@ bind n new-window
 
 # Vim mode to move around splits
 bind s selectp -U # switch to panel Up
-bind t selectp -D # switch to panel Down 
+bind t selectp -D # switch to panel Down
 bind c selectp -L # switch to panel Left
 bind r selectp -R # switch to panel Right
 
