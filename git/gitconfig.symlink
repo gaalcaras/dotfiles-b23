@@ -19,3 +19,6 @@
         autocorrect = 1
 [push]
         default = simple
+[filter "contextignore"]
+	clean = sed '/^context=/'d
+	smudge = cat

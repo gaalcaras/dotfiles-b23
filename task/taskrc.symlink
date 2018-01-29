@@ -1,0 +1,40 @@
+# Taskwarrior program configuration file.
+
+# Files
+data.location=~/.task
+
+# Color theme
+include /usr/share/doc/task/rc/solarized-dark-256.theme
+
+# Task sync server
+include /home/gaalcaras/.dotfiles/task/taskserver
+
+# Contexts
+context.Work=-tinkering
+context.work=project:CPES
+
+# Verbosity
+verbose=blank,header,footnote,label,new-id,new-uuid,affected,edit,special,project,sync,unwait,recur,context
+
+# VIP report
+report.vip.description=Top 10 actionable task
+report.vip.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,priority,project,tags,description.truncated_count,urgency
+report.vip.labels=ID,DEPS,ACTIVE,AGE,RECUR,SCHED,DUE,UNTIL,P,PROJECT,TAGS,DESCRIPTION,URG
+report.vip.filter=+READY limit:10
+report.vip.sort=urgency-
+
+# Set VIP report as default
+default.command=vip
+
+# Next report
+report.next.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,priority,project,tags,description.truncated_count,urgency
+report.next.labels=ID,DEPS,ACTIVE,AGE,RECUR,SCHED,DUE,UNTIL,P,PROJECT,TAGS,DESCRIPTION,URG
+
+# Reviewed
+uda.reviewed.type=date
+uda.reviewed.label=Reviewed
+report._reviewed.description=Tasksh review report.  Adjust the filter to your needs.
+report._reviewed.columns=uuid
+report._reviewed.sort=reviewed+,modified+
+report._reviewed.filter=( reviewed.none: or reviewed.before:now-1week ) and ( +PENDING or +WAITING )
+

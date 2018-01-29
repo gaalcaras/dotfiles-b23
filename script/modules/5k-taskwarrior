@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#
+# Install taskwarrior on Arch
+
+message="Do you want to install taskwarrior?"
+
+function add_app {
+  if [ "$system" == "arch" ]; then
+    pacaur_apps="$pacaur_apps task"
+  elif [ "$system" == "ubuntu" ]; then
+    apps=""
+    warning 'No support for Ubuntu yet, sorry'
+  fi
+}
