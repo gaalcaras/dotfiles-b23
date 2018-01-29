@@ -6,7 +6,8 @@ message="Do you want to (re)install linters?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    pip_apps="$pip_apps jedi pylint shellcheck vim-vint"
+    pip_apps="$pip_apps jedi pylint vim-vint"
+    pacaur_apps="$pacaur_apps shellcheck"
     doing 'Adding various linters'
   elif [ "$system" == "ubuntu" ]; then
     doing "Adding repository"

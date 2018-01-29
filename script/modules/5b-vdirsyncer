@@ -6,7 +6,7 @@ message="Do you want to install vdirsyncer?"
 
 function add_app {
   if [ "$system" == "arch" ]; then
-    pacaur_apps="$pacaur_apps vdirsyncer"
+    pip_apps="$pip_apps vdirsyncer"
   elif [ "$system" == "ubuntu" ]; then
     apps=""
     warning 'No support for Ubuntu yet, sorry'

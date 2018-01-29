@@ -130,8 +130,8 @@ function check_flavor {
   if [[ $response == *"ARCH"* ]]; then
     system='arch'
     pre_install='pacman -Syu'
-    do_install='pacman -S --noconfirm'
-    pacaur_install='pacaur -S --needed --noconfirm --noedit'
+    do_install='pacman -S --needed --noedit'
+    pacaur_install='pacaur -S --needed --noedit'
     pip_install='pip install'
     msg "You're running ArchLinux. KISS!"
   elif [[ $response == *"Ubuntu"* ]]; then
