@@ -44,3 +44,6 @@ folders[$HOME/.dotfiles/mpv/scripts]=$HOME/.config/mpv/scripts
 
 # Zathura
 ffiles[$HOME/.dotfiles/zathura/zathurarc]=$HOME/.config/zathura/zathurarc
+
+# Taskwarrior
+ffiles[$HOME/.dotfiles/task/hooks]=$HOME/.task/hooks
