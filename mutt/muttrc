@@ -1,4 +1,5 @@
 # ##############
+#
 # MUTTRC
 # ##############
 
@@ -83,13 +84,21 @@ set mime_forward_rest=yes
 set abort_noattach="ask-yes"
 set attach_keyword = "\\<(attach(é|ed|ments?)|PJ|(pièce|ci)( |-)joint|joins)\\>"
 
+# Count attachments
+attachments   +A */.*
+attachments   -A message/external-body
+attachments   -I message/external-body
+
 # Keywords
 bind index,pager y edit-label
 
 set send_charset="utf-8"
 
 set date_format="%m/%d %H:%M"
-set index_format="%2C %Z %<[y?%<[m?%<[d?%[%H:%M  ]&%[%a %d]>&%[%b %d]>&%[%m/%Y]> %<M?[%M]&%<E? %e &   >> %-20.20F %s"
+
+# Set $index_format
+# https://www.neomutt.org/guide/reference.html#index-format
+set index_format="%-2.4C %Z %<[y?%<[m?%<[d?%[%H:%M  ]&%[%a %d]>&%-4.4{%b} %{%d}>&%[%m/%Y]> %<M?[%-1.2M]&%<E? %-1.2e &    >> %-20.20F %<X?(%X)&   > %s"
 
 # Vim, of course
 set editor=`echo \$EDITOR`

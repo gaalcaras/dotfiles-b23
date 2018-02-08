@@ -41,7 +41,7 @@ color index_author      brightgreen   default "~Q"
 # DELETED
 color index             red         white     "~D"
 mono  index_author      bold          "~D"
-color index_author      red         red     "~D"
+color index_author      red         white     "~D"
 
 # SIDEBAR
 
