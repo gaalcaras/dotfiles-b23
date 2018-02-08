@@ -1,4 +1,5 @@
 " ############################
+"
 " vimrc by @gaalcaras
 "
 " Meant to be used with NeoVim
@@ -347,6 +348,7 @@ let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_frontmatter = 1
 
 " vimtex
+" let g:vimtex_complete_recursive_bib=1
 let g:vimtex_fold_enabled = 1
 let g:vimtex_quickfix_latexlog = {'fix_paths':0}
 
@@ -397,6 +399,9 @@ nmap <silent> <C-s> <Plug>(ale_next_wrap)
 nmap <silent> F <Plug>(ale_fix)
 
 let g:ale_fixers = ['autopep8', 'yapf'] " Fix Python files
+let g:ale_linters = {
+      \'latex': ['chktex'],
+      \}
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger='<tab>'
