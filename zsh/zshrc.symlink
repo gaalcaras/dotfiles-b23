@@ -136,7 +136,7 @@ POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
 POWERLEVEL9K_SHORTEN_DELIMITER=""
 POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
 
-if [ $BASE16_THEME = "base16_solarized-light" ]
+if [ "$BASE16_THEME" = "base16_solarized-light" ]
 then
   POWERLEVEL9K_COLOR_SCHEME='light'
 fi
@@ -230,6 +230,8 @@ compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 
 # }}}
 
-eval "$(register-python-argcomplete pubs)"
+if hash register-python-argcomplete 2>/dev/null; then
+  eval "$(register-python-argcomplete pubs)"
+fi
 
 # vim: fdm=marker fmr={{{,}}} fdl=0 fen
