@@ -24,8 +24,10 @@ export MANPATH="/usr/local/man:$MANPATH"
 
 # POWERLINE {{{
 
-powerline-daemon -q
-. /usr/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
+if hash powerline-daemon 2>/dev/null; then
+  powerline-daemon -q
+  . /usr/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
+fi
 
 # }}}
 
@@ -83,44 +85,46 @@ fi
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 precmd() {
-  task="task rc.verbose:nothing"
-  overdue_count=$($(echo $task) +READY +OVERDUE count)
-  today_count=$($(echo $task) +READY +DUETODAY count)
-  tomorrow_count=$($(echo $task) +READY +TOMORROW count)
-  urgent_count=$($(echo $task) +READY urgency.above:10 count)
+  if hash task 2>/dev/null; then
+    task="task rc.verbose:nothing"
+    overdue_count=$($(echo $task) +READY +OVERDUE count)
+    today_count=$($(echo $task) +READY +DUETODAY count)
+    tomorrow_count=$($(echo $task) +READY +TOMORROW count)
+    urgent_count=$($(echo $task) +READY urgency.above:10 count)
 
-  task_indicator(){
-    local output=""
-    if [[ "$overdue_count" -gt "0" ]]; then
-      output="💀 $overdue_count"
-    elif [[ "$today_count" -gt "0" ]]; then
-      output="😱 $today_count"
-    elif [[ "$tomorrow_count" -gt "0" ]]; then
-      output="📅 $tomorrow_count"
-    elif [[ "$urgent_count" -gt "0" ]]; then
-      output="❗$urgent_count"
-    else
-    fi
+    task_indicator(){
+      local output=""
+      if [[ "$overdue_count" -gt "0" ]]; then
+        output="💀 $overdue_count"
+      elif [[ "$today_count" -gt "0" ]]; then
+        output="😱 $today_count"
+      elif [[ "$tomorrow_count" -gt "0" ]]; then
+        output="📅 $tomorrow_count"
+      elif [[ "$urgent_count" -gt "0" ]]; then
+        output="❗$urgent_count"
+      else
+      fi
 
-    echo -n "$output"
-  }
+      echo -n "$output"
+    }
 
-  task_color(){
-    local color=""
-    if [[ "$overdue_count" -gt "0" ]]; then
-      color="red"
-    elif [[ "$today_count" -gt "0" ]]; then
-      color="016"
-    elif [[ "$tomorrow_count" -gt "0" ]]; then
-      color="yellow"
-    else
-    fi
+    task_color(){
+      local color=""
+      if [[ "$overdue_count" -gt "0" ]]; then
+        color="red"
+      elif [[ "$today_count" -gt "0" ]]; then
+        color="016"
+      elif [[ "$tomorrow_count" -gt "0" ]]; then
+        color="yellow"
+      else
+      fi
 
-    echo -n "$color"
-  }
+      echo -n "$color"
+    }
 
-  POWERLEVEL9K_CUSTOM_TASKWARRIOR="task_indicator"
-  POWERLEVEL9K_CUSTOM_TASKWARRIOR_BACKGROUND="$(task_color)"
+    POWERLEVEL9K_CUSTOM_TASKWARRIOR="task_indicator"
+    POWERLEVEL9K_CUSTOM_TASKWARRIOR_BACKGROUND="$(task_color)"
+  fi
 }
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context custom_taskwarrior dir dir_writable vcs)
