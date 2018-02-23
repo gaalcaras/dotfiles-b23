@@ -12,3 +12,7 @@ Abolish francielenne francilienne
 Abolish das dans
 Abolish suprenant surprenant
 Abolish doctorants doctorant·e·s
+Abolish sociloogie sociologie
+Abolish Durkhein Durkheim
+Abolish rapporcher rapprocher
+Abolish renvoit renvoie
