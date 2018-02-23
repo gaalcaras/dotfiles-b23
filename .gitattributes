@@ -1,1 +1,3 @@
 task/taskrc.symlink filter=contextignore
+mutt/alias filter=git-crypt diff=git-crypt
+mutt/mlists filter=git-crypt diff=git-crypt

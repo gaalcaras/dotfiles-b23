@@ -39,6 +39,7 @@ source ~/.mutt/gmail
 set realname = "Gabriel Alcaras"
 
 source ~/.dotfiles/mutt/alias
+source ~/.dotfiles/mutt/mlists
 
 unset imap_passive
 set imap_keepalive = 300
@@ -181,6 +182,8 @@ source ~/.mutt/colors
 # MACROS {{{
 # View email in $BROWSER
 
+macro index,pager .a "<enter-command>unset wait\_key<enter><pipe-message>mutt_add_mlists.py<enter><enter-command>set wait\_key<enter>" 'Add mailing list as suscribed'
+
 # Open read only mutt in a new tmux pane
 macro index,pager,attach .m "<enter-command>unset wait\_key<enter><shell-escape>tmux split-window -h 'neomutt -R'<enter>set wait\_key<enter>" 'Open tmux pane with read-only mutt'
 
@@ -191,7 +194,7 @@ macro index,pager .ta "<pipe-message>mutt2task.py --answer 'Répondre à '<enter
 
 # Quick limit macros
 macro index,pager ,a "<limit>all<enter>" 'Limit to all'
-macro index,pager ,l "<limit>~s[[]<enter>" 'Limit to mailing lists'
+macro index,pager ,l "<limit>~s[[]|(%L lists)<enter>" 'Limit to mailing lists'
 macro index,pager ,m "<limit>~p!~F<enter>" 'Limit to direct emails'
 macro index,pager ,r "<limit>~sCR-RESET<enter>" 'Limit to RESET mailing list'
 

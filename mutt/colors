@@ -27,12 +27,12 @@ color index             blue          default ".*"
 color index_author      brightblue    default ".*"
 
 # MESSAGES TO ME
-color index             red           default "~p!~F"
-color index_author      brightred     default "~p!~F"
+color index             red           default "~p!~F!(%L lists)"
+color index_author      brightred     default "~p!~F!(%L lists)"
 
 # MAILING LISTS
-color index             magenta       default "~s[[]"
-color index_author      brightmagenta default "~s[[]"
+color index             magenta       default "~s[[]|(%L lists)"
+color index_author      brightmagenta default "~s[[]|(%L lists)"
 
 # REPLIED TO
 color index             green         default "~Q"
