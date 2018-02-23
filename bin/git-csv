@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# ===============================================================
+# Git log to csv
+#
+# ===============================================================
+
+function escape_chars {
+  sed -r 's/"/""/g'
+}
+
+function format_to_csv {
+  sha=$(git log -n1 --pretty=format:%H "$1" | escape_chars)
+  parent=$(git log -n1 --pretty=format:%P "$1" | escape_chars)
+  subject=$(git log -n1 --pretty=format:%s "$1" | escape_chars)
+  body=$(git log -n1 --pretty=format:%b "$1" | escape_chars)
+  author_name=$(git log -n1 --pretty=format:%aN "$1" | escape_chars)
+  author_email=$(git log -n1 --pretty=format:%aE "$1" | escape_chars)
+  author_date=$(git log -n1 --pretty=format:%aD "$1" | escape_chars)
+  echo "\"$sha\",\"$parent\",\"$author_name\",\"$author_email\",\"$author_date\",\"$subject\",\"$body\""
+}
+
+echo "\"hash\",\"parent_hash\",\"author_name\",\"author_email\",\"author_date\",\"subject\",\"body\""
+
+for hash in $(git rev-list --all)
+do
+  format_to_csv "$hash"
+done

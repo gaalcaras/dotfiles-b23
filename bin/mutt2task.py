@@ -52,7 +52,11 @@ def get_msg_body(message):
         elif part.get_content_type() == "text/html":
             if html is None:
                 html = ""
-            html += part.get_payload(decode=True).decode('utf-8')
+
+            try:
+                html += part.get_payload(decode=True).decode('utf-8')
+            except UnicodeDecodeError:
+                print('Skipping some bad unicode stuff somewhere...')
 
     if html:
         html_tmp_f = Popen('mktemp', stdout=PIPE).stdout.read().strip().decode('utf-8')

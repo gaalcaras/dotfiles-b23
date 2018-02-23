@@ -6,8 +6,8 @@
 
 NOTE_DIR="$HOME/Nextcloud/Notes"
 NOTE_TYPES=("Réunion" "Séminaire" "Colloque" "Journée Études" "Journée doctorale"
-            "Notes de lecture" "Conférence" "Atelier")
-NOTE_INST=("Formation doctorale" "EHESS" "RESET" "Directeurs" "CMH" "CPES")
+            "Notes de lecture" "Conférence" "Atelier" "Brouillon")
+NOTE_INST=("Formation doctorale" "EHESS" "RESET" "Directeurs" "CMH" "CPES" "Perso")
 
 FILE="$*"
 
