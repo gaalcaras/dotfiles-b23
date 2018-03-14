@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# ==========================================
+# Get TODOS statement from all files in current directory and add them to
+# taskwarrior
+# ==========================================
+
+TODOS=$(grep -nr TODO .)
+TODOS=$(sed -E "s/^(.*)TODO ?:? ?(.*)$/task add \\2 # \\1/g" <<< "$TODOS")
+
+TMP_FILE=$(mktemp /tmp/todos.XXXXXXX)
+
+echo "$TODOS" > "$TMP_FILE"
+
+$EDITOR "$TMP_FILE"
+
+# shellcheck source=/dev/null
+source "$TMP_FILE"
+
+rm "$TMP_FILE"
+
+find . -type f -exec sed -Ei "s/TODO/OLDDO/g" {} \; && echo "Removed TODOS from current file"

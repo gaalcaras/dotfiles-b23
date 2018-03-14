@@ -194,30 +194,42 @@ alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
 
 # Dotfiles
-function vimrc() {
-  tmpdir=$(pwd)
-  cd "$HOME/.dotfiles/vim"
-  $EDITOR $HOME/.dotfiles/vim/vimrc.symlink
+function filerc() {
+  local tmpdir=$(pwd)
+  local rcfile="$1"
+  local rcdir=$(dirname "$rcfile")
+
+  cd "$rcdir"
+  $EDITOR "$rcfile"
+
   cd "$tmpdir"
 }
 
-function zshrc() {
-  tmpdir=$(pwd)
-  cd "$HOME/.dotfiles/zsh"
-  $EDITOR $HOME/.dotfiles/zsh/zshrc.symlink
-  cd "$tmpdir"
-}
-
-function muttrc() {
-  tmpdir=$(pwd)
-  cd "$HOME/.dotfiles/mutt"
-  $EDITOR $HOME/.dotfiles/mutt/muttrc
-  cd "$tmpdir"
-}
+alias muttrc="filerc $HOME/.dotfiles/mutt/muttrc"
+alias zshrc="filerc $HOME/.dotfiles/mutt/zshrc.symlink"
+alias vimrc="filerc $HOME/.dotfiles/vim/vimrc.symlink"
 
 # Directories
 alias dotfiles="cd ~/.dotfiles"
 alias pdw="cd ~/Documents/phd-writing"
+
+# Checklist
+function checklist_add {
+  local checklist="$1"
+  local element="${@:2}"
+
+  if [ "$element" = "" ]; then
+    $EDITOR $checklist
+  else
+    echo "[ ] $element" >> "$checklist"
+  fi
+}
+
+alias google="checklist_add $HOME/Nextcloud/Checklists/google.txt"
+alias book="checklist_add $HOME/Nextcloud/Checklists/books.txt"
+
+# Misc
+alias msmtp-unlock="rm $HOME/.msmtpqueue/.lock"
 
 # Note taking
 zettel() {
