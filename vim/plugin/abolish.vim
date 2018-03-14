@@ -16,3 +16,4 @@ Abolish sociloogie sociologie
 Abolish Durkhein Durkheim
 Abolish rapporcher rapprocher
 Abolish renvoit renvoie
+Abolish déja déjà
