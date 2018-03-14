@@ -48,6 +48,8 @@ set sleep_time = 0
 
 set mailcap_path = ~/.dotfiles/mutt/mailcap
 
+set text_flowed
+
 set auto_tag=yes
 set include=yes # Include a copy of the message when replying
 set copy=yes # Copy sent mail to Sent folder
@@ -193,10 +195,10 @@ macro index,pager .tm "<pipe-message>mutt2task.py --modify<enter>" 'Add email to
 macro index,pager .ta "<pipe-message>mutt2task.py --answer 'Répondre à '<enter>" 'Add answering reminder in Taskwarrior'
 
 # Quick limit macros
-macro index,pager ,a "<limit>all<enter>" 'Limit to all'
-macro index,pager ,l "<limit>~s[[]|(%L lists)<enter>" 'Limit to mailing lists'
-macro index,pager ,m "<limit>~p!~F<enter>" 'Limit to direct emails'
-macro index,pager ,r "<limit>~sCR-RESET<enter>" 'Limit to RESET mailing list'
+macro index,pager ,a "<limit>all<enter>zC" 'Limit to all'
+macro index,pager ,l "<limit>~s[[]|(%L lists)<enter>zC" 'Limit to mailing lists'
+macro index,pager ,m "<limit>~p!~F!(%L lists)<enter>zC" 'Limit to direct emails'
+macro index,pager ,r "<limit>~sCR-RESET<enter>zC" 'Limit to RESET mailing list'
 
 # Reload muttrc
 macro index,pager,attach \cr '<enter-command>source ~/.mutt/muttrc<enter>' 'Reload muttrc'
