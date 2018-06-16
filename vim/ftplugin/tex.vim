@@ -47,3 +47,15 @@ inoremap ! !<c-g>u
 inoremap : :<c-g>u
 inoremap , ,<c-g>u
 inoremap ; ;<c-g>u
+
+let french_quotes = [
+      \ {'__filetype__': 'tex', 'buns': ['«~', '~»'], 'nesting': 1, 'input': [ '«' ], 'filetype': ['initex', 'plaintex', 'tex']}
+      \ ]
+
+if !exists('s:local_recipes')
+  let s:local_recipes = french_quotes
+else
+  let s:local_recipes += french_quotes
+endif
+
+call sandwich#util#addlocal(s:local_recipes)
