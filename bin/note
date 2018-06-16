@@ -141,6 +141,8 @@ function create_new_note {
 
   # Tadaa! Edit file and expand snippet after opening vim
   nvim "$NOTE_DIR/$filename" -c "call ExpandYamlNote()"
+  git -C "$NOTE_DIR" add "$NOTE_DIR/$filename"
+  git -C "$NOTE_DIR" commit -m"Add $filename"
 }
 
 # The script per se
@@ -148,6 +150,8 @@ if [[ "$FILE" =~ ^[0-9]{4} ]];
 then
   # If given a filename with a date (e.g. 2014xxx), edit it
   nvim "$NOTE_DIR/$FILE"
+  git -C "$NOTE_DIR" add "$NOTE_DIR/$FILE"
+  git -C "$NOTE_DIR" commit -m"Update $FILE"
 else
   create_new_note
 fi
