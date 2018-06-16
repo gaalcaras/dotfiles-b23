@@ -29,6 +29,7 @@ let g:mapleader = ','
 set foldmethod=syntax
 set foldlevelstart=1
 set splitright " Open splits on the right
+set splitbelow " Open splits on the bottom
 set wildignore=*.pdf,*.aux,*.png,*.pyc
 set wildmode=longest,list,full
 set modeline
@@ -338,10 +339,6 @@ let g:r_syntax_folding = 1
 let g:R_assign = 0 " Do not expand _ to <-
 let g:R_clear_line = 1 " Always clear line in the R Console
 let R_start_libs = "base,stats,graphics,grDevices,utils,methods,datasets"
-
-let R_rconsole_width = 57
-let R_min_editor_width = 18
-autocmd VimResized * let R_rconsole_width = winwidth(0) / 3
 
 " Vim Markdown
 let g:vim_markdown_folding_level = 2

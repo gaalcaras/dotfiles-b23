@@ -206,7 +206,7 @@ function filerc() {
 }
 
 alias muttrc="filerc $HOME/.dotfiles/mutt/muttrc"
-alias zshrc="filerc $HOME/.dotfiles/mutt/zshrc.symlink"
+alias zshrc="filerc $HOME/.dotfiles/zsh/zshrc.symlink"
 alias vimrc="filerc $HOME/.dotfiles/vim/vimrc.symlink"
 
 # Directories
