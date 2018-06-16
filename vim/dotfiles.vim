@@ -184,7 +184,7 @@ function! dotfiles#CompileMarkdown(open_pdf)
    write
 
    let l:instruction = '! pandoc ' . l:cur_file .
-               \ ' -f markdown -t latex -s --toc -V geometry:margin=1in -o ' .
+               \ ' -f markdown -t latex -s --toc -V geometry:margin=1in --pdf-engine=xelatex -o ' .
                \ l:pdf_file
 
    if a:open_pdf == 1

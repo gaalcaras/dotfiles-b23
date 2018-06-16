@@ -238,6 +238,8 @@ zettel() {
 }
 
 compdef '_path_files -W $HOME/Zettelkasten/zettel' zettel
+
+zstyle ':completion:*:*:note:*:*' file-sort 'reverse'
 compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 
 # }}}

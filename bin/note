@@ -12,11 +12,11 @@ NOTE_INST=("Formation doctorale" "EHESS" "RESET" "Directeurs" "CMH" "CPES" "Pers
 FILE="$*"
 
 # Color management and setup
-red=`tput setaf 1`
-yellow=`tput setaf 3`
-blue=`tput setaf 4`
-mage=`tput setaf 5`
-reset=`tput sgr0`
+red=$(tput setaf 1)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+mage=$(tput setaf 5)
+reset=$(tput sgr0)
 
 function print_option {
   echo "${mage}$1${reset}"
@@ -52,18 +52,18 @@ function read_options {
 
   local keep_asking=true
   while [[ $keep_asking == true ]]; do
-    read -p "Votre choix ${blue}[p pour autre; q pour quitter]${reset} $ " input
+    read -rp "Votre choix ${blue}[p pour autre; q pour quitter]${reset} $ " input
 
     if ! [[ $input =~ ^[0-9]+$ ]];
     then
       # If input is not a number...
-      if [ $input == "q" ];
+      if [ "$input" == "q" ];
       then
         tput rc && tput ed && exit 0
-      elif [ $input == "p" ];
+      elif [ "$input" == "p" ];
       then
         # Prompt for user to enter a custom value
-        read -p "${mage}> " other_value
+        read -rp "${mage}> " other_value
         echo "${reset}"
 
         if [[ -z "${other_value// }" ]];
@@ -76,7 +76,7 @@ function read_options {
       else
         warning "La valeur est incorrecte :("
       fi
-    elif [ $input -le $((options_len-1)) ];
+    elif [ "$input" -le $((options_len-1)) ];
     then
       # If input is a number in the range of available options...
       keep_asking=false
@@ -109,11 +109,11 @@ function create_new_note {
   # Last section
   keep_asking=true
   while [[ $keep_asking == true ]]; do
-    read -p "${yellow}La note a-t-elle un titre? ${blue}[y/n/q]${reset} $ " has_title
+    read -rp "${yellow}La note a-t-elle un titre? ${blue}[y/n/q]${reset} $ " has_title
 
     if [ "$has_title" == "y" ];
     then
-      read -p "${mage}> " note_title
+      read -rp "${mage}> " note_title
       echo "${reset}"
       keep_asking=false
       note_title=$(sanitize-string "$note_title")
