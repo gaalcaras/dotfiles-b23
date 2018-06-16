@@ -181,6 +181,7 @@ Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'tex'] } " Focused writing
 " Python
 Plug 'tmhedberg/simpylfold', { 'for': 'python' } " Adequate Python folding
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
+Plug 'bfredl/nvim-ipy', { 'for': 'python', 'do': ':UpdateRemotePlugins' }
 
 " Other programming languages
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
@@ -412,6 +413,8 @@ let g:UltiSnipsEditSplit='vertical'
 let g:UltiSnipsSnippetsDir='.vim/myownsnips'
 let g:UltiSnipsSnippetDirectories=['UltiSnips', 'myownsnips']
 
+" nvim-ipy (mappings in ftplugin)
+let g:nvim_ipy_perform_mappings = 0
 
 " ==================
 " French bépo layout
