@@ -29,14 +29,12 @@ Abolish versioncontrol \gls{versioncontrol}
 
 Abolish bd \textit{big data}
 
-" Abolish '---' ~---
-
 " Add quick delimiters for tex (since delimitmate and vim-latex are
 " conflicting)
 inoremap <buffer> ( ()<C-G>U<Left>
 inoremap <buffer> [ []<C-G>U<Left>
 inoremap <buffer> { {}<C-G>U<Left>
-inoremap <buffer> " ""<C-G>U<Left>
+inoremap <buffer> " ``''<C-G>U<Left><Left>
 inoremap <buffer> « «~~»<C-G>U<Left><Left>
 inoremap <buffer> » ~»<C-G>U<Left><Left>
 
@@ -48,6 +46,7 @@ inoremap : :<c-g>u
 inoremap , ,<c-g>u
 inoremap ; ;<c-g>u
 
+" Custom vim-sandwich for tex files: «~|~»
 let french_quotes = [
       \ {'__filetype__': 'tex', 'buns': ['«~', '~»'], 'nesting': 1, 'input': [ '«' ], 'filetype': ['initex', 'plaintex', 'tex']}
       \ ]
