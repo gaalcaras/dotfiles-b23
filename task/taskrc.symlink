@@ -10,7 +10,7 @@ include /usr/share/doc/task/rc/solarized-dark-256.theme
 include /home/gaalcaras/.dotfiles/task/taskserver
 
 # Contexts
-context.Work=-tinkering
+context.Work=-tinkering -mutt
 context.work=project:CPES
 
 # Verbosity
@@ -22,6 +22,13 @@ report.vip.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.
 report.vip.labels=ID,DEPS,ACTIVE,AGE,RECUR,SCHED,DUE,UNTIL,P,PROJECT,TAGS,DESCRIPTION,URG
 report.vip.filter=+READY limit:10
 report.vip.sort=urgency-
+
+# Mutt report
+report.mutt.description=Email related tasks when using mutt
+report.mutt.columns=id,entry.age,description.truncated_count
+report.mutt.labels=ID,AGE,DESCRIPTION
+report.mutt.filter=+READY and ((+mutt -followup) or (+mutt +followup entry.before:today-2d)) limit:none verbose:nothing
+report.mutt.sort=entry
 
 # Set VIP report as default
 default.command=vip
@@ -37,4 +44,3 @@ report._reviewed.description=Tasksh review report.  Adjust the filter to your ne
 report._reviewed.columns=uuid
 report._reviewed.sort=reviewed+,modified+
 report._reviewed.filter=( reviewed.none: or reviewed.before:now-1week ) and ( +PENDING or +WAITING )
-

@@ -194,6 +194,7 @@ macro index,pager .tt "<pipe-message>mutt2task.py<enter>" 'Add email to Taskwarr
 macro index,pager .tm "<pipe-message>mutt2task.py --modify<enter>" 'Add email to Taskwarrior and edit task name'
 macro index,pager .ta "<pipe-message>mutt2task.py --answer 'Répondre à '<enter>" 'Add answering reminder in Taskwarrior'
 macro compose Y "<send-message><enter><shell-escape>cat $(ls -t $HOME/.msmtpqueue/*.mail | head -1) | mutt2task.py --followup 'Relancer '<enter>" 'Send email and add followup reminder in Taskwarrior'
+macro index,pager,attach,compose .tp "<enter-command>unset wait\_key<enter><shell-escape>tmux split-window -p 25 -h 'mutt_task_report.sh'<enter><enter-command>set wait\_key<enter>" 'Open task mutt report'
 
 # Quick limit macros
 macro index,pager ,a "<limit>all<enter>zC" 'Limit to all'

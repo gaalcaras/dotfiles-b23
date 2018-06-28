@@ -187,7 +187,7 @@ alias ikhal='LC_TIME=C ikhal'
 
 # Tools
 alias nv="nvim"
-alias mutt="neomutt -n"
+alias mutt='hash tmuxifier 2>/dev/null && tmuxifier load-window mutt || neomutt -n' # Check if tmuxifier exists before loading mutt setup
 alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 
 # Development
@@ -247,5 +247,8 @@ compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 if hash register-python-argcomplete 2>/dev/null; then
   eval "$(register-python-argcomplete pubs)"
 fi
+
+# Ask to correct commands but not arguments
+setopt nocorrectall; setopt correct
 
 # vim: fdm=marker fmr={{{,}}} fdl=0 fen
