@@ -83,23 +83,24 @@ def get_msg_subject(message):
 
     return subject
 
-def get_msg_sender(message):
-    """Return message sender name"""
+def get_msg_transceiver(message, field):
+    """Return the name of a message transceiver (ie the sender, the recipient,
+    etc.)"""
 
-    sender = message['From']
+    transceiver = message[field]
 
-    # Decode sender
-    sender = email.header.decode_header(sender)[0][0]
-    if not isinstance(sender, str):
-        sender = sender.decode('utf-8')
+    # Decode transceiver
+    transceiver = email.header.decode_header(transceiver)[0][0]
+    if not isinstance(transceiver, str):
+        transceiver = transceiver.decode('utf-8')
 
-    sender_pat = re.compile(r'(.*)\s*<.*')
-    sender_match = re.match(sender_pat, sender)
+    transceiver_pat = re.compile(r'(.*)\s*<.*')
+    transceiver_match = re.match(transceiver_pat, transceiver)
 
-    if sender_match:
-        sender = sender_match.group(1)
+    if transceiver_match:
+        transceiver = transceiver_match.group(1)
 
-    return sender
+    return transceiver
 
 def modify(subject):
     """Open subject line in $EDITOR and return the result"""
@@ -117,10 +118,12 @@ def modify(subject):
 
     return subject
 
-def add_task(subject):
+def add_task(subject, tags):
     """Add task and return its id if it worked"""
 
-    task = Popen(['task', 'add', '+email', '--', subject], stdout=PIPE)
+    tags = ['+email'] if tags is None else tags
+
+    task = Popen(['task', 'add', *tags, '--', subject], stdout=PIPE)
     task_id = re.match(r'Created task (\d+)\.', task.stdout.read().decode('utf-8'))
 
     if not task_id:
@@ -145,17 +148,24 @@ def create_task(args, message):
 
     body = get_msg_body(message)
     task_name = get_msg_subject(message)
+    tags = ['+email']
 
     if args.answer:
-        sender = get_msg_sender(message)
+        sender = get_msg_transceiver(message, 'From')
         task_name = args.answer + sender
+        tags.append('+mutt')
 
     if args.modify:
         task_name = modify(task_name)
 
-    task_id = add_task(task_name)
+    if args.followup:
+        recipient = get_msg_transceiver(message, 'To')
+        task_name = args.followup + recipient
+        tags.extend(['+mutt', '+followup'])
 
-    if task_id is not None or not args.answer:
+    task_id = add_task(task_name, tags)
+
+    if task_id is not None and args.modify:
         annotate_task(task_id, body)
 
 PARSER = argparse.ArgumentParser()
@@ -163,7 +173,8 @@ PARSER.add_argument("-m", "--modify", help="modify task name in your $EDITOR",
                     action="store_true")
 PARSER.add_argument("-a", "--answer", help="create task with sender name"
                                            "prefixed with string as argument value")
-
+PARSER.add_argument("-f", "--followup", help="create task to remind to follow up"
+                                             "with the recipient of the email")
 
 ARGS = PARSER.parse_args()
 

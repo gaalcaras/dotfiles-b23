@@ -71,7 +71,7 @@ unignore x-mailer
 hdr_order From: Subject: To: Cc: Date:
 
 # Customize status flags with symbols and emojis
-# https://www.neomutt.org/guide/reference.html#to-chars
+# https://neomutt.org/guide/reference.html#to-chars
 set to_chars=" >TCFL"
 set flag_chars="* D ✔····  "
 
@@ -187,12 +187,13 @@ source ~/.mutt/colors
 macro index,pager .a "<enter-command>unset wait\_key<enter><pipe-message>mutt_add_mlists.py<enter><enter-command>set wait\_key<enter>" 'Add mailing list as suscribed'
 
 # Open read only mutt in a new tmux pane
-macro index,pager,attach .m "<enter-command>unset wait\_key<enter><shell-escape>tmux split-window -h 'neomutt -R'<enter>set wait\_key<enter>" 'Open tmux pane with read-only mutt'
+macro index,pager,attach,compose .m "<enter-command>unset wait\_key<enter><shell-escape>tmux split-window -h 'neomutt -R'<enter>set wait\_key<enter>" 'Open tmux pane with read-only mutt'
 
 # Taskwarrior integration
 macro index,pager .tt "<pipe-message>mutt2task.py<enter>" 'Add email to Taskwarrior'
 macro index,pager .tm "<pipe-message>mutt2task.py --modify<enter>" 'Add email to Taskwarrior and edit task name'
 macro index,pager .ta "<pipe-message>mutt2task.py --answer 'Répondre à '<enter>" 'Add answering reminder in Taskwarrior'
+macro compose Y "<send-message><enter><shell-escape>cat $(ls -t $HOME/.msmtpqueue/*.mail | head -1) | mutt2task.py --followup 'Relancer '<enter>" 'Send email and add followup reminder in Taskwarrior'
 
 # Quick limit macros
 macro index,pager ,a "<limit>all<enter>zC" 'Limit to all'
