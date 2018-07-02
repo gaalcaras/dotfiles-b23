@@ -15,3 +15,4 @@ inoremap <buffer> « ""<C-G>U<Left><Left>
 inoremap <buffer> » "<C-G>U<Left><Left>
 
 call dotfiles#UndoChunks()
+call dotfiles#ForceNonBreakingSpacePunctuation()

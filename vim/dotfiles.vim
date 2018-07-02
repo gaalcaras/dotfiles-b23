@@ -203,3 +203,44 @@ function ExpandYamlNote() abort
     execute "normal! iyaml_note\<C-r>=UltiSnips#ExpandSnippet()\<CR>"
   endif
 endfunction
+
+" Replace space before punctuation (a:char) by non breaking space (useful
+" for french punctuation)
+function! dotfiles#InsertNonBreakingSpace(char)
+  let l:cur_pos = getpos('.') " Get current position
+
+  " Do write character and remember position
+  execute ':normal! a' . a:char
+  let l:after_pos = getpos('.')
+
+  if l:after_pos[2] == 1
+    " If after writing the punctuation, the text wraps and the cursor
+    " is at the beginning of the line, then undo that
+    execute ':normal 1sT'
+  endif
+
+  " Silently replace space by non breaking one
+  execute ':.s/ ' . a:char . '/ ' . a:char . '/ge'
+  execute ':nohlsearch'
+
+  if l:after_pos[2] == 1
+    " In the wrapping case, take the word preceding the punctuation to
+    " the beginning of the next line, then enter insert mode
+    call setpos('.', l:cur_pos)
+    execute ':normal F D'
+    execute ':normal! o'
+    execute ':normal p0xg$'
+  else
+    " Otherwise, just move the cursor 2 steps right
+    let l:cur_pos[2] = l:cur_pos[2]+2
+    call setpos('.', l:cur_pos)
+  endif
+endfunction
+
+function! dotfiles#ForceNonBreakingSpacePunctuation()
+  inoremap <buffer> ? <Esc>:call dotfiles#InsertNonBreakingSpace('?')<cr>a
+  inoremap <buffer> ! <Esc>:call dotfiles#InsertNonBreakingSpace('!')<cr>a
+  inoremap <buffer> : <Esc>:call dotfiles#InsertNonBreakingSpace(':')<cr>a
+  inoremap <buffer> ; <Esc>:call dotfiles#InsertNonBreakingSpace(';')<cr>a
+  inoremap <buffer> − <Esc>:call dotfiles#InsertNonBreakingSpace('−')<cr>a
+endfunction
