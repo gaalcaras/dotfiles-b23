@@ -14,20 +14,22 @@ augroup END
 " }}}
 " ABOLISH: abbreviations for LaTeX :)
 
-Abolish git \gls{git}
-Abolish patch{,s} \gls{,pl}{patch}
-Abolish Linux \gls{linux}
-Abolish vger \spacedlowsmallcaps{vger}
-Abolish cvs \gls{cvs}
-Abolish os{,s} \gls{,pl}{os}
-Abolish uni{x,ces} \gls{,pl}{unix}
-Abolish linuxkernel \gls{linuxkernel}
-Abolish bsd \gls{bsd}
-Abolish lkml \gls{lkml}
-Abolish bitkeeper \gls{bitkeeper}
-Abolish versioncontrol \gls{versioncontrol}
+if exists("g:loaded_abolish")
+  Abolish git \gls{git}
+  Abolish patch{,s} \gls{,pl}{patch}
+  Abolish Linux \gls{linux}
+  Abolish vger \spacedlowsmallcaps{vger}
+  Abolish cvs \gls{cvs}
+  Abolish os{,s} \gls{,pl}{os}
+  Abolish uni{x,ces} \gls{,pl}{unix}
+  Abolish linuxkernel \gls{linuxkernel}
+  Abolish bsd \gls{bsd}
+  Abolish lkml \gls{lkml}
+  Abolish bitkeeper \gls{bitkeeper}
+  Abolish versioncontrol \gls{versioncontrol}
 
-Abolish bd \textit{big data}
+  Abolish bd \textit{big data}
+endif
 
 " Add quick delimiters for tex (since delimitmate and vim-latex are
 " conflicting)
