@@ -112,9 +112,9 @@ augroup END
 nnoremap n nzz
 nnoremap N Nzz
 
-" Get away from inside [], (), {}, «», '', "", **
-inoremap <c-g> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
-nnoremap <c-g> /[)}*"»'`\]*]<cr>:nohl<cr>a
+" Escape from inside [], (), {}, «», '', "", **
+inoremap <c-e> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
+nnoremap <c-e> /[)}*"»'`\]*]<cr>:nohl<cr>a
 
 " Easier tag navigation
 nnoremap <c-m> <c-]>
@@ -221,7 +221,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit', { 'on': 'Magit' }
 
 " Colors and appearance
-Plug 'chriskempson/base16-vim/'
+Plug 'chriskempson/base16-vim/', { 'commit': 'a808330' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
@@ -345,6 +345,9 @@ let g:vim_markdown_folding_level = 2
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_frontmatter = 1
 
+" Vim Markdown Composer
+let g:markdown_composer_open_browser = 0
+
 " vimtex
 " let g:vimtex_complete_recursive_bib=1
 let g:vimtex_fold_enabled = 1
@@ -400,7 +403,7 @@ let g:NERDTrimTrailingWhitespace = 1
 " ALE
 nmap <silent> <C-t> <Plug>(ale_previous_wrap)
 nmap <silent> <C-s> <Plug>(ale_next_wrap)
-nmap <silent> F <Plug>(ale_fix)
+nmap <silent> <leader>f <Plug>(ale_fix)
 
 let g:ale_fixers = ['autopep8', 'yapf'] " Fix Python files
 let g:ale_linters = {
@@ -494,7 +497,6 @@ augroup netrw_mapping
   autocmd!
   autocmd filetype netrw call NetrwMapping()
 augroup END
-inoremap <c-g> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
 
 function! NetrwMapping()
   noremap <buffer> c h

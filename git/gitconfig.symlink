@@ -20,5 +20,8 @@
 [push]
         default = simple
 [filter "contextignore"]
-	clean = sed '/^context=/'d
-	smudge = cat
+        clean = sed '/^context=/'d
+        smudge = cat
+[filter "minvimrc"]
+        clean = sed "/ENDMINVIMRC/Q"
+        smudge = cat
