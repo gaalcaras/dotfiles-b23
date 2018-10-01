@@ -1,0 +1,24 @@
+#!/bin/bash
+
+today_tasks=$(task rofi rc.verbose=nothing due:today | wc -l)
+task_start=$(task rofi rc.verbose=nothing start)
+
+if [[ ! -z "$task_start" ]]; then
+  msg="doing: $task_start"
+fi
+
+if [ "$today_tasks" -eq 0 ]; then
+  echo "$msg"
+elif [ "$today_tasks" -eq 1 ]; then
+  if [[ -z "$msg" ]]; then
+    echo "one task"
+  else
+    echo "$msg (1 more due today)"
+  fi
+else
+  if [[ -z "$msg" ]]; then
+    echo "one task"
+  else
+    echo "$msg ($today_tasks more due today)"
+  fi
+fi

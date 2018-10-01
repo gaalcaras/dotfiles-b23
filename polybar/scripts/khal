@@ -1,0 +1,12 @@
+#!/bin/bash
+
+today_events=$(khal list -o today today -f "title" -d "taskwarrior" | wc -l)
+today_events=$((today_events - 1))
+
+if [ "$today_events" -eq 0 ]; then
+  echo
+elif [ "$today_events" -eq 1 ]; then
+  echo "one event"
+else
+  echo "$today_events events"
+fi
