@@ -244,3 +244,33 @@ function! dotfiles#ForceNonBreakingSpacePunctuation()
   inoremap <buffer> ; <Esc>:call dotfiles#InsertNonBreakingSpace(';')<cr>a
   inoremap <buffer> − <Esc>:call dotfiles#InsertNonBreakingSpace('−')<cr>a
 endfunction
+
+" Insert content of note (except header and related notes) under cursor below
+" Designed to work with vim-notes
+
+function! dotfiles#InsertNoteHere()
+  call xolox#notes#highlight_names(1)
+
+  let l:notes=xolox#notes#get_titles(0)
+  let l:regex='^.*\(' . join(l:notes, '\|') . '\).*$'
+  let l:cur_line=getline('.')
+
+  let l:matched=substitute(l:cur_line, l:regex, '\=submatch(1)', 'g')
+
+  if (index(l:notes, l:matched) >= 0)
+    " If the current line contains the name of a note, get its path
+    let l:notes_paths=xolox#notes#get_fnames_and_titles(0)
+    let l:path=keys(l:notes_paths)[index(values(l:notes_paths), l:matched)]
+
+    if filereadable(l:path)
+      " If the note path is a readable file, insert its content on the line
+      " below (and remove the first 5 header lines and everything after ***).
+      " Keep the cursor where it is.
+      let l:cursor=getpos('.')
+      silent execute 'read! tail +6 "'. l:path .'" | sed -E "/\* \* \*/q"'
+            \ . ' | head -n -1'
+
+      call setpos('.', l:cursor)
+    endif
+  endif
+endfunction

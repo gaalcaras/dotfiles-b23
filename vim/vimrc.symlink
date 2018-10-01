@@ -379,6 +379,8 @@ let g:notes_directories = ['~/Zettelkasten/zettel']
 let g:notes_new_note_template = '~/Zettelkasten/new_zettel'
 let g:notes_title_sync = 'rename_file'
 
+let g:notes_smart_quotes = 0
+
 " Transcribe
 " imap <silent><buffer> <C-S> <plug>(transcribe-speed-inc)
 " nmap <silent><buffer> <leader>s <plug>(transcribe-speed-inc)
