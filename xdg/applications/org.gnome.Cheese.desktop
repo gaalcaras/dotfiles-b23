@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Studio webcam Cheese
+GenericName=Studio webcam
+Comment=Prise de photos et enregistrement de vidéos grâce à votre webcam avec effets graphiques rigolos
+Icon=org.gnome.Cheese
+Exec=cheese
+NoDisplay=true
+Categories=AudioVideo;GNOME;Recorder;Video;
+Keywords=photo;vidéo;webcam;
+StartupNotify=true
+Terminal=false
+DBusActivatable=True

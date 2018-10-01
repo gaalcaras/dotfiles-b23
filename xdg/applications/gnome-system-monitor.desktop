@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Moniteur système
+Comment=Afficher les processus en cours et surveiller l'état du système
+Icon=utilities-system-monitor
+TryExec=gnome-system-monitor
+Exec=gnome-system-monitor
+NoDisplay=false
+NotShowIn=KDE;
+Categories=GNOME;GTK;Monitor;System;System-Tools;
+Keywords=Moniteur;Système;Processus;CPU;Mémoire;Réseau;Historique;Utilisation;Performance;Tâche;
+StartupNotify=true
+Terminal=false

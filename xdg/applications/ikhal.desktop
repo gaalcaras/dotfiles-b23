@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ikhal
+Comment=Launches ikhal calendar app
+Icon=utilities-terminal
+Terminal=true
+Exec=ikhal
+Categories=ConsoleOnly;System;FileTools;FileManager
+MimeType=inode/directory;

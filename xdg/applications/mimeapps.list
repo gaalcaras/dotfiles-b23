@@ -1,0 +1,6 @@
+
+[Default Applications]
+x-scheme-handler/mailto=nylas.desktop
+x-scheme-handler/tg=telegramdesktop.desktop
+x-scheme-handler/nylas=nylas.desktop
+text/html=org.gnome.gedit.desktop

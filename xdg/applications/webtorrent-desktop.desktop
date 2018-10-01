@@ -1,0 +1,33 @@
+[Desktop Entry]
+Name=WebTorrent
+Version=1.0
+GenericName=BitTorrent Client
+X-GNOME-FullName=WebTorrent
+Comment=Download and share files over BitTorrent
+Encoding=UTF-8
+Type=Application
+Icon=webtorrent-desktop
+Terminal=false
+Path=/usr/share/webtorrent-desktop
+Exec=/usr/share/webtorrent-desktop/WebTorrent %U
+TryExec=/usr/share/webtorrent-desktop/WebTorrent
+StartupNotify=false
+Categories=Network;FileTransfer;P2P;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;x-scheme-handler/stream-magnet;
+
+Actions=CreateNewTorrent;OpenTorrentFile;OpenTorrentAddress;
+
+[Desktop Action CreateNewTorrent]
+Name=Create New Torrent...
+Exec=/usr/share/webtorrent-desktop/WebTorrent -n
+Path=/usr/share/webtorrent-desktop
+
+[Desktop Action OpenTorrentFile]
+Name=Open Torrent File...
+Exec=/usr/share/webtorrent-desktop/WebTorrent -o
+Path=/usr/share/webtorrent-desktop
+
+[Desktop Action OpenTorrentAddress]
+Name=Open Torrent Address...
+Exec=/usr/share/webtorrent-desktop/WebTorrent -u
+Path=/usr/share/webtorrent-desktop

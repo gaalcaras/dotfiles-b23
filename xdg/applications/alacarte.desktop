@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=Main Menu
+Name[fr]=Menu principal
+Comment=Add or remove applications from the main menu
+Comment[fr]=Ajouter ou supprimer des applications à partir du menu principal
+Exec=alacarte
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GNOME;Settings;DesktopSettings;Utility;
+NotShowIn=KDE;
+Icon=alacarte
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-Bugzilla-Product=alacarte
+X-GNOME-Bugzilla-Component=general
+X-GNOME-Bugzilla-Version=3.11.91
+Hidden=true

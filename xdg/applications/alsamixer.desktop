@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=alsamixer
+Comment=Launches alsamixer (control pulseaudio)
+Terminal=true
+Exec=alsamixer

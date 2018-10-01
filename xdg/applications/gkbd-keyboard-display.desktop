@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Agencement de clavier
+Comment=Prévisualiser les agencements de clavier
+Icon=preferences-desktop-keyboard
+Exec=gkbd-keyboard-display
+NoDisplay=false
+OnlyShowIn=GNOME;
+Categories=Core;GNOME;GTK;System;System-Tools;
+StartupNotify=true
+Terminal=false

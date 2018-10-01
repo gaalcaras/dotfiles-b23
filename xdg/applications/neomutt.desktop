@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=neomutt
+Comment=Launches neomutt email client
+Icon=utilities-terminal
+Terminal=true
+Exec=neomutt
+Categories=ConsoleOnly;System;FileTools;FileManager
+MimeType=inode/directory;
