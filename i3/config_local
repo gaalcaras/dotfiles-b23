@@ -109,6 +109,7 @@ bindsym $mod+p focus parent
 
 # Rofi / Dmenu bindings ($theme set in dark / light config files)
 bindsym $mod+d exec --no-startup-id rofi -rnow -show combi -theme $theme
+bindsym $mod+n exec rofi -show note -theme $theme
 
 # Reload the configuration file
 bindsym $mod+Shift+h exec --no-startup-id $HOME/.dotfiles/bin/i3reload

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# shellcheck source=/home/gaalcaras/.dotfiles/bin/note_setup
+source "$HOME/.dotfiles/bin/note_setup"
+
+filename="$1"
+
+# Remove anomalies introduced when an option is missing
+filename=${filename//\-\-/\-} # doubles dashes
+filename=${filename//\-\./\.} # -.md at the end of the file
+
+# Tadaa! Edit file and expand snippet after opening vim
+nvim "$NOTE_DIR/$filename" -c "call ExpandYamlNote()"
+git -C "$NOTE_DIR" add "$NOTE_DIR/$filename"
+git -C "$NOTE_DIR" commit -m"Add $filename"

@@ -4,10 +4,8 @@
 # Create new or open existing note
 # ==========================================
 
-NOTE_DIR="$HOME/Nextcloud/Notes"
-NOTE_TYPES=("Réunion" "Séminaire" "Colloque" "Journée Études" "Journée doctorale"
-            "Notes de lecture" "Conférence" "Atelier" "Brouillon")
-NOTE_INST=("Formation doctorale" "EHESS" "RESET" "Directeurs" "CMH" "CPES" "Perso")
+# shellcheck source=/home/gaalcaras/.dotfiles/bin/note_setup
+source "$HOME/.dotfiles/bin/note_setup"
 
 FILE="$*"
 
@@ -135,23 +133,16 @@ function create_new_note {
   tdate=$(date +%Y-%m-%d)
   filename="$tdate-$note_type-$note_inst-$note_title.md"
 
-  # Remove anomalies introduced when an option is missing
-  filename=${filename//\-\-/\-} # doubles dashes
-  filename=${filename//\-\./\.} # -.md at the end of the file
-
-  # Tadaa! Edit file and expand snippet after opening vim
-  nvim "$NOTE_DIR/$filename" -c "call ExpandYamlNote()"
-  git -C "$NOTE_DIR" add "$NOTE_DIR/$filename"
-  git -C "$NOTE_DIR" commit -m"Add $filename"
+  open_new_note "$filename"
 }
 
 # The script per se
-if [[ "$FILE" =~ ^[0-9]{4} ]];
+if [[ "$ROFI_MODE" = true ]]
 then
-  # If given a filename with a date (e.g. 2014xxx), edit it
-  nvim "$NOTE_DIR/$FILE"
-  git -C "$NOTE_DIR" add "$NOTE_DIR/$FILE"
-  git -C "$NOTE_DIR" commit -m"Update $FILE"
+  return
+elif [[ "$FILE" =~ ^[0-9]{4} ]];
+then
+  edit_note "$FILE"
 else
   create_new_note
 fi

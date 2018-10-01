@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# shellcheck source=/home/gaalcaras/.dotfiles/bin/note_setup
+source "$HOME/.dotfiles/bin/note_setup"
+FILE="$1"
+
+# If given a filename with a date (e.g. 2014xxx), edit it
+nvim "$NOTE_DIR/$FILE"
+git -C "$NOTE_DIR" add "$NOTE_DIR/$FILE"
+git -C "$NOTE_DIR" commit -m"Update $FILE"
