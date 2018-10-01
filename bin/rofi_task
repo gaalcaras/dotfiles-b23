@@ -59,7 +59,15 @@ elif [[ "$ROUND1" -eq 0 ]]; then
     open="open"
   fi
 
-  printf "done\\nedit\\n%s\\ndelete" "$open"
+  start="start"
+  stop="stop"
+  if task "$id" information | grep -q "Start   "; then
+    start=""
+  else
+    stop=""
+  fi
+
+  printf "done\\nedit\\n%s\\ndelete\\n%s\\n%s" "$open" "$start" "$stop"
 elif [[ "$1" == "done" ]]; then
   task done "$id"
 elif [[ "$1" == "edit" ]]; then
@@ -68,6 +76,10 @@ elif [[ "$1" == "open" ]]; then
   i3-msg -q "exec termite -e 'taskopen $id'"
 elif [[ "$1" == "delete" ]]; then
   echo 'yes' | task delete "$id"
+elif [[ "$1" == "start" ]]; then
+  task start "$id"
+elif [[ "$1" == "stop" ]]; then
+  task stop "$id"
 elif [[ "$1" =~ "Created task" || -f "$TMP_FILE" ]]; then
   printf "%s" "$TASKS"
 else
