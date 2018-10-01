@@ -40,6 +40,7 @@ folderfilter = lambda foldername: foldername not in ['[Gmail]/Tous les messages'
 
 # Necessary as of OfflineIMAP 6.5.4
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
 # }}}
 
 # Ehess setup {{{
@@ -73,6 +74,7 @@ folderfilter = lambda foldername: foldername not in ['Chats', 'Contacts', 'Email
 
 # Necessary as of OfflineIMAP 6.5.4
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
 # }}}
 
 # Télécom setup {{{
@@ -106,6 +108,7 @@ folderfilter = lambda foldername: foldername not in ['Chats', 'Contacts', 'Email
 
 # Necessary as of OfflineIMAP 6.5.4
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
 # }}}
 
 # reset setup {{{
@@ -145,6 +148,7 @@ folderfilter = lambda foldername: foldername not in ['[Gmail]/All Mail', '[Gmail
 
 # # Necessary as of OfflineIMAP 6.5.4
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
 # }}}
 
 # vim: fdm=marker fmr={{{,}}} fdl=0 fen
