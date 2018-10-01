@@ -39,7 +39,7 @@ folders[$HOME/.dotfiles/termite]=$HOME/.config/termite
 
 # Mpv
 ffiles[$HOME/.dotfiles/mpv/mpv.conf]=$HOME/.config/mpv/mpv.conf
-ffiles[/home/gabo/.dotfiles/mpv/input.conf]=$HOME/.config/mpv/input.conf
+ffiles[$HOME/.dotfiles/mpv/input.conf]=$HOME/.config/mpv/input.conf
 folders[$HOME/.dotfiles/mpv/scripts]=$HOME/.config/mpv/scripts
 
 # Zathura
