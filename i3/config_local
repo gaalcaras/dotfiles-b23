@@ -1,0 +1,265 @@
+# ################
+# i3 configuration
+# by @gaalcaras
+#
+# Since I wanted to be able to switch from a solarized dark to light theme with
+# a single key mapping ($mod+b), I had to organize my i3 config files a bit
+# differently:
+#
+#   + config_local is for general settings, shared accross dark and light themes
+#   + dark / light files address theme specific configuration
+#   + use bin/theme_switch to switch between a light / dark config. Most
+#     importantly, it will concatenate the general setting with the relevant
+#     theme-specific file to the i3 config file.
+#   + use bin/i3reload to reload i3 config.
+#
+# You should NOT directly edit your i3 config file, as changes could be lost
+# after switching themes. Use this file instead ;-)
+#
+# ################
+
+# -------------------
+# DO STUFF AT STARTUP
+# -------------------
+
+# Compositing
+exec --no-startup-id compton --config $HOME/.dotfiles/compton/compton.conf
+
+# Keyrings and network
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id nm-applet
+
+# Hide mouse cursor when not in used
+exec --no-startup-id unclutter
+
+# Useful apps
+exec --no-startup-id nextcloud
+exec --no-startup-id telegram-desktop
+
+# ------------
+# KEY MAPPINGS
+# ------------
+
+set $mod Mod4
+
+# Home row direction keys, like vim with bépo french layout
+set $left c
+set $down t
+set $up s
+set $right r
+
+# Your preferred terminal emulator
+set $term --no-startup-id $TERMINAL
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Start a terminal
+bindsym $mod+Return split horizontal ;; exec termite
+bindsym $mod+Shift+Return split vertical ;; exec termite
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Change focus (vim bépo style)
+bindsym $mod+c focus left
+bindsym $mod+t focus down
+bindsym $mod+s focus up
+bindsym $mod+r focus right
+
+# Change focus (cursor keys)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+c move left
+bindsym $mod+Shift+t move down
+bindsym $mod+Shift+s move up
+bindsym $mod+Shift+r move right
+
+# Move focused window (cursor keys)
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Split in horizontal / vertical orientation
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# Change container layout (stacked, tabbed, split, sticky)
+bindsym $mod+Shift+k layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+e layout toggle split
+bindsym $mod+Tab sticky toggle
+
+# Toggle focused window tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Focus the parent container
+bindsym $mod+p focus parent
+
+# Rofi / Dmenu bindings ($theme set in dark / light config files)
+bindsym $mod+d exec --no-startup-id rofi -rnow -show combi -theme $theme
+
+# Reload the configuration file
+bindsym $mod+Shift+h exec --no-startup-id $HOME/.dotfiles/bin/i3reload
+
+# Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+j restart
+
+# Switch between solarized dark / light
+bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch
+
+# Exit i3 (logs you out of your X session)
+bindsym $mod+Escape exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Stealth mode / hide everything
+bindsym $mod+BackSpace exec amixer sset Master off && killall -USR1 i3blocks ; exec killall mpv ; exec i3-msg '[class="Firefox" title="(privée|private)"] kill' ; workspace $ws0 ; exec termite -t glances -e glances ; exec termite -t alsamixer -e alsamixer ;
+
+# Resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym c resize shrink width 10 px or 10 ppt
+        bindsym t resize grow height 10 px or 10 ppt
+        bindsym s resize shrink height 10 px or 10 ppt
+        bindsym r resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+l mode "resize"
+
+# Multimedia Keys: volume
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
+
+# Multimedia Keys: granular volume control
+bindsym $mod+XF86AudioRaiseVolume exec amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
+bindsym $mod+XF86AudioLowerVolume exec amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
+
+# Multimedia Keys: mute
+bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
+
+# Redirect sound to headphones
+# bindsym $mod+m exec "/usr/local/bin/switch-audio-port"
+
+# ----------
+# WORKSPACES
+# ----------
+
+set $ws0 "0 "
+set $ws1 "1 "
+set $ws2 "2 "
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7 "
+set $ws8 "8 "
+set $ws9 "9 "
+set $ws10 "10 "
+
+# Switch to workspace
+bindsym $mod+dollar workspace $ws0
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# Move focused container to workspace
+bindsym $mod+Shift+dollar move container to workspace $ws0
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# Assign workspace
+for_window [title="Déjà Dup"] move to workspace $ws0
+for_window [class="Telegram"] move to workspace $ws1
+for_window [class="Firefox"] move to workspace $ws2
+for_window [title="note"] move to workspace $ws7
+for_window [title="zettel"] move to workspace $ws7
+for_window [class="Simplenote"] move to workspace $ws7
+for_window [class="calibre"] move to workspace $ws8
+for_window [class="Zotero"] move to workspace $ws8
+for_window [title="neomutt"] move to workspace $ws9
+for_window [class="Spotify"] move to workspace $ws10
+
+# ---------------
+# SPECIAL WINDOWS
+# ---------------
+
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Kalu"] floating enable
+
+for_window [class="mpv"] floating enable
+for_window [class="mpv"] sticky enable
+
+# -------------
+# LOOK NICE PLZ
+# -------------
+
+# No borders and some gaps
+for_window [class="^.*"] border pixel 0
+gaps inner 10
+gaps outer 10
+
+# Font for window titles and the bar (unless set in bar{} below)
+font pango:DejaVu Sans Mono, Icons 9
+
+# Set window colors
+client.focused          $bg-color          $bg-color          $text-focus          $indicator-color
+client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color
+client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color
+client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color          $indicator-color
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+  status_command i3status
+  font pango:DejaVu Sans Mono, Icons 9
+
+  colors {
+    background $bg-color
+    separator $text-color
+    statusline $text-color
+
+    #                  border             background         text
+    focused_workspace  $bg-color          $bg-color          #d33682
+    inactive_workspace $bg-color          $bg-color          $text-color
+    urgent_workspace   $bg-color          $bg-color          $urgent-bg-color
+  }
+}
+
+# Solarized common setup
+set $urgent-bg-color     #dc322f
+set $indicator-color     #859900
+set $text-focus          #cb4b16

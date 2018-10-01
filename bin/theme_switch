@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# ################################################
+# Switch i3 theme between solarized light and dark
+# by @gaalcaras
+# ################################################
+
+TERMITE="$HOME/.dotfiles/termite"
+I3="$HOME/.dotfiles/i3"
+I3CONFIG="$HOME/.config/i3/config"
+
+gsettings set org.gnome.desktop.interface gtk-theme "Numix"
+gsettings set org.gnome.desktop.wm.preferences theme "Numix"
+
+apply_theme() {
+  theme="$1"
+
+  # TERMITE
+  cat "$TERMITE/config_local" "$TERMITE/$theme" > "$TERMITE/config"
+  killall -USR1 termite
+
+  # i3
+  cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
+  i3-msg -q reload
+  i3-msg -q restart
+
+  # Background
+  feh --bg-fill "$HOME/.dotfiles/wallpaper/$theme.png"
+
+  # Gnome / GTK
+  [[ "$theme" == "light" ]] && gtk_dark=0 || gtk_dark=1
+  sed -i "s/prefer-dark-theme=[01]/prefer-dark-theme=$gtk_dark/g" "$HOME/.config/gtk-3.0/settings.ini"
+  sed -i "s/prefer-dark-theme=[01]/prefer-dark-theme=$gtk_dark/g" "$HOME/.config/gtk-4.0/settings.ini"
+}
+
+if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
+then
+    apply_theme light
+else
+    apply_theme dark
+fi

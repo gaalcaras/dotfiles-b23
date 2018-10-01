@@ -47,3 +47,11 @@ ffiles[$HOME/.dotfiles/zathura/zathurarc]=$HOME/.config/zathura/zathurarc
 
 # Taskwarrior
 ffiles[$HOME/.dotfiles/task/hooks]=$HOME/.task/hooks
+
+# XDG
+folders[$HOME/.dotfiles/xdg/applications]=$HOME/.local/share/applications
+
+# i3
+ffiles[$HOME/.dotfiles/i3/i3status]=$HOME/.config/i3status/config
+ffiles[$HOME/.dotfiles/compton/compton.conf]=$HOME/.config/compton.conf
+folders[$HOME/.dotfiles/rofi]=$HOME/.config/rofi

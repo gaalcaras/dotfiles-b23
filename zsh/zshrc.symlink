@@ -1,14 +1,44 @@
+# ###############
+# Zsh config file
+# by @gaalcaras
+# ###############
+
+# GENERAL {{{
+
 autoload -U zmv
+
+setopt prompt_subst
+
+setopt glob_complete
+setopt complete_in_word
+setopt always_to_end
+setopt auto_menu
+
+# Ask to correct commands but not arguments
+setopt nocorrectall
+setopt correct
+
+# Completion
 autoload -U +X compinit && compinit -d $HOME/.cache/zsh/zcompdump-$ZSH_VERSION
 autoload -U +X bashcompinit && bashcompinit
 
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+zstyle ':completion*:default' menu 'select=0'
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors ''
 
-# VARS {{{
+# History
+export HISTFILE="$HOME/.zsh_history"
+export SAVEHIST=100000
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+setopt extended_history
+setopt HIST_FIND_NO_DUPS
+setopt inc_append_history_time
+
+# }}}
+
+# EXPORTS {{{
 
 # If TERM is set to xterm-256color mutt has problems redrawing
 # after viewing attachments.
@@ -18,16 +48,8 @@ export TERM="screen-256color"
 export PATH=$HOME/.dotfiles/bin/:$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.4.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl
 export EDITOR="nvim"
 export BROWSER="/usr/bin/firefox"
+export TERMINAL="/usr/bin/termite -e"
 export MANPATH="/usr/local/man:$MANPATH"
-
-# }}}
-
-# POWERLINE {{{
-
-if hash powerline-daemon 2>/dev/null; then
-  powerline-daemon -q
-  . /usr/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
-fi
 
 # }}}
 
@@ -40,24 +62,14 @@ bindkey -M vicmd '0' vi-beginning-of-line
 
 bindkey -M vicmd 'c' vi-backward-char
 bindkey -M vicmd 'r' vi-forward-char
-bindkey -M vicmd 't' history-search-backward
-bindkey -M vicmd 's' history-search-forward
 
 # Vi mode breaks up and down arrow keys with history search.
 # This is the fix:
 # https://github.com/robbyrussell/oh-my-zsh/issues/1720#issuecomment-286366959
 
-if [[ "${terminfo[kcuu1]}" != "" ]]; then
-  autoload -U up-line-or-beginning-search
-  zle -N up-line-or-beginning-search
-  bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
-fi
-# start typing + [Down-Arrow] - fuzzy find history backward
-if [[ "${terminfo[kcud1]}" != "" ]]; then
-  autoload -U down-line-or-beginning-search
-  zle -N down-line-or-beginning-search
-  bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
-fi
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
 
 bindkey -M vicmd 'b' backward-word
 bindkey -M vicmd 'é' forward-word
@@ -71,98 +83,25 @@ bindkey -M vicmd 'll' vi-change-whole-line
 
 # }}}
 
-# Functions {{{
+# GIT PROMPT {{{
 
-# }}}
-
-if hash tmuxifier 2>/dev/null;
-then
-  eval "$(tmuxifier init -)"
-fi
-
-# Oh My Zsh {{{
-
-ZSH_THEME="powerlevel9k/powerlevel9k"
-
-precmd() {
-  if hash task 2>/dev/null; then
-    task="task rc.verbose:nothing"
-    overdue_count=$($(echo $task) +READY +OVERDUE count)
-    today_count=$($(echo $task) +READY +DUETODAY count)
-    tomorrow_count=$($(echo $task) +READY +TOMORROW count)
-    urgent_count=$($(echo $task) +READY urgency.above:10 count)
-
-    task_indicator(){
-      local output=""
-      if [[ "$overdue_count" -gt "0" ]]; then
-        output="💀 $overdue_count"
-      elif [[ "$today_count" -gt "0" ]]; then
-        output="😱 $today_count"
-      elif [[ "$tomorrow_count" -gt "0" ]]; then
-        output="📅 $tomorrow_count"
-      elif [[ "$urgent_count" -gt "0" ]]; then
-        output="❗$urgent_count"
-      else
-      fi
-
-      echo -n "$output"
-    }
-
-    task_color(){
-      local color=""
-      if [[ "$overdue_count" -gt "0" ]]; then
-        color="red"
-      elif [[ "$today_count" -gt "0" ]]; then
-        color="016"
-      elif [[ "$tomorrow_count" -gt "0" ]]; then
-        color="yellow"
-      else
-      fi
-
-      echo -n "$color"
-    }
-
-    POWERLEVEL9K_CUSTOM_TASKWARRIOR="task_indicator"
-    POWERLEVEL9K_CUSTOM_TASKWARRIOR_BACKGROUND="$(task_color)"
-  fi
+function git_prompt_info() {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  branch=$(basename "$ref")
+  gst=''
+  color="green"
+  unstaged=$(git status --porcelain | cut -c1-3 | grep \? | wc -l)
+  changed=$(git status --porcelain | cut -c1-3 | grep -v \? | wc -l)
+  (($unstaged > 0)) && unstaged="?" || unstaged=""
+  (($changed > 0)) && changed="+" && color="red" || changed=""
+  echo "%F{$color}[$branch$changed$unstaged] %f"
 }
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context custom_taskwarrior dir dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status vi_mode)
+PROMPT='%F{blue}%n@%m:%f%F{magenta}%~%f $(git_prompt_info)$ %f'
 
-
-# Fish shell shortening strategy for directories
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
-POWERLEVEL9K_SHORTEN_DELIMITER=""
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-
-if [ "$BASE16_THEME" = "base16_solarized-light" ]
-then
-  POWERLEVEL9K_COLOR_SCHEME='light'
-fi
-
-# Hide context module when user is gabo
-DEFAULT_USER="gaalcaras"
-
-# Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git cp pass taskwarrior vi-mode zsh-dircolors-solarized emoji)
-
-source $ZSH/oh-my-zsh.sh
 # }}}
 
-# ALIAS {{{
-alias reload='source ~/.zshrc'
-
-alias dark='base16_solarized-dark && reload'
-alias light='base16_solarized-light && reload'
-
-alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
+# ALIASES {{{
 
 # ls aliases
 alias ls="ls -F --color=auto --block-size=M"
@@ -171,9 +110,11 @@ alias ll="ls -l"
 alias lla="ll -a"
 alias ldot="ll -d .*"
 
-alias mmv='noglob zmv -W'
+# Directories
+alias dotfiles="cd ~/.dotfiles"
+alias pdw="cd ~/Documents/phd-writing"
 
-# git aliases
+# Git aliases
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gs='git status -sb'
 alias gst='git status -sb'
@@ -193,7 +134,17 @@ alias mr='mr -mj 5' # Multi-repos with minimal output and 5 parallel jobs
 # Development
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
 
-# Dotfiles
+# Misc
+alias reload='source ~/.zshrc'
+alias msmtp-unlock="rm $HOME/.msmtpqueue/.lock"
+alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
+alias mmv='noglob zmv -W'
+
+
+# }}}}
+
+# DOTFILES {{{
+
 function filerc() {
   local tmpdir=$(pwd)
   local rcfile="$1"
@@ -207,13 +158,13 @@ function filerc() {
 
 alias muttrc="filerc $HOME/.dotfiles/mutt/muttrc"
 alias zshrc="filerc $HOME/.dotfiles/zsh/zshrc.symlink"
+alias i3rc="filerc $HOME/.dotfiles/i3/config_local"
 alias vimrc="filerc $HOME/.dotfiles/vim/vimrc.symlink"
 
-# Directories
-alias dotfiles="cd ~/.dotfiles"
-alias pdw="cd ~/Documents/phd-writing"
+# }}}
 
-# Checklist
+# CHECKLIST {{{
+
 function checklist_add {
   local checklist="$1"
   local element="${@:2}"
@@ -228,27 +179,43 @@ function checklist_add {
 alias google="checklist_add $HOME/Nextcloud/Checklists/google.txt"
 alias book="checklist_add $HOME/Nextcloud/Checklists/books.txt"
 
-# Misc
-alias msmtp-unlock="rm $HOME/.msmtpqueue/.lock"
+# }}}
 
-# Note taking
+# NOTE TAKING {{{
+
 zettel() {
+  local tmpdir=$(pwd)
   local cmd="Note $@"
+
+  cd "$HOME/Zettelkasten/zettel"
   nvim -c "$cmd"
+
+  cd "$tmpdir"
 }
 
-compdef '_path_files -W $HOME/Zettelkasten/zettel' zettel
+zstyle ':completion:*:*:zettel:*:*' file-sort 'reverse'
+compdef '_path_files -W $HOME/Zettelkasten/zettel -g "*"' zettel
 
 zstyle ':completion:*:*:note:*:*' file-sort 'reverse'
 compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 
 # }}}
 
+# INIT {{{
+
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+  startx
+fi
+
 if hash register-python-argcomplete 2>/dev/null; then
   eval "$(register-python-argcomplete pubs)"
 fi
 
-# Ask to correct commands but not arguments
-setopt nocorrectall; setopt correct
+if hash tmuxifier 2>/dev/null;
+then
+  eval "$(tmuxifier init -)"
+fi
+
+# }}}
 
 # vim: fdm=marker fmr={{{,}}} fdl=0 fen

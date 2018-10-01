@@ -1,3 +1,12 @@
+# ##############
+# Termite config
+# by @gaalcaras
+#
+# Don't directly edit the config file, please go to termite/config_local
+# instead to keep changes. See i3/config_local and bin/theme_switch to learn
+# more.
+# ##############
+
 [options]
 scroll_on_output = false
 scroll_on_keystroke = true
@@ -7,14 +16,11 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-font = DejaVu Sans Mono for Powerline 8.8
-font = DejaVu Sans Mono 9.6
-# 9.6
+font = DejaVu Sans Mono for Powerline 9
 scrollback_lines = 10000
 search_wrap = true
 fullscreen = true
 geometry = 3200x1800
-#icon_name = terminal
 
 # "system", "on" or "off"
 cursor_blink = system
@@ -23,13 +29,10 @@ cursor_blink = system
 cursor_shape = block
 
 # $BROWSER is used by default if set, with xdg-open as a fallback
-#browser = xdg-open
+browser = firefox
 
 # set size hints for the window
 #size_hints = false
 
 # Hide links that are no longer valid in url select overlay mode
 filter_unmatched_urls = true
-
-# emit escape sequences for extra modified keys
-#modify_other_keys = false
