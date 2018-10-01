@@ -193,13 +193,22 @@ Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vim', 'lua'] }
 
 " Language completion and syntax checking
 Plug 'w0rp/ale' " Check style and syntax asynchronously
-Plug 'roxma/nvim-completion-manager', { 'on': [] }
-if !has('nvim')
-    Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'roxma/ncm-github', { 'for': 'markdown' }
-Plug 'SirVer/ultisnips', { 'on': [] }
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+" Plug 'roxma/nvim-completion-manager', { 'on': [] }
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+
+autocmd BufEnter * call ncm2#enable_for_buffer()
+set completeopt=noinsert,menuone,noselect
+
+Plug 'ncm2/ncm2-github', { 'for': 'markdown' }
+Plug 'ncm2/ncm2-ultisnips'
+Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-vim'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-bufword'
 
 " General functionnality
 " ----------------------
@@ -240,17 +249,11 @@ Plug 'yangmillstheory/vim-snipe'
 " My own plugins
 " --------------
 
-Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
+" Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
 Plug '~/Codecave/ncm-R'
+" Plug '~/Codecave/typit-learn'
 " Plug 'gaalcaras/ncm-R'
 " Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
-
-" Load these plugins only when entering Insert Mode
-augroup load_on_insert
-  autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'nvim-completion-manager')
-        \| autocmd! load_on_insert
-augroup END
 
 call plug#end() " Add plugins to &runtimepath
 
