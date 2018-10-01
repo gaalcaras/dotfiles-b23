@@ -163,6 +163,9 @@ nnoremap Q <nop>
 call dotfiles#DefineNewTextObjects([ '_', '.', ':', ',', ';', '<bar>', '/',
       \ '<bslash>', '*', '+', '%', '-', '#' ])
 
+" When in quickfix buffer (grep, errors, vim-notes), go to error under cursor
+autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+
 " ========
 " vim-plug
 " ========
