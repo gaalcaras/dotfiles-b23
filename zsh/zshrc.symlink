@@ -51,6 +51,7 @@ export BROWSER="/usr/bin/firefox"
 export TERMINAL="/usr/bin/termite -e"
 export MANPATH="/usr/local/man:$MANPATH"
 
+export SUDO_ASKPASS=$HOME/.dotfiles/bin/sudo_askpass
 # }}}
 
 # VIM KEYBINDING {{{
