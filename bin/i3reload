@@ -11,13 +11,14 @@
 # #####################
 
 I3="$HOME/.dotfiles/i3"
+I3CONFIG="$HOME/.config/i3/config"
 
-if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3/config"
+if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
 then
     theme="dark"
 else
     theme="light"
 fi
 
-cat "$I3/config_local" "$I3/$theme" > "$I3/config"
+cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
 i3-msg -q reload
