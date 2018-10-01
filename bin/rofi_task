@@ -1,0 +1,75 @@
+#!/bin/bash
+# ########################################################################
+# ROFI MODE: TASK
+# by Gabriel Alcaras
+#
+# Helper script to deal with taskwarrior through rofi.
+#
+# Script to be used as an extra mode for rofi (using -modi argument or the
+# config file).
+# ########################################################################
+
+
+# -----
+# SETUP
+# -----
+TASKS=$(task rofi rc.verbose=nothing | awk '/^([ 0-9]+) (.*)$/{printf "%02d. ", $1; for (i=2; i<=NF; i++) if (i!=NF || !match($i, "\\[[0-9]\\]")) { printf $i " " }; printf "\n"}')
+readarray -t OPTIONS_ARR <<< $"$TASKS"
+ROFI_PID=$(pgrep -x "rofi")
+TMP_FILE="/tmp/rofitask$ROFI_PID"
+
+if [[ -f "$TMP_FILE" ]]; then
+  id=$(cat "$TMP_FILE")
+fi
+
+# -----
+# UTILS
+# -----
+
+# Check if string is in array
+array_contains () {
+  local seeking=$1; shift
+  local in=1
+  for element; do
+      if [[ "$element" == "$seeking" ]]; then
+          in=0
+          break
+      fi
+  done
+  echo $in
+}
+
+ROUND1=$(array_contains "$1" "${OPTIONS_ARR[@]}")
+
+if [[ -z "$1" ]]; then
+  # --------------------------------------
+  # ROUND 0 - When you launch note in rofi
+  # --------------------------------------
+
+  printf "%s" "$TASKS"
+elif [[ "$ROUND1" -eq 0 ]]; then
+  # -------------------------------------
+  # ROUND 1 - You just selected an option
+  # -------------------------------------
+  id=$(echo "$1" | cut -c1-2)
+  echo "$id" > "$TMP_FILE"
+
+  open=""
+  if task "$id" information | grep -q ANNOTATED; then
+    open="open"
+  fi
+
+  printf "done\\nedit\\n%s\\ndelete" "$open"
+elif [[ "$1" == "done" ]]; then
+  task done "$id"
+elif [[ "$1" == "edit" ]]; then
+  task edit "$id"
+elif [[ "$1" == "open" ]]; then
+  i3-msg -q "exec termite -e 'taskopen $id'"
+elif [[ "$1" == "delete" ]]; then
+  echo 'yes' | task delete "$id"
+elif [[ "$1" =~ "Created task" || -f "$TMP_FILE" ]]; then
+  printf "%s" "$TASKS"
+else
+  task add "$1"
+fi

@@ -111,6 +111,7 @@ bindsym $mod+p focus parent
 bindsym $mod+d exec --no-startup-id rofi -rnow -show combi -theme $theme
 bindsym $mod+n exec rofi -show note -theme $theme
 bindsym $mod+z exec rofi -show zettel -theme $theme
+bindsym $mod+o exec rofi -show task -theme $theme
 
 # Reload the configuration file
 bindsym $mod+Shift+h exec --no-startup-id $HOME/.dotfiles/bin/i3reload
