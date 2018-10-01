@@ -6,7 +6,7 @@ color = dark green
 
 [[commun]]
 path = ~/.calendars/commun/
-color = dark red
+color = dark magenta
 
 [[trainline]]
 path = ~/.calendars/trainline/
@@ -16,6 +16,11 @@ readonly = True
 [[holidays]]
 path = ~/.calendars/holidays/
 color = dark blue
+readonly = True
+
+[[taskwarrior]]
+path = ~/.calendars/taskwarrior/
+color = dark red
 readonly = True
 
 [default]
