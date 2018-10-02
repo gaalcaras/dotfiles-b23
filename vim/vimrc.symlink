@@ -234,9 +234,6 @@ Plug 'jreybert/vimagit', { 'on': 'Magit' }
 
 " Colors and appearance
 Plug 'chriskempson/base16-vim/', { 'commit': 'a808330' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'edkolev/tmuxline.vim'
 
 " Improve text editing
 " --------------------
@@ -325,17 +322,6 @@ endif
 
 " nvim-completion-manager
 set shortmess+=c
-
-" Airline
-let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16'
-let g:airline#extensions#tabline#enabled = 1 " Display buffers as tabs on top
-let g:airline_detect_spelllang=0
-let g:airline_detect_spell=0
-let g:airline#extensions#hunks#enabled=0
-let g:airline#extensions#wordcount#enabled=1
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-let g:airline_section_z=':%c'
 
 " Delimitmate
 let g:delimitMate_expand_cr = 1 " Correct indentation
@@ -429,6 +415,24 @@ let g:UltiSnipsSnippetDirectories=['UltiSnips', 'myownsnips']
 
 " nvim-ipy (mappings in ftplugin)
 let g:nvim_ipy_perform_mappings = 0
+
+" =================
+" Custom statusline
+" =================
+
+set statusline=
+set statusline+=%1*\ %{fugitive#Head()}\ " Git head (color User1)
+set statusline+=%#CursorLineNr#\ %f\ " File name (normal color)
+
+" Right side of statusline
+set statusline+=%=
+set statusline+=%{&fileencoding?&fileencoding:&encoding}\ " file encoding
+set statusline+=%1*\ %{&filetype}\ " File type (color User1)
+set statusline+=%2*\ %l:%c\ (%P)" cursor position (color User2)
+
+" Highlight groups
+exec "hi User1 ctermbg=" . g:base16_cterm02 . " ctermfg=" . g:base16_cterm00
+exec "hi User2 ctermbg=" . g:base16_cterm0A . " ctermfg=" . g:base16_cterm00
 
 " ==================
 " French bépo layout
