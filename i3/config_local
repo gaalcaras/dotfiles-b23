@@ -112,9 +112,13 @@ bindsym $mod+p focus parent
 
 # Rofi / Dmenu bindings ($theme set in dark / light config files)
 bindsym $mod+d exec --no-startup-id rofi -rnow -show combi -theme $theme
+bindsym $mod+Escape exec rofi_power
 bindsym $mod+n exec rofi -show note -theme $theme
 bindsym $mod+z exec rofi -show zettel -theme $theme
 bindsym $mod+o exec rofi -show task -theme $theme
+
+# Set screen lock
+bindsym $mod+Shift+x exec i3lock_theme
 
 # Reload the configuration file
 bindsym $mod+Shift+h exec --no-startup-id $HOME/.dotfiles/bin/i3reload
@@ -124,9 +128,6 @@ bindsym $mod+Shift+j restart
 
 # Switch between solarized dark / light
 bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch
-
-# Exit i3 (logs you out of your X session)
-bindsym $mod+Escape exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Stealth mode / hide everything
 bindsym $mod+BackSpace exec amixer sset Master off && killall -USR1 i3blocks ; exec killall mpv ; exec i3-msg '[class="Firefox" title="(privée|private)"] kill' ; workspace $ws0 ; exec termite -t glances -e glances ; exec termite -t alsamixer -e alsamixer ;

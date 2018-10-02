@@ -11,22 +11,5 @@ set $inactive-text-color #586e75
 # Set rofi to dark theme
 set $theme dark
 
-# Set screen lock
-bindsym $mod+Shift+x exec i3lock -i ~/.dotfiles/wallpaper/dark.png \
-  --ignore-empty-password \
-  --composite \
-  --insidevercolor=268bd2ff \
-  --insidewrongcolor=dc322fff \
-  --insidecolor=eee8d5ff \
-  --ringwrongcolor=fdf6e3ff --ringvercolor=fdf6e3ff --ringcolor=fdf6e3ff \
-  --verifcolor=eee8d5ff --wrongcolor=eee8d5ff \
-  --keyhlcolor=859900ff --bshlcolor=cb4b16ff \
-  --separatorcolor=2aa19899 \
-  --line-uses-inside \
-  --ring-width=4 \
-  --veriftext="CHECKING" --wrongtext="WRONG" --noinputtext="CLEAN SLATE" \
-  --verif-font="DejaVu Sans Mono" --wrong-font="DejaVu Sans Mono" \
-  --verifsize=24 --wrongsize=24
-
 # Set the wallpaper
 exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/dark.png"

@@ -1,0 +1,38 @@
+#!/bin/bash
+
+I3CONFIG="$HOME/.config/i3/config"
+
+if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
+then
+  i3lock -i ~/.dotfiles/wallpaper/dark.png \
+    --ignore-empty-password \
+    --composite \
+    --insidevercolor=268bd2ff \
+    --insidewrongcolor=dc322fff \
+    --insidecolor=eee8d5ff \
+    --ringwrongcolor=fdf6e3ff --ringvercolor=fdf6e3ff --ringcolor=fdf6e3ff \
+    --verifcolor=eee8d5ff --wrongcolor=eee8d5ff \
+    --keyhlcolor=859900ff --bshlcolor=cb4b16ff \
+    --separatorcolor=2aa19899 \
+    --line-uses-inside \
+    --ring-width=4 \
+    --veriftext="CHECKING" --wrongtext="WRONG" --noinputtext="CLEAN SLATE" \
+    --verif-font="DejaVu Sans Mono" --wrong-font="DejaVu Sans Mono" \
+    --verifsize=24 --wrongsize=24
+else
+  i3lock -i ~/.dotfiles/wallpaper/light.png \
+    --ignore-empty-password \
+    --composite \
+    --insidevercolor=268bd2ff \
+    --insidewrongcolor=dc322fff \
+    --insidecolor=073642ff \
+    --ringwrongcolor=002b36ff --ringvercolor=002b36ff --ringcolor=002b36ff \
+    --verifcolor=eee8d5ff --wrongcolor=eee8d5ff \
+    --keyhlcolor=859900ff --bshlcolor=cb4b16ff \
+    --separatorcolor=2aa19899 \
+    --line-uses-inside \
+    --ring-width=4 \
+    --veriftext="CHECKING" --wrongtext="WRONG" --noinputtext="CLEAN SLATE" \
+    --verif-font="DejaVu Sans Mono" --wrong-font="DejaVu Sans Mono" \
+    --verifsize=24 --wrongsize=24
+fi
