@@ -16,7 +16,7 @@ polybar dark &
 LIGHT_PID=$(pgrep -f "^polybar light$")
 DARK_PID=$(pgrep -f "^polybar dark$")
 
-sleep 0.15
+sleep 0.2
 
 # Hide relevant bars
 if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
