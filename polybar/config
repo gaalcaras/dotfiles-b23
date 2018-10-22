@@ -49,7 +49,7 @@ font-0 = "Deja Vu Sans Mono:size=16;0"
 font-1 = "Icons:size=18;0"
 
 modules-left = i3
-modules-center = date khal task
+modules-center = date mr khal task
 modules-right = backlight-acpi pulseaudio wlan battery temperature
 
 cursor-click = pointer
@@ -251,6 +251,13 @@ exec = ~/.dotfiles/polybar/scripts/task
 interval = 5
 
 format-underline = ${colors.brmagenta}
+
+[module/mr]
+type = custom/script
+exec = ~/.dotfiles/polybar/scripts/mr
+interval = 5
+
+format-underline = ${colors.brred}
 
 [settings]
 screenchange-reload = true

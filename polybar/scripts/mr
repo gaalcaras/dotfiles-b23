@@ -1,0 +1,7 @@
+#!/bin/bash
+
+repos=$(mr -mj 5 -d "$HOME" status | grep -c "mr status")
+
+if (( "$repos" > 0 )); then
+  echo " $repos"
+fi
