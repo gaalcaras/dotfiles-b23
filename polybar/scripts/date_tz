@@ -1,0 +1,17 @@
+#!/bin/bash
+
+alt_tz="Europe/Paris"
+
+day_local=$(date +"%d")
+day_alt=$(TZ="$alt_tz" date +"%d")
+hour_alt=$(TZ="$alt_tz" date +"%H:%M")
+
+if (( day_local > day_alt )); then
+  day_delta=" -1"
+elif (( day_local < day_alt )); then
+  day_delta=" +1"
+else
+  day_delta=""
+fi
+
+echo "$hour_alt$day_delta"
