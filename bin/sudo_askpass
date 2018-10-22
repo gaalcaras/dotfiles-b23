@@ -7,7 +7,16 @@
 # Take password prompt from STDIN, print password to STDOUT
 # the sed piece just removes the colon from the provided
 # prompt: rofi -p already gives us a colon
+
+if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
+then
+    theme="light"
+else
+    theme="dark"
+fi
+
 rofi -dmenu \
-	-password \
-	-no-fixed-num-lines \
-	-p "$(printf "$1" | sed s/://)"
+  -theme "$theme" \
+  -password \
+  -no-fixed-num-lines \
+  -p "$(printf "%s" "$1" | sed s/://)"

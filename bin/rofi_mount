@@ -1,83 +1,54 @@
 #!/bin/bash
 # ########################################################################
-# ROFI MODE: MOUNT
+# ROFI SCRIPT: MOUNT
 # by Gabriel Alcaras
 #
 # Helper script to edit an existing zettel or create a new one.
 #
-# Script to be used as an extra mode for rofi (using -modi argument or the
-# config file).
 # ########################################################################
 
 
 # -----
 # SETUP
 # -----
-NODRIVE="no drive to mount"
 MOUNTPOINT="/run/media/gaalcaras"
 DRIVES="$(lsblk -rpo "name,type,size,mountpoint,label" | grep -v "nvme" | awk '$2=="part"&&$5==""{if ($4 == ""){l="UNKNOWN"}else{l=$4}; printf "%s on %s (%s)\n",l,$1,$3}')"
 
-ROFI_PID=$(pgrep -x "rofi")
-TMP_FILE="/tmp/rofitask$ROFI_PID"
+[[ -z "$DRIVES" ]] && exit 0
 
-if [[ -z "$DRIVES" ]]; then
-  DRIVES="$NODRIVE"
+option0=$(echo -e "$DRIVES" | rofi -dmenu -i -p 'pick a drive' -only-match -theme dark)
+
+drive=$(echo "$option0" | cut -d" " -f 3)
+label=$(echo "$option0" | cut -d" " -f 1)
+
+mountpoints=("$label" "drive1" "drive2")
+options=""
+
+for mount in ${mountpoints[*]}
+do
+  if [[ ! -d "$MOUNTPOINT/$mount" ]] || ! mountpoint "$MOUNTPOINT/$mount" &> /dev/null; then
+    options=$(printf "Mount '%s' on $MOUNTPOINT/%s\\n%s" "$mount" "$mount" "$options")
+  fi
+done
+
+option1=$(echo -e "$options" | rofi -dmenu -i -p "choose a mountpoint" -theme dark)
+
+[[ -z "$option1" ]] && exit 0
+
+if [[ "$option1" =~ "Mount " ]]; then
+  mountpoint=${option1##* on }
+else
+  mountpoint="$MOUNTPOINT/$option1"
 fi
-readarray -t OPTIONS_ARR <<< "$DRIVES"
 
-# if [[ -f "$TMP_FILE" ]]; then
-#   id=$(cat "$TMP_FILE")
-# fi
-
-# -----
-# UTILS
-# -----
-
-# Check if string is in array
-array_contains () {
-  local seeking=$1; shift
-  local in=1
-  for element; do
-      if [[ "$element" == "$seeking" ]]; then
-          in=0
-          break
-      fi
-  done
-  echo $in
-}
-
-ROUND1=$(array_contains "$1" "${OPTIONS_ARR[@]}")
-
-if [[ -z "$1" ]]; then
-  # --------------------------------------
-  # ROUND 0 - When you launch note in rofi
-  # --------------------------------------
-
-  printf "%s" "$DRIVES"
-elif [[ "$ROUND1" -eq 0 ]]; then
-  # -------------------------------------
-  # ROUND 1 - You just selected an option
-  # -------------------------------------
-  if [[ "$1" == "$NODRIVE" ]]; then
+if sudo -A mkdir -p "$mountpoint" ; then
+  if sudo -A mount "$drive" "$mountpoint"; then
     exit 0
   else
-    drive=$(echo "$1" | cut -d" " -f 3)
-    label=$(echo "$1" | cut -d" " -f 1)
-    printf "Mount '%s' on $MOUNTPOINT/%s" "$label" "$label"
-    echo "$label $drive" > "$TMP_FILE"
-  fi
-elif [[ "$1" =~ ^Mount ]]; then
-  input=$(cat "$TMP_FILE")
-  label=$(echo "$input" | cut -d" " -f 1)
-  drive=$(echo "$input" | cut -d" " -f 2)
-  mountpoint=${1##* on }
-
-  if sudo -A mkdir -p "$mountpoint" ; then
-    # sudo -A mount "$drive" "$mountpoint"
-    echo "success"
-  else
-    echo "Couldn't create '$mountpoint' :("
+    msg="'$label' ($drive) could not be mounted at '$mountpoint' :("
   fi
 else
-  echo "end"
+  msg="Couldn't create '$mountpoint' :("
 fi
+
+echo -e "$msg" | rofi -dmenu -i -p "result" -theme dark

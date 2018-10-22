@@ -116,6 +116,7 @@ bindsym $mod+Escape exec rofi_power
 bindsym $mod+n exec rofi -show note -theme $theme
 bindsym $mod+z exec rofi -show zettel -theme $theme
 bindsym $mod+o exec rofi -show task -theme $theme
+bindsym $mod+m exec rofi_mount
 
 # Set screen lock
 bindsym $mod+Shift+x exec i3lock_theme
@@ -214,6 +215,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 # Assign workspace
 for_window [title="Déjà Dup"] move to workspace $ws0
+for_window [title="ranger"] move to workspace $ws0
 for_window [class="Telegram"] move to workspace $ws1
 for_window [class="Firefox"] move to workspace $ws2
 for_window [title="note"] move to workspace $ws7
