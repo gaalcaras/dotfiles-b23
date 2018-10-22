@@ -249,6 +249,7 @@ format-underline = ${colors.magenta}
 type = custom/script
 exec = ~/.dotfiles/polybar/scripts/task
 interval = 5
+click-left=termite --hold -t task -e task
 
 format-underline = ${colors.brmagenta}
 
@@ -256,6 +257,7 @@ format-underline = ${colors.brmagenta}
 type = custom/script
 exec = ~/.dotfiles/polybar/scripts/mr
 interval = 5
+click-left=termite --hold -t mr -e "mr status"
 
 format-underline = ${colors.brred}
 
