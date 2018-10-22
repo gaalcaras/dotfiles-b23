@@ -38,6 +38,7 @@ exec_always --no-startup-id $HOME/.dotfiles/bin/polybar_launch
 # Useful apps
 exec --no-startup-id nextcloud
 exec --no-startup-id telegram-desktop
+exec --no-startup-id $BROWSER
 
 # ------------
 # KEY MAPPINGS
@@ -115,7 +116,7 @@ bindsym $mod+d exec --no-startup-id rofi -rnow -show combi -theme $theme
 bindsym $mod+Escape exec rofi_power
 bindsym $mod+n exec rofi -show note -theme $theme
 bindsym $mod+z exec rofi -show zettel -theme $theme
-bindsym $mod+o exec rofi -show task -theme $theme
+bindsym $mod+Shift+d exec rofi -show task -theme $theme
 bindsym $mod+m exec rofi_mount
 
 # Set screen lock

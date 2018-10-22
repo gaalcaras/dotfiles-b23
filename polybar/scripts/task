@@ -1,24 +1,25 @@
 #!/bin/bash
 
-today_tasks=$(task rofi rc.verbose=nothing due:today | wc -l)
+today_tasks=$(task rofi rc.verbose=nothing start or due:today or +OVERDUE | wc -l)
 task_start=$(task rofi rc.verbose=nothing start)
 
+function sanitize_task() {
+  echo "$@" | sed -r 's/^[0-9]+ //' | sed -r 's/ \[[0-9]\] ?//'
+}
+
+msg=""
 if [[ ! -z "$task_start" ]]; then
-  msg="doing: $task_start"
+  doing=$(sanitize_task "$task_start")
+  msg="$msg $doing"
 fi
 
 if [ "$today_tasks" -eq 0 ]; then
   echo "$msg"
-elif [ "$today_tasks" -eq 1 ]; then
-  if [[ -z "$msg" ]]; then
-    echo "one task"
-  else
-    echo "$msg (1 more due today)"
-  fi
 else
-  if [[ -z "$msg" ]]; then
-    echo "one task"
+  if [[ -z "$task_start" ]]; then
+    task_count="$today_tasks"
   else
-    echo "$msg ($today_tasks more due today)"
+    task_count="(1/$today_tasks)"
   fi
+  echo "$msg $task_count"
 fi

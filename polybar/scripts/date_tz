@@ -14,4 +14,4 @@ else
   day_delta=""
 fi
 
-echo "$hour_alt$day_delta"
+echo " $hour_alt$day_delta"
