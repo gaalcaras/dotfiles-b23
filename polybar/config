@@ -270,7 +270,7 @@ format-underline = ${colors.brred}
 [module/date_tz]
 type = custom/script
 exec = ~/.dotfiles/polybar/scripts/date_tz
-interval = 1
+interval = 5
 click-left=$BROWSER "https://www.worldtimebuddy.com/?pl=1&lid=5391959,2988507&h=5391959"
 
 format-underline = ${colors.cyan}

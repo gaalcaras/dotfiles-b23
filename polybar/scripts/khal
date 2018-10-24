@@ -1,12 +1,12 @@
 #!/bin/bash
 
-today_events=$(khal list -o today today -f "{start-time}" -d "taskwarrior" | wc -l)
+today_events=$(khal list -o now eod -f "{start-time}" -d "taskwarrior" | wc -l)
 today_events=$((today_events - 1))
 
 if [ "$today_events" -eq 0 ]; then
   echo
 else
-    msg=$(khal list -o today today -f "{start-time}" -d "taskwarrior" | head -n 2 | tail -1)
+    msg=$(khal list -o now eod -f "{start-time}" -d "taskwarrior" | head -n 2 | tail -1)
     if (( today_events > 1 )); then
       msg="$msg ($today_events)"
     fi
