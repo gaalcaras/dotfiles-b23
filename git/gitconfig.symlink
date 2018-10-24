@@ -4,6 +4,7 @@
 [hub]
         protocol = ssh
 [alias]
+        c  = commit
         co = checkout
         br = branch
         st = status -sb
