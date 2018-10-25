@@ -37,6 +37,7 @@ then
         ;;
       hibernate)
         i3lock_theme
+        systemctl hibernate
         ;;
       *)
         ;;
