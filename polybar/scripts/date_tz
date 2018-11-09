@@ -2,13 +2,13 @@
 
 alt_tz="Europe/Paris"
 
-day_local=$(date +"%d")
-day_alt=$(TZ="$alt_tz" date +"%d")
+day_local=$(date +"%e")
+day_alt=$(TZ="$alt_tz" date +"%e")
 hour_alt=$(TZ="$alt_tz" date +"%H:%M")
 
-if (( day_local > day_alt )); then
+if (( "day_local" > "day_alt" )); then
   day_delta=" -1"
-elif (( day_local < day_alt )); then
+elif (( "day_local" < "day_alt" )); then
   day_delta=" +1"
 else
   day_delta=""
