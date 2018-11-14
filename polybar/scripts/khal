@@ -1,6 +1,6 @@
 #!/bin/bash
 
-today_events=$(khal list -o now eod -f "{start-time}" -d "taskwarrior" | wc -l)
+today_events=$(khal list -o now eod -f "{start-time}" -d "taskwarrior" -d "holidays" | wc -l)
 today_events=$((today_events - 1))
 
 if [ "$today_events" -eq 0 ]; then
