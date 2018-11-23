@@ -27,6 +27,7 @@ ffiles[$HOME/.dotfiles/nylas/keymap.json]=$HOME/.nylas/keymap.json
 # Ranger
 ffiles[$HOME/.dotfiles/ranger/rc.conf]=$HOME/.config/ranger/rc.conf
 ffiles[$HOME/.dotfiles/ranger/scope.sh]=$HOME/.config/ranger/scope.sh
+ffiles[$HOME/.dotfiles/ranger/commands.py]=$HOME/.config/ranger/commands.py
 
 # Tmuxifier
 folders[$HOME/.dotfiles/tmux/layouts]=$HOME/.tmuxifier/layouts
