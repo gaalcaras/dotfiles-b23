@@ -168,12 +168,12 @@ endfunction
 
 " Make small undo chunks for writing prose
 function! dotfiles#UndoChunks() abort
-  inoremap . .<c-g>u
-  inoremap ? ?<c-g>u
-  inoremap ! !<c-g>u
-  inoremap : :<c-g>u
-  inoremap , ,<c-g>u
-  inoremap ; ;<c-g>u
+  imap . .<c-g>u
+  imap ? ?<c-g>u
+  imap ! !<c-g>u
+  imap : :<c-g>u
+  imap , ,<c-g>u
+  imap ; ;<c-g>u
 endfunction
 
 function! dotfiles#CompileMarkdown(open_pdf)
