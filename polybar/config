@@ -49,7 +49,7 @@ font-0 = "Deja Vu Sans Mono:size=16;0"
 font-1 = "Icons:size=18;0"
 
 modules-left = i3
-modules-center = date date_tz khal task mr
+modules-center = date khal task mr
 modules-right = backlight-acpi pulseaudio vpn wlan battery
 
 cursor-click = pointer
