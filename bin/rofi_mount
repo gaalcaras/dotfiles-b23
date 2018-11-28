@@ -57,7 +57,7 @@ if [[ "$option0" =~ "Mount " ]]; then
     msg="Couldn't create '$mountpoint' :("
   fi
 elif [[ "$option0" =~ "Unmount " ]]; then
-  if sudo -A umount "$drive"; then
+  if sudo -A umount "$drive" && sudo -A rm "$drive"; then
     exit 0
   else
     msg="'$label' ($drive) could not be mounted at '$mountpoint' :("
