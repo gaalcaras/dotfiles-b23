@@ -253,7 +253,7 @@ Plug 'yangmillstheory/vim-snipe'
 
 " Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
 Plug '~/Codecave/ncm-R'
-" Plug '~/Codecave/typit-learn'
+Plug '~/Codecave/typit-learn'
 " Plug 'gaalcaras/ncm-R'
 " Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
 
@@ -444,6 +444,11 @@ let g:UltiSnipsSnippetDirectories=['UltiSnips', 'myownsnips']
 
 " nvim-ipy (mappings in ftplugin)
 let g:nvim_ipy_perform_mappings = 0
+
+" typit-learn
+
+let g:tplearn_log = 1
+let g:tplearn_dir = '~/.dotfiles/vim/tplearn'
 
 " =================
 " Custom statusline
