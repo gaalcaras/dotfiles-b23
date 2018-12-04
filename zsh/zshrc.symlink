@@ -217,6 +217,14 @@ then
   eval "$(tmuxifier init -)"
 fi
 
+precmd() {
+  print -Pn "\e]0;%m:%~\a"
+}
+
+function preexec {
+  printf "\033]0;%s\a" "$1"
+}
+
 # }}}
 
 # vim: fdm=marker fmr={{{,}}} fdl=0 fen
