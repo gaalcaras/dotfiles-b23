@@ -253,7 +253,7 @@ gaps inner 10
 gaps outer 10
 
 # Font for window titles and the bar (unless set in bar{} below)
-font pango:DejaVu Sans Mono, Icons 9
+font pango:DejaVu Sans Mono, Font Awesome 9
 
 # Set window colors
 client.focused          $bg-color          $bg-color          $text-focus          $indicator-color
