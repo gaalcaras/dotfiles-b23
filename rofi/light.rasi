@@ -4,7 +4,3 @@
     alternate-foreground:        @base1;
     selected-background:         @base2;
 }
-
-window {
-    transparency: "/home/gaalcaras/.dotfiles/wallpaper/light.png";
-}

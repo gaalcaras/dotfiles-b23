@@ -118,7 +118,7 @@ bindsym $mod+Shift+Tab scratchpad show
 bindsym $mod+p focus parent
 
 # Rofi / Dmenu bindings ($theme set in dark / light config files)
-bindsym $mod+d exec --no-startup-id rofi -rnow -show combi -theme $theme
+bindsym $mod+d exec rofi -show combi -theme $theme --no-plugins
 bindsym $mod+Escape exec rofi_power
 bindsym $mod+n exec rofi -show note -theme $theme
 bindsym $mod+z exec rofi -show zettel -theme $theme
