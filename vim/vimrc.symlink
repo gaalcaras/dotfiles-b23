@@ -109,8 +109,8 @@ augroup END
 " ==================================
 
 " Show next matched string at the center of screen
-nnoremap n nzz
-nnoremap N Nzz
+nnoremap n nzzzO
+nnoremap N NzzzO
 
 " Escape from inside [], (), {}, «», '', "", **
 inoremap <c-e> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
@@ -203,6 +203,10 @@ Plug 'honza/vim-snippets'
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
 
+if !has('nvim')
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
 autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 
@@ -253,7 +257,11 @@ Plug 'yangmillstheory/vim-snipe'
 
 " Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
 Plug '~/Codecave/ncm-R'
-Plug '~/Codecave/typit-learn'
+
+if has('nvim')
+  Plug '~/Codecave/typit-learn'
+endif
+
 " Plug 'gaalcaras/ncm-R'
 " Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
 
@@ -297,7 +305,7 @@ nmap ds <Plug>(operator-sandwich-delete)
 call denite#custom#source('file_rec', 'matchers',
       \ ['matcher_fuzzy', 'matcher_ignore_globs'])
 call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-      \ [ '.git/', '.ropeproject/', '__pycache__/',
+      \ [ '.git/', '.ropeproject/', '__pycache__/', '.pytest_cache/',
       \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
       \   '.Rproj.user/*', '.~lock*', '.Rhistory',
       \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
