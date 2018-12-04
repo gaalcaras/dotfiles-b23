@@ -3,7 +3,7 @@
 if pgrep -x openvpn &> /dev/null; then
   LOCK=""
 else
-  LOCK=""
+  LOCK=""
 fi
 
 echo "$LOCK"
