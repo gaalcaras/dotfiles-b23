@@ -7,19 +7,21 @@ function sanitize_task() {
   echo "$@" | sed -r 's/^[0-9]+ //' | sed -r 's/ \[[0-9]\] ?//'
 }
 
-msg=""
+msg=""
 if [[ ! -z "$task_start" ]]; then
   doing=$(sanitize_task "$task_start")
-  msg="$msg $doing"
+  msg="$msg$doing"
 fi
 
-if [ "$today_tasks" -eq 0 ]; then
-  echo "$msg"
-else
+if [ "$today_tasks" -ne 0 ]; then
   if [[ -z "$task_start" ]]; then
     task_count="$today_tasks"
   else
     task_count="(1/$today_tasks)"
   fi
-  echo "$msg $task_count"
+  msg="$msg$task_count"
+fi
+
+if [[ ! -z "$msg" ]]; then
+  echo " $msg"
 fi
