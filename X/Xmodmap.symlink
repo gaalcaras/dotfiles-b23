@@ -1,0 +1,3 @@
+! Remap Capslock to Escape
+clear lock
+keysym Caps_Lock = Escape
