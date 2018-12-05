@@ -120,14 +120,15 @@ nnoremap <c-e> /[)}*"»'`\]*]<cr>:nohl<cr>a
 nnoremap <c-m> <c-]>
 vnoremap <c-m> <c-]>
 
+" Spelling errors
+nnoremap )s ]s
+nnoremap (s [s
+
 nnoremap gf :w<cr>gf
 " Open file under cursor in vertical split
 nnoremap g<cr> :w<cr><c-w>vgf
 " Open file under cursor in horizontal split
 nnoremap g<space> :w<cr><c-w>f
-
-nnoremap <c-s> :w<cr>
-inoremap <c-s> <c-o>:w<cr>
 
 " Append the line above to the end
 nnoremap <leader>tt :m-2<cr>:j<cr>
