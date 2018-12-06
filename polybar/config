@@ -265,7 +265,7 @@ click-left=termite -t network -e nmtui
 [module/email]
 type = custom/script
 exec = python ~/.dotfiles/polybar/scripts/watch_inbox.py
-interval = 15
+interval = 300
 
 format-underline = ${colors.cyan}
 

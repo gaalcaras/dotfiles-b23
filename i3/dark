@@ -12,4 +12,4 @@ set $inactive-text-color #586e75
 set $theme dark
 
 # Set the wallpaper
-exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/dark.png"
+exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/wallpaper.png"

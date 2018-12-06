@@ -195,17 +195,17 @@ set $ws9 "9"
 set $ws10 "10"
 
 # Switch to workspace
-bindsym $mod+dollar workspace $ws0
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+dollar workspace $ws0 ; focus tiling
+bindsym $mod+1 workspace $ws1 ; focus tiling
+bindsym $mod+2 workspace $ws2 ; focus tiling
+bindsym $mod+3 workspace $ws3 ; focus tiling
+bindsym $mod+4 workspace $ws4 ; focus tiling
+bindsym $mod+5 workspace $ws5 ; focus tiling
+bindsym $mod+6 workspace $ws6 ; focus tiling
+bindsym $mod+7 workspace $ws7 ; focus tiling
+bindsym $mod+8 workspace $ws8 ; focus tiling
+bindsym $mod+9 workspace $ws9 ; focus tiling
+bindsym $mod+0 workspace $ws10 ; focus tiling
 
 # Move focused container to workspace
 bindsym $mod+Shift+dollar move container to workspace $ws0
@@ -229,6 +229,7 @@ for_window [title="note"] move to workspace $ws7
 for_window [title="zettel"] move to workspace $ws7
 for_window [class="Simplenote"] move to workspace $ws7
 for_window [class="calibre"] move to workspace $ws8
+for_window [title="newsboat"] move to workspace $ws8
 for_window [class="Zotero"] move to workspace $ws8
 for_window [title="neomutt"] move to workspace $ws9
 for_window [class="Spotify"] move to workspace $ws10
