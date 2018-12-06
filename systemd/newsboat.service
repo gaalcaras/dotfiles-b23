@@ -1,0 +1,11 @@
+[Unit]
+Description=Download RSS feeds
+After=network.target
+ConditionFileIsExecutable=/usr/bin/newsboat
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/newsboat -x reload
+
+[Install]
+Also=newsboat.timer

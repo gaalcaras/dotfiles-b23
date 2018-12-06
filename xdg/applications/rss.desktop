@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=rss
+Comment=Edit newsboat RSS feeds
+Icon=utilities-terminal
+Terminal=true
+Exec=rss
+Categories=ConsoleOnly;System;FileTools;FileManager
+MimeType=inode/directory;

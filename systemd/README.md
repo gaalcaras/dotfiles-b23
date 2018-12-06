@@ -8,11 +8,11 @@
 
 ## Useful commands
 
-Enable service or timer:
+Enable service or timer and start immediately:
 
 ```
-systemctl --user enable email-sync.service
-systemctl --user enable email-sync.timer
+systemctl --user enable --now email-sync.service
+systemctl --user enable --now email-sync.timer
 ```
 
 Check if everything is running smoothly:

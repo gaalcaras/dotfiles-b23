@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=newsboat
+Comment=Launches newsboat RSS reader
+Icon=utilities-terminal
+Terminal=true
+Exec=newsboat
+Categories=ConsoleOnly;System;FileTools;FileManager
+MimeType=inode/directory;

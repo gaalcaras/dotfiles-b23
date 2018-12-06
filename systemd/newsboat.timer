@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer to download RSS feeds
+
+[Timer]
+OnBootSec=5m
+OnUnitInactiveSec=60m
+
+[Install]
+WantedBy=timers.target

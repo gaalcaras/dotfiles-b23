@@ -131,6 +131,7 @@ alias ikhal='LC_TIME=C ikhal'
 alias nv="nvim"
 alias mutt='hash tmuxifier 2>/dev/null && tmuxifier load-window mutt || neomutt -n' # Check if tmuxifier exists before loading mutt setup
 alias mr='mr -d "$HOME"' # Multi-repos with minimal output and 5 parallel jobs
+alias rss='nvim ~/.dotfiles/newsboat/urls'
 
 # Development
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'

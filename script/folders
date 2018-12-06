@@ -59,3 +59,10 @@ folders[$HOME/.dotfiles/rofi]=$HOME/.config/rofi
 
 # Polybar
 folders[$HOME/.dotfiles/polybar]=$HOME/.config/polybar
+
+# Newsboat
+ffiles[$HOME/.dotfiles/newsboat/config]=$HOME/.newsboat/config
+ffiles[$HOME/.dotfiles/newsboat/urls]=$HOME/.newsboat/urls
+
+# Youtube-dl
+ffiles[$HOME/.dotfiles/youtube-dl/youtube-dl.conf]=$HOME/.config/youtube-dl.conf

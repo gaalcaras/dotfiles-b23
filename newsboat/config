@@ -1,0 +1,76 @@
+# Settings
+
+show-read-feeds no
+prepopulate-query-feeds yes
+confirm-exit yes
+text-width 80
+ignore-mode display
+
+bookmark-cmd "python ~/.dotfiles/newsboat/newsboat_to_wallabag.py"
+bookmark-autopilot yes
+
+browser firefox
+
+# Unbind keys
+unbind-key B
+
+# Bind keys
+bind-key t down
+bind-key s up
+bind-key t next articlelist
+bind-key s prev articlelist
+bind-key r next-feed articlelist
+bind-key c prev-feed articlelist
+bind-key r next article
+bind-key c prev article
+bind-key G end
+bind-key g home
+bind-key ^F pagedown
+bind-key ^B pageup
+bind-key n next-unread
+bind-key N prev-unread
+bind-key ^R reload
+bind-key ^S save
+bind-key BACKSPACE toggle-show-read-feeds
+bind-key d delete-article
+bind-key D delete-all-articles
+
+bind-key T select-tag
+bind-key ^T select-tag
+bind-key b bookmark
+bind-key B bookmark article
+bind-key p pipe-to
+
+bind-key o open-in-browser-and-mark-read articlelist
+bind-key o open-in-browser article
+bind-key SPACE toggle-article-read
+
+# Colors
+color background         default   default
+color listnormal         default   default
+color listnormal_unread  blue      default
+color listfocus          black     yellow
+color listfocus_unread   black     yellow
+color info               default   black
+color article            default   default
+
+# Format
+feedlist-format "%4i %S %n %10T %t %u"
+articlelist-format "%4i %f %-10D %20T %-80t %?a?par %-20a?"
+
+# highlights
+highlight article "^(Title|Titre ):.*$" blue default
+highlight article "^(Date\\s?):.*$" magenta default
+
+# Macros
+macro v set browser "i3-msg exec mpv"; open-in-browser-and-mark-read ; set browser firefox
+macro V set browser "rm /tmp/newsboat_mpv.m3u #" ; open-in-browser ; set browser "echo $* >> /tmp/newsboat_mpv.m3u"; open-all-unread-in-browser-and-mark-read ; set browser "i3-msg exec mpv /tmp/newsboat_mpv.m3u #" ; open-in-browser ; set browser firefox
+macro d set browser "i3-msg exec youtube-dl " ; open-in-browser ; set browser firefox
+macro T set browser "echo '$*' | xargs i3-msg exec transmission-gtk "; open-in-browser-and-mark-read ; set browser firefox
+macro w set browser "echo '$*' | xargs i3-msg exec webtorrent-desktop "; open-in-browser-and-mark-read ; set browser firefox
+
+macro p pipe-to "cat | ~/.dotfiles/newsboat/pipe_to_wallabag"
+
+# Killfile
+ignore-article "https://www.youtube.com/feeds/videos.xml?user=ColliderVideos" "title !~ \"Schmoedown\" and title !~ \"1 on 1\""
+ignore-article "https://www.youtube.com/feeds/videos.xml?user=LinusTechTips" "title =~ \"WAN\""

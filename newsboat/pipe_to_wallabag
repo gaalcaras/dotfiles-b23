@@ -1,0 +1,18 @@
+#!/bin/bash
+
+post=$(cat)
+
+echo "$post" > ~/coucou
+
+title=$(echo "$post" | awk -F: '/^(Title|Titre\s):/{for(i=2;i<=NF;++i)print $i}')
+author=$(echo "$post" | awk -F: '/^(Author|Auteur\s):/{for(i=2;i<=NF;++i)print $i}')
+url=$(echo "$post" | awk '/^(Url|Lien\s):/{for(i=3;i<=NF;++i)print $i}')
+
+body=$(echo "$post" | sed '/Titre : /,/^\s*$/{d}')
+body=$(echo "$body" | sed '/.*Publicité/,/^\s*$/{d}')
+body=$(echo "$body" | sed '/\s\s/,/^\s*$/{d}')
+body=$(echo "$body" | sed 's/.*\[image.*$//')
+
+echo "$title, $author, $url, $body" > ~/fields
+
+python ~/.dotfiles/newsboat/newsboat_to_wallabag.py "$url" "$title" "" "AOC" -a"$author" -b"$body"
