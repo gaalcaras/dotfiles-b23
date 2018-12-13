@@ -61,8 +61,8 @@ async def main(loop):
                         token=token,
                         aio_sess=session)
 
-        url = args.url
-        title = args.title
+        url = args.url.strip()
+        title = args.title.strip()
 
         if args.body:
             body = args.body
@@ -70,7 +70,7 @@ async def main(loop):
             body = ['<p>{}</p>'.format(p) for p in body]
             body = ''.join(body)
 
-            authors = args.author
+            authors = args.author.strip()
 
             await wall.post_entries(url, title, '', 0, 0, content=body, authors=authors)
         else:

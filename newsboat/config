@@ -63,8 +63,8 @@ highlight article "^(Title|Titre ):.*$" blue default
 highlight article "^(Date\\s?):.*$" magenta default
 
 # Macros
-macro v set browser "i3-msg exec mpv"; open-in-browser-and-mark-read ; set browser firefox
-macro V set browser "rm /tmp/newsboat_mpv.m3u #" ; open-in-browser ; set browser "echo $* >> /tmp/newsboat_mpv.m3u"; open-all-unread-in-browser-and-mark-read ; set browser "i3-msg exec mpv /tmp/newsboat_mpv.m3u #" ; open-in-browser ; set browser firefox
+macro v set browser "i3-msg exec 'mpv --profile=low-latency' "; open-in-browser-and-mark-read ; set browser firefox
+macro V set browser "rm -f /tmp/newsboat_mpv.m3u #" ; open-in-browser ; set browser "echo $* >> /tmp/newsboat_mpv.m3u"; open-all-unread-in-browser-and-mark-read ; set browser "i3-msg exec 'mpv --profile=low-latency /tmp/newsboat_mpv.m3u' #" ; open-in-browser ; set browser firefox
 macro d set browser "i3-msg exec youtube-dl " ; open-in-browser ; set browser firefox
 macro T set browser "echo '$*' | xargs i3-msg exec transmission-gtk "; open-in-browser-and-mark-read ; set browser firefox
 macro w set browser "echo '$*' | xargs i3-msg exec webtorrent-desktop "; open-in-browser-and-mark-read ; set browser firefox
