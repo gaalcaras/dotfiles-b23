@@ -243,6 +243,7 @@ for_window [class="Kalu"] floating enable
 
 for_window [class="mpv"] floating enable
 for_window [class="mpv"] sticky enable
+no_focus [class="mpv"]
 
 # -------------
 # LOOK NICE PLZ
