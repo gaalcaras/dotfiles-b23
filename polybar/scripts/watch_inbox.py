@@ -37,8 +37,10 @@ def run_function_between(callback, earlier='', later=''):
     today_earlier = now.replace(hour=earlier.hour, minute=earlier.minute, second=0)
     today_later = now.replace(hour=later.hour, minute=later.minute, second=0)
 
-    if today_earlier <= now <= today_later:
+    if (today_earlier <= now <= today_later) and (now.isoweekday() in range(1, 6)):
         callback()
+    else:
+        print('')
 
 def get_inbox_emails(email_root):
     """Return list of all emails in inboxes at the email root directory"""

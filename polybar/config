@@ -196,10 +196,11 @@ format-discharging-underline = ${colors.brred}
 
 format-full-underline = ${self.format-charging-underline}
 
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-3 = 
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
 animation-charging-foreground = ${root.base0}
 animation-charging-framerate = 750
 
