@@ -24,6 +24,9 @@ apply_theme() {
   i3-msg -q reload
   i3-msg -q restart
 
+  # Nvim
+  nvim_do.py  -c "call solarized#updateColors('$theme')"
+
   # Background
   feh --bg-fill "$HOME/.dotfiles/wallpaper/$theme.png"
 

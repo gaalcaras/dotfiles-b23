@@ -43,10 +43,7 @@ set list listchars=tab:»·,trail:·,nbsp:· " Display extra whitespace
 set shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 set autoindent
 
-" Normal colors don't work well with base16 and asciinema
-if $ASCIINEMA_REC == "1"
-  set termguicolors
-endif
+set termguicolors
 
 " Relative numbers
 set relativenumber
@@ -154,7 +151,6 @@ nnoremap <leader>vr :w<cr>:source $MYVIMRC<cr>
 
 " Clear highlighted search results
 nnoremap <silent> <c-L> :nohlsearch<cr>
-nnoremap <silent> <localleader>B :call dotfiles#ToggleSolarizedDarkTheme()<cr>
 
 " Sorry ExMode, but you've gotta go
 map q: <Nop>
@@ -224,11 +220,13 @@ Plug 'ncm2/ncm2-markdown-subscope'
 " ----------------------
 
 Plug 'tpope/vim-repeat'
-Plug 'blindFS/vim-taskwarrior', { 'on': 'TW' }
 Plug 'neomutt/neomutt.vim'
 Plug 'Shougo/denite.nvim', { 'do' : ':UpdateRemotePlugins' }
 Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
-Plug 'tmux-plugins/vim-tmux-focus-events'
+
+if exists('$TMUX')
+  Plug 'tmux-plugins/vim-tmux-focus-events'
+endif
 
 " Give vim some note taking abilities
 Plug 'xolox/vim-misc'
@@ -237,10 +235,9 @@ Plug 'xolox/vim-notes'
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'jreybert/vimagit', { 'on': 'Magit' }
 
 " Colors and appearance
-Plug 'chriskempson/base16-vim/', { 'commit': 'a808330' }
+Plug 'lifepillar/vim-solarized8'
 
 " Improve text editing
 " --------------------
@@ -256,208 +253,14 @@ Plug 'yangmillstheory/vim-snipe'
 " My own plugins
 " --------------
 
-" Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
-Plug '~/Codecave/ncm-R'
+Plug '~/Codecave/ncm-R', { 'for': ['r', 'rmd'] }
 
 if has('nvim')
   Plug '~/Codecave/typit-learn'
+  Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
 endif
-
-" Plug 'gaalcaras/ncm-R'
-" Plug 'gaalcaras/transcribe.nvim', { 'do': './install' }
 
 call plug#end() " Add plugins to &runtimepath
-
-" =======
-" Plugins
-" =======
-
-" vim-snipe
-nmap <leader>sf <Plug>(snipe-f)
-nmap <leader>sF <Plug>(snipe-F)
-nmap <leader>st <Plug>(snipe-t)
-nmap <leader>sT <Plug>(snipe-T)
-nmap <leader>sé <Plug>(snipe-w)
-nmap <leader>sÉ <Plug>(snipe-W)
-nmap <leader>sb <Plug>(snipe-b)
-nmap <leader>sB <Plug>(snipe-B)
-nmap <leader>sgé <Plug>(snipe-ge)
-nmap <leader>sgÉ <Plug>(snipe-gE)
-nmap <leader>sx <Plug>(snipe-f-xp)
-nmap <leader>sX <Plug>(snipe-F-xp)
-let g:snipe_jump_tokens = 'auiectsrnmbépo'
-
-" vimagit
-let g:magit_stage_line_mapping = 'LL'
-
-" vim-sandwich with surround mappings
-let g:sandwich_no_default_key_mappings = 1
-let g:operator_sandwich_no_default_key_mappings = 1
-let g:textobj_sandwich_no_default_key_mappings = 1
-nmap ys <Plug>(operator-sandwich-add)
-nmap ls <Plug>(operator-sandwich-replace)
-      \<Plug>(operator-sandwich-release-count)
-      \<Plug>(textobj-sandwich-query-a)
-nmap ds <Plug>(operator-sandwich-delete)
-      \<Plug>(operator-sandwich-release-count)
-      \<Plug>(textobj-sandwich-query-a)
-
-" Denite
-call denite#custom#source('file_rec', 'matchers',
-      \ ['matcher_fuzzy', 'matcher_ignore_globs'])
-call denite#custom#filter('matcher_ignore_globs', 'ignore_globs',
-      \ [ '.git/', '.ropeproject/', '__pycache__/', '.pytest_cache/',
-      \   '*.png', '*.pdf', '*.jpg', '*.aux', '*.out',
-      \   '.Rproj.user/*', '.~lock*', '.Rhistory',
-      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
-
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-n>',
-      \ '<denite:move_to_next_line>',
-      \ 'noremap'
-      \)
-
-call denite#custom#map(
-      \ 'insert',
-      \ '<C-p>',
-      \ '<denite:move_to_previous_line>',
-      \ 'noremap'
-      \)
-
-" Solarized via base16
-if filereadable(expand('~/.vimrc_background'))
-  let g:base16colorspace=256
-  source ~/.vimrc_background
-endif
-
-" nvim-completion-manager
-set shortmess+=c
-
-" Delimitmate
-let g:delimitMate_expand_cr = 1 " Correct indentation
-
-" Nvim-R
-let g:r_syntax_folding = 1
-let g:R_assign = 0 " Do not expand _ to <-
-let g:R_clear_line = 1 " Always clear line in the R Console
-let R_start_libs = "base,stats,graphics,grDevices,utils,methods,datasets"
-
-" Vim Markdown
-let g:vim_markdown_folding_level = 2
-let g:vim_markdown_new_list_item_indent = 2
-let g:vim_markdown_frontmatter = 1
-
-" Vim Markdown Composer
-let g:markdown_composer_open_browser = 0
-
-" vimtex
-" let g:vimtex_complete_recursive_bib=1
-let g:vimtex_fold_enabled = 1
-let g:vimtex_quickfix_latexlog = {'fix_paths':0}
-
-augroup vimtex_config
-  au!
-  au User VimtexEventQuit     VimtexClean " Clean aux files after quitting
-  au User VimtexEventInitPost VimtexCompile " Open pdf when opening
-augroup END
-
-" Remap these to avoid conflict with BÉPO mapping (t -> è)
-nnoremap èsD <Plug>(vimtex-delim-toggle-modifier-reverse)
-nnoremap èsd <Plug>(vimtex-delim-toggle-modifier)
-nnoremap èsc <Plug>(vimtex-cmd-toggle-star)
-nnoremap èse <Plug>(vimtex-env-toggle-star)
-
-" Fugitive
-set diffopt+=vertical " Force vertical split event on small screens
-let g:fugitive_git_executable = 'LANG=en_US git' " Force git english
-
-" Gitgutter
-nnoremap <c-n> :GitGutterNextHunk<CR>
-nnoremap <c-p> :GitGutterPrevHunk<CR>
-nnoremap <c-u> :GitGutterUndoHunk<CR>
-
-" vim-notes
-let g:notes_directories = ['~/Zettelkasten/zettel']
-let g:notes_new_note_template = '~/Zettelkasten/new_zettel'
-let g:notes_title_sync = 'rename_file'
-
-let g:notes_smart_quotes = 0
-
-" Transcribe
-" imap <silent><buffer> <C-S> <plug>(transcribe-speed-inc)
-" nmap <silent><buffer> <leader>s <plug>(transcribe-speed-inc)
-" imap <silent><buffer> <C-t> <plug>(transcribe-speed-dec)
-" nmap <silent><buffer> <leader>t <plug>(transcribe-speed-dec)
-" imap <silent><buffer> <C-c> <plug>(transcribe-seek-backward)
-" nmap <silent><buffer> <leader>c <plug>(transcribe-seek-backward)
-" imap <silent><buffer> <C-r> <plug>(transcribe-seek-forward)
-" nmap <silent><buffer> <leader>r <plug>(transcribe-seek-forward)
-" imap <silent><buffer> <C-v> <plug>(transcribe-timepos-get)
-" imap <silent><buffer> <C-p> <plug>(transcribe-sync)
-
-" vim-easy-align
-vmap <Enter> <Plug>(LiveEasyAlign)
-nmap ga <Plug>(LiveEasyAlign)
-
-" nerdcommenter
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDTrimTrailingWhitespace = 1
-
-" ALE
-nmap <silent> <C-t> <Plug>(ale_previous_wrap)
-nmap <silent> <C-s> <Plug>(ale_next_wrap)
-nmap <silent> <leader>f <Plug>(ale_fix)
-
-let g:ale_fixers = ['autopep8', 'yapf'] " Fix Python files
-let g:ale_linters = {
-      \'latex': ['chktex'],
-      \}
-
-" UltiSnips + NCM
-" See: https://github.com/ncm2/ncm2-ultisnips/issues/6#issuecomment-410186456
-" Disable UltiSnips mappings
-let g:UltiSnipsExpandTrigger       = "<Plug>(ultisnips_expand_or_jump)"
-let g:UltiSnipsJumpForwardTrigger  = "<Plug>(ultisnips_expand_or_jump)"
-
-" Try expanding/jumping with UltiSnips, return <Tab> if nothing worked.
-function! UltiSnipsExpandOrJumpOrTab()
-  call UltiSnips#ExpandSnippetOrJump()
-  if g:ulti_expand_or_jump_res > 0
-    return ""
-  else
-    return "\<Tab>"
-  endif
-endfunction
-
-" First try expanding with ncm2_ultisnips. This does both LSP snippets and
-" normal snippets when there's a completion popup visible.
-inoremap <silent> <expr> <Tab> ncm2_ultisnips#expand_or("\<Plug>(ultisnips_try_expand)")
-
-" If that failed, try the UltiSnips expand or jump function. This handles
-" short snippets when the completion popup isn't visible yet as well as
-" jumping forward from the insert mode. Writes <Tab> if there is no special
-" action taken.
-inoremap <silent> <Plug>(ultisnips_try_expand) <C-R>=UltiSnipsExpandOrJumpOrTab()<CR>
-
-" Select mode mapping for jumping forward with <Tab>.
-snoremap <silent> <Tab> <Esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
-
-" Other mappings
-let g:UltiSnipsListSnippets='<c-tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
-let g:UltiSnipsEditSplit='vertical'
-let g:UltiSnipsSnippetsDir='.vim/myownsnips'
-let g:UltiSnipsSnippetDirectories=['UltiSnips', 'myownsnips']
-
-" nvim-ipy (mappings in ftplugin)
-let g:nvim_ipy_perform_mappings = 0
-
-" typit-learn
-
-let g:tplearn_log = 1
-let g:tplearn_dir = '~/.dotfiles/vim/tplearn'
 
 " =================
 " Custom statusline
@@ -472,10 +275,6 @@ set statusline+=%=
 set statusline+=%{&fileencoding?&fileencoding:&encoding}\ " file encoding
 set statusline+=%1*\ %{&filetype}\ " File type (color User1)
 set statusline+=%2*\ %l:%c\ (%P)" cursor position (color User2)
-
-" Highlight groups
-exec "hi User1 ctermbg=" . g:base16_cterm02 . " ctermfg=" . g:base16_cterm00
-exec "hi User2 ctermbg=" . g:base16_cterm0A . " ctermfg=" . g:base16_cterm00
 
 " ==================
 " French bépo layout
@@ -539,10 +338,6 @@ noremap H R
 noremap k s
 noremap K S
 
-" Spellcheck
-noremap ]k ]s
-noremap [k [s
-
 " Indentation
 noremap « <
 noremap » >
@@ -585,3 +380,7 @@ noremap <Down> :echoe "Use t ;-)"<CR>
 " Say goodbye to backspace and delete in Insert mode
 inoremap <BS> <Nop>
 inoremap <Del> <Nop>
+
+" Syntax highlighting
+" Exclude capitalized nouns.
+syn match myExCapitalWords +\<[A-Z]\w*\>+ contains=@NoSpell

@@ -8,10 +8,10 @@ folders[$HOME/.vim]=$HOME/.config/nvim
 ffiles[$HOME/.vimrc]=$HOME/.config/nvim/init.vim
 
 # Vim
-folders[$HOME/.dotfiles/vim/ftplugin]=$HOME/.vim/after/ftplugin
+folders[$HOME/.dotfiles/vim/after]=$HOME/.vim/after
+folders[$HOME/.dotfiles/vim/plugin]=$HOME/.vim/plugin
 ffiles[$HOME/.dotfiles/vim/dotfiles.vim]=$HOME/.vim/autoload/dotfiles.vim
 ffiles[$HOME/.dotfiles/vim/myownsnips]=$HOME/.vim/myownsnips
-ffiles[$HOME/.dotfiles/vim/plugin]=$HOME/.vim/after/plugin
 
 # Mutt
 folders[$HOME/.dotfiles/mutt]=$HOME/.mutt

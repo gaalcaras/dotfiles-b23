@@ -1,5 +1,9 @@
-" Avoid strange behavior of smart indent with comments
-setl nosmartindent
+" nvim-ipy (mappings in ftplugin)
+if ! exists(':IPython')
+  finish
+endif
+
+let g:nvim_ipy_perform_mappings = 0
 
 map <localleader>ll <Plug>(IPy-Run)
 map <localleader>pp vip<Plug>(IPy-Run)
