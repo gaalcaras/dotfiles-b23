@@ -1,4 +1,13 @@
-map c left
-map t down
-map s up
-map r right
+# Connect to clipboard
+set selection-clipboard clipboard
+
+set incremental-search true
+
+# Open document in fit-width mode by default
+set adjust-open "best-fit"
+
+# BÉPO vim keymapping
+map c scroll left
+map t scroll down
+map s scroll up
+map r scroll right
