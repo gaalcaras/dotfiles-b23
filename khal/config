@@ -23,6 +23,11 @@ path = ~/.calendars/taskwarrior/
 color = dark red
 readonly = True
 
+[[school]]
+path = ~/.calendars/school/
+color = dark blue
+readonly = True
+
 [default]
 default_calendar = personal
 highlight_event_days = true
