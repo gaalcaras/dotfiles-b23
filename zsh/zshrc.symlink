@@ -161,6 +161,7 @@ alias muttrc="filerc $HOME/.dotfiles/mutt/muttrc"
 alias zshrc="filerc $HOME/.dotfiles/zsh/zshrc.symlink"
 alias i3rc="filerc $HOME/.dotfiles/i3/config_local"
 alias vimrc="filerc $HOME/.dotfiles/vim/vimrc.symlink"
+alias newsboatrc="filerc $HOME/.dotfiles/newsboat/config"
 
 # }}}
 
