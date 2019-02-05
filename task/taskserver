@@ -1,0 +1,14 @@
+# Desktop setup
+taskd.certificate=\/home\/gaalcaras\/.task\/freecinc_f2d758a3.cert.pem
+taskd.key=\/home\/gaalcaras\/.task\/freecinc_f2d758a3.key.pem
+taskd.ca=\/home\/gaalcaras\/.task\/freecinc_f2d758a3.ca.pem
+taskd.server=freecinc.com:53589
+taskd.credentials=FreeCinc\/freecinc_f2d758a3\/b3ffa8c7-b559-4b49-b7e8-e0be6d66705d
+taskd.trust=ignore hostname
+
+# Android setup
+# taskd.certificate=freecinc_f2d758a3.cert.pem
+# taskd.key=freecinc_f2d758a3.key.pem
+# taskd.ca=freecinc_f2d758a3.ca.pem
+# taskd.server=freecinc.com:53589
+# taskd.credentials=FreeCinc\/freecinc_f2d758a3\/b3ffa8c7-b559-4b49-b7e8-e0be6d66705d
