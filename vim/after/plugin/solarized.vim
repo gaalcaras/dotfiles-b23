@@ -1,4 +1,4 @@
-colorscheme solarized8_high
+silent! colorscheme solarized8_high
 
 function! solarized#updateColors(theme)
   exec 'set background=' . a:theme

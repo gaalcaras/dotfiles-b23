@@ -114,8 +114,8 @@ inoremap <c-e> <esc>/[)}*"»'`\]*]<cr>:nohl<cr>a
 nnoremap <c-e> /[)}*"»'`\]*]<cr>:nohl<cr>a
 
 " Easier tag navigation
-nnoremap <c-m> <c-]>
-vnoremap <c-m> <c-]>
+nnoremap <c-g> <c-]>
+vnoremap <c-g> <c-]>
 
 " Spelling errors
 nnoremap )s ]s
@@ -223,6 +223,7 @@ Plug 'tpope/vim-repeat'
 Plug 'neomutt/neomutt.vim'
 Plug 'Shougo/denite.nvim', { 'do' : ':UpdateRemotePlugins' }
 Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
+Plug 'ludovicchabant/vim-gutentags'
 
 if exists('$TMUX')
   Plug 'tmux-plugins/vim-tmux-focus-events'
