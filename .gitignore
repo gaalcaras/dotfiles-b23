@@ -2,5 +2,4 @@
 *.pyc
 systemd/timers.target.wants
 vdirsyncer/status
-task/taskserver
 termite/config
