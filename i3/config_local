@@ -253,8 +253,8 @@ no_focus [class="mpv"]
 
 # No borders and some gaps
 for_window [class="^.*"] border pixel 0
-gaps inner 10
-gaps outer 10
+gaps inner 5
+gaps outer 5
 
 # Font for window titles and the bar (unless set in bar{} below)
 font pango:DejaVu Sans Mono, Font Awesome 9

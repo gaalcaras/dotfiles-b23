@@ -1,12 +1,11 @@
 configuration {
   modi: "combi,note:/home/gaalcaras/.dotfiles/bin/rofi_note,zettel:/home/gaalcaras/.dotfiles/bin/rofi_zettel,task:/home/gaalcaras/.dotfiles/bin/rofi_task";
   font: "DejaVu Sans Mono 9";
-  padding: 25;
+  padding: 12.5;
   terminal: "rofi-sensible-terminal";
   run-shell-command: "{terminal} -t {cmd} -e {cmd}";
   combi-modi: "window,drun";
   hide-scrollbar: true;
-  dpi: 190;
   window-format: "[{w:1}] {t} ";
   display-combi: "> ";
   display-drun: "run ";
@@ -74,13 +73,13 @@ window {
 }
 
 mainbox {
-    border: 2;
-    padding: 30;
+    border: 1;
+    padding: 15;
 }
 
 element {
     border:  0;
-    padding: 2.5px 5px 2.5px 5px;
+    padding: 1.5px 2.5px 1.5px 2.5px;
 }
 
 element normal.normal {
@@ -131,5 +130,5 @@ element alternate.active {
 entry, prompt {
     spacing:    0;
     text-color: @orange;
-    padding: 2.5px 5px 2.5px 5px;
+    padding: 1.5px 2.5px 1.5px 2.5px;
 }

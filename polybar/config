@@ -25,7 +25,7 @@ green     = 859900
 enable-ipc = true
 bottom = true
 width = 100%
-height = 50
+height = 25
 
 base2 = ${colors.black}
 base0 = ${colors.brblue}
@@ -33,7 +33,7 @@ base0 = ${colors.brblue}
 background = ${self.base2}
 foreground = ${self.base0}
 
-underline-size = 5
+underline-size = 2
 underline-color = ${colors.green}
 
 border-size = 0
@@ -45,11 +45,11 @@ padding-right = 1
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = "Deja Vu Sans Mono:size=16;0"
-font-1 = "Font Awesome 5 Free:style=Regular:pixelsize=18;0"
-font-2 = "Font Awesome 5 Free:style=Solid:pixelsize=18;0"
-font-3 = "Font Awesome 5 Brands:style=Regular:pixelsize=18;0"
-font-4 = "Icons:size=18;0"
+font-0 = "Deja Vu Sans Mono:size=8;0"
+font-1 = "Font Awesome 5 Free:style=Regular:pixelsize=9;0"
+font-2 = "Font Awesome 5 Free:style=Solid:pixelsize=9;0"
+font-3 = "Font Awesome 5 Brands:style=Regular:pixelsize=9;0"
+font-4 = "Icons:size=9;0"
 
 modules-left = i3
 modules-center = date khal email task mr
