@@ -1,0 +1,29 @@
+#! /bin/sh
+
+commit=$1
+
+# TODO: plutôt garder enfant
+[ $(git rev-list --parents "$commit" -n1 | wc -w) -eq 1 ] && parent=$commit || parent="$commit^1"
+echo $parent
+files=$(git diff-tree "$parent..$commit" | cut -f2)
+echo $files
+# lines=$(git blame -C -w --line-porcelain "e83c516..$commit" -- "$files") # Add --line-porcelain ?
+echo 0
+lines=$(git blame -C -w --line-porcelain "98540621ed851450415a8200999ac874eab567b7..$commit" -- "$files") # Add --line-porcelain ?
+echo 2
+
+echo "$lines" | awk -v match_commit="^$commit" 'BEGIN { RS = "\t[[:print:]]+\n" ; FS = "\n"}
+{
+  split($1,a," "); commit=a[1]; if(commit !~ match_commit) { next };
+  old_num=a[2]; new_num=a[3]; nb_lines=a[4];
+  author=gensub("author ", "", "G", $2);
+  time=gensub("author-time ", "", "G", $4);
+  tz=gensub("author-tz ", "", "G", $5);
+  split($11,b," "); previous=b[2];
+  filename=gensub("filename ", "", "G", $12);
+  printf("%s,%s,%s,%s,%s,%s,%s,%s\n", commit, old_num, new_num, nb_lines, author, time, tz, previous, filename);
+}'
+
+echo 1
+rm_lines=$(git blame -C -w --reverse "$commit" -- "$files")
+echo $rm_lines
