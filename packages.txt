@@ -1,0 +1,95 @@
+nextcloud-client
+webtorrent-desktop-bin
+dropbox
+firefox
+telegram-desktop
+w3m # mutt
+youtube-dl
+
+# GIT
+myrepos
+git-crypt # dotfiles
+git-lfs # phd-fieldwork
+
+# TEXT
+libreoffice-fresh
+libreoffice-fresh-fr
+neovim
+python-neovim
+
+# ZOTERO
+zotero
+
+# EMAIL / CALENDAR / CONTACTS
+khard # Console CardDAV client
+khal # CLI calendar application build around CalDAV
+msmtp # A mini smtp client
+neomutt # a version of mutt with added features
+offlineimap # Synchronizes emails between two repositories
+vdirsyncer # Synchronize CalDAV and CardDAV
+
+# TASK MANAGEMENT
+tasksh
+taskopen
+task
+
+# LATEX / TEX
+biber # A Unicode-capable BibTeX replacement for biblatex users
+pandoc # Conversion between markup formats
+
+# TERMINAL
+# i3
+networkmanager
+nm-connection-editor
+
+# MAINTENANCE
+lostfiles # Find orphaned files not owned by any Arch packages
+deja-dup # Simple backup tool, that hides the complexity of backing up the Right Way and uses duplicity as the backend
+htop # Interactive process viewer
+pass # Stores, retrieves, generates, and synchronizes passwords securely
+ncdu # Disk usage analyzer with an ncurses interface
+fwupd # A simple daemon to allow session software to update firmware
+
+# RSS
+newsboat # An RSS/Atom feed reader for text terminals
+
+# PROGRAMMING
+python-pip
+shellcheck # Shell script analysis tool
+ctags # gutentags
+
+# PYTHON
+jupyter # A language-agnostic web-based interactive shell/notebook server.
+
+# PYTHON MODULES
+python-mpv # Python interface to the mpv media player
+python-pylatexenc # Python library for encoding unicode to latex and for parsing LaTeX to generate unicode text
+python-tasklib # Python library for interacting with taskwarrior databases.
+python-argcomplete # Easy, extensible command line tab completion of arguments for your Python script
+python-coverage # A tool for measuring code coverage of Python programs
+python-docopt # Pythonic argument parser, that will make you smile
+python-jedi # Awesome autocompletion for python
+python-mccabe # McCabe complexity checker for Python
+python-more-itertools # More routines for operating on iterables, beyond itertools
+python-wrapt # A Python module for decorators, wrappers and monkey patching
+python-certifi # Python package for providing Mozilla's CA Bundle
+python-matplotlib # A python plotting library, making publication quality plots
+python-networkx # Python package for the creation, manipulation, and study of the structure, dynamics, and functions of complex networks.
+python-pandas # Cross-section and time series data analysis toolkit
+python-pygraphviz # Python interface to the Graphviz graph layout and visualization package
+python-pylint # Analyzes Python code looking for bugs and signs of poor quality
+python-pytest # Simple powerful testing with Python
+python-requests-oauthlib # First-class OAuth library support for Requests
+python-seaborn # Statistical data visualization
+python-tqdm # Fast, Extensible Progress Meter
+scrapy # A fast high-level scraping and web crawling framework.
+
+# MISCELLANEOUS
+simplenote-electron-bin # The simplest way to keep notes.
+spotify # A proprietary music streaming service
+subliminal # Python library and CLI tool for searching and downloading subtitles.
+asciinema # Record and share terminal sessions
+calibre # Ebook management application
+mpv # a free, open source, and cross-platform media player
+plex-media-player # Next generation Plex Desktop Client
+scantailor-advanced # An interactive post-processing tool for scanned pages.
