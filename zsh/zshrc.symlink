@@ -47,6 +47,7 @@ export TERM="screen-256color"
 
 export PATH=$HOME/.dotfiles/bin/:$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.4.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl
 export EDITOR="nvim"
+export PDFREADER="/usr/bin/zathura"
 export BROWSER="/usr/bin/firefox"
 export TERMINAL="/usr/bin/termite -e"
 export MANPATH="/usr/local/man:$MANPATH"
@@ -84,7 +85,7 @@ bindkey -M vicmd 'll' vi-change-whole-line
 
 # }}}
 
-# GIT PROMPT {{{
+# PROMPT {{{
 
 function git_prompt_info() {
   ref=$(git symbolic-ref HEAD 2> /dev/null) || return
@@ -98,7 +99,14 @@ function git_prompt_info() {
   echo "%F{$color}[$branch$changed$unstaged] %f"
 }
 
-PROMPT='%F{blue}%n@%m:%f%F{magenta}%~%f $(git_prompt_info)$ %f'
+function pre_prompt() {
+  uname=$(whoami)
+  [[ "$uname" != "gaalcaras" ]] && echo "$uname"
+  hostname=$(hostname)
+  [[ "$hostname" != "archbookpro" ]] && echo "@$hostname"
+}
+
+PROMPT='%F{blue}$(pre_prompt)%(l..:.)%f%F{magenta}%~%f $(git_prompt_info)$ %f'
 
 # }}}
 
