@@ -1,7 +1,4 @@
 " Nvim-R
-if ! exists(':RSend')
-  finish
-endif
 
 let g:r_syntax_folding = 1
 let g:R_assign = 0 " Do not expand _ to <-

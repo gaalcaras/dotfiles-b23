@@ -188,7 +188,7 @@ function! dotfiles#CompileMarkdown(open_pdf)
                \ l:pdf_file
 
    if a:open_pdf == 1
-     let l:instruction = l:instruction . ' && evince ' .
+     let l:instruction = l:instruction . ' && $PDFREADER ' .
            \ l:pdf_file
    endif
 
