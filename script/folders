@@ -66,3 +66,6 @@ ffiles[$HOME/.dotfiles/newsboat/urls]=$HOME/.newsboat/urls
 
 # Youtube-dl
 ffiles[$HOME/.dotfiles/youtube-dl/youtube-dl.conf]=$HOME/.config/youtube-dl.conf
+
+# GtK
+folders[$HOME/.dotfiles/gtk/gtk.css]=$HOME/.config/gtk-3.0/gtk.css
