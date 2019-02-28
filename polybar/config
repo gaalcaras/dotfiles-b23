@@ -53,7 +53,7 @@ font-4 = "Icons:size=9;0"
 
 modules-left = i3
 modules-center = date khal email task mr
-modules-right = backlight-acpi pulseaudio vpn wlan battery
+modules-right = backlight-acpi alsa pulseaudio vpn wlan battery
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -141,7 +141,7 @@ card = intel_backlight
 
 [module/wlan]
 type = internal/network
-interface = wlp58s0
+interface = wlp3s0b1
 interval = 5
 
 format-connected = <ramp-signal> <label-connected>
@@ -181,6 +181,43 @@ label-volume-foreground = ${root.base0}
 
 label-muted = 
 label-muted-foreground = ${root.base1}
+
+[module/alsa]
+type = internal/alsa
+
+master-soundcard = hw:0
+speaker-soundcard = hw:0
+headphone-soundcard = hw:0
+
+master-mixer = Master
+speaker-mixer = Speaker
+headphone-mixer = Headphone
+
+headphone-id = 24
+
+; Use volume mapping (similar to amixer -M and alsamixer), where the increase
+; in volume is linear to the ear
+mapped = true
+
+; Interval for volume increase/decrease (in percent points)
+interval = 5
+
+format-volume = <ramp-volume> <label-volume>
+
+label-muted = 
+label-muted-foreground = #66
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+; If defined, it will replace <ramp-volume> when
+; headphones are plugged in to `headphone_control_numid`
+; If undefined, <ramp-volume> will be used for both
+; Only applies if <ramp-volume> is used
+ramp-headphones-0 = 
+ramp-headphones-1 = 
 
 [module/battery]
 type = internal/battery

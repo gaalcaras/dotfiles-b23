@@ -4,7 +4,7 @@ I3CONFIG="$HOME/.config/i3/config"
 
 if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
 then
-  i3lock -i ~/.dotfiles/wallpaper/wallpaper.png \
+  i3lock -i ~/.dotfiles/wallpaper/dark.png \
     --ignore-empty-password \
     --composite \
     --insidevercolor=268bd2ff \
@@ -20,7 +20,7 @@ then
     --verif-font="DejaVu Sans Mono" --wrong-font="DejaVu Sans Mono" \
     --verifsize=24 --wrongsize=24
 else
-  i3lock -i ~/.dotfiles/wallpaper/wallpaper.png \
+  i3lock -i ~/.dotfiles/wallpaper/light.png \
     --ignore-empty-password \
     --composite \
     --insidevercolor=268bd2ff \
