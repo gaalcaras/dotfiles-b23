@@ -101,7 +101,7 @@ set date_format="%m/%d %H:%M"
 
 # Set $index_format
 # https://www.neomutt.org/guide/reference.html#index-format
-set index_format="%-2.4C %Z %<[y?%<[m?%<[d?%[%H:%M  ]&%[%a %d]>&%-4.4{%b} %{%d}>&%[%m/%Y]> %<M?[%-1.2M]&%<E? %-1.2e &    >> %-20.20F %<X?(%X)&   > %s"
+set index_format="%-2.4C %Z %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%-4.4{%b} %{%d}>&%[%m/%Y]> %<M?[%-1.2M]&%<E? %-1.2e &    >> %-20.20F %<X?(%X)&   > %s"
 
 # Vim, of course
 set editor="nvim"

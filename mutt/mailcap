@@ -3,7 +3,7 @@ text/html; w3m -I %{charset} -T text/html; copiousoutput;
 text/plain; nvim %s;
 text/csv; scim %s;
 
-application/pdf; /usr/bin/evince %s 2>/dev/null;
+application/pdf; $PDFREADER %s 2>/dev/null;
 
 image/jpeg; eog %s 2>/dev/null;
 image/png; eog %s 2>/dev/null;
