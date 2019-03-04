@@ -1,0 +1,22 @@
+# ################
+# sway configuration
+# by @gaalcaras
+#
+# Since I wanted to be able to switch from a solarized dark to light theme with
+# a single key mapping ($mod+b), I had to organize my sway config files a bit
+# differently:
+#
+#   + config_local is for general settings, shared accross dark and light themes
+#   + dark / light files address theme specific configuration
+#   + use bin/theme_switch to switch between a light / dark config. Most
+#     importantly, it will concatenate the general setting with the relevant
+#     theme-specific file to the sway config file.
+#   + use bin/swayreload to reload sway config.
+#
+# You should NOT directly edit your sway config file, as changes could be lost
+# after switching themes. Use this file instead ;-)
+#
+# ################
+
+include $HOME/.dotfiles/sway/dark
+include $HOME/.dotfiles/sway/config_local

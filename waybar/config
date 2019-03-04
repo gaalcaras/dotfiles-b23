@@ -1,0 +1,139 @@
+{
+  "layer": "top",
+  "position": "bottom",
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["clock", "custom/khal", "custom/email", "custom/task", "custom/mr"],
+  "modules-right": ["pulseaudio", "backlight", "idle_inhibitor", "custom/vpn", "network", "battery"],
+  "sway/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "0": "",
+      "1": "",
+      "2": "",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "",
+      "8": "",
+      "9": "",
+      "10": ""
+    }
+  },
+  "custom/khal": {
+    "format": "{}",
+    "interval": 60,
+    "exec": "$HOME/.dotfiles/bar_modules/khal",
+    "on-click": "termite -t ikhal -e ikhal",
+    "tooltip": false
+  },
+  "custom/task": {
+    "format": "{}",
+    "interval": 5,
+    "exec": "$HOME/.dotfiles/bar_modules/task",
+    "on-click": "termite --hold -t task -e task",
+    "tooltip": false
+  },
+  "custom/mr": {
+    "format": "{}",
+    "interval": 5,
+    "exec": "$HOME/.dotfiles/bar_modules/mr",
+    "on-click": "termite --hold -t mr -e 'mr status'",
+    "tooltip": false
+  },
+  "custom/email": {
+    "format": "{}",
+    "interval": 300,
+    "exec": "python $HOME/.dotfiles/bar_modules/watch_inbox.py",
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "",
+    "format-icons": {
+        "headphones": "",
+        "default": ["", ""]
+    },
+    "scroll-step": 1,
+    "on-click": "pavucontrol",
+    "tooltip": false
+  },
+  "network": {
+    "interface": "wlp3s0b1",
+    "format": "{ifname}",
+    "format-wifi": "  {essid}",
+    "format-ethernet": " {ifname} ",
+    "format-disconnected": "", //An empty format will hide the module.
+    "max-length": 50,
+    "on-click": "termite -t network -e nmtui",
+    "tooltip": false
+  },
+  "custom/vpn": {
+    "format": "{}",
+    "interval": 10,
+    "exec": "$HOME/.dotfiles/bar_modules/vpn",
+    "on-click": "termite -t network -e nmtui",
+    "tooltip": false
+  },
+  "battery": {
+    "format": " {capacity}%",
+    "tooltip": false
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": " {percent}%",
+    "tooltip": false
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    },
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "",
+    "format-icons": {
+        "headphones": "",
+        "default": ["", ""]
+    },
+    "scroll-step": 1,
+    "on-click": "pavucontrol",
+    "tooltip": false
+  },
+  "network": {
+    "interface": "wlp3s0b1",
+    "format": "{ifname}",
+    "format-wifi": "  {essid}",
+    "format-ethernet": " {ifname} ",
+    "format-disconnected": "", //An empty format will hide the module.
+    "max-length": 50,
+    "on-click": "termite -t network -e nmtui",
+    "tooltip": false
+  },
+  "custom/vpn": {
+    "format": "{}",
+    "interval": 10,
+    "exec": "$HOME/.dotfiles/bar_modules/vpn",
+    "on-click": "termite -t network -e nmtui",
+    "tooltip": false
+  },
+  "battery": {
+    "format": " {capacity}%",
+    "tooltip": false
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": " {percent}%",
+    "tooltip": false
+  },
+  "clock": {
+    "format": "{:  %H:%M}",
+    "format-alt": "{: %m-%d  %H:%M}",
+    "tooltip": false
+  }
+}

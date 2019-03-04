@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if pgrep -x openvpn &> /dev/null; then
-  LOCK=""
-else
-  LOCK=""
-fi
-
-echo "$LOCK"

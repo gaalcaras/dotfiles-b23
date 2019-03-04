@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+THEME=${1:-"dark"}
+
+# Terminate already running bar instances
+killall waybar
+waybar -b "$THEME" -s "$HOME/.dotfiles/waybar/$THEME.css" & disown

@@ -1,0 +1,47 @@
+#!/bin/bash
+# ########################################################################
+# ROFI SCRIPT: POWER
+# by Gabriel Alcaras
+#
+# Helper script to power down, reboot, suspend, hibernate, lock and so on.
+#
+# Script to be used as an extra mode for rofi (using -modi argument or the
+# config file).
+# ########################################################################
+
+
+# -----
+# SETUP
+# -----
+OPTIONS=$(printf "lock\\nsuspend\\nexit\\nhibernate\\nshutdown\\nreboot")
+WM=${1:-"sway"}
+THEME=${2:-"dark"}
+
+option=$(echo -e "$OPTIONS" | rofi -dmenu -i -p power -theme $THEME | awk '{print $1}' | tr -d '\r\n')
+if [ ${#option} -gt 0 ]
+then
+    case $option in
+      reboot)
+        systemctl reboot
+        ;;
+      shutdown)
+        systemctl poweroff
+        ;;
+      exit)
+        [[ $WM == "sway" ]] && swaymsg exit || i3-msg exit
+        ;;
+      lock)
+        [[ $WM == "sway" ]] && swaylock -lef || i3lock_theme
+        ;;
+      suspend)
+        [[ $WM == "sway" ]] && swaylock -lef || i3lock_theme
+        systemctl suspend
+        ;;
+      hibernate)
+        [[ $WM == "sway" ]] && swaylock -lef || i3lock_theme
+        systemctl hibernate
+        ;;
+      *)
+        ;;
+    esac
+  fi

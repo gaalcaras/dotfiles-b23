@@ -260,7 +260,7 @@ label-warn-foreground = ${colors.red}
 
 [module/khal]
 type = custom/script
-exec = ~/.dotfiles/polybar/scripts/khal
+exec = ~/.dotfiles/bar_modules/khal
 interval = 5
 click-left=termite -t ikhal -e ikhal
 
@@ -268,7 +268,7 @@ format-underline = ${colors.magenta}
 
 [module/task]
 type = custom/script
-exec = ~/.dotfiles/polybar/scripts/task
+exec = ~/.dotfiles/bar_modules/task
 interval = 5
 click-left=termite --hold -t task -e task
 
@@ -276,7 +276,7 @@ format-underline = ${colors.brmagenta}
 
 [module/mr]
 type = custom/script
-exec = ~/.dotfiles/polybar/scripts/mr
+exec = ~/.dotfiles/bar_modules/mr
 interval = 5
 click-left=termite --hold -t mr -e "mr status"
 
@@ -284,7 +284,7 @@ format-underline = ${colors.brred}
 
 [module/date_tz]
 type = custom/script
-exec = ~/.dotfiles/polybar/scripts/date_tz
+exec = ~/.dotfiles/bar_modules/date_tz
 interval = 5
 click-left=$BROWSER "https://www.worldtimebuddy.com/?pl=1&lid=5391959,2988507&h=5391959"
 
@@ -292,7 +292,7 @@ format-underline = ${colors.cyan}
 
 [module/vpn]
 type = custom/script
-exec = ~/.dotfiles/polybar/scripts/vpn
+exec = ~/.dotfiles/bar_modules/vpn
 interval = 5
 
 format-underline = ${colors.brred}
@@ -302,7 +302,7 @@ click-left=termite -t network -e nmtui
 
 [module/email]
 type = custom/script
-exec = python ~/.dotfiles/polybar/scripts/watch_inbox.py
+exec = python ~/.dotfiles/bar_modules/watch_inbox.py
 interval = 300
 
 format-underline = ${colors.cyan}

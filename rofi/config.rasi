@@ -1,5 +1,5 @@
 configuration {
-  modi: "combi,note:/home/gaalcaras/.dotfiles/bin/rofi_note,zettel:/home/gaalcaras/.dotfiles/bin/rofi_zettel,task:/home/gaalcaras/.dotfiles/bin/rofi_task";
+  modi: "combi,note:/home/gaalcaras/.dotfiles/rofi/modules/rofi_note,zettel:/home/gaalcaras/.dotfiles/rofi/modules/rofi_zettel,task:/home/gaalcaras/.dotfiles/rofi/modules/rofi_task";
   font: "DejaVu Sans Mono 9";
   padding: 12.5;
   terminal: "rofi-sensible-terminal";

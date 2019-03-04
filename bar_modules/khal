@@ -1,0 +1,13 @@
+#!/bin/bash
+
+today_events=$(khal list -o now eod -f "{start-time}@{title}" -d "taskwarrior" -d "holidays" | sed -E '/^(@|Today)/d' | wc -l)
+
+if [ "$today_events" -eq 0 ]; then
+  echo
+else
+  msg=$(khal list -o now eod -f "{start-time}@{title}" -d "taskwarrior" -d "holidays" | sed -E '/^(@|Today)/d' | cut -d@ -f2)
+    if (( today_events > 1 )); then
+      msg="$msg ($today_events)"
+    fi
+    echo " $msg"
+fi

@@ -1,0 +1,127 @@
+#!/bin/bash
+# ########################################################################
+# ROFI MODE: NOTE TAKING
+# by Gabriel Alcaras
+#
+# Helper script to edit an existing note or create a new one following
+# a specific naming scheme.
+#
+# Script to be used as an extra mode for rofi (using -modi argument or the
+# config file).
+# ########################################################################
+
+# -----
+# SETUP
+# -----
+NEW_NOTE_TXT="create new note"
+NO_TITLE="don't use a title"
+ROFI_PID=$(pgrep -x "rofi")
+TMP_FILE="/tmp/rofinote$ROFI_PID"
+
+# Much of the other settings are in the `note` script itself
+# shellcheck source=/home/gaalcaras/.dotfiles/bin/note_setup
+source "$HOME/.dotfiles/bin/note_setup"
+
+NOTES=$(ls -r "$NOTE_DIR" --hide="*pdf")
+OPTIONS=$(printf "%s\\n%s" "$NEW_NOTE_TXT" "$NOTES")
+readarray -t OPTIONS_ARR <<< $"$OPTIONS"
+
+# -----
+# UTILS
+# -----
+
+# Format arrays
+function format_array {
+  local array=( "$@" )
+  local result=""
+  for i in "${!array[@]}";
+  do
+    if [[ i -eq 0 ]]
+    then
+      printf "%s" "${array[$i]}"
+    else
+      printf "%s\\n%s" "$result" "${array[$i]}"
+    fi
+  done
+}
+
+# Check if string is in array
+array_contains () {
+  local seeking=$1; shift
+  local in=1
+  for element; do
+      if [[ "$element" == "$seeking" ]]; then
+          in=0
+          break
+      fi
+  done
+  echo $in
+}
+
+ROUND1=$(array_contains "$1" "${OPTIONS_ARR[@]}")
+ROUND2=$(array_contains "$1" "${NOTE_TYPES[@]}")
+ROUND3=$(array_contains "$1" "${NOTE_INST[@]}")
+
+if [[ -z "$1" ]]; then
+  # --------------------------------------
+  # ROUND 0 - When you launch note in rofi
+  # --------------------------------------
+
+  printf "%s" "$OPTIONS"
+elif [[ "$ROUND1" -eq 0 ]]; then
+  # -------------------------------------
+  # ROUND 1 - You just selected an option
+  # -------------------------------------
+
+  if [[ "$1" == "$NEW_NOTE_TXT" ]]; then
+    # Option a: on the path to create a new note
+    NOTE_TYPES_STR=$(format_array "${NOTE_TYPES[@]}")
+    printf "%s" "$NOTE_TYPES_STR"
+
+    # Generate date and add it to tmp file
+    tdate=$(date +%Y-%m-%d)
+    echo -n "$tdate" > "$TMP_FILE"
+
+    # Go to round 2
+  else
+    # Option b: edit an existing note
+    # ... aaaaaand you're done!
+    i3-msg -q "exec termite -t note -e '$HOME/.dotfiles/bin/edit_note $1'"
+  fi
+elif [[ "$ROUND2" -eq 0 ]]; then
+  # ------------------------------------------
+  # ROUND 2 - You just selected a type of note
+  # ------------------------------------------
+  NOTE_INST_STR=$(format_array "${NOTE_INST[@]}")
+  printf "%s" "$NOTE_INST_STR"
+
+  # Add type to tmp file
+  type=$("$HOME/.dotfiles/bin/sanitize-string" "$1")
+  echo -n "-$type" >> "$TMP_FILE"
+elif [[ "$ROUND3" -eq 0 ]]; then
+  # ------------------------------------------
+  # ROUND 3 - You just selected an institution
+  # ------------------------------------------
+  printf "%s" "$NO_TITLE"
+
+  # Add institution to tmp file
+  inst=$("$HOME/.dotfiles/bin/sanitize-string" "$1")
+  echo -n "-$inst" >> "$TMP_FILE"
+elif [[ "$1" == "$NO_TITLE" ]]; then
+  # ------------------------------------------
+  # ROUND 4a - Create a new note with no title
+  # ------------------------------------------
+  filename=$(cat "$TMP_FILE")
+  i3-msg -q "exec termite -t note -e '$HOME/.dotfiles/bin/open_new_note $filename.md'"
+else
+  if [[ -f "$TMP_FILE" ]]; then
+    # -------------------------------------------
+    # ROUND 4b - Create a new note with new title
+    # -------------------------------------------
+    title=$("$HOME/.dotfiles/bin/sanitize-string" "$1")
+    echo -n "-$title.md" >> "$TMP_FILE"
+
+    filename=$(cat "$TMP_FILE")
+    i3-msg -q "exec termite -t note -e '$HOME/.dotfiles/bin/open_new_note $filename'"
+  fi
+fi

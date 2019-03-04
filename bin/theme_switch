@@ -1,16 +1,18 @@
 #!/bin/bash
 
 # ################################################
-# Switch i3 theme between solarized light and dark
+# Switch WM theme between solarized light and dark
 # by @gaalcaras
 # ################################################
 
 TERMITE="$HOME/.dotfiles/termite"
 I3="$HOME/.dotfiles/i3"
 I3CONFIG="$HOME/.config/i3/config"
+SWAY="$HOME/.dotfiles/sway"
+SWAYCONFIG="$HOME/.config/sway"
+SWAYLOCK="$HOME/.config/swaylock"
 
-gsettings set org.gnome.desktop.interface gtk-theme "Numix"
-gsettings set org.gnome.desktop.wm.preferences theme "Numix"
+WM=${1:-"sway"}
 
 apply_theme() {
   theme="$1"
@@ -20,25 +22,47 @@ apply_theme() {
   killall -USR1 termite
 
   # i3
-  cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
-  i3-msg -q reload
-  i3-msg -q restart
+  if [[ "$WM" == "i3" ]]; then
+    cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
+    i3-msg -q reload
+    i3-msg -q restart
+
+    # Background
+    feh --bg-fill "$HOME/.dotfiles/wallpaper/$theme.png"
+  else
+    ln -fs "$SWAY/config_$theme" "$SWAYCONFIG/config"
+    ln -fs "$SWAY/lock_$theme" "$SWAYLOCK/config"
+    waybar_launch "$theme"
+    swaymsg reload
+
+    # Background
+    swaymsg output LVDS-1 bg "$HOME/.dotfiles/wallpaper/forest_$theme.png" stretch
+  fi
 
   # Nvim
   nvim_do.py  -c "call solarized#updateColors('$theme')"
-
-  # Background
-  feh --bg-fill "$HOME/.dotfiles/wallpaper/$theme.png"
-
-  # Gnome / GTK
-  [[ "$theme" == "light" ]] && gtk_dark=0 || gtk_dark=1
-  sed -i "s/prefer-dark-theme=[01]/prefer-dark-theme=$gtk_dark/g" "$HOME/.config/gtk-3.0/settings.ini"
-  sed -i "s/prefer-dark-theme=[01]/prefer-dark-theme=$gtk_dark/g" "$HOME/.config/gtk-4.0/settings.ini"
 }
 
-if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
-then
-    apply_theme light
+# Check if window manager is sway or i3
+if [[ "$WM" == "sway" ]]; then
+  if [[ $(readlink "$SWAYCONFIG/config") =~ "dark" ]]; then
+    theme="dark"
+  else
+    theme="light"
+  fi
 else
-    apply_theme dark
+  if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
+  then
+    theme="dark"
+  else
+    theme="light"
+  fi
+fi
+
+# Apply new theme according to current one
+if [[ "$theme" == "light" ]]
+then
+  apply_theme "dark"
+else
+  apply_theme "light"
 fi

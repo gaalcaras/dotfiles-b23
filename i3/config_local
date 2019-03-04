@@ -119,11 +119,11 @@ bindsym $mod+p focus parent
 
 # Rofi / Dmenu bindings ($theme set in dark / light config files)
 bindsym $mod+d exec rofi -show combi -theme $theme --no-plugins
-bindsym $mod+Escape exec rofi_power
+bindsym $mod+Escape exec $HOME/.dotfiles/rofi/modules/rofi_power "i3" $theme
 bindsym $mod+n exec rofi -show note -theme $theme
 bindsym $mod+z exec rofi -show zettel -theme $theme
 bindsym $mod+Shift+d exec rofi -show task -theme $theme
-bindsym $mod+m exec rofi_mount
+bindsym $mod+m exec $HOME/.dotfiles/rofi/modules/rofi_mount $theme
 
 # Set screen lock
 bindsym $mod+Shift+x exec i3lock_theme
@@ -135,7 +135,7 @@ bindsym $mod+Shift+h exec --no-startup-id $HOME/.dotfiles/bin/i3reload
 bindsym $mod+Shift+j restart
 
 # Switch between solarized dark / light
-bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch
+bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch "i3" $theme
 
 # Stealth mode / hide everything
 bindsym $mod+BackSpace exec amixer sset Master off && killall -USR1 i3blocks ; exec killall mpv ; exec i3-msg '[class="Firefox" title="(privée|private)"] kill' ; workspace $ws0 ; exec termite -t glances -e glances ; exec termite -t alsamixer -e alsamixer ;

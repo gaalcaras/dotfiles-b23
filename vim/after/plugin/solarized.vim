@@ -8,7 +8,13 @@ function! solarized#updateColors(theme)
   silent! exec "hi User2 guibg=" . g:terminal_color_3 . " guifg=" . g:terminal_color_0
 endfunction
 
-let s:dark=system('grep "# COLORS - SOLARIZED DARK" "$HOME/.config/i3/config"')
+let s:sway=system('pgrep sway')
+
+if s:sway == ''
+  let s:dark=system('grep "# COLORS - SOLARIZED DARK" "$HOME/.config/i3/config"')
+else
+  let s:dark=system('readlink $HOME/.config/sway/config | grep dark')
+endif
 
 if s:dark == ''
   call solarized#updateColors('light')

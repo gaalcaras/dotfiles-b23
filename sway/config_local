@@ -1,0 +1,300 @@
+# ################
+# sway configuration
+# by @gaalcaras
+# ################
+
+# -----
+# THEME
+# -----
+
+set $yellow  #b58900
+set $orange  #cb4b16
+set $red     #dc322f
+set $magenta #d33682
+set $violet  #6c71c4
+set $blue    #268bd2
+set $cyan    #2aa198
+set $green   #859900
+
+# Font for window titles and the bar (unless set in bar{} below)
+font pango:DejaVu Sans Mono for Powerline
+font pango:Font Awesome 5 Free
+
+# Set window colors
+# client.class          $border $background $text   $indicator $child_border
+client.focused          $base03 $base03     $base03 $magenta   $blue
+client.unfocused        $base03 $base03     $base03 $base00    $base03
+client.focused_inactive $base03 $base03     $base03 $violet    $violet
+
+# No borders and some gaps
+set $gap_inner 10
+set $gap_outer 15
+gaps inner $gap_inner
+gaps outer $gap_outer
+
+# Opacity
+for_window [title="^.*"] {
+  opacity 0.9
+  border pixel 1
+}
+
+for_window [class="(Firefox|mpv|Molotov|plexmediaplayer|Gimp)"] opacity 1
+for_window [app_id="(zathura)"] opacity 1
+
+# Borders
+hide_edge_borders smart
+
+input "1452:582:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
+    xkb_layout fr
+    xkb_variant bepo
+    xkb_model pc104
+}
+
+# -------------------
+# DO STUFF AT STARTUP
+# -------------------
+
+# Keyrings and network
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Hide mouse cursor when not in used
+seat * hide_cursor 5000
+
+# Useful apps
+exec --no-startup-id nextcloud
+exec --no-startup-id telegram-desktop
+exec --no-startup-id $BROWSER
+
+exec waybar_launch
+
+# ------------
+# KEY MAPPINGS
+# ------------
+
+set $mod Mod4
+
+# Home row direction keys, like vim with bépo french layout
+set $left c
+set $down t
+set $up s
+set $right r
+
+# Your preferred terminal emulator
+set $term --no-startup-id $TERMINAL
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# Start a terminal
+bindsym $mod+Return exec termite
+bindsym $mod+Shift+Return exec termite
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Change focus (vim bépo style)
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Resize gaps
+bindsym $mod+Mod1+$right gaps inner all plus 5
+bindsym $mod+Mod1+$left gaps inner all minus 5
+bindsym $mod+Mod1+$up gaps outer all plus 5
+bindsym $mod+Mod1+$down gaps outer all minus 5
+bindsym $mod+Mod1+l gaps inner all set $gap_inner; gaps outer all set $gap_outer;
+bindsym $mod+Mod1+z gaps inner all set 0; gaps outer all set 0;
+
+# Change focus (cursor keys)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Move focused window (cursor keys)
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Split in horizontal / vertical orientation
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
+
+# Enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# Change container layout (stacked, tabbed, split, sticky)
+bindsym $mod+Shift+k layout stacking
+bindsym $mod+Shift+w layout tabbed
+bindsym $mod+Shift+e layout toggle split
+bindsym $mod+i sticky toggle
+
+# Toggle focused window tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# Make the currently focused window a scratchpad
+bindsym $mod+Tab move scratchpad
+
+# Show the first scratchpad window
+bindsym $mod+Shift+Tab scratchpad show
+
+# Rofi / Dmenu bindings ($theme set in dark / light config files)
+bindsym $mod+d exec rofi -show combi -theme $theme --no-plugins
+bindsym $mod+Escape exec $HOME/.dotfiles/rofi/modules/rofi_power "sway" $theme
+bindsym $mod+n exec rofi -show note -theme $theme
+bindsym $mod+z exec rofi -show zettel -theme $theme
+bindsym $mod+Shift+d exec rofi -show task -theme $theme
+bindsym $mod+m exec $HOME/.dotfiles/rofi/modules/rofi_mount $theme
+
+# Set screen lock
+bindsym $mod+Shift+x exec swaylock -lef
+
+# Reload the configuration file
+bindsym $mod+Shift+h exec swaymsg reload; exec waybar_launch "$theme"
+
+# Restart sway inplace (preserves your layout/session, can be used to upgrade sway)
+bindsym $mod+Shift+j restart
+
+# Switch between solarized dark / light
+bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch "sway"
+
+# Stealth mode / hide everything
+bindsym $mod+BackSpace exec amixer sset Master off && killall -USR1 swayblocks ; \
+  exec killall mpv ; exec swaymsg '[class="Firefox" title="(privée|private)"] kill' ; workspace $ws0 ; exec termite -t glances -e glances ; exec termite -t alsamixer -e alsamixer ;
+
+# Resize window (you can also use the mouse for that)
+mode "resize" {
+        bindsym $left resize shrink width 10 px or 10 ppt
+        bindsym $down resize grow height 10 px or 10 ppt
+        bindsym $up resize shrink height 10 px or 10 ppt
+        bindsym $right resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+Shift+l mode "resize"
+
+# Multimedia Keys: volume
+bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+
+bindsym XF86AudioLowerVolume exec amixer sset Master 5%-
+
+# # Multimedia Keys: granular volume control
+bindsym $mod+XF86AudioRaiseVolume exec amixer sset Master 1%+
+bindsym $mod+XF86AudioLowerVolume exec amixer sset Master 1%-
+
+# # Multimedia Keys: mute
+bindsym XF86AudioMute exec amixer -q sset Master toggle
+
+# Multimedia Keys: brightness control (with light)
+bindsym XF86MonBrightnessUp exec light -A 5 # Increase Brightness
+bindsym XF86MonBrightnessDown exec light -U 5 # Decrease Brightness
+
+# Redirect sound to headphones
+# bindsym $mod+m exec "/usr/local/bin/switch-audio-port"
+
+# ----------
+# WORKSPACES
+# ----------
+
+# Workspace names
+set $ws0 "0"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Bindings
+# Find them with xev, then xmodmap -pke | grep ' keycode'
+set $ws0_key dollar
+set $ws1_key quotedbl
+set $ws2_key guillemotleft
+set $ws3_key guillemotright
+set $ws4_key parenleft
+set $ws5_key parenright
+set $ws6_key at
+set $ws7_key plus
+set $ws8_key minus
+set $ws9_key slash
+set $ws10_key asterisk
+
+# Switch to workspace
+bindsym $mod+dollar workspace $ws0 ; focus tiling
+bindsym $mod+quotedbl workspace $ws1 ; focus tiling
+bindsym $mod+$ws2_key workspace $ws2 ; focus tiling
+bindsym $mod+$ws3_key workspace $ws3 ; focus tiling
+bindsym $mod+$ws4_key workspace $ws4 ; focus tiling
+bindsym $mod+$ws5_key workspace $ws5 ; focus tiling
+bindsym $mod+$ws6_key workspace $ws6 ; focus tiling
+bindsym $mod+$ws7_key workspace $ws7 ; focus tiling
+bindsym $mod+$ws8_key workspace $ws8 ; focus tiling
+bindsym $mod+$ws9_key workspace $ws9 ; focus tiling
+bindsym $mod+$ws10_key workspace $ws10 ; focus tiling
+
+# Move focused container to workspace
+bindsym $mod+Shift+dollar move container to workspace $ws0
+bindsym $mod+Shift+$ws1_key move container to workspace $ws1
+bindsym $mod+Shift+$ws2_key move container to workspace $ws2
+bindsym $mod+Shift+$ws3_key move container to workspace $ws3
+bindsym $mod+Shift+$ws4_key move container to workspace $ws4
+bindsym $mod+Shift+$ws5_key move container to workspace $ws5
+bindsym $mod+Shift+$ws6_key move container to workspace $ws6
+bindsym $mod+Shift+$ws7_key move container to workspace $ws7
+bindsym $mod+Shift+$ws8_key move container to workspace $ws8
+bindsym $mod+Shift+$ws9_key move container to workspace $ws9
+bindsym $mod+Shift+$ws10_key move container to workspace $ws10
+
+# Assign workspace
+# swaymsg -t get_tree
+for_window [class="DejaDup"] move window to workspace $ws0
+for_window [app_id="termite" title="ranger"] move window to workspace $ws0
+for_window [class="TelegramDesktop"] move window to workspace $ws1
+for_window [class="Firefox"] move window to workspace $ws2
+for_window [app_id="termite" title="note"] move window to workspace $ws7
+for_window [app_id="termite" title="zettel"] move window to workspace $ws7
+for_window [class="Simplenote"] move window to workspace $ws7
+for_window [class="calibre"] move window to workspace $ws8
+for_window [app_id="termite" title="newsboat"] move window to workspace $ws8
+for_window [class="Zotero"] move window to workspace $ws8
+for_window [app_id="termite" title="neomutt"] move window to workspace $ws9
+for_window [class="Spotify"] move window to workspace $ws10
+
+# ---------------
+# SPECIAL WINDOWS
+# ---------------
+
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Dialog.Firefox"] move position center
+for_window [class="Kalu"] floating enable
+
+for_window [class="mpv"] {
+  floating enable
+  sticky enable
+}
+no_focus [class="mpv"]

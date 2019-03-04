@@ -69,3 +69,6 @@ ffiles[$HOME/.dotfiles/youtube-dl/youtube-dl.conf]=$HOME/.config/youtube-dl.conf
 
 # GtK
 folders[$HOME/.dotfiles/gtk/gtk.css]=$HOME/.config/gtk-3.0/gtk.css
+
+# Sway
+folders[$HOME/.dotfiles/waybar]=$HOME/.config/waybar
