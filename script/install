@@ -35,6 +35,47 @@ select yn in "Hell yeah" "No, see ya later"; do
   esac
 done
 
+$msg "header" '0/ GPG keys'
+
+echo
+
+$msg "Do you want to import your GPG key on this machine?"
+
+function import_gpg {
+  $msg "header" '0/ GPG keys'
+  echo
+  echo "First, export your GPG private key using a secure random password"
+  echo "and write it to a USB drive:"
+  echo ""
+  $msg "gpg --armor --export-secret-keys YOUREMAILADDRESS | gpg --armor --symmetric --output mykey.sec.asc"
+  echo
+  echo "Then, connect the drive to this computer."
+  read -rn 1 -s -p "Press any key to continue..."
+  $msg "header" '0/ GPG keys'
+  lsblk
+  echo
+  $msg "Enter path of disk to mount (eg /dev/sdb1)"
+  read -rn 15 diskpath
+  echo
+  $msg "doing" "Mounting disk"
+  mkdir -p /mnt/gpgdisk && mount "$diskpath" /mnt/gpgdisk
+  $msg "doing" "Importing keys"
+  $urun gpg -d /mnt/gpgdisk/*.sec.asc | $urun gpg --import
+  echo
+  echo "List GPG keys:"
+  $urun gpg --list-keys
+  umount -R /mnt/gpgdisk
+  read -rn 1 -s -p "Press any key to continue..."
+}
+
+select yn in "Yes" "No"; do
+  case $yn in
+    Yes ) echo; import_gpg; break;;
+    No ) $msg "warning" "Skipping gpg key step"; break;;
+  esac
+done
+echo
+
 $msg "header" '1/ Installation'
 
 echo
@@ -96,15 +137,15 @@ $msg 'Do you want to execute the post-install scripts?'
 select yn in "Yes" "No"; do
   case $yn in
     Yes ) echo; $DOTFILES_ROOT/script/utils/post_install; break;;
-    No ) $msg "warning" "Skipping dotfiles step"; break;;
+    No ) $msg "warning" "Skipping post install step"; break;;
   esac
 done
 
-# $msg "header" 'Install script over \o/'
+$msg "header" 'Install script over \o/'
 
-# echo "Don't forget to:"
-# echo "+ Clone your password-store repo"
-# echo "+ Make zsh your default shell (chsh -l / chsh -s)"
-# echo "+ Use your SSH keys (public keys are in your home dir)"
-# echo
-# $msg "Go back to being awesome"
+echo "Don't forget to:"
+echo "+ Clone your password-store repo"
+echo "+ Make zsh your default shell (chsh -l / chsh -s)"
+echo "+ Use your SSH keys (public keys are in your home dir)"
+echo
+$msg "Go back to being awesome"
