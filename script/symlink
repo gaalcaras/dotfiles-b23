@@ -46,7 +46,7 @@ function symlink {
 
     if [ "$overwrite" == "true" ]; then
       $msg "warning" "Linking $(basename "$src") to $2"
-      mkdir -p "$(basename "$src")"
+      mkdir -p "$(basename "$dst")"
       ln -fs "$1" "$2"
     fi
 
@@ -55,7 +55,7 @@ function symlink {
     fi
   else
     $msg "warning" "Linking $(basename "$src") to $2"
-    mkdir -p "$(basename "$src")"
+    mkdir -p "$(basename "$dst")"
     ln -s "$1" "$2"
   fi
 }
