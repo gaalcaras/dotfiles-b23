@@ -4,6 +4,7 @@
 # ##############################
 
 # Essentials
+openssh
 zsh
 termite
 tmux

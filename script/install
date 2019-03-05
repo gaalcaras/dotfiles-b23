@@ -96,13 +96,13 @@ function install_apps {
   $msg "doing" "Installing packages"
   $urun cp "$DOTFILES_ROOT/script/packages.txt" "$pkgtmp"
   $urun "$editor" "$pkgtmp"
-  pacman -S --needed $(sed "s/#.*$//" "$pkgtmp")
+  pacman -Sy --needed $(sed "s/#.*$//" "$pkgtmp")
 
   aurtmp=$($urun mktemp -u /tmp/XXXXXaur)
   $msg "doing" "Installing AUR packages"
   $urun cp "$DOTFILES_ROOT/script/aur.txt" "$aurtmp"
   $urun "$editor" "$aurtmp"
-  $urun trizen -S --needed --noedit --noinfo $(sed "s/#.*$//" "$aurtmp")
+  $urun trizen -Sy --needed --noedit --noinfo $(sed "s/#.*$//" "$aurtmp")
 }
 
 select yn in "Yes" "No"; do
