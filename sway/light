@@ -15,4 +15,4 @@ set $base3  #fdf6e3
 set $theme light
 
 # Set the wallpaper
-output LVDS-1 bg ~/.dotfiles/wallpaper/forest_light.png stretch
+output eDP-1 bg ~/.dotfiles/wallpaper/forest_light.png stretch

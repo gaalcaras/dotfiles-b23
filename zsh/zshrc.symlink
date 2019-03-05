@@ -103,7 +103,7 @@ function pre_prompt() {
   uname=$(whoami)
   [[ "$uname" != "gaalcaras" ]] && echo "$uname"
   hostname=$(hostname)
-  [[ "$hostname" != "archbookpro" ]] && echo "@$hostname"
+  [[ "$hostname" != "batcave" ]] && echo "@$hostname"
 }
 
 PROMPT='%F{blue}$(pre_prompt)%(l..:.)%f%F{magenta}%~%f $(git_prompt_info)$ %f'
@@ -214,7 +214,8 @@ compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 # INIT {{{
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-  startx
+  # sway
+  # exit 0
 fi
 
 if hash register-python-argcomplete 2>/dev/null; then

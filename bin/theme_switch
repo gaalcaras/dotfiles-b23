@@ -37,7 +37,7 @@ apply_theme() {
     swaymsg reload
 
     # Background
-    swaymsg output LVDS-1 bg "$HOME/.dotfiles/wallpaper/forest_$theme.png" stretch
+    swaymsg output eDP-1 bg "$HOME/.dotfiles/wallpaper/forest_$theme.png" stretch
   fi
 
   # Nvim

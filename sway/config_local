@@ -44,7 +44,7 @@ for_window [app_id="(zathura)"] opacity 1
 # Borders
 hide_edge_borders smart
 
-input "1452:582:Apple_Inc._Apple_Internal_Keyboard_/_Trackpad" {
+input "1:1:AT_Translated_Set_2_keyboard" {
     xkb_layout fr
     xkb_variant bepo
     xkb_model pc104
