@@ -1,0 +1,107 @@
+# ##############################
+# PACKAGES TO INSTALL
+# Remove or comment out packages you don't want to install
+# ##############################
+
+# Essentials
+zsh
+termite
+tmux
+vim
+neovim
+python-neovim
+pass
+git-crypt
+
+# Fonts
+ttf-dejavu
+otf-font-awesome
+
+# Completion, linters, etc.
+shellcheck
+python-pylint
+python-jedi
+
+# Python
+jupyter
+python-pip
+
+# Python modules
+python-tzlocal # needed by bar module khal
+python-numpy
+python-chardet
+python-virtualenv
+
+# TeX
+texlive-bin
+texlive-bibtexextra
+texlive-core
+texlive-fontsextra
+texlive-genericextra
+texlive-humanities
+texlive-latexextra
+libsynctex
+
+# Utilities
+pandoc
+transmission-gtk
+task
+telegram-desktop
+calibre
+libreoffice
+firefox
+newsboat
+youtube-dl
+nextcloud-client
+
+# R
+r
+gcc-fortran # useful for some R packages
+
+# Emails
+neomutt
+w3m
+offlineimap
+msmtp
+
+# Calendars, contacts
+vdirsyncer
+khal
+khard
+
+# Browse files
+ranger
+
+# PDF viewer
+zathura
+zathura-djvu
+zathura-pdf-mupdf
+
+
+# Programming
+rust
+cargo
+ctags
+
+# Window Manager Utilities
+rofi
+
+# i3
+xorg-server
+xorg-xinit
+xorg-xrandr
+arandr
+xorg-xev # Useful to tweak i3 setup
+wmctrl # Useful to tweak i3 setup
+i3-gaps
+xclip
+feh
+
+# Network
+nm-connection-editor
+wpa_supplicant
+
+# Sound, backlighting
+light
+pulseaudio
+pulsemixer

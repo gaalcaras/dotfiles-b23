@@ -1,6 +1,6 @@
 task/taskrc.symlink filter=contextignore
 task/taskserver filter=contextignore
-mutt/alias filter=git-crypt diff=git-crypt
-mutt/mlists filter=git-crypt diff=git-crypt
+mutt.config/alias filter=git-crypt diff=git-crypt
+mutt.config/mlists filter=git-crypt diff=git-crypt
 mr/mrconfig.symlink filter=git-crypt diff=git-crypt
-newsboat/urls filter=git-crypt diff=git-crypt
+newsboat/urls.config filter=git-crypt diff=git-crypt

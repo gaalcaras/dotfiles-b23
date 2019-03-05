@@ -12,4 +12,4 @@ set $inactive-text-color #93a1a1
 set $theme "light"
 
 # Set the wallpaper
-exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/light.png"
+exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/forest_light.png"

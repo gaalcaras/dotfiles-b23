@@ -2,33 +2,31 @@
 #
 # Install all dependencies
 
-set -e
-
-install_sourced=1
-cd "$(dirname "$0")/.."
+cd "$(dirname "$0")/.." || return
 DOTFILES_ROOT=$(pwd -P)
-
-source $DOTFILES_ROOT/script/prepare
+msg="$DOTFILES_ROOT/script/utils/msg"
+editor=${EDITOR:-vi}
+urun="sudo -u $(env | grep SUDO_USER | cut -d= -f 2)"
 
 # ############################
 # Script
 # ############################
 
 if [ "$EUID" -ne 0 ]; then
-  warning "Please, run this script with sudo ;-)"
+  $msg "warning" "Please, run this script with sudo ;-)"
   exit
 fi
 
 clear
- 
-header 'Welcome to the dotfiles script installer'
+
+$msg "header" 'Welcome to the dotfiles script installer'
 echo 'This script will set you up in minutes with the following steps:'
 echo '1/ Installing or updating apps'
-echo '2/ Linking your dotfiles (bootstrap script)'
+echo '2/ Linking your dotfiles (symlink script)'
 echo '3/ Post-install niceties (updating vim plugins, ssh keygen, etc.)'
 echo
 
-msg 'Are you ready?'
+$msg 'Are you ready?'
 
 select yn in "Hell yeah" "No, see ya later"; do
   case $yn in
@@ -37,57 +35,76 @@ select yn in "Hell yeah" "No, see ya later"; do
   esac
 done
 
-header '1/ Installation'
-
-check_flavor
+$msg "header" '1/ Installation'
 
 echo
 
-msg "Do you want to (re)install apps on this machine?"
+$msg "Do you want to (re)install apps on this machine?"
+
+function install_apps {
+  hash trizen 2>/dev/null || {
+    $msg "doing" "Installing trizen"
+    tritmp=$(mktemp -du /tmp/XXXXXtrizen)
+    $urun git clone https://aur.archlinux.org/trizen.git "$tritmp"
+    echo "$tritmp"
+    cd "$tritmp" || return
+    $urun makepkg -si
+  }
+
+  pkgtmp=$($urun mktemp -u /tmp/XXXXXpackages)
+  $msg "doing" "Installing packages"
+  $urun cp "$DOTFILES_ROOT/script/packages.txt" "$pkgtmp"
+  $urun "$editor" "$pkgtmp"
+  pacman -S --needed $(sed "s/#.*$//" "$pkgtmp")
+
+  aurtmp=$($urun mktemp -u /tmp/XXXXXaur)
+  $msg "doing" "Installing AUR packages"
+  $urun cp "$DOTFILES_ROOT/script/aur.txt" "$aurtmp"
+  $urun "$editor" "$aurtmp"
+  $urun trizen -S --needed --noedit --noinfo $(sed "s/#.*$//" "$aurtmp")
+}
 
 select yn in "Yes" "No"; do
   case $yn in
-    Yes ) echo;  install_apps; break;;
-    No ) warning "Skipping installation step"; break;;
+    Yes ) echo; install_apps; break;;
+    No ) $msg "warning" "Skipping installation step"; break;;
   esac
 done
 echo
 
-header '2/ Bootstrap script'
+$msg "header" '2/ Symlink script'
 
-msg 'Do you want to symlink your dotfiles now?'
+$msg 'Do you want to symlink your dotfiles now?'
 
 select yn in "Yes" "No"; do
   case $yn in
-    Yes ) echo;  $run_as_normal ./script/bootstrap; break;;
-    No ) warning "Skipping dotfiles step"; break;;
+    Yes ) echo; $urun $DOTFILES_ROOT/script/symlink; break;;
+    No ) $msg "warning" "Skipping dotfiles step"; break;;
   esac
 done
 echo
 
-header '3/ Post-installation niceties'
+$msg "header" '3/ Post-installation niceties'
 
 echo 'This step takes care of some niceties for you,'
 echo 'including installing vim-plug and updating plugins,'
 echo 'installing spell check in vim, ssh-keygen, and more.'
 echo
 
-msg 'Do you want to execute the post-install script?'
+$msg 'Do you want to execute the post-install scripts?'
 
 select yn in "Yes" "No"; do
   case $yn in
-    Yes ) echo;  niceties; break;;
-    No ) warning "Skipping dotfiles step"; break;;
+    Yes ) echo; $DOTFILES_ROOT/script/utils/post_install; break;;
+    No ) $msg "warning" "Skipping dotfiles step"; break;;
   esac
 done
 
-header 'Install script over \o/'
+# $msg "header" 'Install script over \o/'
 
-echo "Don't forget to:"
-echo "+ Clone your password-store repo"
-echo "+ Log into zsh to install plugins and stuff"
-echo "+ Make zsh your default shell (chsh -l / chsh -s)"
-echo "+ Use your SSH keys (public keys are in your home dir)"
-echo "+ Add powerline-fonts to your system for a prettier airline"
-echo
-msg "Go back to being awesome"
+# echo "Don't forget to:"
+# echo "+ Clone your password-store repo"
+# echo "+ Make zsh your default shell (chsh -l / chsh -s)"
+# echo "+ Use your SSH keys (public keys are in your home dir)"
+# echo
+# $msg "Go back to being awesome"

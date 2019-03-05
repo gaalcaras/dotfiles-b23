@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+action=${1:-level}
+
+red=$(tput setaf 1)
+yellow=$(tput setaf 3)
+blue=$(tput setaf 4)
+mage=$(tput setaf 5)
+reset=$(tput sgr0)
+
+case "$action" in
+  doing )
+    echo "${blue}> $2...${reset}";;
+  warning )
+    echo "${red}$2.${reset}";;
+  header )
+  clear
+  echo "${yellow}################################"
+  echo "$2"
+  echo "################################${reset}"
+  echo;;
+  * )
+  echo "${mage}$1${reset}";;
+esac

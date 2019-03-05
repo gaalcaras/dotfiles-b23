@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#
+# Post Install niceties
+
+cd "$(dirname "$0")/.." || return
+DOTFILES_ROOT=$(pwd -P)
+msg="$DOTFILES_ROOT/utils/msg"
+usr=$(env | grep SUDO_USER | cut -d= -f 2)
+home=$( getent passwd "$usr" | cut -d: -f6 )
+urun="sudo -u $usr"
+
+# Setup downloads folder
+$msg "doing" "Setting up downloads folders"
+$urun mkdir -p "$home/Downloads/Firefox"
+$urun mkdir -p "$home/Downloads/mutt"
+$urun mkdir -p "$home/Downloads/Torrent"
+
+# Setup mutt folders
+$msg "doing" "Setting up mutt"
+$urun mkdir -p "$home/.cache/mutt/ehess/messages"
+$urun mkdir -p "$home/.cache/mutt/ehess/headers"
+$urun mkdir -p "$home/.cache/mutt/gmail/headers"
+$urun mkdir -p "$home/.cache/mutt/gmail/messages"
+$urun mkdir -p "$home/.cache/mutt/telecom/messages"
+$urun mkdir -p "$home/.cache/mutt/telecom/headers"
+
+# Vim spelling
+if [ ! -f "$home/.vim/spell/fr.utf-8.spl" ]; then
+  $msg "doing" "Installing Spell Checking files"
+  $urun cp -R "$home/.dotfiles/vim/spell" "$home/.vim/spell"
+fi
+
+# Install vim-plug
+if [ ! -f "$home/.vim/autoload/plug.vim" ]; then
+  $msg "doing" "Installing Vim-Plug"
+    $urun curl -fLo "$home/.vim/autoload/plug.vim" --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+# Install and update plugins
+$msg "doing" "Installing and updating vim plugins"
+$urun vim +PlugUpdate +qall
+
+# Clone all repositories in mr config
+$msg "doing" "Cloning all git repositories"
+$urun "$DOTFILES_ROOT/utils/mr_init"
+
+# Generate sshkeys
+$urun "$DOTFILES_ROOT/utils/sshkeys"
+read -rn 1 -s -p "Press any key to continue..."

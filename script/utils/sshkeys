@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#
+# Post-install : generate ssh-keys
+
+cd "$(dirname "$0")/.." || return
+DOTFILES_ROOT=$(pwd -P)
+msg="$DOTFILES_ROOT/utils/msg"
+home=${1:-$HOME}
+
+hosts[1]='batcloud.me'
+hosts[2]='aur.archlinux.org'
+hosts[3]='gitlab.com'
+hosts[4]='github.com'
+hosts[5]='batpi.net'
+hosts[6]='gaalcaras.com'
+
+sshdir="$home/.ssh"
+file="$sshdir/config"
+pubrecap="$home/sshpub.txt"
+
+$msg "header" 'SSH keys'
+
+echo 'We can generate new SSH keys for all your hosts.'
+echo "Existing SSH config files will be backed up at $sshdir.bak"
+echo 'in case something goes wrong.'
+echo 
+echo 'All public ssh keys will be available in a single txt'
+echo "file in your home directory $pubrecap so that you"
+echo 'can find them all easily.'
+echo
+$msg "warning" "Don't forget to add the keys to the distant hosts"
+echo
+
+function add_ssh_host {
+  $msg "doing" "Add host $1 to config"
+  { echo "Host $1";
+    echo "  HostName $1";
+    echo "  IdentityFile $sshdir/$1";
+    echo; } >> "$file"
+
+  if [ ! -f "$sshdir/$1" ]; then
+    $msg "doing" "Creating SSH key for host $1"
+    ssh-keygen -f "$sshdir/$1"
+  else
+    $msg "warning" "SSH key for host $1 already exists"
+  fi
+}
+
+$msg "doing" "Backing up existing SSH config"
+if [ ! -f "$sshdir" ]; then
+  mkdir -p "$sshdir"
+fi
+
+cp -r "$sshdir" "$sshdir.bak"
+echo
+
+echo '' > "$file"
+
+for i in ${!hosts[*]}; do
+  $msg "Do you want to generate SSH key for host ${hosts[$i]}?"
+
+  select yn in "Yes" "No"; do
+    case $yn in
+      Yes ) add_ssh_host ${hosts[$i]}; break;;
+      No ) $msg "warning" "Skipping for ${hosts[$i]}"; break;;
+    esac
+  done
+  echo
+done
+
+echo '' > "$pubrecap"
+
+for f in "$sshdir"/*.pub; do
+  { echo "Public SSH key for: $f"; cat "$f" >> "$pubrecap"; echo ""; } >> "$pubrecap"
+done

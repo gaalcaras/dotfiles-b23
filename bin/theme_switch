@@ -18,7 +18,8 @@ apply_theme() {
   theme="$1"
 
   # TERMITE
-  cat "$TERMITE/config_local" "$TERMITE/$theme" > "$TERMITE/config"
+  mkdir -p "$HOME/.config/termite"
+  cat "$TERMITE/config_local" "$TERMITE/$theme" > "$HOME/.config/termite/config"
   killall -USR1 termite
 
   # i3
@@ -28,7 +29,7 @@ apply_theme() {
     i3-msg -q restart
 
     # Background
-    feh --bg-fill "$HOME/.dotfiles/wallpaper/$theme.png"
+    feh --bg-fill "$HOME/.dotfiles/wallpaper/forest_$theme.png"
   else
     ln -fs "$SWAY/config_$theme" "$SWAYCONFIG/config"
     ln -fs "$SWAY/lock_$theme" "$SWAYLOCK/config"

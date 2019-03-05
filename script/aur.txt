@@ -1,0 +1,29 @@
+# ##############################
+# PACKAGES TO INSTALL
+# Remove or comment out packages you don't want to install
+# ##############################
+
+# SWAY
+sway-git
+swaylock
+waybar-git
+
+# Tools
+rstudio-desktop-bin
+sc-im # cool spreadsheet viewer
+simplenote-electron-bin
+webtorrent-desktop-bin
+zotero
+
+# Dependencies
+python-tasklib # needed by bar module khal
+python-ics # needed by bar module khal
+
+taskopen # Great with taskwarrior
+
+subliminal # Used in ranger config
+
+polybar # Used in i3
+i3lock-color
+
+myrepos # great script to manage git repos

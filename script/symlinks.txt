@@ -1,0 +1,9 @@
+$HOME/.vim@$HOME/.config/nvim
+$HOME/.vimrc@$HOME/.config/nvim/init.vim
+$HOME/.dotfiles/vim/after@$HOME/.vim/after
+$HOME/.dotfiles/vim/plugin@$HOME/.vim/plugin
+$HOME/.dotfiles/vim/dotfiles.vim@$HOME/.vim/autoload/dotfiles.vim
+$HOME/.dotfiles/vim/myownsnips@$HOME/.vim/myownsnips
+$HOME/.dotfiles/tmux/layouts@$HOME/.tmuxifier/layouts
+$HOME/.dotfiles/task/hooks@$HOME/.task/hooks
+$HOME/.dotfiles/xdg/applications@$HOME/.local/share/applications

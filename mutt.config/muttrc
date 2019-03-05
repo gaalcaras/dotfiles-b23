@@ -25,21 +25,21 @@ bind index,pager g noop
 
 # Mailboxes
 bind index,pager . noop
-folder-hook gmail* 'source ~/.mutt/gmail'
-folder-hook ehess* 'source ~/.mutt/ehess'
-folder-hook telecom* 'source ~/.mutt/telecom'
-folder-hook reset* 'source ~/.mutt/reset
+folder-hook gmail* 'source ~/.config/mutt/gmail'
+folder-hook ehess* 'source ~/.config/mutt/ehess'
+folder-hook telecom* 'source ~/.config/mutt/telecom'
+folder-hook reset* 'source ~/.config/mutt/reset
 
 # Default mailbox
-source ~/.mutt/gmail
+source ~/.config/mutt/gmail
 
 # }}}
 
 # GENERAL PARAMETERS  {{{
 set realname = "Gabriel Alcaras"
 
-source ~/.dotfiles/mutt/alias
-source ~/.dotfiles/mutt/mlists
+source ~/.config/mutt/alias
+source ~/.config/mutt/mlists
 
 unset imap_passive
 set imap_keepalive = 300
@@ -177,7 +177,7 @@ bind editor <Backtab>    complete
 
 # COLORS {{{
 
-source ~/.mutt/colors
+source ~/.config/mutt/colors
 
 # }}}
 
@@ -203,7 +203,7 @@ macro index,pager ,m "<limit>~p!~F!(%L lists)<enter>zC" 'Limit to direct emails'
 macro index,pager ,r "<limit>~sCR-RESET<enter>zC" 'Limit to RESET mailing list'
 
 # Reload muttrc
-macro index,pager,attach \cr '<enter-command>source ~/.mutt/muttrc<enter>' 'Reload muttrc'
+macro index,pager,attach \cr '<enter-command>source ~/.config/mutt/muttrc<enter>' 'Reload muttrc'
 
 # Display links in email
 macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
@@ -218,10 +218,10 @@ macro index,pager .r '<shell-escape>clear && msmtp-runqueue<enter>' 'Send emails
 # Switch between mailboxes
 bind index,pager <F1> noop
 
-macro index,pager <F1> '<enter-command>source ~/.mutt/gmail<enter><change-folder>!<enter>' 'Go to Gmail inbox'
-macro index,pager <F2> '<enter-command>source ~/.mutt/ehess<enter><change-folder>!<enter>' ' Go to EHESS inbox'
-macro index,pager <F3> '<enter-command>source ~/.mutt/telecom<enter><change-folder>!<enter>' 'Go to Telecom inbox'
-macro index,pager <F4> '<enter-command>source ~/.mutt/reset<enter><change-folder>!<enter>' 'Go to RESET inbox'
+macro index,pager <F1> '<enter-command>source ~/.config/mutt/gmail<enter><change-folder>!<enter>' 'Go to Gmail inbox'
+macro index,pager <F2> '<enter-command>source ~/.config/mutt/ehess<enter><change-folder>!<enter>' ' Go to EHESS inbox'
+macro index,pager <F3> '<enter-command>source ~/.config/mutt/telecom<enter><change-folder>!<enter>' 'Go to Telecom inbox'
+macro index,pager <F4> '<enter-command>source ~/.config/mutt/reset<enter><change-folder>!<enter>' 'Go to RESET inbox'
 
 macro index,pager A "<pipe-message>khard add-email<return>" "add the sender email address to khard"
 # }}}

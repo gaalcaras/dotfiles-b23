@@ -1,0 +1,5 @@
+mutt
+vimplug
+vimplugupdate
+vimspell
+sshkeys

@@ -1,5 +1,2 @@
 *.local*
 *.pyc
-systemd/timers.target.wants
-vdirsyncer/status
-termite/config

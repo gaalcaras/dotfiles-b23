@@ -23,7 +23,7 @@
 # -------------------
 
 # Compositing
-exec --no-startup-id compton --config $HOME/.dotfiles/compton/compton.conf
+exec compton
 
 # Keyrings and network
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -135,7 +135,7 @@ bindsym $mod+Shift+h exec --no-startup-id $HOME/.dotfiles/bin/i3reload
 bindsym $mod+Shift+j restart
 
 # Switch between solarized dark / light
-bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch "i3" $theme
+bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch "i3"
 
 # Stealth mode / hide everything
 bindsym $mod+BackSpace exec amixer sset Master off && killall -USR1 i3blocks ; exec killall mpv ; exec i3-msg '[class="Firefox" title="(privée|private)"] kill' ; workspace $ws0 ; exec termite -t glances -e glances ; exec termite -t alsamixer -e alsamixer ;

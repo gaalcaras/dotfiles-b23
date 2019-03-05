@@ -1,9 +1,11 @@
-#! /bin/bash
+#!/usr/bin/env bash
+#
+# Clone all mr repositories
 
 mrconfig=~/.dotfiles/mr/mrconfig.symlink
 
 src=$(sed -n "s/checkout = \(git clone '.*'\) '.*'$/\1/p" "$mrconfig")
-target=$(sed -n 's/\[\(.*\)\]$/~:/\1/p' "$mrconfig")
+target=$(sed -n 's/\[\(.*\)\]$/~\/\1/p' "$mrconfig")
 
 cmds=$(paste <(echo "$src") <(echo "$target") | column -s $'\t' -t)
 

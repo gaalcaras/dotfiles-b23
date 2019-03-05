@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")/.." || return
+DOTFILES_ROOT=$(pwd -P)
+msg="$DOTFILES_ROOT/script/utils/msg"
+
+overwrite_all=false
+skip_all=false
+
+function symlink {
+  local src=$1 dst=$2
+  local overwrite=''
+  local skip=''
+  local action=''
+
+  if [ -f "$dst" ] || [ -d "$dst" ] || [ -L "$dst" ]; then
+    if [ "$overwrite_all" == "false" ] && [ "$skip_all" == "false" ]; then
+      local currentsrc
+      currentsrc=$(readlink "$dst")
+
+      if [ "$currentsrc" == "$src" ]; then
+        skip=true;
+      else
+        $msg "$(basename "$src"): $dst already exists, what do you want to do?"
+        $msg "[s]kip, [S]kip all, [o]verwrite, [O]verwrite all?"
+        read -rn 1 action
+        echo
+
+        case "$action" in
+          o )
+            overwrite=true;;
+          O )
+            overwrite_all=true;;
+          s )
+            skip=true;;
+          S )
+            skip_all=true;;
+          * )
+            ;;
+        esac
+      fi
+    fi
+
+    overwrite=${overwrite:-$overwrite_all}
+    skip=${skip:-$skip_all}
+
+    if [ "$overwrite" == "true" ]; then
+      $msg "warning" "Linking $(basename "$src") to $2"
+      ln -fs "$1" "$2"
+    fi
+
+    if [ "$skip" == "true" ]; then
+      $msg "doing" "Skipping $(basename "$src")"
+    fi
+  else
+    $msg "warning" "Linking $(basename "$src") to $2"
+    ln -s "$1" "$2"
+  fi
+}
+
+$msg "header" "Linking configuration files"
+
+shopt -s globstar nullglob
+
+for src in "$DOTFILES_ROOT"/**/*.symlink
+do
+  symlink "$src" "$HOME/.$(basename "${src%.*}")"
+done
+
+for src in "$DOTFILES_ROOT"/**/*.config
+do
+  dir="$HOME/.config/$(dirname "${src/$HOME\/.dotfiles\//}")"
+  mkdir -p "$dir"
+  symlink "$src" "$dir/$(basename "${src%.*}")"
+done
+
+while IFS= read -r line; do
+  src="${line%%@*}"
+  src="${src/\$HOME\//$HOME/}"
+  dst="${line#*@}"
+  dst="${dst/\$HOME\//$HOME/}"
+  symlink "$src" "$dst"
+done < "$DOTFILES_ROOT/script/symlinks.txt"
+
+$msg 'Dotfiles are linked!'
+read -rn 1 -s -p "Press any key to continue..."
