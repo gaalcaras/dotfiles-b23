@@ -1,0 +1,11 @@
+[Unit]
+Description=Sync taskwarrior instance
+After=network.target
+ConditionFileIsExecutable=/usr/bin/task
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/task sync
+
+[Install]
+Also=task.timer

@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer to sync taskwarrior instance
+
+[Timer]
+OnBootSec=5m
+OnUnitActiveSec=15m
+
+[Install]
+WantedBy=timers.target
