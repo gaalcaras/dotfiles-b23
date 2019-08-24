@@ -232,6 +232,7 @@ Plug 'xolox/vim-notes'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
 
 " Colors and appearance
@@ -247,6 +248,7 @@ Plug 'raimondi/delimitmate' " Handle delimiters automatically
 Plug 'tpope/vim-abolish' " Add improved support for abbreviations
 Plug 'junegunn/vim-easy-align'
 Plug 'yangmillstheory/vim-snipe'
+Plug 'Yggdroot/indentLine'
 
 " My own plugins
 " --------------
