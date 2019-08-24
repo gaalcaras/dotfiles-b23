@@ -13,6 +13,7 @@ push @generated_exts, "acn";
 push @generated_exts, "acr";
 push @generated_exts, "ist";
 push @generated_exts, "alg";
+push @generated_exts, "fls";
 push @generated_exts, "synctex.gz";
 push @generated_exts, "tex.latexmain";
 push @generated_exts, "run.xml";
