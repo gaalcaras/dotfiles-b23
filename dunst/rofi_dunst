@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ROFIBG=#002b36dd ROFICOL=1 rofi -dmenu -theme yellow "$@"
