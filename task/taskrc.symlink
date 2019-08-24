@@ -9,6 +9,16 @@ include /usr/share/doc/task/rc/solarized-dark-256.theme
 # Task sync server
 include /home/gaalcaras/.dotfiles/task/taskserver
 
+# Blocks
+uda.blocks.type=string
+uda.blocks.label=Blocks
+
+# Search
+search.case.sensitive=no
+
+# Urgency tweaks
+urgency.user.tag.today.coefficient=8.0
+
 # Contexts
 context.Work=-tinkering -mutt
 context.work=project:CPES
@@ -38,7 +48,7 @@ report.rofi.filter=+READY
 report.rofi.sort=urgency-
 
 # Set VIP report as default
-default.command=vip
+# default.command=vip
 
 # Next report
 report.next.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,priority,project,tags,description.truncated_count,urgency
