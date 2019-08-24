@@ -1,0 +1,11 @@
+background = ff073642
+tray-background = ff073642
+
+base3 = ${colors.brblack}
+base2 = ${colors.black}
+base1 = ${colors.brgreen}
+base0 = ${colors.brblue}
+base-1 = ${colors.brcyan}
+base-2 = ${colors.white}
+base-3 = ${colors.brwhite}
+undercol = #55000000

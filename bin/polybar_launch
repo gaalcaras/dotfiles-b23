@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-I3CONFIG="$HOME/.config/i3/config"
+THEME=${1:-"dark"}
 
 # Terminate already running bar instances
 killall -q polybar
@@ -9,21 +9,10 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch bars
-polybar light &
-polybar dark &
-
-# Get pids
-LIGHT_PID=$(pgrep -f "^polybar light$")
-DARK_PID=$(pgrep -f "^polybar dark$")
-
-sleep 0.5
-
-# Hide relevant bars
-if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
-then
-    polybar-msg -p "$LIGHT_PID" cmd hide
+if [[ $THEME == "dark" ]]; then
+  polybar dark &
 else
-    polybar-msg -p "$DARK_PID" cmd hide
+  polybar light &
 fi
 
 echo "Bars launched..."

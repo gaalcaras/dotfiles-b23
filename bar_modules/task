@@ -1,6 +1,6 @@
 #!/bin/bash
 
-today_tasks=$(task rofi rc.verbose=nothing start or due:today or +OVERDUE | wc -l)
+today_tasks=$(task rofi rc.verbose=nothing start or due:today or +OVERDUE or +today| wc -l)
 task_start=$(task rofi rc.verbose=nothing start)
 
 function sanitize_task() {
