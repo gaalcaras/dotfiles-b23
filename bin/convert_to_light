@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Convert SOLARIZED dark themes to light themes
+
+sed -e 's/#fdf6e3/#xxxhexbase03/g' -e 's/#eee8d5/#xxxhexbase02/g' -e 's/#93a1a1/#xxxhexbase01/g' -e 's/#839496/#xxxhexbase00/g' -e 's/#657b83/#839496/g' -e 's/#586e75/#93a1a1/g' -e 's/#073642/#eee8d5/g' -e 's/#002b36/#fdf6e3/g' -e 's/#xxxhexbase03/#002b36/g' -e 's/#xxxhexbase02/#073642/g' -e 's/#xxxhexbase01/#586e75/g' -e 's/#xxxhexbase00/#657b83/g' -e 's/253, 246, 227/#xxxrgbbase03/g' -e 's/238, 232, 213/#xxxrgbbase02/g' -e 's/147, 161, 180/#xxxrgbbase01/g' -e 's/131, 148, 150/#xxxrgbbase00/g' -e 's/101, 123, 131/131, 148, 150/g' -e 's/88, 110, 117/147, 161, 180/g' -e 's/7, 54, 66/238, 232, 213/g' -e 's/0, 43, 54/253, 246, 227/g' -e 's/#xxxrgbbase03/0, 43, 54/g' -e 's/#xxxrgbbase02/7, 54, 66/g' -e 's/#xxxrgbbase01/88, 110, 117/g' -e 's/#xxxrgbbase00/101, 123, 131/g' "$1"
