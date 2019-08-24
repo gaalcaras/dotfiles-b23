@@ -12,7 +12,7 @@ clean_str=${clean_str// $/}
 clean_str=${clean_str// /\-}
 
 # Delete all non alphanumeric characters
-clean_str=${clean_str//[^a-zA-Z0-9\-]/}
+clean_str=$(echo "$clean_str" | iconv -f UTF8 -t ASCII//TRANSLIT)
 
 # Strip dashes at both ends
 clean_str=$(echo "$clean_str" | sed -e 's/^\-*//g')
