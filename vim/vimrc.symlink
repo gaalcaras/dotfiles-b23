@@ -199,25 +199,16 @@ Plug 'honza/vim-snippets'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Plug 'roxma/nvim-completion-manager', { 'on': [] }
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
+Plug 'roxma/nvim-completion-manager', { 'on': [] }
+Plug 'ncm2/ncm2', { 'for': ['r', 'rmd'] }
+
+Plug 'roxma/nvim-yarp', { 'for': ['r', 'rmd'] }
 
 if !has('nvim')
-  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'roxma/vim-hug-neovim-rpc', { 'for': ['r', 'rmd'] }
 endif
 
-autocmd BufEnter * call ncm2#enable_for_buffer()
-set completeopt=noinsert,menuone,noselect
-
-Plug 'ncm2/ncm2-github', { 'for': 'markdown' }
-Plug 'ncm2/ncm2-ultisnips'
-Plug 'ncm2/ncm2-jedi'
-Plug 'ncm2/ncm2-vim'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-bufword'
-
-Plug 'ncm2/ncm2-markdown-subscope'
+Plug 'ncm2/ncm2-markdown-subscope', { 'for': ['r', 'rmd'] }
 
 " General functionnality
 " ----------------------

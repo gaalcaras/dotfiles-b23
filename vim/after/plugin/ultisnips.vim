@@ -26,16 +26,3 @@ function! UltiSnipsExpandOrJumpOrTab()
     return "\<Tab>"
   endif
 endfunction
-
-" First try expanding with ncm2_ultisnips. This does both LSP snippets and
-" normal snippets when there's a completion popup visible.
-inoremap <silent> <expr> <Tab> ncm2_ultisnips#expand_or("\<Plug>(ultisnips_try_expand)")
-
-" If that failed, try the UltiSnips expand or jump function. This handles
-" short snippets when the completion popup isn't visible yet as well as
-" jumping forward from the insert mode. Writes <Tab> if there is no special
-" action taken.
-inoremap <silent> <Plug>(ultisnips_try_expand) <C-R>=UltiSnipsExpandOrJumpOrTab()<CR>
-
-" Select mode mapping for jumping forward with <Tab>.
-snoremap <silent> <Tab> <Esc>:call UltiSnips#ExpandSnippetOrJump()<cr>
