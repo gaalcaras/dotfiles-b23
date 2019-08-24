@@ -27,17 +27,10 @@ apply_theme() {
     cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
     i3-msg -q reload
     i3-msg -q restart
-
-    # Background
-    feh --bg-fill "$HOME/.dotfiles/wallpaper/forest_$theme.png"
   else
     ln -fs "$SWAY/config_$theme" "$SWAYCONFIG/config"
     ln -fs "$SWAY/lock_$theme" "$SWAYLOCK/config"
-    waybar_launch "$theme"
     swaymsg reload
-
-    # Background
-    swaymsg output eDP-1 bg "$HOME/.dotfiles/wallpaper/forest_$theme.png" stretch
   fi
 
   # Nvim

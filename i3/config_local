@@ -18,22 +18,55 @@
 #
 # ################
 
+# -----
+# THEME
+# -----
+
+# Solarized colors
+set $yellow  #b58900
+set $orange  #cb4b16
+set $red     #dc322f
+set $magenta #d33682
+set $violet  #6c71c4
+set $blue    #268bd2
+set $cyan    #2aa198
+set $green   #859900
+
+# Font for window titles and the bar (unless set in bar{} below)
+font pango:DejaVu Sans Mono
+font pango:Font Awesome 5 Free
+
+# Set window colors
+# client.class          $border $background $text   $indicator $child_border
+client.focused          $base03 $base03     $base03 $base2     $base1
+client.focused_inactive $base03 $base03     $base03 $base00    $base00
+client.unfocused        $base03 $base03     $base03 $base02    $base02
+
+# No borders and some gaps
+set $gap_inner 10
+set $gap_outer 15
+gaps inner $gap_inner
+gaps outer $gap_outer
+gaps bottom 53
+
+# No borders and some gaps
+for_window [class="^.*"] border pixel 2
+
 # -------------------
 # DO STUFF AT STARTUP
 # -------------------
 
 # Compositing
-exec compton
-
-# Keyrings and network
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nm-applet
+exec_always --no-startup-id compton
 
 # Hide mouse cursor when not in used
 exec --no-startup-id unclutter
 
 # Polybar
-exec_always --no-startup-id $HOME/.dotfiles/bin/polybar_launch
+exec_always --no-startup-id $HOME/.dotfiles/bin/polybar_launch $theme
+
+# Notifications
+exec_always dunst > /dev/null 2>&1
 
 # Useful apps
 exec --no-startup-id nextcloud
@@ -45,6 +78,7 @@ exec --no-startup-id $BROWSER
 # ------------
 
 set $mod Mod4
+set $alt Mod1
 
 # Home row direction keys, like vim with bépo french layout
 set $left c
@@ -53,23 +87,31 @@ set $up s
 set $right r
 
 # Your preferred terminal emulator
-set $term --no-startup-id $TERMINAL
+set $term termite
 
 # Use Mouse+$mod to drag floating windows to their wanted position
-floating_modifier $mod
+floating_modifier $alt
 
 # Start a terminal
-bindsym $mod+Return split horizontal ;; exec termite
-bindsym $mod+Shift+Return split vertical ;; exec termite
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+Return exec $term -d $(xcwd)
 
 # Kill focused window
 bindsym $mod+Shift+q kill
 
 # Change focus (vim bépo style)
-bindsym $mod+c focus left
-bindsym $mod+t focus down
-bindsym $mod+s focus up
-bindsym $mod+r focus right
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+# Resize gaps
+bindsym $mod+$alt+$right gaps inner all plus 5
+bindsym $mod+$alt+$left gaps inner all minus 5
+bindsym $mod+$alt+$up gaps outer all plus 5
+bindsym $mod+$alt+$down gaps outer all minus 5
+bindsym $mod+$alt+l gaps inner all set $gap_inner; gaps outer all set $gap_outer;
+bindsym $mod+$alt+z gaps inner all set 0; gaps outer all set 0;
 
 # Change focus (cursor keys)
 bindsym $mod+Left focus left
@@ -78,10 +120,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # Move focused window
-bindsym $mod+Shift+c move left
-bindsym $mod+Shift+t move down
-bindsym $mod+Shift+s move up
-bindsym $mod+Shift+r move right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 
 # Move focused window (cursor keys)
 bindsym $mod+Shift+Left move left
@@ -92,6 +134,8 @@ bindsym $mod+Shift+Right move right
 # Split in horizontal / vertical orientation
 bindsym $mod+h split h
 bindsym $mod+v split v
+bindsym $mod+a focus parent
+bindsym $mod+Shift+a focus child
 
 # Enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -109,13 +153,11 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # Make the currently focused window a scratchpad
-bindsym $mod+Tab move scratchpad
+# bindsym $mod+Tab move scratchpad
 
 # Show the first scratchpad window
 bindsym $mod+Shift+Tab scratchpad show
 
-# Focus the parent container
-bindsym $mod+p focus parent
 
 # Rofi / Dmenu bindings ($theme set in dark / light config files)
 bindsym $mod+d exec rofi -show combi -theme $theme --no-plugins
@@ -164,28 +206,34 @@ mode "resize" {
 
 bindsym $mod+Shift+l mode "resize"
 
+mode "movefloating" {
+    bindsym $left move left 1480px
+    bindsym $right move right 1480px
+    bindsym $down move down 770px
+    bindsym $up move up 770px
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
+bindsym $alt+m focus floating; mode "movefloating"
+
 # Multimedia Keys: volume
-bindsym XF86AudioRaiseVolume exec amixer sset Master 5%+
-bindsym XF86AudioLowerVolume exec amixer sset Master 5%-
-
-# Multimedia Keys: granular volume control
-bindsym $mod+XF86AudioRaiseVolume exec amixer sset Master 1%+
-bindsym $mod+XF86AudioLowerVolume exec amixer sset Master 1%-
-
-# Multimedia Keys: mute
-bindsym XF86AudioMute exec amixer sset Master toggle
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
 
 # Multimedia Keys: brightness control (with light)
 bindsym XF86MonBrightnessUp exec light -A 5 # Increase Brightness
 bindsym XF86MonBrightnessDown exec light -U 5 # Decrease Brightness
 
-# Redirect sound to headphones
-# bindsym $mod+m exec "/usr/local/bin/switch-audio-port"
-
-bindsym $mod+Mod1+r gaps inner all plus 5
-bindsym $mod+Mod1+c gaps inner all minus 5
-bindsym $mod+Mod1+s gaps outer all plus 5
-bindsym $mod+Mod1+t gaps outer all minus 5
+# Media player controls
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 # ----------
 # WORKSPACES
@@ -231,18 +279,12 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 # Assign workspace
 # wmctrl -lx to list window titles and classes
-for_window [class="DejaDup"] move to workspace $ws0
-for_window [class="Termite" title="ranger"] move to workspace $ws0
-for_window [class="Telegram"] move to workspace $ws1
+for_window [class="Telegram"] move to workspace $ws0
+for_window [class="Termite" title="newsboat"] move to workspace $ws0
+for_window [class="Firefox" title="^Markdown\\ Composer\\ \\-\\ Mozilla\\ Firefox$"] move to workspace $ws3
 for_window [class="Firefox" window_role="^(?!Dialog)"] move to workspace $ws2
-for_window [class="Termite" title="note"] move to workspace $ws7
-for_window [class="Termite" title="zettel"] move to workspace $ws7
-for_window [class="Simplenote"] move to workspace $ws7
-for_window [class="calibre"] move to workspace $ws8
-for_window [class="Termite" title="newsboat"] move to workspace $ws8
-for_window [class="Zotero"] move to workspace $ws8
-for_window [class="Termite" title="neomutt"] move to workspace $ws9
-for_window [class="Spotify"] move to workspace $ws10
+for_window [class="Firefox" title="^Markdown Composer - Mozilla Firefox$"] move to workspace current
+for_window [class="Termite" title="neomutt"] move to workspace $ws1
 
 # ---------------
 # SPECIAL WINDOWS
@@ -255,27 +297,3 @@ for_window [class="Kalu"] floating enable
 for_window [class="mpv"] floating enable
 for_window [class="mpv"] sticky enable
 no_focus [class="mpv"]
-
-# -------------
-# LOOK NICE PLZ
-# -------------
-
-# No borders and some gaps
-for_window [class="^.*"] border pixel 1
-gaps inner 10
-gaps outer 15
-hide_edge_borders smart
-
-# Font for window titles and the bar (unless set in bar{} below)
-font pango:DejaVu Sans Mono, Font Awesome 9
-
-# Set window colors
-client.focused          #bg-color          #268bd2          $text-focus          $indicator-color #268bd2
-client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color $inactive-bg-color
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color $indicator-color $inactive-bg-color
-client.urgent           $urgent-bg-color   $urgent-bg-color   $text-color          $indicator-color $urgent-bg-color
-
-# Solarized common setup
-set $urgent-bg-color     #dc322f
-set $indicator-color     #859900
-set $text-focus          #cb4b16

@@ -20,5 +20,5 @@ else
     theme="light"
 fi
 
-cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
+cat "$I3/$theme" "$I3/config_local" > "$I3CONFIG"
 i3-msg -q reload

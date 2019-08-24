@@ -1,15 +1,20 @@
-
 #########################
 # COLORS - SOLARIZED DARK
 #########################
 
-set $bg-color            #002b36
-set $inactive-bg-color   #073642
-set $text-color          #93a1a1
-set $inactive-text-color #586e75
+set $base03 #002b36
+set $base02 #073642
+set $base01 #586e75
+set $base00 #657b83
+set $base0  #839496
+set $base1  #93a1a1
+set $base2  #eee8d5
+set $base3  #fdf6e3
 
 # Set rofi to dark theme
 set $theme dark
+set $rofibg #002b36dd
 
-# Set the wallpaper
-exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/forest_dark.png"
+# Background
+exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/slqd22_dark.png"
+

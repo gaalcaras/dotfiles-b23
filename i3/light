@@ -1,15 +1,20 @@
-
-#########################
+##########################
 # COLORS - SOLARIZED LIGHT
-#########################
+##########################
 
-set $bg-color            #fdf6e3
-set $inactive-bg-color   #eee8d5
-set $text-color          #586e75
-set $inactive-text-color #93a1a1
+set $base03 #fdf6e3
+set $base02 #eee8d5
+set $base01 #93a1a1
+set $base00 #839496
+set $base0  #657b83
+set $base1  #586e75
+set $base2  #073642
+set $base3  #002b36
 
 # Set rofi to light theme
-set $theme "light"
+set $theme light
+set $rofibg #fdf6e3cc
 
-# Set the wallpaper
-exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/forest_light.png"
+# Background
+exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/slqd22_light.png"
+
