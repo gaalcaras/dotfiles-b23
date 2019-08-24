@@ -171,6 +171,8 @@ bindsym $mod+p       exec ROFIBG=$rofibg ROFICOL=1 $HOME/.dotfiles/rofi/modules/
 # Open email setup
 bindsym $mod+e exec email
 
+# Open URL with mpv
+bindsym $mod+m exec "$HOME/.dotfiles/bin/clipboard_to_mpv"
 
 # Set screen lock
 bindsym $mod+Shift+x exec i3lock_theme

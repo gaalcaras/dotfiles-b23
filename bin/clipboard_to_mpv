@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# #####################
+# Send clipboard to mpv
+# by @gaalcaras
+#
+# #####################
+
+notify-send -a "clipboard/mpv" "Opening url in clipboard with mpv..."
+
+if mpv "$(xclip -out)" ; then
+  echo
+else
+  if mpv "$(xclip -selection 'clipboard' -out)"; then
+    echo
+  else
+    notify-send -a "clipboard/mpv" "Failed to open clipboard content with mpv."
+  fi
+fi
