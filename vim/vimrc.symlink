@@ -27,7 +27,7 @@ let g:maplocalleader = ';'
 let g:mapleader = ','
 
 set foldmethod=syntax
-set foldlevelstart=1
+set foldlevelstart=99
 set splitright " Open splits on the right
 set splitbelow " Open splits on the bottom
 set wildignore=*.pdf,*.aux,*.png,*.pyc
@@ -131,7 +131,7 @@ nnoremap g<space> :w<cr><c-w>f
 nnoremap <leader>tt :m-2<cr>:j<cr>
 " Delete everything right of the cursor and paste it in a new line
 " line above, then delete beginning and trailing whitespaces
-nnoremap <leader>ts DO<Esc>p:.s/^\s\+//<cr>:+1<cr>:.s/\s\+$//<cr>$
+nnoremap <leader>ts DO<Esc>p:.s/^\s\+//<cr>:+1<cr>:.s/\s\+$//<cr>:nohl<cr>$
 " Add a line of = below
 nnoremap <leader>= yyp:s/./=/g<cr>:noh<cr>
 " Add a line of - below
