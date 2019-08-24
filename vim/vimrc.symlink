@@ -140,11 +140,12 @@ nnoremap <leader>- yyp:s/./-/g<cr>:noh<cr>
 nnoremap <leader>$ :call dotfiles#AlignWithSpaces(78)<cr>
 
 " Open fuzzy file search
-nnoremap <leader>, :Denite file_rec<cr>
-" Open fuzzy buffer search
-nnoremap <leader>b :Denite buffer<cr>
-nnoremap <leader><cr> :vsplit<cr> :Denite file_rec<cr>
-" Edit vimrc
+nnoremap <leader>, :FZF<cr>
+" " Open fuzzy buffer search
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>c :Commits<cr>
+
+" " Edit vimrc
 nnoremap <leader>ve :edit ~/.dotfiles/vim/vimrc.symlink<cr>
 " Reload vimrc
 nnoremap <leader>vr :w<cr>:source $MYVIMRC<cr>
@@ -196,6 +197,8 @@ Plug 'w0rp/ale' " Check style and syntax asynchronously
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Plug 'roxma/nvim-completion-manager', { 'on': [] }
 Plug 'ncm2/ncm2'
 Plug 'roxma/nvim-yarp'
@@ -221,7 +224,8 @@ Plug 'ncm2/ncm2-markdown-subscope'
 
 Plug 'tpope/vim-repeat'
 Plug 'neomutt/neomutt.vim'
-Plug 'Shougo/denite.nvim', { 'do' : ':UpdateRemotePlugins' }
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
 Plug 'ludovicchabant/vim-gutentags'
 
