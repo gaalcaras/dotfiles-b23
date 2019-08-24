@@ -45,7 +45,10 @@ setopt inc_append_history_time
 # See: https://superuser.com/questions/844058/tmux-mutt-not-redrawing
 export TERM="screen-256color"
 
-export PATH=$HOME/.dotfiles/bin/:$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.4.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl
+export GOBIN="$HOME/go/bin"
+export GOPATH="$HOME/go"
+
+export PATH=$HOME/.dotfiles/bin/:$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.6.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN
 export EDITOR="nvim"
 export PDFREADER="/usr/bin/zathura"
 export BROWSER="/usr/bin/firefox"

@@ -197,6 +197,8 @@ Plug 'w0rp/ale' " Check style and syntax asynchronously
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+Plug 'fatih/vim-go'
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'roxma/nvim-completion-manager', { 'on': [] }
