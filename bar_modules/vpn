@@ -2,8 +2,19 @@
 
 if pgrep -x openvpn &> /dev/null; then
   LOCK=""
+  STATUS="CONNECTED"
 else
   LOCK=""
+  STATUS="DISCONNECTED"
+fi
+
+if [ "$STATUS" != "$(cat /tmp/VPN_STATUS)" ]; then
+  if [ "$STATUS" == "CONNECTED" ]; then
+    notify-send -a "OpenVPN" "Your VPN is now on."
+  else
+    notify-send -a "OpenVPN" "Your VPN is now off." -u critical -t 10000
+  fi
 fi
 
 echo "$LOCK"
+echo "$STATUS" > /tmp/VPN_STATUS
