@@ -1,0 +1,9 @@
+[Unit]
+Description=Check battery level and status and notify user
+
+[Service]
+Type=oneshot
+ExecStart=%h/.dotfiles/bin/battery_notify
+
+[Install]
+Also=battery_notify.timer

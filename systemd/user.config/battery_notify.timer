@@ -1,0 +1,9 @@
+[Unit]
+Description=Timer to check battery level and status
+
+[Timer]
+AccuracySec=1us
+OnCalendar=*-*-* *:*:00/10
+
+[Install]
+WantedBy=timers.target
