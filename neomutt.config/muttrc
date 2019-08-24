@@ -12,41 +12,43 @@ set folder=~/.email/
 set my_gmail_em=`pass show email/gmail.com/user`
 set my_ehess_em=`pass show email/ehess.fr/user`
 set my_telecom_em=`pass show email/telecom-paristech.fr/user`
+set my_posteo_em=`pass show email/posteo/user`
 set my_reset_em=`pass show email/reset/user`
 
 # Noms et emails
 set my_name="Gabriel Alcaras"
 set my_name_reset="Revue RESET"
 set use_from=yes
-alternates $my_gmail_em|$my_ehess_em|$my_telecom_em|$my_reset_em
+alternates $my_gmail_em|$my_ehess_em|$my_telecom_em|$my_reset_em|$my_posteo_em
 
 # unbind g before loading macros
 bind index,pager g noop
 
 # Mailboxes
 bind index,pager . noop
-folder-hook gmail* 'source ~/.config/mutt/gmail'
-folder-hook ehess* 'source ~/.config/mutt/ehess'
-folder-hook telecom* 'source ~/.config/mutt/telecom'
-folder-hook reset* 'source ~/.config/mutt/reset
+folder-hook gmail* 'source ~/.config/neomutt/gmail'
+folder-hook ehess* 'source ~/.config/neomutt/ehess'
+folder-hook telecom* 'source ~/.config/neomutt/telecom'
+folder-hook posteo* 'source ~/.config/neomutt/posteo'
+folder-hook reset* 'source ~/.config/neomutt/reset
 
 # Default mailbox
-source ~/.config/mutt/gmail
+source ~/.config/neomutt/gmail
 
 # }}}
 
 # GENERAL PARAMETERS  {{{
 set realname = "Gabriel Alcaras"
 
-source ~/.config/mutt/alias
-source ~/.config/mutt/mlists
+source ~/.config/neomutt/alias
+source ~/.config/neomutt/mlists
 
 unset imap_passive
 set imap_keepalive = 300
 set mail_check = 120
 set sleep_time = 0
 
-set mailcap_path = ~/.dotfiles/mutt/mailcap
+set mailcap_path = ~/.config/neomutt/mailcap
 
 set text_flowed
 
@@ -79,6 +81,9 @@ set flag_chars="* D ✔····  "
 folder-hook . "exec collapse-all"
 folder-hook . "exec first-entry"
 
+# Fix attachment names
+set rfc2047_parameters=yes
+
 # Forward with attachments
 set mime_forward=yes
 set mime_forward_rest=yes
@@ -101,7 +106,7 @@ set date_format="%m/%d %H:%M"
 
 # Set $index_format
 # https://www.neomutt.org/guide/reference.html#index-format
-set index_format="%-2.4C %Z %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%-4.4{%b} %{%d}>&%[%m/%Y]> %<M?[%-1.2M]&%<E? %-1.2e &    >> %-20.20F %<X?(%X)&   > %s"
+set index_format="%-2.5C %Z %<[y?%<[m?%<[d?%-7.7[%H:%M]&%-7.7[%a %d]>&%-7.7[%b %d]>&%7.7[%m/%Y]> %<M?[%-1.2M]&%<E? %-1.2e &    >> %-20.20F %<X?(%X)&   > %s"
 
 # Vim, of course
 set editor="nvim"
@@ -177,7 +182,7 @@ bind editor <Backtab>    complete
 
 # COLORS {{{
 
-source ~/.config/mutt/colors
+source ~/.config/neomutt/colors
 
 # }}}
 
@@ -203,25 +208,27 @@ macro index,pager ,m "<limit>~p!~F!(%L lists)<enter>zC" 'Limit to direct emails'
 macro index,pager ,r "<limit>~sCR-RESET<enter>zC" 'Limit to RESET mailing list'
 
 # Reload muttrc
-macro index,pager,attach \cr '<enter-command>source ~/.config/mutt/muttrc<enter>' 'Reload muttrc'
+macro index,pager,attach \cr '<enter-command>source ~/.config/neomutt/muttrc<enter>' 'Reload muttrc'
 
 # Display links in email
 macro pager \cl <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
 
 # Save attachment
-macro attach S <save-entry><bol>~/Downloads/mutt/<eol><enter>
+macro attach S "<enter-command>unset wait\_key<enter><print-entry><enter-command>set wait\_key<enter>" 'Save attachment to dated directory'
 
 # Send and sync emails
 macro index,pager .l '<shell-escape>clear && msmtp-listqueue<enter>' 'List emails in queue'
 macro index,pager .r '<shell-escape>clear && msmtp-runqueue<enter>' 'Send emails in queue'
+macro index,pager .u '<shell-escape>clear && rm ~/.msmtpqueue/.lock<enter>' 'Unlock msmtpqueue'
 
 # Switch between mailboxes
 bind index,pager <F1> noop
 
-macro index,pager <F1> '<enter-command>source ~/.config/mutt/gmail<enter><change-folder>!<enter>' 'Go to Gmail inbox'
-macro index,pager <F2> '<enter-command>source ~/.config/mutt/ehess<enter><change-folder>!<enter>' ' Go to EHESS inbox'
-macro index,pager <F3> '<enter-command>source ~/.config/mutt/telecom<enter><change-folder>!<enter>' 'Go to Telecom inbox'
-macro index,pager <F4> '<enter-command>source ~/.config/mutt/reset<enter><change-folder>!<enter>' 'Go to RESET inbox'
+macro index,pager <F1> '<enter-command>source ~/.config/neomutt/gmail<enter><change-folder>!<enter>' 'Go to Gmail inbox'
+macro index,pager <F2> '<enter-command>source ~/.config/neomutt/ehess<enter><change-folder>!<enter>' ' Go to EHESS inbox'
+macro index,pager <F3> '<enter-command>source ~/.config/neomutt/telecom<enter><change-folder>!<enter>' 'Go to Telecom inbox'
+macro index,pager <F4> '<enter-command>source ~/.config/neomutt/posteo<enter><change-folder>!<enter>' 'Go to Posteo inbox'
+macro index,pager <F5> '<enter-command>source ~/.config/neomutt/reset<enter><change-folder>!<enter>' 'Go to RESET inbox'
 
 macro index,pager A "<pipe-message>khard add-email<return>" "add the sender email address to khard"
 # }}}

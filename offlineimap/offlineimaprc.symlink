@@ -111,6 +111,40 @@ sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 ssl_version = tls1_2
 # }}}
 
+[Account posteo]
+localrepository = posteo-local
+remoterepository = posteo-remote
+
+[Repository posteo-local]
+type = Maildir
+localfolders = ~/.email/posteo
+# Reverse name trans can be tricky.
+# Debug and test new configs with "offlineimap --info"!
+# Also, read:
+# http://www.offlineimap.org/doc/nametrans.html#reverse-nametrans
+nametrans = lambda foldername: re.sub ('inbox', 'INBOX',
+                               re.sub ('sent', 'Sent',
+                               re.sub ('trash', 'Trash',
+                               re.sub ('archives', 'Archives',
+                               re.sub ('drafts', 'Drafts', foldername)))))
+
+[Repository posteo-remote]
+type = IMAP
+remotehost = posteo.de
+remoteusereval = get_user('posteo')
+remotepasseval = get_pass('posteo')
+
+# Translate folder names, lowercase + underscores
+nametrans = lambda foldername: re.sub (' ', '_', foldername.lower())
+
+# Do not sync All folders
+# folderfilter = lambda foldername: foldername not in ['Chats', 'Contacts', 'Emailed Contacts']
+
+# Necessary as of OfflineIMAP 6.5.4
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+ssl_version = tls1_2
+# }}}
+
 # reset setup {{{
 [Account reset]
 localrepository = reset-local

@@ -31,5 +31,5 @@ macro index a "<collapse-thread><tag-thread><clear-flag>N<save-message>+ehess/ar
 macro pager a "qa<enter>" "Move to archives"
 
 # SMTP
-set sendmail="msmtp-enqueue -a ehess --user=$my_gmail_em --from=$my_ehess_em"
+set sendmail="msmtp-enqueue -a ehess --user=$my_posteo_em --from=$my_ehess_em"
 set from="$my_name <$my_ehess_em>"
