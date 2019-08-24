@@ -1,0 +1,3 @@
+#!/bin/env bash
+
+i3-msg "workspace 1; append_layout $HOME/.dotfiles/i3/mutt_setup.json; exec termite -e neomutt; exec termite -e ikhal; exec termite -e mutt_task_report.sh; exec termite; [title='^neomutt$' focus];"

@@ -125,6 +125,10 @@ bindsym $mod+z exec rofi -show zettel -theme $theme
 bindsym $mod+Shift+d exec rofi -show task -theme $theme
 bindsym $mod+m exec $HOME/.dotfiles/rofi/modules/rofi_mount $theme
 
+# Open email setup
+bindsym $mod+e exec email
+
+
 # Set screen lock
 bindsym $mod+Shift+x exec i3lock_theme
 
