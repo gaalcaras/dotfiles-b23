@@ -138,7 +138,7 @@ alias ikhal='LC_TIME=C ikhal'
 alias nv="nvim"
 alias mutt='hash tmuxifier 2>/dev/null && tmuxifier load-window mutt || neomutt -n' # Check if tmuxifier exists before loading mutt setup
 alias mr='mr -d "$HOME"' # Multi-repos with minimal output and 5 parallel jobs
-alias rss='nvim ~/.dotfiles/newsboat/urls'
+alias rss='nvim ~/.dotfiles/newsboat/urls.config'
 
 # Development
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
@@ -165,11 +165,36 @@ function filerc() {
   cd "$tmpdir"
 }
 
-alias muttrc="filerc $HOME/.dotfiles/mutt/muttrc"
-alias zshrc="filerc $HOME/.dotfiles/zsh/zshrc.symlink"
-alias i3rc="filerc $HOME/.dotfiles/i3/config_local"
-alias vimrc="filerc $HOME/.dotfiles/vim/vimrc.symlink"
-alias newsboatrc="filerc $HOME/.dotfiles/newsboat/config"
+alias comptonrc="filerc ~/.dotfiles/compton/compton.conf.config"
+alias dunstrc="filerc ~/.dotfiles/dunst/dunstrc.config"
+alias gitrc="filerc ~/.dotfiles/git/gitconfig.symlink"
+alias gpgrc="filerc ~/.dotfiles/gpg/gpg-agent.conf"
+alias gtkrc="filerc ~/.dotfiles/gtk-3.0/gtk.css.config"
+alias i3rc="filerc ~/.dotfiles/i3/config_local"
+alias khalrc="filerc ~/.dotfiles/khal/config.config"
+alias khardrc="filerc ~/.dotfiles/khard/khard.conf.config"
+alias mpvrc="filerc ~/.dotfiles/mpv/mpv.conf.config"
+alias mrrc="filerc ~/.dotfiles/mr/mrconfig.symlink"
+alias muttrc="filerc ~/.dotfiles/neomutt.config/muttrc"
+alias newsboatrc="filerc ~/.dotfiles/newsboat/config.config"
+alias msmtprc="filerc ~/.dotfiles/offlineimap/msmtprc.symlink"
+alias imaprc="filerc ~/.dotfiles/offlineimap/offlineimaprc.symlink"
+alias papisrc="filerc ~/.dotfiles/papis/config.config"
+alias polybarrc="filerc ~/.dotfiles/polybar/config.config"
+alias rangerrc="filerc ~/.dotfiles/ranger/rc.conf.config"
+alias rofirc="filerc ~/.dotfiles/rofi/config.rasi.config"
+alias scimrc="filerc ~/.dotfiles/scim/scimrc.symlink"
+alias swayrc="filerc ~/.dotfiles/sway/config_local"
+alias taskrc="filerc ~/.dotfiles/task/taskrc.symlink"
+alias termiterc="filerc ~/.dotfiles/termite/config_local"
+alias texrc="filerc ~/.dotfiles/tex/latexmkrc.symlink"
+alias tmuxrc="filerc ~/.dotfiles/tmux/tmux.conf.symlink"
+alias vdirsyncerrc="filerc ~/.dotfiles/vdirsyncer/config.config"
+alias vimrc="filerc ~/.dotfiles/vim/vimrc.symlink"
+alias waybarrc="filerc ~/.dotfiles/waybar/config.config"
+alias xinitrc="filerc ~/.dotfiles/X/xinitrc.symlink"
+alias zathurarc="filerc ~/.dotfiles/zathura/zathurarc.config"
+alias zshrc="filerc ~/.dotfiles/zsh/zshrc.symlink"
 
 # }}}
 
@@ -214,8 +239,8 @@ compdef '_path_files -W $HOME/Nextcloud/Notes -g "*.md"' note
 # INIT {{{
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-  # sway
-  # exit 0
+#  sway
+#  exit 0
 fi
 
 if hash register-python-argcomplete 2>/dev/null; then
