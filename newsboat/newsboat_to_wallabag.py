@@ -5,13 +5,11 @@
 """
 
 import argparse
-import sys
-
-import aiohttp
-import asyncio
-from wallabag_api.wallabag import Wallabag
-
 from subprocess import Popen, PIPE
+
+import asyncio
+import aiohttp
+from wallabag_api.wallabag import Wallabag
 
 parser = argparse.ArgumentParser()
 
@@ -29,19 +27,17 @@ def get_pass(path):
     pass_show = Popen(['pass', 'show', path], stdout=PIPE)
     return pass_show.stdout.read().decode('utf-8').strip()
 
-client_id = get_pass('computers/batcave/wallabag/client_id')
-secret_id = get_pass('computers/batcave/wallabag/client_secret')
-url = get_pass('computers/batcave/wallabag/url')
-ids = get_pass(url).split('\n')
-password = ids[0]
-username = ids[1].replace('user: ', '')
+client_id = get_pass('computers/batlab/wallabag/client_id')
+secret_id = get_pass('computers/batlab/wallabag/client_secret')
+password = get_pass('www/wallabag.batlab.me/gaalcaras')
+username = 'gaalcaras'
 
-redirect_uri = 'https://batcloud.me/wallabag/'
-scope = 'https://batcloud.me/wallabag/api/entries.json'
+redirect_uri = 'https://wallabag.batlab.me/'
+scope = 'https://wallabag.batlab.me/api/entries.json'
 
 args = parser.parse_args()
 
-my_host = 'https://batcloud.me/wallabag'
+my_host = 'https://wallabag.batlab.me'
 
 async def main(loop):
 
