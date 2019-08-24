@@ -23,7 +23,7 @@ function symlink {
       else
         $msg "$(basename "$src"): $dst already exists, what do you want to do?"
         $msg "[s]kip, [S]kip all, [o]verwrite, [O]verwrite all?"
-        read -rn 1 action
+        read -r -n 1 action </dev/tty
         echo
 
         case "$action" in
@@ -46,7 +46,7 @@ function symlink {
 
     if [ "$overwrite" == "true" ]; then
       $msg "warning" "Linking $(basename "$src") to $2"
-      mkdir -p "$(basename "$dst")"
+      mkdir -p "$(dirname "$2")"
       ln -fs "$1" "$2"
     fi
 
@@ -55,7 +55,7 @@ function symlink {
     fi
   else
     $msg "warning" "Linking $(basename "$src") to $2"
-    mkdir -p "$(basename "$dst")"
+    mkdir -p "$(dirname "$2")"
     ln -s "$1" "$2"
   fi
 }

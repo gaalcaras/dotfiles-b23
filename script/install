@@ -59,12 +59,16 @@ function import_gpg {
   echo
   $msg "doing" "Mounting disk"
   mkdir -p /mnt/gpgdisk && mount "$diskpath" /mnt/gpgdisk
+  echo "List GPG keys:"
+  $urun gpg --list-keys
   $msg "doing" "Importing keys"
   $urun gpg -d /mnt/gpgdisk/*.sec.asc | $urun gpg --import
   echo
   echo "List GPG keys:"
   $urun gpg --list-keys
   umount -R /mnt/gpgdisk
+  $msg "doing" "Unlocking dotfiles"
+  $urun git-crypt unlock
   read -rn 1 -s -p "Press any key to continue..."
 }
 

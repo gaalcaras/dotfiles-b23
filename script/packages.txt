@@ -13,6 +13,7 @@ neovim
 python-neovim
 pass
 git-crypt
+git-lfs
 
 # Fonts
 ttf-dejavu

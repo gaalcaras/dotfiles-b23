@@ -7,3 +7,4 @@ $HOME/.dotfiles/vim/myownsnips@$HOME/.vim/myownsnips
 $HOME/.dotfiles/tmux/layouts@$HOME/.tmuxifier/layouts
 $HOME/.dotfiles/task/hooks@$HOME/.task/hooks
 $HOME/.dotfiles/xdg/applications@$HOME/.local/share/applications
+$HOME/.dotfiles/gpg/gpg-agent.conf@$HOME/.gnupg/gpg-agent.conf
