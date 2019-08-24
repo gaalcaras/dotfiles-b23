@@ -10,6 +10,8 @@
 #
 # #####################
 
+notify-send -a "i3wm" "Reloading i3 config..." -u low -t 5000
+
 I3="$HOME/.dotfiles/i3"
 I3CONFIG="$HOME/.config/i3/config"
 
