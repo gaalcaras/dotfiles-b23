@@ -13,6 +13,4 @@ set $base3  #fdf6e3
 
 # Set rofi to dark theme
 set $theme dark
-
-# Set the wallpaper
-output eDP-1 bg ~/.dotfiles/wallpaper/forest_dark.png stretch
+set $rofibg #002b36dd

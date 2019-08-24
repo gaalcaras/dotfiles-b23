@@ -2,13 +2,14 @@
   border: none;
   border-radius: 0;
   font-family: "Deja Vu Sans Mono", "Font Awesome 5 Free";
-  font-size: 11px;
+  font-size: 12px;
   min-height: 0;
 }
 
 window#waybar {
   background: rgba(0, 43, 54, 0.9);
   border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+  padding-left: 100px;
 }
 
 #workspaces button, #clock, #battery, #backlight, #network, #pulseaudio, #tray,
@@ -19,7 +20,7 @@ window#waybar {
 
 /* LEFT MODULES */
 #workspaces button, #mode {
-  padding: 0 5px;
+  padding: 0 10px;
   border-bottom: 3px solid rgba(0, 0, 0, .2);
 }
 

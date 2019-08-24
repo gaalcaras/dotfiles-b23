@@ -2,13 +2,14 @@
   border: none;
   border-radius: 0;
   font-family: "Deja Vu Sans Mono", "Font Awesome 5 Free";
-  font-size: 11px;
+  font-size: 12px;
   min-height: 0;
 }
 
 window#waybar {
- background: rgba(253, 246, 227, 0.9);
- border-bottom: 3px solid rgba(255, 255, 255, 1);
+  background: rgba(253, 246, 227, 0.9);
+  border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+  padding-left: 100px;
 }
 
 #workspaces button, #clock, #battery, #backlight, #network, #pulseaudio, #tray,
@@ -19,8 +20,8 @@ window#waybar {
 
 /* LEFT MODULES */
 #workspaces button, #mode {
-  padding: 0 5px;
-  border-bottom: 3px solid rgba(255, 255, 255, .2);
+  padding: 0 10px;
+  border-bottom: 3px solid rgba(0, 0, 0, .2);
 }
 
 #workspaces button:nth-child(8n+1) { background: #b58900 }
@@ -43,7 +44,7 @@ window#waybar {
 }
 
 #mode {
-  color: #657b83;
+  color: #839496;
 }
 
 /* CENTER AND RIGHT MODULES */
@@ -52,12 +53,13 @@ window#waybar {
 #custom-task {
   padding: 0 10px;
   margin: 0;
+  color: #002b36;
 }
 
 /* RIGHT MODULES */
 #battery, #backlight, #network, #pulseaudio, #tray, #idle_inhibitor,
 #custom-vpn {
-  border-bottom: 3px solid rgba(255, 255, 255, .2);
+  border-bottom: 3px solid rgba(0, 0, 0, .2);
 }
 
 #battery {
@@ -70,7 +72,7 @@ window#waybar {
 
 @keyframes blink {
     to {
-        background-color: #fdf6e3;
+        background-color: #002b36;
         color: black;
     }
 }
@@ -93,7 +95,7 @@ window#waybar {
 }
 
 #network.disconnected, #pulseaudio.muted {
-  background: #93a1a1;
+  background: #586e75;
 }
 
 #pulseaudio {
