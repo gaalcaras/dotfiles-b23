@@ -1,0 +1,17 @@
+#!/bin/bash
+# ########################################################################
+# ROFI SCRIPT: PASS
+# by Gabriel Alcaras
+#
+# Helper script to deal with pass through rofi
+#
+# ########################################################################
+
+THEME=${1:-"blue"}
+
+PASS=$(find ~/.password-store -type f | sed "s/\(\/home\/gaalcaras\/.password-store\/\|\.gpg\)//g" | rofi -dmenu -p pass -theme "$THEME")
+
+if [ "$PASS" != "" ]
+then
+  pass show "$PASS" | head -1 | xclip -selection "clipboard" &
+fi

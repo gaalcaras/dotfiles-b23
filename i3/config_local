@@ -158,14 +158,15 @@ bindsym $mod+space focus mode_toggle
 # Show the first scratchpad window
 bindsym $mod+Shift+Tab scratchpad show
 
-
 # Rofi / Dmenu bindings ($theme set in dark / light config files)
-bindsym $mod+d exec rofi -show combi -theme $theme --no-plugins
-bindsym $mod+Escape exec $HOME/.dotfiles/rofi/modules/rofi_power "i3" $theme
-bindsym $mod+n exec rofi -show note -theme $theme
-bindsym $mod+z exec rofi -show zettel -theme $theme
-bindsym $mod+Shift+d exec rofi -show task -theme $theme
-bindsym $mod+m exec $HOME/.dotfiles/rofi/modules/rofi_mount $theme
+bindsym $mod+d       exec ROFIBG=$rofibg ROFICOL=4 rofi -run-command "termite -e {cmd} -t {cmd}" -show run -theme $theme --no-plugins
+bindsym $mod+Shift+d exec ROFIBG=$rofibg ROFICOL=4 rofi -show run -theme $theme --no-plugins
+bindsym $mod+Escape  exec ROFIBG=$rofibg ROFICOL=1 $HOME/.dotfiles/rofi/modules/rofi_power "i3" "red"
+bindsym $mod+n       exec ROFIBG=$rofibg ROFICOL=1 rofi -show note -theme green
+bindsym $mod+z       exec ROFIBG=$rofibg ROFICOL=1 rofi -show zettel -theme yellow
+bindsym $mod+l       exec ROFIBG=$rofibg ROFICOL=1 rofi -show task -theme violet
+bindsym $mod+Tab     exec ROFIBG=$rofibg ROFICOL=1 rofi -show window -theme violet
+bindsym $mod+p       exec ROFIBG=$rofibg ROFICOL=1 $HOME/.dotfiles/rofi/modules/rofi_pass "yellow"
 
 # Open email setup
 bindsym $mod+e exec email

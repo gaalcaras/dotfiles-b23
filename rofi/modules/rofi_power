@@ -15,9 +15,9 @@
 # -----
 OPTIONS=$(printf "lock\\nsuspend\\nexit\\nhibernate\\nshutdown\\nreboot")
 WM=${1:-"sway"}
-THEME=${2:-"dark"}
+THEME=${2:-"blue"}
 
-option=$(echo -e "$OPTIONS" | rofi -dmenu -i -p power -theme $THEME | awk '{print $1}' | tr -d '\r\n')
+option=$(echo -e "$OPTIONS" | rofi -dmenu -i -p power -theme "$THEME" | awk '{print $1}' | tr -d '\r\n')
 if [ ${#option} -gt 0 ]
 then
     case $option in
@@ -28,17 +28,28 @@ then
         systemctl poweroff
         ;;
       exit)
-        [[ $WM == "sway" ]] && swaymsg exit || i3-msg exit
+        if [[ $WM == "sway" ]]; then
+          swaymsg exit
+        else
+          i3-msg exit
+        fi
         ;;
       lock)
-        [[ $WM == "sway" ]] && swaylock -lef || i3lock_theme
+        if [[ $WM == "sway" ]]; then
+          swaylock -lef
+        else
+          i3lock_theme
+        fi
         ;;
       suspend)
-        [[ $WM == "sway" ]] && swaylock -lef || i3lock_theme
-        systemctl suspend
+          systemctl suspend
         ;;
       hibernate)
-        [[ $WM == "sway" ]] && swaylock -lef || i3lock_theme
+        if [[ $WM == "sway" ]]; then
+          swaylock -lef
+        else
+          i3lock_theme
+        fi
         systemctl hibernate
         ;;
       *)

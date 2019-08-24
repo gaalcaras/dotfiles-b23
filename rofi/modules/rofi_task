@@ -67,7 +67,7 @@ elif [[ "$ROUND1" -eq 0 ]]; then
     stop=""
   fi
 
-  printf "done\\nedit\\n%s\\ndelete\\n%s\\n%s" "$open" "$start" "$stop"
+  printf "done\\nedit\\n%s\\ndelete\\n%s\\n%s\\ntoday" "$open" "$start" "$stop"
 elif [[ "$1" == "done" ]]; then
   task done "$id"
 elif [[ "$1" == "edit" ]]; then
@@ -80,6 +80,8 @@ elif [[ "$1" == "start" ]]; then
   task start "$id"
 elif [[ "$1" == "stop" ]]; then
   task stop "$id"
+elif [[ "$1" == "today" ]]; then
+  task modify "$id" +today
 elif [[ "$1" =~ "Created task" || -f "$TMP_FILE" ]]; then
   printf "%s" "$TASKS"
 else
