@@ -16,24 +16,9 @@ au User Ncm2Plugin call ncm2#register_source({
             \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
             \ })
 " }}}
-" ABOLISH: abbreviations for LaTeX :)
 
-if exists("g:loaded_abolish")
-  Abolish git \gls{git}
-  Abolish patch{,s} \gls{,pl}{patch}
-  Abolish Linux \gls{linux}
-  Abolish vger \spacedlowsmallcaps{vger}
-  Abolish cvs \gls{cvs}
-  Abolish os{,s} \gls{,pl}{os}
-  Abolish uni{x,ces} \gls{,pl}{unix}
-  Abolish linuxkernel \gls{linuxkernel}
-  Abolish bsd \gls{bsd}
-  Abolish lkml \gls{lkml}
-  Abolish bitkeeper \gls{bitkeeper}
-  Abolish versioncontrol \gls{versioncontrol}
-
-  Abolish bd \textit{big data}
-endif
+setlocal ignorecase " Case doesn't matter in notes
+setlocal textwidth=79
 
 " Add quick delimiters for tex (since delimitmate and vim-latex are
 " conflicting)
@@ -64,3 +49,6 @@ else
 endif
 
 call sandwich#util#addlocal(s:local_recipes)
+call dotfiles#ForceNonBreakingSpacePunctuation()
+
+let g:vimtex_view_general_viewer = 'zathura'
