@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# ########################
+# Send newsboat url to mpv
+# by @gaalcaras
+#
+# ########################
+
+URL="$*"
+
+notify-send -a "newsboat/mpv" "Opening $URL with mpv..."
+
+if mpv "$URL" ; then
+  echo
+else
+  notify-send -a "newsboat/mpv" "Failed to open URL with mpv."
+fi
