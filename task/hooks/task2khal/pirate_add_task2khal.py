@@ -9,6 +9,7 @@ Uses a modified version of https://github.com/tbabej/taskpirate
 
 import os
 import sys
+from datetime import datetime
 from ics import Calendar, Event
 
 CALENDAR = os.path.join(os.path.expanduser('~'), '.calendars', 'taskwarrior')
@@ -27,8 +28,12 @@ def hook_default_time(task):
 
     command = get_command(sys.argv)
     delete = command in ('delete', 'done')
+    avoid_tags = ('mutt', 'email', 'followup')
 
-    if task['due'] and delete:
+    if any([tag in task['tags'] for tag in avoid_tags]):
+        return
+
+    if (task['due'] and delete) or not task['due']:
         ics_path = os.path.join(CALENDAR, task['uuid'] + '.ics')
 
         if os.path.exists(ics_path):
@@ -40,7 +45,14 @@ def hook_default_time(task):
         cal = Calendar()
         event = Event()
         event.name = task['description']
-        event.begin = task['due']
+        due = datetime(year=task['due'].year,
+                       month=task['due'].month,
+                       day=task['due'].day,
+                       hour=task['due'].hour,
+                       minute=task['due'].minute,
+                       second=task['due'].second)
+        event.begin = due
+        event.make_all_day()
 
         cal.events.add(event)
 
