@@ -9,13 +9,15 @@
 BAT_LEVEL=$(cat /sys/class/power_supply/BAT0/capacity)
 BAT_STATE=$(cat /sys/class/power_supply/BAT0/status)
 
-OK_LEVEL=53
+OK_LEVEL=25
 LOW_LEVEL=15
 WTF_LEVEL=10
 
 check_power() {
   if [ "$BAT_LEVEL" -le "$WTF_LEVEL" ]; then
-    notify-send -a "LOW BATTERY" "PLUG ME IN!!!" -u critical -t 15000
+    if [ "$(cat /tmp/BATTERY_WARNING)" -gt "$LOW_LEVEL" ]; then
+      notify-send -a "LOW BATTERY" "PLUG ME IN!!!" -u critical -t 15000
+    fi
     echo "$WTF_LEVEL" > /tmp/BATTERY_WARNING
   elif [ "$BAT_LEVEL" -le "$LOW_LEVEL" ]; then
     if [ "$(cat /tmp/BATTERY_WARNING)" -gt "$LOW_LEVEL" ]; then
@@ -35,11 +37,14 @@ check_power() {
 if [ "$BAT_STATE" != "$(cat /tmp/BATTERY_STATE)" ]; then
   if [ "$BAT_STATE" == "Discharging" ]; then
     notify-send -a "Power unplugged" "Your computer has been disconnected from power." -u critical -t 15000
-    check_power
   else
     echo "100" > /tmp/BATTERY_WARNING
     notify-send -a "Charging" "Your computer is now plugged in."
   fi
+fi
+
+if [ "$BAT_STATE" == "Discharging" ]; then
+  check_power
 fi
 
 echo "$BAT_STATE" > "/tmp/BATTERY_STATE"
