@@ -45,9 +45,11 @@ client.unfocused        $base03 $base03     $base03 $base02    $base02
 # No borders and some gaps
 set $gap_inner 10
 set $gap_outer 15
+set $gap_bottom 53
+
 gaps inner $gap_inner
 gaps outer $gap_outer
-gaps bottom 53
+gaps bottom $gap_bottom
 
 # No borders and some gaps
 for_window [class="^.*"] border pixel 2
@@ -110,7 +112,7 @@ bindsym $mod+$alt+$right gaps inner all plus 5
 bindsym $mod+$alt+$left gaps inner all minus 5
 bindsym $mod+$alt+$up gaps outer all plus 5
 bindsym $mod+$alt+$down gaps outer all minus 5
-bindsym $mod+$alt+l gaps inner all set $gap_inner; gaps outer all set $gap_outer;
+bindsym $mod+$alt+l gaps inner all set $gap_inner; gaps bottom $gap_bottom; gaps outer all set $gap_outer;
 bindsym $mod+$alt+z gaps inner all set 0; gaps outer all set 0;
 
 # Change focus (cursor keys)
