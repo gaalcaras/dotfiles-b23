@@ -1,0 +1,8 @@
+#!/bin/bash
+
+MODE=$(optimus-manager --print-mode)
+
+if [[ "$MODE" =~ "nvidia" ]]; then
+  TEMP=$(nvidia-smi -q -d TEMPERATURE | grep "GPU Current" | cut -f2 -d: | sed -e 's/\s//g')
+  echo " $TEMP"
+fi

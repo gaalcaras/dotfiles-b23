@@ -13,7 +13,7 @@
 # -----
 # SETUP
 # -----
-OPTIONS=$(printf "lock\\nsuspend\\nexit\\nhibernate\\nshutdown\\nreboot")
+OPTIONS=$(printf "lock\\nsuspend\\nexit\\nhibernate\\nshutdown\\nreboot\\ngpu")
 WM=${1:-"sway"}
 THEME=${2:-"blue"}
 
@@ -51,6 +51,9 @@ then
           i3lock_theme
         fi
         systemctl hibernate
+        ;;
+      gpu)
+        optimus-manager --switch auto --no-confirm
         ;;
       *)
         ;;
