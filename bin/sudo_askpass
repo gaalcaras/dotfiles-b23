@@ -15,8 +15,8 @@ else
     theme="dark"
 fi
 
-rofi -dmenu \
-  -theme "$theme" \
+ROFIBG=#002b36dd ROFICOL=1 rofi -dmenu \
+  -theme "red" \
   -password \
   -no-fixed-num-lines \
   -p "$(printf "%s" "$1" | sed s/://)"

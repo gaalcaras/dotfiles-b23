@@ -1,2 +1,2 @@
-sed -e '1,/# Flash/d' /etc/fstab | cut -d" " -f2 | xargs mkdir -p
-mount -a
+sed -e '1,/# Flash/d' /etc/fstab | cut -d" " -f2 | xargs mkdir -p || notify-send -a "mountall" "Failed to create directories :("
+mount -a && notify-send -a "mountall" "Mounted connected devices" || notify-send -a "mountall" "Failed to mount devices :("
