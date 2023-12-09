@@ -1,11 +1,18 @@
-background = ff073642
-tray-background = ff073642
+[colors]
+background = ff1d1f21
+tray-background = ff1d1f21
 
-base3 = ${colors.brblack}
-base2 = ${colors.black}
-base1 = ${colors.brgreen}
-base0 = ${colors.brblue}
-base-1 = ${colors.brcyan}
-base-2 = ${colors.white}
-base-3 = ${colors.brwhite}
-undercol = #55000000
+foreground  = ${ffc5c8c6}
+background  = ${ff1d1f21}
+cursorColor = ${ffc5c8c6}
+color0      = ${ff1d1f21}
+color1      = ${ffcc6666}
+color2      = ${ffb5bd68}
+color3      = ${fff0c674}
+color4      = ${ff81a2be}
+color5      = ${ffb294bb}
+color6      = ${ff8abeb7}
+color8      = ${ff969896}
+color9      = ${ffde935f}
+color10     = ${ff282a2e}
+color11     = ${ff373b41}
