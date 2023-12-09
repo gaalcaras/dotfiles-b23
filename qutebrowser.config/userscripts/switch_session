@@ -1,0 +1,24 @@
+#! /bin/bash
+
+STATE="$HOME/.local/share/qutebrowser/state"
+SESSION_F="$HOME/.local/share/qutebrowser/session"
+
+if [ "$STATE" -nt "$SESSION_F" ]; then
+  SESSION=$(grep "session =" "$STATE" | cut -d" " -f3)
+elif [ -f "$SESSION_F" ]; then
+  SESSION=$(<"$SESSION_F")
+else
+  SESSION="personal"
+fi
+
+if [[ "$SESSION" == "personal" ]]; then
+  LOAD_SESSION="work"
+else
+  LOAD_SESSION="personal"
+fi
+
+COLORS="config-source $HOME/.config/qutebrowser/tomorrow_$LOAD_SESSION.py"
+
+echo "session-save $SESSION;; session-load -c $LOAD_SESSION;; $COLORS" >> "$QUTE_FIFO"
+echo "$LOAD_SESSION" > "$SESSION_F"
+notify-send -a "qutebrowser" "Switching to $LOAD_SESSION session"

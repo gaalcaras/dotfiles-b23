@@ -4,10 +4,6 @@
 # Reload i3 config file
 # by @gaalcaras
 #
-# Given my i3 setup (designed to switch between light and dark themes),
-# reloading the config file is not enough: you have to concatenate the relevant
-# files and overwrite the old config file. See i3/config_local.
-#
 # #####################
 
 notify-send -a "i3wm" "Reloading i3 config..." -u low -t 5000

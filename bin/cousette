@@ -1,0 +1,3 @@
+#!/bin/bash
+
+zathura ~/vivre/lire/manuel/bernette_academy.pdf

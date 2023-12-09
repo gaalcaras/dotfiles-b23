@@ -33,6 +33,7 @@ set splitbelow " Open splits on the bottom
 set wildignore=*.pdf,*.aux,*.png,*.pyc
 set wildmode=longest,list,full
 set modeline
+set switchbuf=useopen
 
 set linebreak " Wrap lines smartly (not always in the middle of a word)
 set nolist " Disable list (otherwise, breaks linebreak)
@@ -93,12 +94,22 @@ vnoremap « <gv
 vnoremap > >gv
 vnoremap » >gv
 
+vnoremap <leader>t :<c-u>call dotfiles#TranslateVisual()<cr>
+vnoremap <localleader>t :<c-u>call dotfiles#TranslateVisual('fr')<cr>
+
 " Auto save buffers
 augroup AutoSaveBuffers
   autocmd!
 
   autocmd! BufLeave,InsertLeave,CursorHold * silent! :w
   autocmd! FocusLost,FocusGained * silent! :wa
+augroup END
+
+" If you create a file in a directory or subdirectory that does not exist,
+" create the path automatically.
+augroup Mkdir
+  autocmd!
+  autocmd BufWritePre * call mkdir(expand("<afile>:p:h"), "p")
 augroup END
 
 " ==================================
@@ -142,8 +153,10 @@ nnoremap <leader>$ :call dotfiles#AlignWithSpaces(78)<cr>
 " Open fuzzy file search
 nnoremap <leader>, :FZF<cr>
 " " Open fuzzy buffer search
+nnoremap <leader>l :Lines<cr>
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>c :Commits<cr>
+nnoremap <leader>n :Rg<cr>
 
 " " Edit vimrc
 nnoremap <leader>ve :edit ~/.dotfiles/vim/vimrc.symlink<cr>
@@ -174,11 +187,15 @@ call plug#begin('~/.vim/plugged')
 " ------------------------
 
 " Markdown
-Plug 'euclio/vim-markdown-composer', {'do':function('dotfiles#BuildComposer'),
-      \ 'for' : 'markdown' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+" Plug 'euclio/vim-markdown-composer', {'do': function('dotfiles#BuildComposer'),
+      " \ 'for' : 'markdown' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() },
+      \ 'for': ['markdown', 'vim-plug', 'text']}
+Plug 'plasticboy/vim-markdown', { 'for': ['markdown', 'text'] }
 Plug 'mzlogin/vim-markdown-toc', { 'for': 'markdown' }
 Plug 'junegunn/goyo.vim', { 'for': ['markdown', 'tex'] } " Focused writing
+Plug 'dpelle/vim-Grammalecte', { 'for': ['markdown', 'tex', 'text']}
+Plug 'dag/vim-fish'
 
 " Python
 Plug 'tmhedberg/simpylfold', { 'for': 'python' } " Adequate Python folding
@@ -187,17 +204,19 @@ Plug 'bfredl/nvim-ipy', { 'for': 'python', 'do': ':UpdateRemotePlugins' }
 
 " Other programming languages
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'typescript'] }
-Plug 'lervag/vimtex', { 'for': ['latex', 'tex', 'rnoweb'] }
+Plug 'lervag/vimtex', { 'for': ['latex', 'tex', 'rnoweb', 'bib', 'plaintex'] }
 Plug 'jalvesaq/Nvim-R', { 'for': ['r', 'markdown', 'rmd', 'rnoweb', 'rrst'] }
 Plug 'Shougo/neco-vim', { 'for': ['vim', 'markdown'] }
-Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vim', 'lua'] }
+
+" endwise conflicts with coc.nvim : https://github.com/neoclide/coc.nvim/issues/1725
+" Plug 'tpope/vim-endwise', { 'for': ['ruby', 'vim', 'lua'] }
 
 " Language completion and syntax checking
 Plug 'w0rp/ale' " Check style and syntax asynchronously
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'for': 'go' }
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -221,6 +240,7 @@ Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'xtal8/traces.vim' " Range and pattern preview for Ex commands
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'xarthurx/taskwarrior.vim'
 
 if exists('$TMUX')
   Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -236,7 +256,9 @@ Plug 'jreybert/vimagit'
 Plug 'airblade/vim-gitgutter'
 
 " Colors and appearance
-Plug 'lifepillar/vim-solarized8'
+" Plug 'lifepillar/vim-solarized8'
+Plug 'chriskempson/base16-vim'
+Plug 'junegunn/limelight.vim'
 
 " Improve text editing
 " --------------------
@@ -250,17 +272,32 @@ Plug 'junegunn/vim-easy-align'
 Plug 'yangmillstheory/vim-snipe'
 Plug 'Yggdroot/indentLine'
 
+
+" Utils
+" --------------
+Plug 'aca/vidir.nvim'
+
 " My own plugins
 " --------------
 
 Plug '~/Codecave/ncm-R', { 'for': ['r', 'rmd'] }
 
 if has('nvim')
-  Plug '~/Codecave/typit-learn'
-  Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
+  " Plug '~/Codecave/typit-learn'
+  " Plug '~/Codecave/transcribe.nvim', { 'for': ['text', 'markdown'] }
 endif
 
 call plug#end() " Add plugins to &runtimepath
+
+" Init the INBOX of my notes
+function InitNotesINBOX() abort
+  " Add space to filename (ASCII 32)
+  set isfname+=32
+  normal ggdG
+  read !notes_recap
+endfunction
+
+autocmd BufEnter ~/inbox/notes/INBOX call InitNotesINBOX()
 
 " =================
 " Custom statusline
@@ -275,6 +312,13 @@ set statusline+=%=
 set statusline+=%{&fileencoding?&fileencoding:&encoding}\ " file encoding
 set statusline+=%1*\ %{&filetype}\ " File type (color User1)
 set statusline+=%2*\ %l:%c\ (%P)" cursor position (color User2)
+
+set laststatus=3
+
+" Colorscheme
+" ===========
+
+source ~/.vim/colorscheme.vim
 
 " ==================
 " French bépo layout

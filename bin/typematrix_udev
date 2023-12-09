@@ -1,0 +1,8 @@
+#!/bin/bash
+# 3090.931159
+
+sleep 1
+date > /home/gaalcaras/udevlog
+# typematrix=$(xinput list | grep "TypeMatrix.com USB" | grep -v "Control" | grep -o 'id=[0-9]*' | cut -d = -f 2)
+
+# DISPLAY=:0 xkbcomp -w3 -i "$typematrix" "-I$HOME/.xkb" "$HOME/.xkb/keymap/typematrix" "$DISPLAY"

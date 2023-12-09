@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+neomutt -s "Print" -a "$*" -- batprinter_lol@hpeprint.com <<< ""
+msmtp-runqueue -f

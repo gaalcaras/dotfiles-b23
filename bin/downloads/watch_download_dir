@@ -1,0 +1,5 @@
+#!/bin/bash
+
+while true; do
+  ls -d ~/Downloads/Firefox/* | entr dispatch /_
+done

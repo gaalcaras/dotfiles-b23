@@ -1,0 +1,49 @@
+#!/bin/bash
+
+cd "$HOME/inbox/notes" || exit
+
+last7=$(find . ! -wholename './INBOX' ! -wholename './._sync*' ! -wholename '*.pdf' ! -wholename './apprendre/kobo/*' -type f -mtime -7 -printf "%Cm-%Cd, %CH:%CM (%Ca) %p\n" | sort -r)
+# last31=$(find . ! -wholename './INBOX' -type f -mtime -31 -printf "%Cy-%Cm-%Cd, %CH:%CM (%Ca) %p\n" | sort -r)
+dirtree=$(tree -d | grep -v "── [a-z]$" | head -n -2)
+
+maxlength=$(wc -L <<< "$last7\n$dirtree")
+
+function repeat_char () {
+  tr -d '\n' <<< "$(yes "$1" | head -n "$2")"
+}
+
+function box () {
+  title="$(sed 's/./& /g' <<< "$1")"
+
+  title_length=${#title}
+  nb_sep=$(((maxlength - title_length -4) / 2))
+  sep=$(repeat_char " " $nb_sep)
+  bar="$sep·$(repeat_char "−" $((title_length+2)))·"
+
+  echo
+  echo "$bar"
+  echo "$sep| $title |"
+  echo "$bar"
+  echo
+}
+
+function header () {
+  title="$1"
+  separator="${2:-~}"
+
+  title_length=${#title}
+  nb_sep=$(((maxlength - title_length -2) / 2))
+  sep=$(repeat_char "$separator" $nb_sep)
+
+  echo
+  echo "$sep $title $sep"
+  echo
+}
+
+box "MES NOTES"
+
+header "7 DERNIERS JOURS"
+echo "$last7"
+
+header "DOSSIERS"
+echo "$dirtree"

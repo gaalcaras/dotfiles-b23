@@ -1,0 +1,145 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+kobo_get_highlights, by Gabriel Alcaras
+
+Retrieve highlights from Koreader using SSH connection and JSON export.
+"""
+
+import argparse
+from datetime import datetime
+import json
+from os import path
+import re
+import sys
+import textwrap
+
+from subprocess import call
+
+HGHL_JSON = "highlights.json"
+
+def get_json(kobo_ip="kobo"):
+    """Download json highlights from Kobo over SSH"""
+
+    print(f'Connecting to {kobo_ip} via SSH...')
+    result = call(['sftp',
+                   f'root@{kobo_ip}:/mnt/onboard/.adds/koreader/clipboard/KOReaderClipping.json',
+                   path.join('/tmp', HGHL_JSON)])
+
+    if result == 255:
+        print(f'Could not connect to {kobo_ip}. Please check you kobo SSH server.')
+        sys.exit()
+
+def get_books():
+    """Read from highlights json file and return list of lines"""
+    try:
+        with open(path.join('/tmp', HGHL_JSON), encoding='utf8', errors='replace') as highlights:
+            return highlights.readlines()
+    except FileNotFoundError:
+        print('Could not find json file. Have you tried downloading it first?')
+        sys.exit()
+
+def load_json(json_in):
+    """Recursive function to load and attempt to fix json files"""
+    try:
+        return json.loads(json_in)
+    except json.decoder.JSONDecodeError as error:
+        if re.search(r'escape', str(error)):
+            char_match = re.search(r'char (\d+)', str(error))
+            char = int(char_match.group(1))
+            json_in = json_in[0:char] + '\\' + json_in[char:]
+            return load_json(json_in)
+    except RecursionError:
+        return None
+
+def format_hghl(hghl_json):
+    """Format json hghl into markdown string"""
+    result = re.sub(r'(\w)-(\w)', r'\1\2', hghl_json[0]["text"])
+    result = textwrap.wrap(result, 78)
+
+    if not result:
+        return []
+
+    result = ['> ' + l for l in result]
+    result[-1] = result[-1] + f' ({hghl_json[0]["page"]})'
+    result = [f'Page {hghl_json[0]["page"]} :', ''] + result + ['']
+    return result
+
+def process_highlights(book_json):
+    """Process highlights of one book"""
+    highlights = sorted([i for i in book_json if i.isdigit()], key=int)
+
+    result = []
+    for hghl in highlights:
+        result += format_hghl(book_json[hghl])
+
+    result = [f'# {book_json["title"]} - {book_json["author"]}', ''] + result
+    return result
+
+def get_pdf(pdf_file, title, outdir):
+    """Download PDF file"""
+
+    get_pdf.ssh = True
+
+    if "pdf" in pdf_file and get_pdf.ssh:
+        result = call(['sftp',
+                       f'root@kobo:"{pdf_file}"',
+                       path.join(outdir, f'{title}.pdf')])
+        if result == 255:
+            get_pdf.ssh = False
+
+def get_highlights(args):
+    """Main function to get highlights"""
+
+    if not args.skip:
+        get_json(args.kobo)
+
+    books = get_books()
+
+    processed = []
+    j = 0
+    for i, book in enumerate(books):
+        book_json = load_json(book)
+
+        if book_json is None:
+            print(f'Skipping book #{i+1} (json corrupted)...')
+            continue
+
+        if book_json["file"] in processed:
+            print(f'Skipping book #{i+1} (already imported)...')
+            continue
+
+        print(f'Processing book #{i+1}...')
+        processed.append(book_json["file"])
+        j += 1
+
+        mkd = process_highlights(book_json)
+
+        #  Prep for export
+        title = re.sub(r"[_\s-]", "_", book_json["title"] + '_' + book_json["author"])
+        title = re.sub(r"__", "_", title)
+        title = re.sub(r"['\.]", "", title)
+        title = f'{j:02d}_{title}'
+
+        output_dir = path.join(args.output, 'kobo_highlights')
+        call(['mkdir', '-p', output_dir])
+
+        with open(path.join(output_dir, f'{title}.md'), 'w') as book_md:
+            book_md.writelines('\n'.join(mkd))
+
+        if args.pdf:
+            get_pdf(book_json["file"], title, args.output)
+
+PARSER = argparse.ArgumentParser()
+PARSER.add_argument("-s", "--skip", help="skip download of the highlights",
+                    action="store_true")
+PARSER.add_argument("-p", "--pdf",
+                    help="When available, download annotated pdf file for each book",
+                    action="store_true")
+
+PARSER.add_argument("-k", "--kobo", default="kobo",
+                    help="kobo hostname or IP address. Defaults to: 'kobo'")
+PARSER.add_argument("-o", "--output", default=".",
+                    help="Path to output markdown and pdf files. Defaults to current directory")
+
+get_highlights(PARSER.parse_args())

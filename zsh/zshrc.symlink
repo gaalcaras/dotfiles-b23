@@ -19,7 +19,17 @@ setopt nocorrectall
 setopt correct
 
 # Completion
-autoload -U +X compinit && compinit -d $HOME/.cache/zsh/zcompdump-$ZSH_VERSION
+# Loading completion cache can slow down zsh startup. A quick fix is to only do
+# that once a day :
+# https://gist.github.com/ctechols/ca1035271ad134841284#gistcomment-2308206
+autoload -Uz compinit
+
+for dump in ~/.cache/zsh/.zcompdump(N.mh+24); do
+  compinit
+done
+
+compinit -C
+
 autoload -U +X bashcompinit && bashcompinit
 
 zstyle ':completion*:default' menu 'select=0'
@@ -27,14 +37,22 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' list-colors ''
 
 # History
-export HISTFILE="$HOME/.zsh_history"
-export SAVEHIST=100000
-export HISTSIZE=100000
-export HISTFILESIZE=100000
 
-setopt extended_history
-setopt HIST_FIND_NO_DUPS
-setopt inc_append_history_time
+# Disable history if NOHISTFILE is passed via environment variable
+if [ ! -z $NOHISTFILE ] && $NOHISTFILE; then
+  unset HISTFILE
+else
+  export HISTFILE="$HOME/.zsh_history"
+  export SAVEHIST=100000
+  export HISTSIZE=100000
+  export HISTFILESIZE=100000
+
+  setopt extended_history
+  setopt HIST_FIND_NO_DUPS
+  setopt inc_append_history_time
+fi
+
+source ~/.dotfiles/zsh/history
 
 # }}}
 
@@ -43,19 +61,65 @@ setopt inc_append_history_time
 # If TERM is set to xterm-256color mutt has problems redrawing
 # after viewing attachments.
 # See: https://superuser.com/questions/844058/tmux-mutt-not-redrawing
-export TERM="screen-256color"
+# export TERM="screen-256color"
+# export TERM="alacritty"
+# Alacritty advices to set $TERM in alacritty config
 
-export GOBIN="$HOME/go/bin"
-export GOPATH="$HOME/go"
+export GOPATH="$HOME/faire/programmer/go"
+export GOBIN="$GOPATH/bin"
 
-export PATH=$HOME/.dotfiles/bin/:$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.6.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN
+export PATH=$(find $HOME/.dotfiles/bin/ -type d -printf "%p:")$HOME/.tmuxifier/bin/:$HOME/bin:/usr/local/bin:$HOME/.gem/ruby/2.6.0/bin:/bin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN:/home/gaalcaras/.gem/ruby/3.0.0/bin:$HOME/.local/bin
+
 export EDITOR="nvim"
+export OPENER="run-mailcap"
 export PDFREADER="/usr/bin/zathura"
-export BROWSER="/usr/bin/firefox"
-export TERMINAL="/usr/bin/termite -e"
+export BROWSER="/usr/bin/qutebrowser"
+export TERMINAL="/usr/bin/alacritty -e"
 export MANPATH="/usr/local/man:$MANPATH"
 
+export BIB_DIR="$HOME/Nextcloud/bib"
+export BIB_FILE="$BIB_DIR/master.bib"
+export BIB_PDF_DIR="$BIB_DIR/pdf"
+export BIB_NOTE_DIR="$HOME/inbox/notes/apprendre/bib"
+
 export SUDO_ASKPASS=$HOME/.dotfiles/bin/sudo_askpass
+
+# For qutebrowser userscript readability-js
+# WARNING : slows down zsh considerably (+0.2s)
+# export NODE_PATH=$NODE_PATH:$(npm root -g)
+
+export CHEATCOLORS=true
+
+export WINEPREFIX=$HOME/.adewine/
+
+# ROFI
+export ROFICOL=1
+export ROFIACCENT=#b294bb # Tomorrow Purple
+
+export LF_ICONS="\
+di=:\
+ex=:\
+*.pdf=:\
+*.epub=:\
+*.png=:\
+*.jpg=:\
+*.jpeg=:\
+*.doc=󱀾:\
+*.docx=󱀾:\
+*.odt=󱀾:\
+*.xls=:\
+*.xlsx=:\
+*.ods=:\
+*.ppt=:\
+*.pptx=:\
+*.csv=:\
+*.json=:\
+*.py=:\
+*.R=:\
+*.py=:\
+*.sh=:\
+*.bash=:\
+"
 # }}}
 
 # VIM KEYBINDING {{{
@@ -109,11 +173,21 @@ function pre_prompt() {
   [[ "$hostname" != "batcave" ]] && echo "@$hostname"
 }
 
-PROMPT='%F{blue}$(pre_prompt)%(l..:.)%f%F{magenta}%~%f $(git_prompt_info)$ %f'
+function private_zsh() {
+  if [ -z $HISTFILE ]; then
+    echo "%K{red}%B%F{black}_>%f%b%K%F{red}"
+  else
+    echo "$%f"
+  fi
+}
+
+PROMPT='%F{blue}$(pre_prompt)%(l..:.)%f%F{magenta}%~%f $(git_prompt_info)$(private_zsh) '
 
 # }}}
 
 # ALIASES {{{
+
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles_/ --work-tree=$HOME'
 
 # ls aliases
 alias ls="ls -F --color=auto --block-size=M"
@@ -138,10 +212,12 @@ alias khal='LC_TIME=C khal'
 alias ikhal='LC_TIME=C ikhal'
 
 # Tools
+alias bib="cd $BIB_DIR && $EDITOR $BIB_FILE"
 alias nv="nvim"
 alias mutt='hash tmuxifier 2>/dev/null && tmuxifier load-window mutt || neomutt -n' # Check if tmuxifier exists before loading mutt setup
 alias mr='mr -d "$HOME"' # Multi-repos with minimal output and 5 parallel jobs
 alias rss='nvim ~/.dotfiles/newsboat/urls.config'
+alias top='gtop'
 
 # Development
 alias nvtest='nvim +UpdateRemotePlugins +qall && nvim "+TranscribeAudio ~/Videos/googlepixel.webm"'
@@ -152,6 +228,7 @@ alias msmtp-unlock="rm $HOME/.msmtpqueue/.lock"
 alias stats="fc -l 1 | awk '{CMD[\$2]++;count++;}END { for (a in CMD)print CMD[a] \" \" CMD[a]/count*100 \"% \" a;}' | grep -v \"./\" | column -c3 -s \" \" -t | sort -nr | nl | head -n20"
 alias mmv='noglob zmv -W'
 
+# adestart() { WINEPREFIX="$HOME/.adewine/" wine "$HOME/.adewine" "/drive_c/Program Files/Adobe/Adobe Digital Editions 2.0/DigitalEditions.exe" >/dev/null 2>&1 & }
 
 # }}}}
 
@@ -174,16 +251,18 @@ alias gitrc="filerc ~/.dotfiles/git/gitconfig.symlink"
 alias gpgrc="filerc ~/.dotfiles/gpg/gpg-agent.conf"
 alias gtkrc="filerc ~/.dotfiles/gtk-3.0/gtk.css.config"
 alias i3rc="filerc ~/.dotfiles/i3/config_local"
+alias imaprc="filerc ~/.dotfiles/offlineimap/offlineimaprc.symlink"
 alias khalrc="filerc ~/.dotfiles/khal/config.config"
 alias khardrc="filerc ~/.dotfiles/khard/khard.conf.config"
+alias lfrc="filerc ~/.dotfiles/lf.config/lfrc"
 alias mpvrc="filerc ~/.dotfiles/mpv/mpv.conf.config"
 alias mrrc="filerc ~/.dotfiles/mr/mrconfig.symlink"
+alias msmtprc="filerc ~/.dotfiles/offlineimap/msmtprc.symlink"
 alias muttrc="filerc ~/.dotfiles/neomutt.config/muttrc"
 alias newsboatrc="filerc ~/.dotfiles/newsboat/config.config"
-alias msmtprc="filerc ~/.dotfiles/offlineimap/msmtprc.symlink"
-alias imaprc="filerc ~/.dotfiles/offlineimap/offlineimaprc.symlink"
 alias papisrc="filerc ~/.dotfiles/papis/config.config"
 alias polybarrc="filerc ~/.dotfiles/polybar/config.config"
+alias qutebrowserrc="filerc ~/.dotfiles/qutebrowser.config/config.py"
 alias rangerrc="filerc ~/.dotfiles/ranger/rc.conf.config"
 alias rofirc="filerc ~/.dotfiles/rofi/config.rasi.config"
 alias scimrc="filerc ~/.dotfiles/scim/scimrc.symlink"
@@ -262,8 +341,6 @@ precmd() {
 function preexec {
   printf "\033]0;%s\a" "$1"
 }
-
-. $HOME/torch/install/bin/torch-activate
 
 # }}}
 

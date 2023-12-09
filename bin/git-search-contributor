@@ -1,0 +1,18 @@
+#!/bin/bash
+
+NAME="$*"
+echo "Contributor: $NAME"
+
+FIRST_C="$(git -C ~/Codecave/git log --author="$NAME" --reverse --pretty=format:%ad | head -n1)"
+LAST_C="$(git -C ~/Codecave/git log --author="$NAME" --reverse --pretty=format:%ad | tail -n1)"
+NB_C="$(git -C ~/Codecave/git log --author="$NAME" --reverse --pretty=format:%ad | wc -l)"
+EMAILS="$(git -C ~/Codecave/git log --author="$NAME" --reverse --pretty=format:%ae | sort | uniq)"
+
+echo "Commits: $NB_C"
+echo "Emails: $EMAILS"
+echo "First commit: $FIRST_C"
+echo "Last commit: $LAST_C"
+
+/bin/qutebrowser --target window "https://www.linkedin.com/search/results/people/?keywords=$NAME&origin=SWITCH_SEARCH_VERTICAL&sid=(1r"
+/bin/qutebrowser --target window "https://public-inbox.org/git/?q=f:$NAME"
+/bin/qutebrowser --target window "https://www.google.fr/search?q=site%3Ahttps%3A%2F%2Fgit.github.io%2Frev_news%2F+%22$NAME%22&sxsrf=ALiCzsZM08Y5ZRsfPVwKoVKT65V5dOKtFA%3A1657805684309&source=hp&ei=dBvQYqLvD9eDlwSdkKaIDQ&iflsig=AJiK0e8AAAAAYtAphGcU9whnx1rjy8q9cpRz7kgA2cRU&oq=site&gs_lcp=Cgdnd3Mtd2l6EAEYADIECCMQJzIECCMQJzIECCMQJzIECAAQQzIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyCwguEIAEEMcBENEDMgsILhCABBDHARDRAzoHCCMQ6gIQJzoKCC4QxwEQ0QMQQzoHCC4Q1AIQQzoFCC4QgARQoQFY4gNgqg5oAXAAeACAAXyIAcADkgEDMS4zmAEAoAEBsAEK&sclient=gws-wiz"

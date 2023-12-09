@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Get mute status with sink_line
+function getmute () {
+  if [[ "$1" =~ "Mute: 1" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# Is sink default with sink_line
+function getdefault () {
+  if [[ "$1" =~ ", Default" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# Get sink id
+function getsinkid () {
+  echo "$1" | sed 's/.*ID: sink-\([^,]*\),.*/\1/'
+}
+
+AUDIO=""
+while read -r sink_line ; do
+  id=$(getsinkid "$sink_line")
+  name=$(getsinkname "$id")
+  volume=$(getvolume "$id")
+  icon="墳"
+  if getmute "$sink_line"; then
+    icon="ﮙ"
+  else
+    if [[ "$name" =~ (Jabra|Sony|ET1) ]]; then
+      icon=""
+    elif [[ "$name" =~ (Logitech) ]]; then
+      icon="蓼"
+    elif [[ "$name" =~ (ThinkPad|Built-in) ]]; then
+      icon=""
+    elif [[ "$name" =~ (GP107GL) ]]; then
+      icon=""
+      name="Nvidia"
+    fi
+  fi
+  SINK="$icon $volume% $(echo "$name" | cut -d" " -f1)"
+
+  # If sink is default, put it in front
+  if getdefault "$sink_line"; then
+    AUDIO="$SINK $AUDIO"
+  else
+    if ! [[ "$name" =~ (Built-in) ]]; then
+      AUDIO="$AUDIO $SINK"
+    fi
+  fi
+done <<< "$(pulsemixer --list-sinks | grep -v "sink-input")"
+
+echo "$AUDIO"

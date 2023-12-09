@@ -1,0 +1,1 @@
+/home/gaalcaras/.local/bin/rsync-time-backup/rsync_tmbackup.sh

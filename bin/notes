@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/inbox/notes || exit
+nvim INBOX

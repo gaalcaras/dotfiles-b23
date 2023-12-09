@@ -1,0 +1,10 @@
+#!/bin/env bash
+
+ACTIVE_WINDOW=$(xdotool getactivewindow)
+for t in $(xdotool search --name "$1"); do
+  if [[ "$t" != "$ACTIVE_WINDOW" ]]; then
+    xdotool windowactivate "$t"
+    xdotool key "$2"
+    xdotool windowactivate "$ACTIVE_WINDOW"
+  fi
+done

@@ -1,0 +1,7 @@
+#!/bin/env bash
+
+file="$(date +"%a_%d_%H_%M")_gabriel.md"
+
+cp "/home/gaalcaras/Downloads/mutt/19-12/MCP_linux_OSS_collecting_data-batcave-1000-3073475-5767034671533059573.txt" "$file"
+
+"$EDITOR" "$file"

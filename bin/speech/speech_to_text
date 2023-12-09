@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+"""
+Live voice transcript from your computer's microphone
+"""
+
+import argparse
+import os
+import json
+import queue
+import curses
+import sys
+
+import vosk # Speech to voice recognition
+import sounddevice as sd # Reading from audio input
+
+q = queue.Queue()
+
+vosk.SetLogLevel(-1)
+
+def write_to_screen(strings):
+    """Write to screen using ncurses"""
+    screen.clear()
+    screen.addstr(' (Ctrl+C to stop) > ', curses.color_pair(1))
+    for string in strings:
+        screen.addstr(string['text'], curses.color_pair(string['color_pair']))
+    screen.refresh()
+
+def int_or_str(text):
+    """Helper function for argument parsing."""
+    try:
+        return int(text)
+    except ValueError:
+        return text
+
+def callback(indata, frames, time, status):
+    """This is called (from a separate thread) for each audio block."""
+    if status:
+        print(status, file=sys.stderr)
+    q.put(bytes(indata))
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument(
+    '-l', '--list-devices', action='store_true',
+    help='show list of audio devices and exit')
+args, remaining = parser.parse_known_args()
+if args.list_devices:
+    print(sd.query_devices())
+    parser.exit(0)
+parser = argparse.ArgumentParser(
+    description=__doc__,
+    formatter_class=argparse.RawDescriptionHelpFormatter,
+    parents=[parser])
+parser.add_argument(
+    '-m', '--model', type=str, metavar='MODEL_PATH',
+    help='Path to the model')
+parser.add_argument(
+    '-d', '--device', type=int_or_str,
+    help='input device (numeric ID or substring)')
+parser.add_argument(
+    '-r', '--samplerate', type=int, help='sampling rate')
+args = parser.parse_args(remaining)
+
+screen = curses.initscr()
+screen.refresh()
+
+curses.start_color()
+
+curses.init_pair(1, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
+curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)
+
+FULL_TEXT = ""
+
+try:
+    if args.model is None:
+        args.model = os.path.join(os.path.expandvars("$HOME"),
+                                  ".config", "vosk", "fr", "middle")
+
+    if not os.path.exists(args.model):
+        print ("Please download a model for your language from https://alphacephei.com/vosk/models")
+        print ("and unpack as 'model' in the current folder.")
+        parser.exit(0)
+    if args.samplerate is None:
+        device_info = sd.query_devices(args.device, 'input')
+        # soundfile expects an int, sounddevice provides a float:
+        args.samplerate = int(device_info['default_samplerate'])
+
+    model = vosk.Model(args.model)
+
+    with sd.RawInputStream(samplerate=args.samplerate, blocksize = 8000,
+                           device=args.device, dtype='int16',
+                           channels=1, callback=callback):
+
+        rec = vosk.KaldiRecognizer(model, args.samplerate)
+        while True:
+            data = q.get()
+            if rec.AcceptWaveform(data):
+                result = json.loads(rec.Result())
+                FULL_TEXT += result['text'].strip() + ' '
+                write_to_screen([{'text': FULL_TEXT, 'color_pair': 3}])
+            else:
+                partial = json.loads(rec.PartialResult())
+                write_to_screen([{'text': FULL_TEXT, 'color_pair': 3},
+                                 {'text': partial['partial'], 'color_pair': 2}])
+
+except KeyboardInterrupt:
+    write_to_screen([{'text': FULL_TEXT + '\n', 'color_pair': 3},
+                     {'text': 'DONE', 'color_pair': 1}])
+    curses.endwin()
+
+    with open('/tmp/speech_to_text', 'w+', encoding='utf-8') as f:
+        f.writelines(FULL_TEXT)
+
+    parser.exit(0)

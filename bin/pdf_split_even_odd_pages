@@ -1,0 +1,7 @@
+#! /bin/bash
+
+FILENAME="$1"
+FILENAME_NOEXT=${FILENAME%.*}
+
+pdftk A="$FILENAME" cat Aeven output "$FILENAME_NOEXT-even-printlast.pdf"
+pdftk A="$FILENAME" cat Aodd output "$FILENAME_NOEXT-odd-printfirst.pdf"

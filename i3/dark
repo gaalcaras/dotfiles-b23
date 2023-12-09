@@ -13,8 +13,4 @@ set $base3  #fdf6e3
 
 # Set rofi to dark theme
 set $theme dark
-set $rofibg #002b36dd
-
-# Background
-exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/slqd22_dark.png"
-
+set $rofibg red

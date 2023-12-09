@@ -1,0 +1,20 @@
+#!/bin/bash
+
+export TOTAL=0
+export ITER=0
+for hash in $(git rev-list HEAD)
+do
+  cmt_nb_files=$(git ls-tree --name-only -r "$hash" | wc -l)
+  TOTAL=$((TOTAL+cmt_nb_files))
+  ITER=$((ITER+1))
+
+  printf "[%05d] " "$ITER"
+  printf "%s: " "$hash"
+  printf "%04d " "$cmt_nb_files"
+  printf "%s" "-- CUMSUM: "
+  printf "%09d" "$TOTAL"
+  printf "\n"
+done
+echo
+echo
+echo "TOTAL: $TOTAL"

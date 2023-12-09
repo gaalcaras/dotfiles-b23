@@ -1,0 +1,108 @@
+clearsnippets
+priority 100
+
+global !p
+def keygen(t):
+	import unicodedata
+	author = re.split('\W+', t[1])[0]
+	year = t[2]
+	title = ''
+	_title = re.sub('\W+', ' ', t[3])
+	title = ''.join([w[0] for w in _title.split(' ')[:4] if w])
+
+	key = author + year + title
+	key = unicodedata.normalize('NFKD', key).encode('ASCII', 'ignore')
+	return key.lower().decode('utf-8')
+
+def keygen_email(t):
+	import unicodedata
+	author = re.split('\W+', t[1].strip())[-1]
+	date = t[2]
+	date = date[2:4] + date[5:7]
+	msg_id = re.sub('\W+', '', t[4])[0:10]
+	subject = re.sub('\W+', ' ', t[3])
+	title = ''
+	title = ''.join([w[0] for w in subject.split(' ')[:4] if w])
+
+	key = author + date + title + "-" + msg_id
+	key = unicodedata.normalize('NFKD', key).encode('ASCII', 'ignore')
+	return key.lower().decode('utf-8')
+
+def getvalue(snip, field):
+	return snip.opt('g:bibdata["{}"]'.format(field), field)
+endglobal
+
+snippet article "Article de revue" b
+@Article{              `!p snip.rv = keygen(t)`,
+	author             = {${1:`!p snip.rv = getvalue(snip, 'author')`}},
+	year               = {${2:`!p snip.rv = getvalue(snip, 'year')`}},
+	title              = {${3:`!p snip.rv = getvalue(snip, 'title')`}},
+	journaltitle       = {${4:`!p snip.rv = getvalue(snip, 'journaltitle')`}},
+	volume             = {${5:`!p snip.rv = getvalue(snip, 'volume')`}},
+	number             = {${6:`!p snip.rv = getvalue(snip, 'number')`}},
+	pages              = {${7:`!p snip.rv = getvalue(snip, 'p0')`}--${8:`!p snip.rv = getvalue(snip, 'p$')`}},
+	doi                = {${9:`!p snip.rv = getvalue(snip, 'doi')`}},
+	keywords           = {inbox, nofile}
+}
+endsnippet
+
+snippet book "Livre" b
+@Book{                 `!p snip.rv = keygen(t)`,
+	author             = {${1:`!p snip.rv = getvalue(snip, 'author')`}},
+	year               = {${2:`!p snip.rv = getvalue(snip, 'year')`}},
+	title              = {${3:`!p snip.rv = getvalue(snip, 'title')`}},
+	publisher          = {${4:`!p snip.rv = getvalue(snip, 'publisher')`}},
+	location           = {${5:`!p snip.rv = getvalue(snip, 'location')`}},
+	pagetotal          = {${6:`!p snip.rv = getvalue(snip, 'pagetotal')`}},
+	keywords           = {inbox, nofile}
+}
+endsnippet
+
+snippet edited_book "Ouvrage collectif" b
+@Book{                 `!p snip.rv = keygen(t)`,
+	editor             = {${1:`!p snip.rv = getvalue(snip, 'editor')`}},
+	year               = {${2:`!p snip.rv = getvalue(snip, 'year')`}},
+	title              = {${3:`!p snip.rv = getvalue(snip, 'title')`}},
+	publisher          = {${4:`!p snip.rv = getvalue(snip, 'publisher')`}},
+	location           = {${5:`!p snip.rv = getvalue(snip, 'location')`}},
+	pagetotal          = {${6:`!p snip.rv = getvalue(snip, 'pagetotal')`}},
+	keywords           = {inbox, nofile}
+}
+endsnippet
+
+snippet thesis "Thèse" b
+@Thesis{               `!p snip.rv = keygen(t)`,
+	author             = {${1:`!p snip.rv = getvalue(snip, 'author')`}},
+	year               = {${2:`!p snip.rv = getvalue(snip, 'year')`}},
+	title              = {${3:`!p snip.rv = getvalue(snip, 'title')`}},
+	type               = {${4:`!p snip.rv = getvalue(snip, 'type')`}},
+	institution        = {${5:`!p snip.rv = getvalue(snip, 'institution')`}},
+	keywords           = {inbox, nofile}
+}
+endsnippet
+
+snippet in_edited_book "Chapitre dans ouvrage collectif" b
+@Book{                 `!p snip.rv = keygen(t)`,
+	author             = {${1:`!p snip.rv = getvalue(snip, 'author')`}},
+	year               = {${2:`!p snip.rv = getvalue(snip, 'year')`}},
+	chapter            = {${3:`!p snip.rv = getvalue(snip, 'chapter')`}},
+	editor             = {${4:`!p snip.rv = getvalue(snip, 'editor')`}},
+	title              = {${5:`!p snip.rv = getvalue(snip, 'title')`}},
+	publisher          = {${6:`!p snip.rv = getvalue(snip, 'publisher')`}},
+	location           = {${7:`!p snip.rv = getvalue(snip, 'location')`}},
+	pages              = {${8:`!p snip.rv = getvalue(snip, 'p0')`}--${9:`!p snip.rv = getvalue(snip, 'p$')`}},
+	keywords           = {inbox, nofile}
+}
+endsnippet
+
+snippet email "Email" b
+@Letter{               `!p snip.rv = keygen_email(t)`,
+	author             = {${1:`!p snip.rv = getvalue(snip, 'from')`}},
+	date               = {${2:`!p snip.rv = getvalue(snip, 'date')`}},
+	title              = {${3:`!p snip.rv = getvalue(snip, 'subject')`}},
+	note               = {${4:`!p snip.rv = getvalue(snip, 'id')`}},
+	url                = {${5:`!p snip.rv = getvalue(snip, 'url')`}},
+	keywords           = {inbox, nofile}
+}
+endsnippet
+

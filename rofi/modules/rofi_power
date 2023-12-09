@@ -13,11 +13,21 @@
 # -----
 # SETUP
 # -----
-OPTIONS=$(printf "lock\\nsuspend\\nexit\\nhibernate\\nshutdown\\nreboot\\ngpu")
-WM=${1:-"sway"}
-THEME=${2:-"blue"}
+LOCK="lock"
+SUSPEND="suspend"
+EXIT="exit"
+HIBERNATE="exit"
+SHUTDOWN="shutdown"
+REBOOT="reboot"
+GPU="gpu"
+LAPTOP="laptop"
+HOMEDESK="homedesk"
 
-option=$(echo -e "$OPTIONS" | rofi -dmenu -i -p power -theme "$THEME" | awk '{print $1}' | tr -d '\r\n')
+OPTIONS=$(printf "$LOCK\\n$SUSPEND\\n$EXIT\\n$HIBERNATE\\n$SHUTDOWN\\n$REBOOT\\n$GPU\\n$LAPTOP\\n$HOMEDESK")
+WM=${1:-"sway"}
+THEME=${2:-"dark"}
+
+option=$(echo -e "$OPTIONS" | rofi -dmenu -i -p "power>" -theme "$THEME" | awk '{print $1}' | tr -d '\r\n' | tr -cd '[:alnum:]')
 if [ ${#option} -gt 0 ]
 then
     case $option in
@@ -53,7 +63,17 @@ then
         systemctl hibernate
         ;;
       gpu)
-        optimus-manager --switch auto --no-confirm
+        if [[ $(optimus-manager --print-mode) =~ "nvidia" ]]; then
+          optimus-manager --switch intel --no-confirm
+        else
+          optimus-manager --switch nvidia --no-confirm
+        fi
+        ;;
+      laptop)
+        "$HOME"/.dotfiles/bin/hardware/monitor_switch "laptop" >> "$HOME"/monitors.log
+        ;;
+      homedesk)
+        "$HOME"/.dotfiles/bin/hardware/monitor_switch "homedesk"
         ;;
       *)
         ;;

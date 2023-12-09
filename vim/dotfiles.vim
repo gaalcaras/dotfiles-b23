@@ -183,13 +183,15 @@ function! dotfiles#CompileMarkdown(open_pdf)
    let l:pdf_file = l:cur_dir . '/' . l:file_root . '.pdf'
    write
 
-   let l:instruction = '! pandoc ' . l:cur_file .
-               \ ' -f markdown -t latex -s --toc -V geometry:margin=1in --pdf-engine=xelatex -o ' .
-               \ l:pdf_file
+   let l:instruction = '! pandoc "' . l:cur_file . '"' .
+               \ ' -f markdown+smart -t latex -s --number-sections ' .
+               \ ' --toc -V toc-title:"Table des matières" ' .
+               \ ' -V geometry:margin=1in --pdf-engine=xelatex -o "' .
+               \ l:pdf_file . '"'
 
    if a:open_pdf == 1
-     let l:instruction = l:instruction . ' && $PDFREADER ' .
-           \ l:pdf_file
+     let l:instruction = l:instruction . ' && $PDFREADER "' .
+           \ l:pdf_file . '"'
    endif
 
    silent !clear
@@ -273,4 +275,30 @@ function! dotfiles#InsertNoteHere()
       call setpos('.', l:cursor)
     endif
   endif
+endfunction
+
+" Return lines from visual selection
+" Credit: https://stackoverflow.com/questions/1533565/how-to-get-visually-selected-text-in-vimscript
+function! dotfiles#GetVisualSelection()
+  let [line_start, column_start] = getpos("'<")[1:2]
+  let [line_end, column_end] = getpos("'>")[1:2]
+  let lines = getline(line_start, line_end)
+  if len(lines) == 0
+      return ''
+  endif
+
+  let lines[-1] = lines[-1][: column_end - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][column_start - 1:]
+  return join(lines, "\n")
+endfunction
+
+function! dotfiles#TranslateVisual(target="en")
+  let l:selected = dotfiles#GetVisualSelection()
+  let l:translated = system('deepl -k "$(pass show api/deepl)" "' . l:selected . '" -t '. a:target . '')
+
+  " Go to end of the visual selection and exit visual mode
+  execute "normal! gv\e\e"
+
+  " Paste it ;-)
+  execute "normal! o\<cr>" . l:translated . "\<Esc>"
 endfunction

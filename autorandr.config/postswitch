@@ -1,0 +1,23 @@
+#! /bin/env bash
+
+
+# Define environment variables for incrontab
+# export DISPLAY=":0"
+# PID=$(pgrep i3)
+# [ -n "$PID" ] && dbus=$(grep -z DBUS_SESSION_BUS_ADDRESS "/proc/$PID/environ" | cut -d= -f2-)
+# export DBUS_SESSION_BUS_ADDRESS=$dbus
+
+# if [[ "$FILE" =~ .*\.download$ ]]; then
+#   # Do not react to temporary files created by qutebrowser
+#   exit 0
+# elif [[ "$FILE" =~ telechargement.csv ]]; then
+#   TRIGGER="Caisse d'Épargne"
+#   trigger "$SCRIPT_D/process_csv" -i "$FILE" -s4 --halve "Débit" --rent 420 -t1 --replace
+# elif [[ "$FILE" =~ 1977024D029159.*.csv ]]; then
+#   TRIGGER="Banque Postale"
+#   trigger "$SCRIPT_D/process_csv" -i "$FILE" -s7 --replace
+# fi
+
+keyboard
+setup_bg
+# i3-msg "restart"

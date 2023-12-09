@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SENDQUEUE=$(find ~/.msmtpqueue -name "*.mail" -printf '.' | wc -c)
+if ! ~/.dotfiles/bin/email/email-status >/dev/null; then
+  echo " OFF  $SENDQUEUE"
+else
+  echo ""
+fi

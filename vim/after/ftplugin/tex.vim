@@ -32,4 +32,21 @@ endif
 call sandwich#util#addlocal(s:local_recipes)
 call dotfiles#ForceNonBreakingSpacePunctuation()
 
+let g:vimtex_quickfix_ignore_filters = [
+      \ 'Underfull',
+      \ 'Overfull',
+      \ 'Marginpar on page',
+      \ 'Empty bibliography',
+      \ 'float specifier changed to',
+      \ 'replacing deprecated',
+      \ 'Be aware that titleformat',
+      \]
+
 let g:vimtex_view_general_viewer = 'zathura'
+let g:vimtex_view_method = 'zathura'
+
+" let g:vimtex_view_forward_search_on_start = 1
+" let g:vimtex_view_automatic_xwin = 0
+
+" Silence messages when starting compiler (useful for latexmk)
+" let g:vimtex_compiler_silent = 1

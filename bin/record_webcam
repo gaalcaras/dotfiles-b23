@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [[ -f "/tmp/record_webcam_pid" ]]; then
+  # If I'm currently recording...
+
+  # Stop webcam recording and close webcam stream
+  kill -15 "$(</tmp/record_webcam_pid)"
+
+  # Open me the recording
+  mpv "$(</tmp/record_webcam_file)"
+
+  # Clean up after yourself!
+  rm "/tmp/record_webcam_file"
+  rm "/tmp/record_webcam_pid"
+
+else
+
+  # Setting up...
+  DATE=$(date +"%Y-%m-%d-%H-%M-%S")
+  FILENAME="$HOME/recordings/$DATE.mp4"
+
+  # Record webcam and audio
+  ffmpeg -y `# Overwrite output file without asking` \
+         -video_size 1280x720 \
+         -probesize 20M `# Fix warning in ffmpeg` \
+         -f v4l2 -i /dev/video0 -vsync 0 `#Grabbing from webcam` \
+         -thread_queue_size 1024 `# Keep up with read time encoding` \
+         -f pulse -i 3 `# Record audio from microphone` \
+         -vcodec libx265 `# Great balance size / quality` \
+         -preset ultrafast -crf 24 -threads 0 `# Try to keep sound in sync` \
+         "$FILENAME" &
+
+  # Store information in tmp files
+  echo "$!" > "/tmp/record_webcam_pid"
+  echo "$FILENAME" > "/tmp/record_webcam_file"
+
+fi

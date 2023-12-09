@@ -11,6 +11,7 @@ function! s:transcribe_map()
   imap <silent><buffer> <C-v> <plug>(transcribe-timepos-get)
   imap <silent><buffer> <C-p> <plug>(transcribe-sync)
   nmap <silent><buffer> <C-Space> <plug>(transcribe-toggle-pause)
+  imap <silent><buffer> <C-Space> <plug>(transcribe-toggle-pause)
 endfunction
 
 augroup TranscribeMappings

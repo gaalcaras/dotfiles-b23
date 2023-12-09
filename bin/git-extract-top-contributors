@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# ===============================================================
+# Get top contributors
+#
+# ===============================================================
+
+CUTOFF=${3:-0.8}
+CSV="top_contributors_$CUTOFF.csv"
+
+function quarter {
+  Q="$1"
+  YEAR="$2"
+  [ "$Q" -eq 1 ] && git log --pretty=format:%aN --since="$YEAR-01-01" --before="$YEAR-03-31"
+  [ "$Q" -eq 2 ] && git log --pretty=format:%aN --since="$YEAR-04-01" --before="$YEAR-06-30"
+  [ "$Q" -eq 3 ] && git log --pretty=format:%aN --since="$YEAR-07-01" --before="$YEAR-09-30"
+  [ "$Q" -eq 4 ] && git log --pretty=format:%aN --since="$YEAR-10-01" --before="$YEAR-12-31"
+}
+
+function get_top_q_contributors {
+  SHORTLOG=$(quarter "$1" "$2")
+  [ -z "$SHORTLOG" ] && return
+
+  Q_COMMITS=$(wc -l <<< "$SHORTLOG" )
+  Q80=$(echo "$Q_COMMITS*$CUTOFF" | bc)
+  echo "Q$1 $2: getting top contributors (wrote $Q80 of $Q_COMMITS commits)"
+
+  Q_COUNT=0
+  while read -r line; do
+    commits=$(cut -d" " -f1 <<< "$line")
+    contributor=$(cut -d" " -f2-10 <<< "$line")
+    Q_COUNT=$(echo "$Q_COUNT+$commits" | bc)
+    echo "$contributor ($commits)"
+    echo "\"$contributor\",$2 Q$1,$commits" >> "$CSV"
+    [ "$(echo "$Q_COUNT>$Q80" | bc)" -eq 1 ] && break
+  done <<< "$(echo "$SHORTLOG" | sort | uniq -c | sort -rn)"
+}
+
+function iterate_years {
+  for year in $(seq "$1" "$2"); do
+    for q in $(seq 1 4); do
+      get_top_q_contributors "$q" "$year"
+      echo
+    done
+  done
+}
+
+echo "name,quarter,commit_nb" > "$CSV"
+
+iterate_years "$1" "$2"

@@ -28,30 +28,30 @@ verbose=blank,header,footnote,label,new-id,new-uuid,affected,edit,special,projec
 
 # VIP report
 report.vip.description=Top 10 actionable task
-report.vip.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,priority,project,tags,description.truncated_count,urgency
+report.vip.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,priority,project,tags,description.count,urgency
 report.vip.labels=ID,DEPS,ACTIVE,AGE,RECUR,SCHED,DUE,UNTIL,P,PROJECT,TAGS,DESCRIPTION,URG
-report.vip.filter=+READY limit:10
+report.vip.filter=+READY limit:10 -bib
 report.vip.sort=urgency-
 
 # Mutt report
 report.mutt.description=Email related tasks when using mutt
-report.mutt.columns=id,entry.age,description.truncated_count
+report.mutt.columns=id,entry.age,description.count
 report.mutt.labels=ID,AGE,DESCRIPTION
 report.mutt.filter=+READY and ((+mutt -followup) or (+mutt +followup entry.before:today-2d)) limit:none verbose:nothing
 report.mutt.sort=entry
 
 # rofi report
 report.rofi.description=rofi
-report.rofi.columns=id,description.truncated_count
+report.rofi.columns=id,description.count
 report.rofi.labels=,
 report.rofi.filter=+READY
 report.rofi.sort=urgency-
 
 # Set VIP report as default
-# default.command=vip
+default.command=vip
 
 # Next report
-report.next.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,priority,project,tags,description.truncated_count,urgency
+report.next.columns=id,depends,start.age,entry.age,recur,scheduled.countdown,due.relative,until.remaining,priority,project,tags,description.count,urgency
 report.next.labels=ID,DEPS,ACTIVE,AGE,RECUR,SCHED,DUE,UNTIL,P,PROJECT,TAGS,DESCRIPTION,URG
 
 # Reviewed

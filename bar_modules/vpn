@@ -1,20 +1,42 @@
 #!/bin/bash
 
-if pgrep -x openvpn &> /dev/null; then
-  LOCK=""
-  STATUS="CONNECTED"
-else
-  LOCK="%{Fdc322f}%{B- F-}"
-  STATUS="DISCONNECTED"
+if ! ivpn status > /dev/null 2>&1; then
+  echo "ﮙ"
+  exit 0
 fi
+
+VPN=$(ivpn status /dev/null 2>&1 | head -n1 | cut -d: -f2)
+
+function check_vpn_status() {
+  if [[ $VPN =~ " CONNECTED" ]]; then
+    echo "CONNECTED"
+  else
+    echo "DISCONNECTED"
+  fi
+}
+
+STATUS=$(check_vpn_status)
+CHECK=0
+
+while [[ "$STATUS" != "$(cat /tmp/VPN_STATUS)" && $CHECK -lt 2 ]]; do
+  # Debugging loop
+  sleep 2
+  STATUS=$(check_vpn_status)
+  CHECK=$((CHECK+1))
+done
 
 if [ "$STATUS" != "$(cat /tmp/VPN_STATUS)" ]; then
   if [ "$STATUS" == "CONNECTED" ]; then
-    notify-send -a "OpenVPN" "Your VPN is now on."
+    notify-send -a "IVPN" "Your VPN is now on." -t 5000
   else
-    notify-send -a "OpenVPN" "Your VPN is now off." -u critical -t 10000
+    notify-send -a "IVPN" "Your VPN is now off." -t 5000 -u critical
   fi
 fi
 
-echo "$LOCK"
+if [[ "$STATUS" == "CONNECTED" ]]; then
+  echo ""
+else
+  echo ""
+fi
+
 echo "$STATUS" > /tmp/VPN_STATUS

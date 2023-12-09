@@ -1,20 +1,9 @@
-#!/bin/bash 
+#!/bin/bash
 # #####################
 # Switching GPUs with optimus-manager
 # by @gaalcaras
 #
 # #####################
 
-MODE=$(optimus-manager --print-next-mode)
-
-if [[ "$MODE" =~ "nvidia" ]]; then
-  optimus-manager --switch nvidia --no-confirm
-  sudo ln -s /home/gaalcaras/.dotfiles/X/nvidia.conf /etc/X11/xorg.conf.d/30-nvidia.conf
-  sudo prime-switch
-  startx
-else
-  optimus-manager --switch intel --no-confirm
-  sudo rm /etc/X11/xorg.conf.d/30-nvidia.conf
-  sudo prime-switch
-  startx
-fi
+sudo prime-switch
+startx

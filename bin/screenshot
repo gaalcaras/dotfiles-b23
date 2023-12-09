@@ -1,0 +1,6 @@
+#! /bin/bash
+
+file="$(date '+%Y-%m-%d-%H.%M.%S').png"
+maim "$HOME/inbox/screenshots/$file"
+xclip -selection clipboard -t image/png <"$HOME/inbox/screenshots/$file"
+notify-send -a "Screenshot" "$file saved and copied to clipboard"

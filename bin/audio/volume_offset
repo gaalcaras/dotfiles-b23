@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Arguments :
+# 1 (mandatory) = volume offset (e.g. +1%)
+# 2 (optional) = color
+
+OFFSET="$1"
+
+if [[ -z "$2" ]]; then
+  # Color purple by default
+  COLOR="#b294bb"
+else
+  COLOR="$2"
+fi
+
+SINK=$(getsink)
+
+pactl set-sink-volume "$SINK" "$OFFSET"
+notify-send \
+  -h "int:value:$(getvolume)" \
+  -h "string:hlcolor:$COLOR" \
+  -h "string:fgcolor:$COLOR" \
+  -a " Volume" "$(getsinkname)"

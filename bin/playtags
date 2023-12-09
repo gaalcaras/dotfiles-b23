@@ -1,0 +1,99 @@
+#!/bin/python3
+
+import argparse
+import os
+import random
+import subprocess
+import sys
+
+PARSER = argparse.ArgumentParser(description = 'Give video tags')
+PARSER.add_argument('-n', type=int, help='nb of vids', default=1000)
+PARSER.add_argument('-l', help='list tags', action='store_true')
+PARSER.add_argument('-c', help='count videos matching tags', action='store_true')
+PARSER.add_argument('-s', help='Stream to chromecast', action='store_true')
+
+PARSER.add_argument('tags', type=str, help='+ or -', default='',
+                    nargs='*')
+
+class Vids(object):
+
+    def __init__(self):
+        self.vids = []
+
+        for path, curDir, files in os.walk(os.getcwd()):
+            for file in files:
+                if 'mp4' in file:
+                    self.vids.append(os.path.join(path, file))
+
+    def listTags(self):
+        tags = dict()
+        #  tags_count = dict()
+
+        for vid in self.vids:
+            tags_vid = os.path.basename(vid).split('.')[0].split('_')[1:]
+
+            for tag in tags_vid:
+                if tag in tags.keys():
+                    tags[tag] += 1
+                else:
+                    tags[tag] = 1
+
+        tags = dict(sorted(tags.items(), key=lambda item: item[1],
+                           reverse = True))
+
+        for tag in tags.keys():
+            max_tag_length = max([len(t) for t in tags.keys()])
+            print(f'{tag:.<13} {tags[tag]:03d} ({tags[tag]/len(self.vids):.0%})')
+
+    def includeTag(self, tag):
+        self.vids = [v for v in self.vids if '_' + tag in v]
+
+    def excludeTag(self, tag):
+        self.vids = [v for v in self.vids if '_' + tag not in v]
+
+    def processTags(self, tags):
+        for tag in tags:
+            if '+' in tag:
+                self.includeTag(tag[1:])
+
+            if '-' in tag:
+                self.excludeTag(tag[1:])
+
+    def getVids(self, nb):
+        random.shuffle(self.vids)
+        return self.vids[:nb]
+
+    def playVids(self, nb, stream=False):
+        vids = self.getVids(nb)
+        print(vids)
+
+        if stream:
+            command = ["castnow"]
+        else:
+            command = ["mpv", "--no-resume-playback", "--fullscreen",
+                       "--script-opts=autoload-disabled=yes"]
+
+        subprocess.run(command + vids,
+                       check=True)
+
+    def countVids(self):
+        vids = self.getVids(10000)
+        print(f'{len(vids)} matched these tags')
+
+
+ARGS = PARSER.parse_args()
+
+collection = Vids()
+
+if ARGS.l:
+    collection.listTags()
+    sys.exit(0)
+
+collection.processTags(ARGS.tags)
+
+if ARGS.c:
+    collection.countVids()
+    collection.listTags()
+    sys.exit(0)
+
+collection.playVids(ARGS.n, ARGS.s)

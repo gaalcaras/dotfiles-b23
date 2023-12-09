@@ -1,0 +1,28 @@
+#!/bin/bash
+
+PID="$1"
+COMMAND="$2"
+
+NVIM_PIDS=$(nvr --serverlist | cut -d"." -f2)
+
+while true; do
+  echo "looking for children of $PID"
+
+  if pgrep -P "$PID"; then
+    child_pid=$(pgrep -P "$PID")
+    echo "children: $child_pid"
+  else
+    echo "pgrep failed, exiting"
+    exit 1
+  fi
+
+  if echo "$child_pid" | grep -qw "$NVIM_PIDS"; then
+    NVIM_PID="$child_pid"
+    echo "Neovim instance has pid: $NVIM_PID"
+    break
+  fi
+  PID="$child_pid"
+done
+
+SERVER=$(nvr --serverlist | grep "$NVIM_PID")
+nvr --servername "$SERVER" --remote-send "$COMMAND"

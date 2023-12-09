@@ -2,76 +2,74 @@
 # i3 configuration
 # by @gaalcaras
 #
-# Since I wanted to be able to switch from a solarized dark to light theme with
-# a single key mapping ($mod+b), I had to organize my i3 config files a bit
-# differently:
-#
-#   + config_local is for general settings, shared accross dark and light themes
-#   + dark / light files address theme specific configuration
-#   + use bin/theme_switch to switch between a light / dark config. Most
-#     importantly, it will concatenate the general setting with the relevant
-#     theme-specific file to the i3 config file.
-#   + use bin/i3reload to reload i3 config.
-#
-# You should NOT directly edit your i3 config file, as changes could be lost
-# after switching themes. Use this file instead ;-)
-#
 # ################
 
 # -----
 # THEME
 # -----
 
-# Solarized colors
-set $yellow  #b58900
-set $orange  #cb4b16
-set $red     #dc322f
-set $magenta #d33682
-set $violet  #6c71c4
-set $blue    #268bd2
-set $cyan    #2aa198
-set $green   #859900
+set_from_resource $foreground  foreground  #c5c8c6
+set_from_resource $background  background  #1d1f21
+set_from_resource $cursorColor cursorColor #c5c8c6
+set_from_resource $color0      color0      #1d1f21
+set_from_resource $red         color1      #cc6666
+set_from_resource $green       color2      #b5bd68
+set_from_resource $yellow      color3      #f0c674
+set_from_resource $blue        color4      #81a2be
+set_from_resource $purple      color5      #b294bb
+set_from_resource $aqua        color6      #8abeb7
+set_from_resource $comment     color8      #969896
+set_from_resource $orange      color9      #de935f
+set_from_resource $currentline color10     #282a2e
+set_from_resource $selection   color11     #373b41
 
 # Font for window titles and the bar (unless set in bar{} below)
-font pango:DejaVu Sans Mono
-font pango:Font Awesome 5 Free
+font pango:DejaVu Sans Mono 9
 
 # Set window colors
-# client.class          $border $background $text   $indicator $child_border
-client.focused          $base03 $base03     $base03 $base2     $base1
-client.focused_inactive $base03 $base03     $base03 $base00    $base00
-client.unfocused        $base03 $base03     $base03 $base02    $base02
+# client.class             $border $background $text   $indicator $child_border
+# client.focused:          A client which currently has the focus
+# client.focused_inactive: A client which is the focused one of its container, but it does not have the focus at the moment
+# client.unfocused:        A client which is not the focused one of its container
+
+client.focused          $orange             $orange     $selection $yellow     $orange
+client.focused_inactive $background        $selection $orange $background $background
+client.unfocused        $background            $currentline  $comment    $background $background
 
 # No borders and some gaps
 set $gap_inner 10
-set $gap_outer 15
-set $gap_bottom 53
+set $gap_outer 10
+set $gap_bottom 10
 
 gaps inner $gap_inner
 gaps outer $gap_outer
 gaps bottom $gap_bottom
 
 # No borders and some gaps
-for_window [class="^.*"] border pixel 2
+for_window [class=".*"] border pixel 1
+
+# Rounded corners
+# border_radius 10
 
 # -------------------
 # DO STUFF AT STARTUP
 # -------------------
 
-# Compositing
-exec_always --no-startup-id compton
+# Setup monitors
+exec_always $HOME/.dotfiles/bin/hardware/keyboard
+exec_always $HOME/.dotfiles/bin/setup_bg
 
 # Hide mouse cursor when not in used
 exec --no-startup-id unclutter
 
-# Polybar
-exec_always --no-startup-id $HOME/.dotfiles/bin/polybar_launch $theme
-
 # Notifications
-exec_always dunst > /dev/null 2>&1
+exec--no-startup-id dunst > /dev/null 2>&1
+
+exec_always picom
 
 # Useful apps
 exec --no-startup-id nextcloud
+exec --no-startup-id dropbox
 exec --no-startup-id telegram-desktop
 exec --no-startup-id $BROWSER
 
@@ -89,14 +87,22 @@ set $up s
 set $right r
 
 # Your preferred terminal emulator
-set $term termite
+set $term alacritty
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $alt
 
 # Start a terminal
 bindsym $mod+Return exec $term
-bindsym $mod+Shift+Return exec $term -d $(xcwd)
+bindsym $mod+Shift+Return exec $term -t "PRIVATE" --hold -e "sh" -c "NOHISTFILE=true zsh"
+
+# Play with active selection
+bindsym Control+Shift+g exec qutebrowser "$(xsel)"
+bindsym Control+Shift+s exec $HOME/.dotfiles/bin/utils/xsel_to_nvim
+bindsym Control+comma exec $HOME/.dotfiles/bin/utils/xsel_to_deepl
+bindsym Control+Shift+comma exec $HOME/.dotfiles/bin/utils/xsel_to_deepl "FR"
+
+# bindcode 117 exec "alfred_voice"
 
 # Kill focused window
 bindsym $mod+Shift+q kill
@@ -112,14 +118,8 @@ bindsym $mod+$alt+$right gaps inner all plus 5
 bindsym $mod+$alt+$left gaps inner all minus 5
 bindsym $mod+$alt+$up gaps outer all plus 5
 bindsym $mod+$alt+$down gaps outer all minus 5
-bindsym $mod+$alt+l gaps inner all set $gap_inner; gaps bottom $gap_bottom; gaps outer all set $gap_outer;
+bindsym $mod+$alt+l gaps inner all set $gap_inner; gaps current bottom $gap_bottom; gaps outer all set $gap_outer;
 bindsym $mod+$alt+z gaps inner all set 0; gaps outer all set 0;
-
-# Change focus (cursor keys)
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
 
 # Move focused window
 bindsym $mod+Shift+$left move left
@@ -132,6 +132,11 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+# Multi monitor setup
+bindsym $mod+Control+$left move workspace to output left
+bindsym $mod+Control+$right move workspace to output right
+bindsym $mod+Control+space focus output left
 
 # Split in horizontal / vertical orientation
 bindsym $mod+h split h
@@ -160,21 +165,20 @@ bindsym $mod+space focus mode_toggle
 # Show the first scratchpad window
 bindsym $mod+Shift+Tab scratchpad show
 
-# Rofi / Dmenu bindings ($theme set in dark / light config files)
-bindsym $mod+d       exec ROFIBG=$rofibg ROFICOL=4 rofi -run-command "termite -e {cmd} -t {cmd}" -show run -theme $theme --no-plugins
-bindsym $mod+Shift+d exec ROFIBG=$rofibg ROFICOL=4 rofi -show run -theme $theme --no-plugins
-bindsym $mod+Escape  exec ROFIBG=$rofibg ROFICOL=1 $HOME/.dotfiles/rofi/modules/rofi_power "i3" "red"
-bindsym $mod+n       exec ROFIBG=$rofibg ROFICOL=1 rofi -show note -theme green
-bindsym $mod+z       exec ROFIBG=$rofibg ROFICOL=1 rofi -show zettel -theme yellow
-bindsym $mod+l       exec ROFIBG=$rofibg ROFICOL=1 rofi -show task -theme violet
-bindsym $mod+Tab     exec ROFIBG=$rofibg ROFICOL=1 rofi -show window -theme violet
-bindsym $mod+p       exec ROFIBG=$rofibg ROFICOL=1 $HOME/.dotfiles/rofi/modules/rofi_pass "yellow"
+# Rofi bindings
+# sleep delay in run command : https://github.com/neovim/neovim/issues/11330
+bindsym $mod+d       exec ROFICOL=3 rofi -run-command "alacritty -t {cmd} -e sh -c 'sleep 0.05 && {cmd}'" -show run
+bindsym $mod+Shift+d exec ROFIACCENT=$aqua ROFICOL=3 rofi -show run
+bindsym $mod+Tab     exec ROFIACCENT=$yellow rofi -show window
 
-# Open email setup
-bindsym $mod+e exec email
+bindsym $mod+Escape  exec ROFIACCENT=$red ROFICOL=2 $HOME/.dotfiles/rofi/modules/rofi_power "i3"
+bindsym $mod+p       exec ROFIACCENT=$yellow $HOME/.dotfiles/rofi/modules/rofi_pass
+bindsym $mod+Shift+p exec ROFIACCENT=$blue $HOME/.dotfiles/rofi/modules/rofi_bib
+bindsym $mod+z exec ROFIACCENT=$green $HOME/.dotfiles/rofi/modules/rofi_buku
 
 # Open URL with mpv
-bindsym $mod+m exec "$HOME/.dotfiles/bin/clipboard_to_mpv"
+
+bindsym $mod+$alt+m exec "$HOME/.dotfiles/bin/clipboard_to_mpv"
 
 # Mount all connected devices
 bindsym $mod+Shift+m exec "sudo -A $HOME/.dotfiles/bin/mountall"
@@ -185,31 +189,38 @@ bindsym $mod+Shift+x exec i3lock_theme
 # Reload the configuration file
 bindsym $mod+Shift+h exec --no-startup-id $HOME/.dotfiles/bin/i3reload
 
+# Dunst notifications
+bindsym Control+$alt+space exec dunstctl close-all
+
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+j restart
 
 # Switch between solarized dark / light
-bindsym $mod+b exec $HOME/.dotfiles/bin/theme_switch "i3"
+bindsym $mod+Shift+b exec $HOME/.dotfiles/bin/theme_switch "i3"
+
+# Edit bib file
+bindsym $mod+b exec $term -e sh -c "sleep 0.05 && $EDITOR $BIB_FILE"
+bindsym $mod+e exec $term -e sh -c "sleep 0.05 && $EDITOR $HOME/chercher/these/data/bibs/emails.bib"
 
 # Stealth mode / hide everything
 bindsym $mod+BackSpace exec amixer sset Master off && killall -USR1 i3blocks ; exec killall mpv ; exec i3-msg '[class="Firefox" title="(privée|private)"] kill' ; workspace $ws0 ; exec termite -t glances -e glances ; exec termite -t alsamixer -e alsamixer ;
 
 # Resize window (you can also use the mouse for that)
 mode "resize" {
-        bindsym c resize shrink width 10 px or 10 ppt
-        bindsym t resize grow height 10 px or 10 ppt
-        bindsym s resize shrink height 10 px or 10 ppt
-        bindsym r resize grow width 10 px or 10 ppt
+  bindsym c resize shrink width 5 px or 5 ppt
+  bindsym t resize grow height 5 px or 5 ppt
+  bindsym s resize shrink height 5 px or 5 ppt
+  bindsym r resize grow width 5 px or 5 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+  # same bindings, but for the arrow keys
+  bindsym Left resize shrink width 5 px or 5 ppt
+  bindsym Down resize grow height 5 px or 5 ppt
+  bindsym Up resize shrink height 5 px or 5 ppt
+  bindsym Right resize grow width 5 px or 5 ppt
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 
 bindsym $mod+Shift+l mode "resize"
@@ -229,19 +240,28 @@ mode "movefloating" {
 bindsym $alt+m focus floating; mode "movefloating"
 
 # Multimedia Keys: volume
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
+set $volume_offset "5"
+
+bindsym XF86AudioRaiseVolume exec $HOME/.dotfiles/bin/audio/volume_offset +$volume_offset%
+bindsym $mod+Up exec $HOME/.dotfiles/bin/audio/volume_offset +$volume_offset%
+bindsym XF86AudioLowerVolume exec $HOME/.dotfiles/bin/audio/volume_offset -$volume_offset%
+bindsym $mod+Down exec $HOME/.dotfiles/bin/audio/volume_offset -$volume_offset%
+
+bindsym XF86AudioMute exec pactl set-sink-mute $(getsink) toggle # mute sound
 
 # Multimedia Keys: brightness control (with light)
-bindsym XF86MonBrightnessUp exec light -A 5 # Increase Brightness
-bindsym XF86MonBrightnessDown exec light -U 5 # Decrease Brightness
+set $brightness_offset "5"
+
+bindsym XF86MonBrightnessUp exec $HOME/.dotfiles/bin/brightness $brightness_offset # Increase Brightness
+bindsym XF86MonBrightnessDown exec $HOME/.dotfiles/bin/brightness -$brightness_offset # Decrease Brightness
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+
+bindsym $mod+Print exec $HOME/.dotfiles/bin/screenshot
 
 # ----------
 # WORKSPACES
@@ -259,6 +279,24 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+set $display1 DP-1.3 eDP1 DP-1-1
+set $display2 eDP1 eDP-1-1 HDMI-0
+set $display3 DP-0 DP-1
+
+# Primary workspace
+
+workspace $ws0  output $display1
+workspace $ws1  output $display1
+workspace $ws2  output $display1
+workspace $ws3  output $display1
+workspace $ws4  output $display1
+workspace $ws5  output $display1
+workspace $ws6  output $display2 $display1
+workspace $ws7  output $display2 $display1
+workspace $ws8  output $display3 $display2 $display1
+workspace $ws9  output $display3 $display2 $display1
+workspace $ws10 output $display3 $display2 $display1
+
 # Switch to workspace
 bindsym $mod+dollar workspace $ws0 ; focus tiling
 bindsym $mod+1 workspace $ws1 ; focus tiling
@@ -272,27 +310,31 @@ bindsym $mod+8 workspace $ws8 ; focus tiling
 bindsym $mod+9 workspace $ws9 ; focus tiling
 bindsym $mod+0 workspace $ws10 ; focus tiling
 
-# Move focused container to workspace
-bindsym $mod+Shift+dollar move container to workspace $ws0
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+# # Move focused container to workspace
+bindsym $mod+Shift+dollar move container to workspace  $ws0
+bindsym      $mod+Shift+1 move container to workspace  $ws1
+bindsym      $mod+Shift+2 move container to workspace  $ws2
+bindsym      $mod+Shift+3 move container to workspace  $ws3
+bindsym      $mod+Shift+4 move container to workspace  $ws4
+bindsym      $mod+Shift+5 move container to workspace  $ws5
+bindsym      $mod+Shift+6 move container to workspace  $ws6
+bindsym      $mod+Shift+7 move container to workspace  $ws7
+bindsym      $mod+Shift+8 move container to workspace  $ws8
+bindsym      $mod+Shift+9 move container to workspace  $ws9
+bindsym      $mod+Shift+0 move container to workspace  $ws10
 
 # Assign workspace
 # wmctrl -lx to list window titles and classes
 for_window [class="Telegram"] move to workspace $ws0
 for_window [class="Termite" title="newsboat"] move to workspace $ws0
-for_window [class="Firefox" title="^Markdown\\ Composer\\ \\-\\ Mozilla\\ Firefox$"] move to workspace $ws3
-for_window [class="Firefox" window_role="^(?!Dialog)"] move to workspace $ws2
-for_window [class="Firefox" title="^Markdown Composer - Mozilla Firefox$"] move to workspace current
 for_window [class="Termite" title="neomutt"] move to workspace $ws1
+for_window [class="Firefox" window_role="^(?!Dialog)"] move to workspace $ws2
+for_window [class="qutebrowser"] move to workspace $ws2
+for_window [class="qutebrowser" title="「"] move to workspace current
+for_window [class="qutebrowser" title=".*neomutt.*"] move to workspace current
+for_window [class="qutebrowser" title="^6 -"] move to workspace $ws9
+for_window [class="witcher2"] move to workspace $ws5
+for_window [class="zoom"] move to workspace $ws8
 
 # ---------------
 # SPECIAL WINDOWS
@@ -305,3 +347,25 @@ for_window [class="Kalu"] floating enable
 for_window [class="mpv"] floating enable
 for_window [class="mpv"] sticky enable
 no_focus [class="mpv"]
+
+for_window [title="^alfred_voice$"] floating enable, resize set 101ppt 101ppt, border none, move position center
+
+# ---------------
+# BAR
+# ---------------
+
+bar {
+    height 30
+    font pango:DejaVu Sans Mono, Font Awesome 6 Free
+    position bottom
+    status_command /bin/i3status-rs $HOME/.dotfiles/i3status-rust/config.toml
+    colors {
+        separator #666666
+        background #1d1f21
+        statusline #dddddd
+        focused_workspace #81a2be #81a2be #1d1f21
+        active_workspace #333333 #333333 #1d1f21
+        inactive_workspace #282a2e #282a2e #969896
+        urgent_workspace #cc6666 #cc6666 #1d1f21
+    }
+}

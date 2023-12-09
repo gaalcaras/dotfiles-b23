@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+  # If no argument, get default sink name
+  SINK="$(getsink)"
+else
+  SINK="$1"
+fi
+
+SINK_DATA=$(pulsemixer --list-sinks | grep "sink-$SINK")
+
+echo "$SINK_DATA" | sed 's/.*Name: \(.*\), Mute:.*/\1/'

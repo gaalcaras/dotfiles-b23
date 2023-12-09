@@ -1,0 +1,15 @@
+#! /bin/bash
+
+FILENAME="$1"
+PAGES="$2"
+
+PAGE_START=1
+IFS=',' read -ra PAGES_ARR <<< "$PAGES"
+for page in "${PAGES_ARR[@]}"; do
+  FILENAME_BARE=${FILENAME/.pdf/}
+  page=$((page-1))
+  qpdf --pages "$FILENAME" "$PAGE_START"-"$page" -- "$FILENAME" "$FILENAME_BARE-p$PAGE_START-p$page.pdf"
+  PAGE_START=$((page+1))
+done
+
+qpdf --pages "$FILENAME" "$PAGE_START"-z -- "$FILENAME" "$FILENAME_BARE-p$PAGE_START-END.pdf"

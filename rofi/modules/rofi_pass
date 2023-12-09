@@ -7,11 +7,12 @@
 #
 # ########################################################################
 
-THEME=${1:-"blue"}
+THEME=${1:-"dark"}
 
-PASS=$(find ~/.password-store -type f | sed "s/\(\/home\/gaalcaras\/.password-store\/\|\.gpg\)//g" | rofi -dmenu -p pass -theme "$THEME")
+PASS=$(find ~/.password-store -type f | grep -v gaarbage | grep gpg | sed "s/\(\/home\/gaalcaras\/.password-store\/\|\.gpg\)//g" | rofi -dmenu -p " " -theme "$THEME")
 
 if [ "$PASS" != "" ]
 then
   pass show "$PASS" | head -1 | xclip -selection "clipboard" &
+  notify-send -a " *******" "$PASS: pass in clipboard"
 fi

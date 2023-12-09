@@ -1,0 +1,45 @@
+#!/bin/bash
+
+log () {
+  echo "[$(date +"%Y-%m-%d-%H%M%S")] $*" >> "$HOME/monitors.log"
+}
+
+notify () {
+  notify-send -a "Monitors" "$*"
+  log "$*"
+}
+
+log "Start monitor_switch"
+log "DISPLAY: $DISPLAY"
+log "\$1: $1"
+log "\$2: $2"
+
+if [[ -z "$2" ]]; then
+  RESTART=0
+else
+  RESTART=1
+fi
+
+log "\$RESTART: $RESTART"
+MODE="$1"
+
+if [[ -z "$MODE" ]]; then
+  echo "Please provide a mode to switch to!"
+  exit 1
+fi
+
+if [[ -f "$HOME"/.screenlayout/"$MODE".sh ]]; then
+  notify "Switching to $MODE mode..."
+  if "$HOME"/.screenlayout/"$MODE".sh >> "$HOME/monitors.log" 2>&1; then
+    keyboard
+    setup_bg
+  else
+    notify "Failed to switch to $MODE mode..."
+  fi
+else
+  notify "Mode '$MODE' does not seem to exist :("
+fi
+
+if [[ "$RESTART" -eq 1 ]]; then
+  i3-msg restart
+fi

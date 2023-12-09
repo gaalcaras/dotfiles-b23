@@ -1,0 +1,12 @@
+#!/bin/bash
+
+FILE="$*"
+ROOT=${FILE/\/run\/media\/gaalcaras\/xps\/home\/gaalcaras\/trensmissions\/trensmissions.org\/wp-content\/uploads\//}
+DIR=$(dirname "$ROOT")
+
+NEW_ROOT="/home/gaalcaras/trensmissions/odile"
+NEW_DIR="$NEW_ROOT/$DIR"
+NEW_FILE="$NEW_DIR/${ROOT##*/}"
+
+mkdir -p "$NEW_DIR"
+cp "$FILE" "$NEW_FILE"

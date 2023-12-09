@@ -1,0 +1,58 @@
+#!/bin/bash
+
+if [[ -f "/tmp/record_screen_pid" ]]; then
+  # If I'm currently recording...
+
+  # Stop screen recording and close webcam stream
+  kill -15 "$(</tmp/record_screen_pid)"
+  pkill -f "mpv av"
+
+  # Resume notifications
+  notify-send "DUNST_COMMAND_RESUME"
+
+  # Wait until recording process exits
+  while kill -0 "$(</tmp/record_screen_pid)"; do 
+    sleep 1
+  done
+
+  # Open the recording for me
+  mpv "$(</tmp/record_screen_file)"
+
+  # Clean up after yourself!
+  rm "/tmp/record_screen_file"
+  rm "/tmp/record_screen_pid"
+
+else
+
+  # Setting up...
+  DATE=$(date +"%Y-%m-%d-%H-%M-%S")
+  FILENAME="$HOME/recordings/$DATE.mp4"
+
+  # Pause notifications
+  notify-send "DUNST_COMMAND_PAUSE"
+
+  # Fire up the webcam
+  webcam
+
+  # See audio sinks with "pacmd list-sinks"
+  # Record screen and audio
+  ffmpeg -y `# Overwrite output file without asking` \
+         -video_size 1920x1080 -framerate 25  \
+         -probesize 20M `# Fix warning in ffmpeg` \
+         -thread_queue_size 2048 `# Keep up with read time encoding` \
+         -f x11grab -i :0.0 -vsync 0 `#Grabbing from screen` \
+         -f pulse -i 1 `# Record audio from microphone` \
+         -ac 1 `# Keep one channel` \
+         -vcodec libx265 `# Great balance size / quality` \
+         -preset ultrafast -crf 24 -threads 0 `# Try to keep sound in sync` \
+         "$FILENAME" &
+
+         # -f pulse -i 1 `# Record audio from bluetooth headset` \
+         # -filter_complex "amerge" `# Merge both audios` \
+         # -ac 2 `# Keep two channels` \
+
+  # Store information in tmp files
+  echo "$!" > "/tmp/record_screen_pid"
+  echo "$FILENAME" > "/tmp/record_screen_file"
+
+fi

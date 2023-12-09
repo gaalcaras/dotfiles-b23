@@ -13,7 +13,7 @@ from subprocess import Popen, PIPE
 EMAIL = '~/.email'
 SENDQUEUE = '~/.msmtpqueue'
 EARLIER = '09:30'
-LATER = '17:30'
+LATER = '19:30'
 
 def get_my_emails(accounts):
     """Get email addresses from accounts"""

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+MONITORS=$(xrandr --listmonitors | head -n1 | cut -d: -f2)
+CONNECTED=$(xrandr -q | grep -c \[^s\]connected)
+
+if [[ "$MONITORS" -lt "$CONNECTED" ]]; then
+  notify-send -a "Monitors" "Switching to desk mode..."
+  ~/.screenlayout/home_setup.sh
+elif [[ "$MONITORS" -gt "$CONNECTED" ]]; then
+  notify-send -a "Monitors" "Switching to laptop mode..."
+  ~/.screenlayout/laptop_mode.sh
+elif [[ "$MONITORS" -eq "$CONNECTED" ]]; then
+  if [[ "$MONITORS" -eq 2 ]]; then
+    notify-send -a "Monitors" "Switching to laptop mode..."
+    ~/.screenlayout/laptop_mode.sh
+  fi
+  notify-send -a "Monitors" "Could not detect any changes in displays."
+fi
+
+keyboard
+setup_bg
+i3-msg restart

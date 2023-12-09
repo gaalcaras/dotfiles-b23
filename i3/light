@@ -14,7 +14,3 @@ set $base3  #002b36
 # Set rofi to light theme
 set $theme light
 set $rofibg #fdf6e3cc
-
-# Background
-exec_always --no-startup-id feh --bg-fill "$HOME/.dotfiles/wallpaper/slqd22_light.png"
-

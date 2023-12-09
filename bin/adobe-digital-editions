@@ -1,0 +1,2 @@
+#!/bin/bash
+WINEPREFIX="$HOME/.adewine/" wine .adewine/drive_c/Program\ Files/Adobe/Adobe\ Digital\ Editions\ 2.0/DigitalEditions.exe

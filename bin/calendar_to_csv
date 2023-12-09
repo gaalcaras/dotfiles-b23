@@ -1,0 +1,5 @@
+#!/bin/env bash
+
+START="$1"
+
+khal list -f"{start},{end},{title}" -d "taskwarrior" -d "holidays" -d "background" --day-format "" "$START" now

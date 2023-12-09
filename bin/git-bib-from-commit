@@ -1,0 +1,15 @@
+#!/bin/bash
+
+COMMIT="$*"
+
+BIB="@Software{      $(git -C ~/Codecave/git rev-parse --short "$COMMIT"),
+  Author        = {$(git show -s --format='%an' "$COMMIT")},
+  Date          = {$(git show -s --format='%as' "$COMMIT")},
+  Title         = {$(git show -s --format='%s' "$COMMIT")},
+  Version       = {$(git -C ~/Codecave/git rev-parse --short "$COMMIT")},
+  Note          = {git},
+  URL           = {https://github.com/git/git/commit/$(git -C ~/Codecave/git rev-parse "$COMMIT")},
+}"
+
+echo "$BIB"
+echo "$BIB" | xclip -i -selection "clipboard"

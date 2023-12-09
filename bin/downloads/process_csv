@@ -1,0 +1,104 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+# Process csv files
+"""
+
+import argparse
+import csv
+from chardet.universaldetector import UniversalDetector
+
+def detect_file_enc(f_path):
+    detector = UniversalDetector()
+
+    with open(f_path, 'rb') as target:
+        for line in target.readlines():
+            detector.feed(line)
+            if detector.done:
+                break
+
+    detector.close()
+    return detector.result
+
+def import_csv(csv_file, delimiter, skip_to, trim):
+    with open(csv_file, encoding=detect_file_enc(csv_file)['encoding']) as csvfile:
+        truncated_f = csvfile.readlines()[skip_to:]
+
+        if trim > 0:
+            truncated_f = truncated_f[:-trim]
+
+        result = list()
+        for row in csv.DictReader(truncated_f, delimiter=delimiter):
+            print(row)
+            result.append(row)
+
+        return result
+
+def halve_column(csv_dict, column):
+    result = []
+    for row in csv_dict:
+        try:
+            amount = float(row[column].replace(",", "."))
+            row[column] = str(round(amount/2, 2)).replace(".", ",")
+
+            if "Détail" in row:
+                row["Détail"] = "Montant original: " + str(amount)
+        except ValueError:
+            pass
+
+        result.append(row)
+
+    return result
+
+def tweak_rent(csv_dict, amount):
+    result = []
+    for row in csv_dict:
+        if "Libellé" in row and "Débit" in row:
+            if row["Libellé"] == "VIR SEPA LOYER":
+                row["Débit"] = "-" + str(amount) + ",00"
+
+        result.append(row)
+
+    return result
+
+def write_csv(csv_dict, target_file):
+    with open(target_file, 'w', encoding="UTF8") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csv_dict[0].keys())
+
+        writer.writeheader()
+
+        for row in csv_dict:
+            writer.writerow(row)
+
+def process_csv(args):
+    csv_d = import_csv(args.input, args.delimiter, args.skipto, args.trim)
+
+    if args.halve:
+        csv_d = halve_column(csv_d, args.halve)
+
+    if args.rent:
+        csv_d = tweak_rent(csv_d, args.rent)
+
+    if args.replace:
+        write_csv(csv_d, args.input)
+    else:
+        write_csv(csv_d, args.input[:-4] + '_processed.csv')
+
+PARSER = argparse.ArgumentParser()
+PARSER.add_argument("-i", "--input", help="Input csv file")
+PARSER.add_argument("-d", "--delimiter", help="Delimiter used in csv file",
+                    default=";", type=str)
+PARSER.add_argument("-s", "--skipto", help="Skip to line and ignore anything before",
+                    default=7, type=int)
+PARSER.add_argument("-t", "--trim", help="How many lines to ignore at the end of the file",
+                    default=0, type=int)
+PARSER.add_argument("-r", "--replace", help="Replace original file with processed csv",
+                    action="store_true")
+PARSER.add_argument("--halve", help="Halve the amount in the column",
+                    default=None, type=str)
+PARSER.add_argument("--rent", help="Set the rent amount",
+                    default=None, type=str)
+
+ARGS = PARSER.parse_args()
+
+process_csv(ARGS)

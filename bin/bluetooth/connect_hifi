@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+bluetoothctl power on &&
+bluetoothctl unblock EC:81:93:9C:4F:3B &&
+bluetoothctl pair EC:81:93:9C:4F:3B
+bluetoothctl disconnect 70:BF:92:38:52:0D &&
+bluetoothctl connect EC:81:93:9C:4F:3B

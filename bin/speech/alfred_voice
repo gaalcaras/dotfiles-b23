@@ -1,0 +1,5 @@
+#!/bin/bash
+alacritty -t "alfred_voice" -o 'window.padding.x=250' -o 'window.padding.y=250' -o 'font.size=20' -e "$HOME/.dotfiles/bin/speech/speech_to_text"
+
+TEXT=$(</tmp/speech_to_text)
+xdotool getwindowfocus windowfocus --sync type "$TEXT"

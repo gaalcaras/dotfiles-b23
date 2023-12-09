@@ -1,0 +1,4 @@
+#! /bin/bash
+
+/home/gaalcaras/.dotfiles/bin/utils/rsync_tmbackup.sh --rsync-set-flags "-D --numeric-ids --copy-links --keep-dirlinks --itemize-changes --times --recursive --perms --owner --group --stats --human-readable" /home/gaalcaras/ "/run/media/gaalcaras/batbackup/batcave/home" /home/gaalcaras/.dotfiles/bin/utils/backup.txt
+# curl -fsS -m 10 --retry 5 -o /dev/null https://hc-ping.com/997959d8-eee7-4a97-ae9a-4bedf4630e3e

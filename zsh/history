@@ -1,0 +1,11 @@
+function zshaddhistory() {
+  emulate -L zsh
+  if ! [[ "$1" =~ "(^ |/iwc|/.x/|playtags|jouer/.x|videos/.x|./nw)" ]] ; then
+      print -sr -- "${1%%$'\n'}"
+      fc -p
+  else
+      return 1
+  fi
+}
+
+# vim: fdm=marker fmr={{{,}}} fdl=0 fen

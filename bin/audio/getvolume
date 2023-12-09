@@ -1,0 +1,7 @@
+#!/bin/bash
+
+SINK=${1:-$(getsink)}
+pulsemixer --list-sinks |
+  grep "ID: sink-$SINK" |
+  cut -d"," -f5 |
+  sed "s/.*'\([^%]*\)%'.*/\1/"

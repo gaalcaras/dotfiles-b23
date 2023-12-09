@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ "$(pactl list short sinks | grep -c RUNNING )" -ge 1 ]]; then
+  SINK=$(pactl list short sinks | grep RUNNING | cut -f1)
+else
+  SINK=$(pactl list short sinks | tail -n1 | cut -f1)
+fi
+
+echo "$SINK"

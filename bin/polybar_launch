@@ -2,17 +2,45 @@
 
 THEME=${1:-"dark"}
 
+if [[ $THEME != "dark" ]]; then
+ THEME="light"
+fi
+
 # Terminate already running bar instances
 killall -q polybar
 
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-# Launch bars
-if [[ $THEME == "dark" ]]; then
-  polybar dark &
+pkill -f "Polybar tray window"
+
+# Now set up env variables for multi monitor setup
+if type "polybar"; then
+  MONITORS=$(polybar --list-monitors)
+  PRIMARY=$(grep "primary" <<< "$MONITORS" | cut -d: -f1)
+  PRIMARY_RES=$(grep "primary" <<< "$MONITORS" | sed 's/[^:]*: \([0-9]\+x[0-9]\+\).*/\1/')
+  OTHERS=$(grep -v "primary" <<< "$MONITORS" | cut -d: -f1)
+
+  echo "Primary display: $PRIMARY ($PRIMARY_RES)"
+  MONITOR1=$PRIMARY polybar "$THEME" &
+  MONITOR1=$PRIMARY polybar "systray" &
+
+  if [[ "$(wc -l <<< "$MONITORS")" -ge 2 ]]; then
+    nb=2
+    for m in $OTHERS; do
+      echo "Display #$nb: $m"
+      eval "$(echo "MONITOR$nb=$m polybar $THEME\_$nb &")"
+      nb=$((nb+1))
+    done
+  fi
 else
-  polybar light &
+  # Launch bars without env variables
+  polybar "$THEME" &
+  polybar "$THEME"_2 &
+  polybar "$THEME"_3 &
 fi
 
 echo "Bars launched..."
+
+sleep 2
+hideIt.sh --name '^Polybar tray window$' --region "$PRIMARY_RES"+-41+-41 --direction right &

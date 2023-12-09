@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while read -r notebook; do
+  joplin use "$notebook"
+  joplin ls -l
+done <<< "$(joplin ls /)"

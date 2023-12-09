@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Define environment variables for incrontab
+export DISPLAY=":0"
+PID=$(pgrep i3)
+[ -n "$PID" ] && dbus=$(grep -z DBUS_SESSION_BUS_ADDRESS "/proc/$PID/environ" | cut -d= -f2-)
+export DBUS_SESSION_BUS_ADDRESS=$dbus
+
+SCRIPT_D="$HOME/.dotfiles/bin/downloads"
+
+# Let's get to work
+FILE="$*"
+
+FILENAME="$(basename "$FILE")"
+TRIGGER="Trigger"
+
+function msg() {
+  notify-send -a Dispatch -u LOW "$1"
+}
+
+function warn() {
+  notify-send -a "Dispatch" "$1"
+}
+
+function trigger() {
+  "$@"
+  if [ $? -eq 0 ]; then
+    msg "[$TRIGGER] $FILENAME was successfully processed !"
+  else
+    warn "[$TRIGGER] $FILENAME could not be processed"
+  fi
+}
+
+if [[ "$FILE" =~ .*\.download$ ]]; then
+  # Do not react to temporary files created by qutebrowser
+  exit 0
+elif [[ "$FILE" =~ telechargement.csv ]]; then
+  TRIGGER="Caisse d'Épargne"
+  trigger "$SCRIPT_D/process_csv" -i "$FILE" -s4 --halve "Débit" --rent 420 -t1 --replace
+elif [[ "$FILE" =~ 1977024D029159.*.csv ]]; then
+  TRIGGER="Banque Postale"
+  trigger "$SCRIPT_D/process_csv" -i "$FILE" -s7 --replace
+fi

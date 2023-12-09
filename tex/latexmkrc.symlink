@@ -1,5 +1,6 @@
 # What to remove when cleaning
 push @generated_exts, "cb";
+push @generated_exts, "lodiagram";
 push @generated_exts, "cb2";
 push @generated_exts, "spl";
 push @generated_exts, "nav";

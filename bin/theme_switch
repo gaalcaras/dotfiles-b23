@@ -5,58 +5,52 @@
 # by @gaalcaras
 # ################################################
 
+THEME="$HOME/.theme_dark"
+B16_THEME="$HOME/.base16_current"
+
 TERMITE="$HOME/.dotfiles/termite"
 I3="$HOME/.dotfiles/i3"
 I3CONFIG="$HOME/.config/i3/config"
-SWAY="$HOME/.dotfiles/sway"
-SWAYCONFIG="$HOME/.config/sway"
-SWAYLOCK="$HOME/.config/swaylock"
 
-WM=${1:-"sway"}
+BASE16="/home/gaalcaras/.base16-manager"
+BASE16_X="$BASE16/chriskempson/base16-xresources/xresources"
+BASE16_TERMITE="$BASE16/theova/base16-qutebrowser/themes/default"
 
 apply_theme() {
   theme="$1"
+  b16_theme=$(cat "$B16_THEME")
 
-  # TERMITE
-  mkdir -p "$HOME/.config/termite"
-  cat "$TERMITE/config_local" "$TERMITE/$theme" > "$HOME/.config/termite/config"
+  mkdir -p "$HOME/.Xresources.d"
+  base16-manager set "$b16_theme"
+
   killall -USR1 termite
 
   # i3
-  if [[ "$WM" == "i3" ]]; then
-    cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
-    i3-msg -q reload
-    i3-msg -q restart
-  else
-    ln -fs "$SWAY/config_$theme" "$SWAYCONFIG/config"
-    ln -fs "$SWAY/lock_$theme" "$SWAYLOCK/config"
-    swaymsg reload
-  fi
+  cat "$I3/config_local" "$I3/$theme" > "$I3CONFIG"
+  i3-msg -q reload
+  i3-msg -q restart
+
+  qutebrowser :config-source
 
   # Nvim
-  nvim_do.py  -c "call solarized#updateColors('$theme')"
+  nvim_do.py  -c "colorscheme base16-$b16_theme"
 }
 
-# Check if window manager is sway or i3
-if [[ "$WM" == "sway" ]]; then
-  if [[ $(readlink "$SWAYCONFIG/config") =~ "dark" ]]; then
-    theme="dark"
-  else
-    theme="light"
-  fi
+if [ -f "$THEME" ];
+then
+  theme="$(cat $THEME)"
 else
-  if grep -Fxq "# COLORS - SOLARIZED DARK" "$I3CONFIG"
-  then
-    theme="dark"
-  else
-    theme="light"
-  fi
+  theme="dark"
 fi
 
 # Apply new theme according to current one
 if [[ "$theme" == "light" ]]
 then
+  echo "tomorrow-night" > "$B16_THEME"
+  echo "dark" > "$THEME"
   apply_theme "dark"
 else
+  echo "tomorrow" > "$B16_THEME"
+  echo "light" > "$THEME"
   apply_theme "light"
 fi
