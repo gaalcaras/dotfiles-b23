@@ -5,7 +5,7 @@ ConditionPathExistsGlob=/home/gaalcaras/.msmtpqueue
 
 [Service]
 Type=oneshot
-ExecStart=%h/.dotfiles/bin/email-sync --quiet
+ExecStart=%h/.dotfiles/bin/email/email-sync --quiet
 
 [Install]
 Also=email-sync.timer

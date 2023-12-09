@@ -1,35 +1,18 @@
-# Gmail configuration
+# ==== Gmail configuration ====
 
-set header_cache = "~/.cache/mutt/gmail/headers"
-set message_cachedir = "~/.cache/mutt/gmail/messages"
+# ---- Change these variables ----
+set my_account = "gmail"
+set my_email = $my_gmail_em
+set my_smtp_login = $my_gmail_em
 
-# Folders
-set spoolfile="+gmail/inbox"
-set postponed="+gmail/bak.drafts"
-set record="+gmail/bak.sent"
-set mbox="+gmail/archives"
+set my_drafts = "bak.drafts"
+set my_sent = "bak.sent"
+set my_trash = "bak.trash"
 
-mailboxes "+====== GMAIL ===========" \
-          "+gmail/inbox" \
-          "+gmail/archives" \
-          "+gmail/bak.drafts" \
-          "+gmail/bak.sent" \
-          "+gmail/bak.trash" \
+# IMAP folders to scan quickly
+set my_quick_scan = "INBOX"
 
-# Specific macros
-macro index,pager gi "<change-folder>+gmail/inbox<enter>" "Go to inbox"
-macro index,pager ga "<change-folder>+gmail/archives<enter>" "Go to all mail"
-macro index,pager gs "<change-folder>+gmail/bak.sent<enter>" "Go to sent mail"
-macro index,pager gt "<change-folder>+gmail/bak.trash<enter>" "Go to trash"
-macro index,pager gd "<change-folder>+gmail/bak.drafts" "Go to drafts"
+# ---- Config mailbox ----
+source ~/.config/neomutt/mailbox
 
-macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>clear && offlineimap -o -a gmail -f INBOX<enter><enter-command>set wait_key<enter>' 'Sync inbox'
-macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>clear && offlineimap -o -a gmail<enter><enter-command>set wait_key<enter>' 'Sync everything'
-
-# Archive with one key
-macro index a "<collapse-thread><tag-thread><clear-flag>N<save-message>+gmail/archives<enter><untag-pattern>.<enter>" "Move to archives"
-macro pager a "qa<enter>" "Move to archives (from pager)"
-
-# SMTP
-set sendmail="msmtp-enqueue -a gmail --user=$my_gmail_em --from=$my_gmail_em"
-set from="$my_name <$my_gmail_em@gmail.com>"
+# vim: set ft=neomuttrc:

@@ -1,0 +1,11 @@
+macro index,pager .a "<enter-command>unset wait\_key<enter><pipe-message>mutt_add_mlists.py<enter><enter-command>set wait\_key<enter>" 'Add mailing list as suscribed'
+
+# Taskwarrior integration
+macro index,pager .tt "<pipe-message>mutt2task.py<enter><shell-escape>keypress vit ctrl+l<enter>" 'Add email to Taskwarrior'
+macro index,pager .tm "<pipe-message>mutt2task.py --modify<enter><shell-escape>keypress vit ctrl+l<enter>" 'Add email to Taskwarrior and edit task name'
+macro index,pager .ta "<pipe-message>mutt2task.py --answer 'Répondre à '<enter><shell-escape>keypress vit ctrl+l<enter>" 'Add answering reminder in Taskwarrior'
+macro compose Y "<send-message><enter><shell-escape>cat $(ls -t $HOME/.msmtpqueue/*.mail | head -1) | mutt2task.py --followup 'Relancer '<enter><shell-escape>keypress vit ctrl+l<enter>" 'Send email and add followup reminder in Taskwarrior'
+
+macro index,pager,attach,compose .tp "<enter-command>unset wait\_key<enter><shell-escape>tmux split-window -p 25 -h 'mutt_task_report.sh'<enter><enter-command>set wait\_key<enter>" 'Open task mutt report'
+
+# vim: set ft=neomuttrc:

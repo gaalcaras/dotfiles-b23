@@ -1,35 +1,20 @@
-# posteo configuration
+# ==== Posteo configuration ====
 
-set header_cache = "~/.cache/mutt/posteo/headers"
-set message_cachedir = "~/.cache/mutt/posteo/messages"
+# ---- Change these variables ----
+set my_account = "posteo"
+set my_email = $my_posteo_em
+set my_smtp_login = $my_posteo_em
 
-# Folders
-set spoolfile="+posteo/inbox"
-set record="+posteo/sent"
-set postponed="+posteo/drafts"
-set mbox="+posteo/drafts"
+set my_drafts = "drafts"
+set my_sent = "sent"
+set my_trash = "trash"
 
-mailboxes "+====== posteo =========" \
-          "+posteo/inbox" \
-          "+posteo/archives" \
-          "+posteo/drafts" \
-          "+posteo/sent" \
-          "+posteo/trash" \
+# IMAP folders to scan quickly
+set my_quick_scan = "INBOX,Comptes,Orders"
 
-# Specific macros
-macro index,pager gi "<change-folder>+posteo/inbox<enter>" "Go to inbox"
-macro index,pager ga "<change-folder>+posteo/archives<enter>" "Go to all mail"
-macro index,pager gs "<change-folder>+posteo/sent<enter>" "Go to sent mail"
-macro index,pager gt "<change-folder>+posteo/trash<enter>" "Go to trash"
-macro index,pager gd "<change-folder>+posteo/drafts<enter>" "Go to drafts"
+# ---- Config mailbox ----
+source ~/.config/neomutt/mailbox
 
-macro index,pager .s '<enter-command>unset wait_key<enter><shell-escape>clear && offlineimap -o -a posteo -f INBOX<enter><enter-command>set wait_key<enter>' 'Sync inbox'
-macro index,pager .S '<enter-command>unset wait_key<enter><shell-escape>clear && offlineimap -o -a posteo<enter><enter-command>set wait_key<enter>' 'Sync everything'
+color status $my_line_bright $my_green_bright
 
-# Archive with one key
-macro index a "<collapse-thread><tag-thread><clear-flag>N<save-message>+posteo/archives<enter><untag-pattern>.<enter>" "Move to archives"
-macro pager a "qa<enter>" "Move to archives (from pager)"
-
-# SMTP
-set sendmail="msmtp-enqueue -a posteo --user=$my_posteo_em --from=$my_posteo_em"
-set from="$my_name <$my_posteo_em>"
+# vim: set ft=neomuttrc:

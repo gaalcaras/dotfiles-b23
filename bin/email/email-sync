@@ -14,12 +14,15 @@
 
 EMAIL_LOG="$HOME/.email-syncing.log"
 EMAIL_LAST="$HOME/.email-last-sync.log"
+EMAIL_STATUS="$HOME/.local/share/email/status"
+
+print_log="$HOME/.dotfiles/bin/utils/print_log"
 
 is_quiet=false
 is_fast=false
 is_daily=false
 
-send_email="$HOME/.dotfiles/bin/msmtp-runqueue"
+send_email="$HOME/.dotfiles/bin/email/msmtp-runqueue"
 uping="$HOME/.dotfiles/bin/uping"
 
 # Arguments {{{
@@ -52,9 +55,9 @@ done
 
 function log {
   if $is_quiet; then
-    echo `date +"%Y-%m-%d %H:%M:%S"` "INFO: $1" >> $EMAIL_LOG 2>&1
+    "$print_log" "$1" >> $EMAIL_LOG 2>&1
   else
-    echo `date +"%Y-%m-%d %H:%M:%S"` "INFO: $1" > >(tee -a $EMAIL_LOG) 2> >(tee -a $EMAIL_LOG >&2)
+    "$print_log" "$1" > >(tee -a $EMAIL_LOG) 2> >(tee -a $EMAIL_LOG >&2)
   fi
 }
 
@@ -67,6 +70,11 @@ function check {
 }
 
 # }}}
+
+if ! "$HOME/.dotfiles/bin/email/email-status"; then
+  log "Email status is OFFLINE, syncing is disabled."
+  exit 0
+fi
 
 # Daily check {{{
 if $is_daily; then
@@ -108,22 +116,7 @@ fi
 # }}}
 
 # Connectivity checks {{{
-check google.com
-
-g_status=$?
-if [ $g_status -ne 0 ]; then
-  log "Exit email-sync"
-  exit 1;
-fi
-
-# Checking email servers
-check rosa.ehess.fr
-
-e_status=$?
-if [ $e_status -ne 0 ]; then
-  log "rosa.ehess.fr seems down. Only syncing other accounts."
-  sync_email="$sync_email -a gmail,telecom,reset"
-fi
+sync_email="$sync_email -a posteo,eiffel"
 
 # }}}
 

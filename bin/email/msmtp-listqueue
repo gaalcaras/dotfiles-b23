@@ -8,13 +8,9 @@
 
 QUEUEDIR=$HOME/.msmtpqueue
 
-function log {
-  echo "$(date +"%Y-%m-%d %H:%M:%S") INFO: $1"
-}
+print_log 'Running msmtp-listqueue...'
 
-log 'Running msmtp-listqueue...'
-
-for i in $QUEUEDIR/*.mail; do
-  grep -E -s --colour -h '(^From:|^To:|^Subject:)' "$i" || log "No mail in queue";
+for i in "$QUEUEDIR"/*.mail; do
+  grep -E -s --colour -h '(^From:|^To:|^Subject:)' "$i" || print_log "No mail in queue";
   echo " "
 done

@@ -11,22 +11,64 @@ QUEUEDIR="$HOME/.msmtpqueue"
 LOCKFILE="$QUEUEDIR/.lock"
 TRACKFILE="$QUEUEDIR/progress.csv"
 MAXWAIT=120
+FORCE=false
 
-OPTIONS=$*
+OPTIONS=$1
+
+while getopts ':f' flag "${@:2}"; do
+  case "${flag}" in
+    f)
+      FORCE=true
+      OPTIONS=$2
+      ;;
+    *) exit 1 ;;
+  esac
+done
+
+TODAY="$(date +%Y-%m-%d-%H.%M.%S)"
 
 function warn {
-  echo "$(date +"%Y-%m-%d %H:%M:%S") WARNING: $1"
+  print_log "$1" "WARNING"
 }
 
 function log {
-  echo "$(date +"%Y-%m-%d %H:%M:%S") INFO: $1"
+  print_log "$1" "INFO"
+}
+
+function is_ready_to_send () {
+  filename="$*"
+  send_date=$(echo "$filename" | cut -c1-19)
+
+  if [[ "$send_date" > "$TODAY" ]]; then
+    log "Skipping email to be sent at $send_date"
+    return 1
+  fi
 }
 
 log "Starting msmtp-runqueue..."
+log "$(find "$QUEUEDIR" -name "*.mail" -type f | wc -l) emails in queue"
+
+# Checking if sending emails is ok right now
+if ! "$HOME/.dotfiles/bin/email/email-status"; then
+  if $FORCE; then
+    log "Force option detected, sending anyway"
+  else
+    log "Email is OFFLINE, not sending emails for now."
+    exit 0
+  fi
+fi
 
 # Wait for a lock that another instance has set
 WAIT=0
-while [ -e "$LOCKFILE" ] && [ "$WAIT" -lt "$MAXWAIT" ]; do
+while [ -f "$LOCKFILE" ] && [ "$WAIT" -lt "$MAXWAIT" ]; do
+  SIX_HOURS_AGO=$(date -d 'now - 6 hours' +%s)
+  LOCK_DATE=$(date -r "$LOCKFILE" +%s)
+
+  if (( LOCK_DATE <= SIX_HOURS_AGO)); then
+    log "The script has been locked for 6 hours. Deleting lock and moving on!"
+    rm -f "$LOCKFILE"
+  fi
+
   if [ "$WAIT" -eq 0 ]; then
     log "The script seems to be already running. Waiting for $MAXWAIT seconds..."
   fi
@@ -65,6 +107,10 @@ touch "$LOCKFILE" || exit 1
 for MAILFILE in *.mail; do
   MSMTPFILE="${MAILFILE//mail/msmtp}"
 
+  if ! is_ready_to_send "$MSMTPFILE"; then
+    continue
+  fi
+
   if [ ! -f "$MSMTPFILE" ]; then
     warn "No corresponding file $MSMTPFILE found"
     warn "FAILURE"
@@ -92,6 +138,9 @@ done
 
 # Remove the lock
 rm -f "$LOCKFILE"
+
+# Trigger file
+echo "$TODAY" > "$QUEUEDIR/.lastemail"
 
 log "Stop msmtp-runqueue"
 

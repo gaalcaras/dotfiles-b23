@@ -1,87 +1,117 @@
-# vim: filetype=muttrc fdm=marker fmr={{{,}}} fdl=0 fen
+# Doc: https://neomutt.org/guide/configuration.html#color
 
-# Solarized theme by :
-# https://github.com/altercation/mutt-colors-solarized/blob/master/mutt-colors-solarized-dark-16.muttrc
-#
-# Modified by gaalcaras
+# tomorrow theme colors ------
 
-# BASIC COLORS
-color normal            brightyellow  default
-color error             red           default
-color tilde             black         default
-color message           cyan          default
-color markers           red           white
-color attachment        white         default
-color search            brightmagenta default
-color status            brightyellow  black
-color indicator         black         yellow
-color tree              yellow        default # arrow in threads
+set my_background = "#1d1f21"
+set my_line = "#282a2e"
+set my_selection = "#373b41"
+set my_foreground = "#c5c8c6"
+set my_comment = "#969896"
+set my_red = "#cc6666"
+set my_orange = "#de935f"
+set my_yellow = "#f0c674"
+set my_green = "#b5bd68"
+set my_aqua = "#8abeb7"
+set my_blue = "#81a2be"
+set my_purple = "#b294bb"
 
-mono  bold              bold
-mono  underline         underline
-mono  indicator         reverse
-mono  error             bold
+set my_background_bright = "#000000"
+set my_line_bright = "#2a2a2a"
+set my_selection_bright = "#424242"
+set my_foreground_bright = "#eaeaea"
+set my_comment_bright = "#969896"
+set my_red_bright = "#d54e53"
+set my_orange_bright = "#e78c45"
+set my_yellow_bright = "#e7c547"
+set my_green_bright = "#b9ca4a"
+set my_aqua_bright = "#70c0b1"
+set my_blue_bright = "#7aa6da"
+set my_purple_bright = "#c397d8"
 
-# DEFAULT INDEX
-color index             blue          default ".*"
-color index_author      brightblue    default ".*"
+# basic colors ------
 
-# MESSAGES TO ME
-color index             red           default "~p!~F!(%L lists)"
-color index_author      brightred     default "~p!~F!(%L lists)"
+color status  $my_selection  $my_line       # status bar
+color error   $my_foreground $my_red        # error msgs
+color warning $my_foreground $my_orange     # warning msgs
+color message $my_selection  $my_background # informational msg
 
-# MAILING LISTS
-color index             magenta       default "~s[[]|(%L lists)"
-color index_author      brightmagenta default "~s[[]|(%L lists)"
+# Text
+color normal     $my_foreground $my_background # all text
+color attachment $my_selection  $my_background # attachment headers (in pager)
+color signature  $my_selection  $my_background
 
-# REPLIED TO
-color index             green         default "~Q"
-color index_author      brightgreen   default "~Q"
+color prompt     $my_yellow     $my_background # questions (quit, ...)
+color options    $my_orange     $my_background # key letters in multi-choice questions
 
-# DELETED
-color index             red         white     "~D"
-mono  index_author      bold          "~D"
-color index_author      red         white     "~D"
+color search     $my_red        $my_aqua       # search results in pager
+color indicator bold $my_background $my_yellow     # selected line in index, menu, ...
+color tree       $my_yellow     $my_background # arrow in threads
 
-# SIDEBAR
+# basic monocolor screen
+mono bold      bold
+mono underline underline
+mono indicator reverse
+mono error     bold
 
-# Color highlighted mailbox in sidebar
-color sidebar_highlight black         color8
-# Color for new emails
-color sidebar_new       green         black
-# Color for sidebar-divider
-color sidebar_divider   yellow        default
+# index ----------------------------------------------------------------
 
-# MESSAGE HEADERS
+# Patterns : https://neomutt.org/guide/advancedusage.html#patterns
 
-color header            brightblue    default "^(From)"
-color header            brightgreen   default "^(Subject)"
-color header            brightmagenta default "^(Date)"
+# all messages
+color index $my_comment $my_background "~A"
+color index $my_comment $my_selection "~v" # collapsed thread
 
-# BODY
+# direct messages
+color index $my_purple_bright $my_background "~p"
+color index $my_purple_bright $my_selection "~p~v" # collapsed thread
 
-color quoted            blue          default
-color quoted1           cyan          default
-color quoted2           yellow        default
-color quoted3           red           default
-color quoted4           magenta       default
+# tagged messages
+color index $my_orange_bright $my_background "~T"
+color index $my_orange_bright $my_selection "~p~v" # collapsed thread
 
-color signature         green         default
-color bold              black         default
-color underline         black         default
-color normal            default       default
+# sent messages
+color index $my_green_bright $my_background "~P"
+color index $my_green_bright $my_selection "~P~v" # collapsed thread
 
-# PGP
-color body              red           default "(BAD signature)"
-color body              cyan          default "(Good signature)"
-color body              brightblack   default "^gpg: Good signature .*"
-color body              brightyellow  default "^gpg: "
-color body              brightyellow  red     "^gpg: BAD signature from.*"
-mono  body              bold          "^gpg:  Good signature"
-mono  body              bold          "^gpg:  BAD  signature from.*"
+# deleted messages
+color index $my_red $my_background "~D"
+color index $my_red $my_selection "~D~v" # collapsed thread
+
+# sidebar -----
+color sidebar_divider   $my_selection  $my_background
+color sidebar_highlight $my_foreground $my_comment
+
+# message headers ------------------------------------------------------
+
+color hdrdefault $my_comment $my_background
+color header     $my_aqua $my_background "^(Subject)"
+color header     $my_aqua $my_background "^(From)"
+color header     $my_aqua $my_background "^(Date)"
+
+# body -----------------------------------------------------------------
+
+color quoted    $my_blue      $my_background
+color quoted1   $my_aqua      $my_background
+color quoted2   $my_purple    $my_background
+color quoted3   $my_selection $my_background
+color quoted4   $my_comment   $my_background
+
+color bold      $my_blue      $my_background
+color underline $my_aqua      $my_background
+
+color body      $my_yellow    $my_background "[;:][-o][)/(|]"    # emoticons
+color body      $my_yellow    $my_background "[;:][)(|]"         # emoticons
+color body      $my_yellow    $my_background "[ ][*][^*]*[*][ ]?" # more emoticon?
+color body      $my_yellow    $my_background "[ ]?[*][^*]*[*][ ]" # more emoticon?
 
 # yes, an insane URL regex
-color body              red           default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+color body $my_orange $my_background "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+
 # and a heavy handed email regex
-color body              yellow        default "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
-# }}}
+color body $my_orange $my_background "((@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]),)*@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\.[0-9]?[0-9]?[0-9]\\]):)?[0-9a-z_.+%$-]+@(([0-9a-z-]+\\.)*[0-9a-z-]+\\.?|#[0-9]+|\\[[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\.[0-2]?[0-9]?[0-9]\\])"
+
+# compose -------------------------------------------------------------
+
+color compose header $my_blue $my_background
+
+# vim: set ft=neomuttrc:
